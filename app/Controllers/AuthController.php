@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../../config/database.php';
 
-
 class AuthController
 {
     public function loginForm()
@@ -17,7 +16,6 @@ class AuthController
         require_once __DIR__ . '/../Views/login.php';
     }
 
-
     public function login()
     {
         global $conn;
@@ -25,13 +23,16 @@ class AuthController
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $query = "SELECT * FROM user WHERE username='$username' LIMIT 1";
-        $result = mysqli_query($conn, $query);
+        $stmt = $conn->prepare("SELECT * FROM user WHERE username = :username LIMIT 1");
+        $stmt->execute(['username' => $username]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if (mysqli_num_rows($result) == 1) {
-            $user = mysqli_fetch_assoc($result);
-
+        if ($user) {
+            // Bandingkan password biasa
             if ($password == $user['password']) {
+                // Kalau kamu pakai password_hash() di database, ganti dengan:
+                // if (password_verify($password, $user['password']))
+
                 $_SESSION['login'] = true;
                 $_SESSION['user'] = $user;
                 header('Location: /admin');

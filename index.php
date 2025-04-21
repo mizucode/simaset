@@ -14,6 +14,7 @@ $allowedRoutes = [
     '/logout',
     '/admin',
     '/admin/prasarana/tanah',
+    '/admin/prasarana/tanah/export',
     '/admin/prasarana/gedung',
     '/admin/prasarana/ruangan',
     '/admin/prasarana/lapang',
@@ -32,7 +33,7 @@ if (!in_array($uri, $allowedRoutes)) {
     require_once __DIR__ . '/404.php';
     exit;
 }
-// Routing
+// Routingan
 switch ($uri) {
     case '/':
         $auth = new AuthController();
@@ -56,10 +57,16 @@ switch ($uri) {
         break;
 
 
+
     case '/admin/prasarana/tanah':
         auth();
         $admin = new AdminController();
-        $admin->tanah();
+        $admin->tanah(); // Metode ini akan menangani baik POST maupun GET
+        break;
+    case '/admin/prasarana/tanah/export':
+        auth();
+        $admin = new AdminController();
+        $admin->exportTanah(); // Metode ini akan menangani baik POST maupun GET
         break;
     case '/admin/prasarana/gedung':
         auth();

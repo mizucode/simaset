@@ -1,12 +1,14 @@
 <?php
 
 $host = 'localhost';
+$dbname = 'inventoribarang';
 $user = 'root';
 $pass = '';
-$dbname = 'inventoribarang';
 
-$conn = mysqli_connect($host, $user, $pass, $dbname);
-
-if (!$conn) {
-    die('Koneksi Gagal: ' . mysqli_connect_error());
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $pass);
+    // Set error mode ke exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Koneksi Gagal: ' . $e->getMessage());
 }

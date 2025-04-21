@@ -111,7 +111,7 @@
         <div class="col-lg-4 offset-lg-1">
           <div class="register_form">
             <h3>Masuk Ke Akun</h3>
-            <p>Sistem Akademik</p>
+            <p>Sistem Aset dan Inventori</p>
             <?php if (isset($_SESSION['error'])): ?>
               <p style="color: red;"><?= $_SESSION['error'];
                                       unset($_SESSION['error']); ?></p>
@@ -123,7 +123,8 @@
                   <input name="username" placeholder="Nama Pengguna" required="" type="text">
                   <input name="password" placeholder="Kata Sandi" required="" type="password">
                   <!-- <div class="captcha_container">
-                    <img src="../../config/captcha.php" alt="Captcha Image" class="captcha_image">
+                    <img src="captcha.php" alt="Captcha Image" class="captcha_image">
+
                     <button type="button" class="refresh_captcha">↻</button>
                     <input type="text" name="captcha_input" placeholder="Kode Verifikasi" required>
                   </div> -->
@@ -250,6 +251,14 @@
   <script src="js/gmaps.min.js"></script>
   <script src="js/theme.js"></script>
   <script src="js/info.js"></script>
+
+  <script>
+    document.querySelector('.refresh_captcha').addEventListener('click', function() {
+      const captchaImage = document.querySelector('.captcha_image');
+      captchaImage.src = 'captcha.php?' + Date.now(); // Pakai timestamp untuk hindari cache
+    });
+  </script>
+
 
 </body>
 
