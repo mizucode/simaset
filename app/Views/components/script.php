@@ -33,3 +33,22 @@
 <script src="../../AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="../../AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="../../AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- jsGrid core -->
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.min.js"></script>
+
+<!-- jsGrid i18n (Internationalization) -->
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-de.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-es.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-fr.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-he.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-ja.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-ka.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-pl.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-pt-br.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-pt.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-ru.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-tr.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-zh-cn.js"></script>
+<script src="../../AdminLTE-3.2.0/plugins/jsgrid/i18n/jsgrid-zh-tw.js"></script>

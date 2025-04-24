@@ -29,4 +29,65 @@
     <!-- DataTables Buttons -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
 
+    <!-- jsGrid styles -->
+    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.css">
+    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.css">
+    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.min.css">
+    <style>
+        .jsgrid-wrapper {
+            overflow-x: auto;
+            overflow-y: hidden;
+            width: 100%;
+            padding-bottom: 10px;
+        }
+
+        .jsgrid-table {
+            border-collapse: collapse;
+            width: max-content;
+            min-width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .jsgrid-header-row th,
+        .jsgrid-table td {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            white-space: nowrap;
+        }
+
+        .jsgrid-header-row {
+            background-color: #f8f9fa;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .jsgrid-row:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .jsgrid-row:hover {
+            background-color: #e9ecef;
+        }
+
+        .btn-edit {
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .btn-delete {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 4px;
+        }
+    </style>
+
+
 </head>

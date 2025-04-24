@@ -19,6 +19,7 @@ $allowedRoutes = [
     '/admin/prasarana/ruangan',
     '/admin/prasarana/lapang',
     '/admin/sarana/bergerak',
+    '/admin/sarana/barang',
     '/admin/sarana/mebeler',
     '/admin/sarana/alat-tulis-kantor',
     '/admin/sarana/elektronik',
@@ -87,6 +88,11 @@ switch ($uri) {
         auth();
         $admin = new AdminController();
         $admin->bergerak();
+        break;
+    case '/admin/sarana/barang':
+        auth();
+        $admin = new AdminController();
+        $admin->barang();
         break;
     case '/admin/sarana/mebeler':
         auth();

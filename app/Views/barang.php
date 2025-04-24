@@ -21,8 +21,8 @@
                         <div class="card">
                             <!-- Card Header -->
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Data Barang Elektronik</h3>
-                                <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modalBarangElektronik">Tambah Data</button>
+                                <h3 class="h4">Data Barang</h3>
+                                <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modalBarang">Tambah Data</button>
                             </div>
                             <!-- /.card-header -->
 
@@ -36,53 +36,44 @@
                                                 <th>Kode Barang</th>
                                                 <th>Nama Barang</th>
                                                 <th>Kategori</th>
-                                                <th>Status</th>
-                                                <th>Merk</th>
-                                                <th>Tipe/Model</th>
-                                                <th>Tahun Perolehan</th>
-
+                                                <th>Subkategori</th>
                                                 <th>Ruangan</th>
+                                                <th>Tahun Perolehan</th>
                                                 <th>Jumlah</th>
-                                                <th>Satuan</th>
+                                                <th>Kondisi</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($barangElektronikData)) : ?>
+                                            <?php if (!empty($barangData)) : ?>
                                                 <?php $counter = 1; ?>
-                                                <?php foreach ($barangElektronikData as $barang) : ?>
+                                                <?php foreach ($barangData as $barang) : ?>
                                                     <tr class="jsgrid-row">
                                                         <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($barang['kode_be'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['nama_be'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['kategori_be'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['status'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['merk'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['tipe_model'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['tahun_perolehan'] ?? '-'); ?></td>
-
+                                                        <td><?= htmlspecialchars($barang['kode_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_subkategori'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($barang['nama_ruangan'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['tahun_perolehan'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($barang['jumlah'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['satuan'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_kondisi'] ?? '-'); ?></td>
                                                         <td class="align-middle">
                                                             <div class="d-flex flex-column gap-2">
-                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalBarangElektronik"
-                                                                    data-id="<?= $barang['id_be']; ?>"
-                                                                    data-kode="<?= $barang['kode_be']; ?>"
-                                                                    data-nama="<?= $barang['nama_be']; ?>"
-                                                                    data-kategori="<?= $barang['kategori_be']; ?>"
-                                                                    data-status="<?= $barang['status']; ?>"
-                                                                    data-merk="<?= $barang['merk']; ?>"
-                                                                    data-tipe="<?= $barang['tipe_model']; ?>"
+                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalBarang"
+                                                                    data-id="<?= $barang['id']; ?>"
+                                                                    data-kode="<?= $barang['kode_barang']; ?>"
+                                                                    data-nama="<?= $barang['nama_barang']; ?>"
+                                                                    data-kategori="<?= $barang['kategori_id']; ?>"
+                                                                    data-subkategori="<?= $barang['subkategori_id']; ?>"
+                                                                    data-ruangan="<?= $barang['ruangan_id']; ?>"
                                                                     data-tahun="<?= $barang['tahun_perolehan']; ?>"
-
-                                                                    data-ruangan="<?= $barang['id_ruangan']; ?>"
-                                                                    data-jumlah="<?= $barang['jumlah']; ?>"
-                                                                    data-satuan="<?= $barang['satuan']; ?>">
+                                                                    data-kondisi="<?= $barang['kondisi_id']; ?>"
+                                                                    data-jumlah="<?= $barang['jumlah']; ?>">
                                                                     <i class="fas fa-edit mr-1"></i>
                                                                     Edit
                                                                 </button>
-                                                                <a href="/admin/sarana/elektronik?delete=<?= $barang['id_be']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                                <a href="/admin/barang?delete=<?= $barang['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                                     <i class="fas fa-trash mr-1"></i>
                                                                     Hapus
                                                                 </a>
@@ -92,7 +83,7 @@
                                                 <?php endforeach; ?>
                                             <?php else : ?>
                                                 <tr>
-                                                    <td colspan="13" class="text-center">Data tidak ditemukan</td>
+                                                    <td colspan="10" class="text-center">Data tidak ditemukan</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
@@ -107,71 +98,67 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="modalBarangElektronik" tabindex="-1" role="dialog" aria-labelledby="modalBarangElektronikLabel" aria-hidden="true">
+        <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog" aria-labelledby="modalBarangLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data Barang Elektronik</h3>
+                            <h3 class="card-title" id="modalTitle">Form Data Barang</h3>
                         </div>
-                        <form action="/admin/sarana/elektronik" method="POST">
+                        <form action="/admin/barang" method="POST">
                             <div class="card-body">
-                                <input type="hidden" name="id_be" id="id_be">
+                                <input type="hidden" name="id" id="id">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Kode Barang</label>
-                                            <input type="text" name="kode_be" id="kode_be" class="form-control" required>
+                                            <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Nama Barang</label>
-                                            <input type="text" name="nama_be" id="nama_be" class="form-control" required>
+                                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
                                         </div>
                                         <div class="form-group">
                                             <label>Kategori</label>
-                                            <input type="text" name="kategori_be" id="kategori_be" class="form-control">
+                                            <select name="kategori_id" id="kategori_id" class="form-control" required>
+                                                <!-- Options for categories should be populated here -->
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Status</label>
-                                            <input type="text" name="status" id="status" class="form-control">
+                                            <label>Subkategori</label>
+                                            <select name="subkategori_id" id="subkategori_id" class="form-control">
+                                                <!-- Options for subcategories should be populated here -->
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Merk</label>
-                                            <input type="text" name="merk" id="merk" class="form-control">
+                                            <label>Tahun Perolehan</label>
+                                            <input type="number" name="tahun_perolehan" id="tahun_perolehan" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Jumlah</label>
+                                            <input type="number" name="jumlah" id="jumlah" class="form-control" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Tipe/Model</label>
-                                            <input type="text" name="tipe_model" id="tipe_model" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Tahun Perolehan</label>
-                                            <input type="number" name="tahun_perolehan" id="tahun_perolehan" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Kondisi</label>
-                                            <select name="kondisi" id="kondisi" class="form-control">
-                                                <option value="Baik">Baik</option>
-                                                <option value="Rusak Ringan">Rusak Ringan</option>
-                                                <option value="Rusak Berat">Rusak Berat</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
                                             <label>Ruangan</label>
-                                            <select name="id_ruangan" id="id_ruangan" class="form-control">
+                                            <select name="ruangan_id" id="ruangan_id" class="form-control" required>
                                                 <?php foreach ($ruanganList as $ruangan) : ?>
                                                     <option value="<?= $ruangan['id_ruangan']; ?>"><?= htmlspecialchars($ruangan['nama_ruangan']); ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Jumlah</label>
-                                            <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                                            <label>Kondisi</label>
+                                            <select name="kondisi_id" id="kondisi_id" class="form-control" required>
+                                                <option value="1">Baik</option>
+                                                <option value="2">Rusak Ringan</option>
+                                                <option value="3">Rusak Berat</option>
+                                            </select>
                                         </div>
                                         <div class="form-group">
-                                            <label>Satuan</label>
-                                            <input type="text" name="satuan" id="satuan" class="form-control">
+                                            <label>Keterangan</label>
+                                            <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -202,33 +189,30 @@
             editButtons.forEach(button => {
                 button.addEventListener("click", function() {
                     // Set modal title and button
-                    document.getElementById("modalTitle").textContent = "Edit Data Barang Elektronik";
+                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
                     document.getElementById("submitBtn").textContent = "Update Data";
                     document.getElementById("submitBtn").className = "btn btn-warning";
 
                     // Fill form with data
-                    document.getElementById("id_be").value = this.dataset.id;
-                    document.getElementById("kode_be").value = this.dataset.kode;
-                    document.getElementById("nama_be").value = this.dataset.nama;
-                    document.getElementById("kategori_be").value = this.dataset.kategori;
-                    document.getElementById("status").value = this.dataset.status;
-                    document.getElementById("merk").value = this.dataset.merk;
-                    document.getElementById("tipe_model").value = this.dataset.tipe;
+                    document.getElementById("id").value = this.dataset.id;
+                    document.getElementById("kode_barang").value = this.dataset.kode;
+                    document.getElementById("nama_barang").value = this.dataset.nama;
+                    document.getElementById("kategori_id").value = this.dataset.kategori;
+                    document.getElementById("subkategori_id").value = this.dataset.subkategori;
+                    document.getElementById("ruangan_id").value = this.dataset.ruangan;
                     document.getElementById("tahun_perolehan").value = this.dataset.tahun;
-                    document.getElementById("kondisi").value = this.dataset.kondisi;
-                    document.getElementById("id_ruangan").value = this.dataset.ruangan;
+                    document.getElementById("kondisi_id").value = this.dataset.kondisi;
                     document.getElementById("jumlah").value = this.dataset.jumlah;
-                    document.getElementById("satuan").value = this.dataset.satuan;
                 });
             });
 
             // Reset modal when closed
-            $('#modalBarangElektronik').on('hidden.bs.modal', function() {
-                document.getElementById("modalTitle").textContent = "Form Data Barang Elektronik";
+            $('#modalBarang').on('hidden.bs.modal', function() {
+                document.getElementById("modalTitle").textContent = "Form Data Barang";
                 document.getElementById("submitBtn").textContent = "Simpan";
                 document.getElementById("submitBtn").className = "btn btn-primary";
                 document.querySelector("form").reset();
-                document.getElementById("id_be").value = "";
+                document.getElementById("id").value = "";
             });
         });
     </script>
