@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'components/head.php'; ?>
+<?php include './app/Views/Components/head.php'; ?>
 
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
         <!-- Navbar -->
-        <?php include 'components/navbar.php'; ?>
+        <?php include './app/Views/Components/navbar.php'; ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <?php include 'components/aside.php'; ?>
+        <?php include './app/Views/Components/aside.php'; ?>
         <!-- End Sidebar -->
 
         <!-- Content Wrapper -->
         <div class="content-wrapper bg-white py-4 mb-5 px-2">
             <div class="container-fluid">
+                <?php include './app/Views/Components/helper.php'; ?>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -234,7 +235,7 @@
     </div>
 
     <!-- Script -->
-    <?php include 'components/script.php'; ?>
+    <?php include './app/Views/Components/script.php'; ?>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

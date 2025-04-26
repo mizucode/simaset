@@ -131,7 +131,34 @@
                 <!-- End Kategori Barang -->
 
                 <!-- Data Ruangan -->
+                <!-- Barang -->
+                <!-- Transaksi -->
+                <div class="text-black">
+                    <h1 class="nav-header h6" style="color: black">BARANG</h1>
+                </div>
 
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-box"></i>
+                        <p>
+                            Barang
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/barang/daftar-barang" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Daftar Barang</p>
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+                <!-- End Transaksi -->
+                <!-- End Barang -->
                 <!-- End Kategori Barang -->
 
                 <!-- Transaksi -->

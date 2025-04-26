@@ -53,6 +53,7 @@
         .jsgrid-table td {
             padding: 8px 12px;
             border: 1px solid #ccc;
+            text-align: center;
             white-space: nowrap;
         }
 

@@ -1,10 +1,7 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/core/auth.php';
-require_once __DIR__ . '/config/database.php';
-require_once __DIR__ . '/app/Controllers/AuthController.php';
-require_once __DIR__ . '/app/Controllers/AdminController.php';
+include 'config/config.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -27,6 +24,8 @@ $allowedRoutes = [
     '/admin/penempatan/form',
     '/admin/penempatan/detail',
     '/admin/kondisi/daftar-kondisi',
+    '/admin/barang/daftar-barang',
+
 ];
 
 if (!in_array($uri, $allowedRoutes)) {
@@ -61,17 +60,13 @@ switch ($uri) {
 
     case '/admin/prasarana/tanah':
         auth();
-        $admin = new AdminController();
+        $admin = new TanahController();
         $admin->tanah(); // Metode ini akan menangani baik POST maupun GET
         break;
-    case '/admin/prasarana/tanah/export':
-        auth();
-        $admin = new AdminController();
-        $admin->exportTanah(); // Metode ini akan menangani baik POST maupun GET
-        break;
+
     case '/admin/prasarana/gedung':
         auth();
-        $admin = new AdminController();
+        $admin = new GedungController();
         $admin->gedung();
         break;
     case '/admin/prasarana/ruangan':
@@ -91,7 +86,7 @@ switch ($uri) {
         break;
     case '/admin/sarana/barang':
         auth();
-        $admin = new AdminController();
+        $admin = new BarangController();
         $admin->barang();
         break;
     case '/admin/sarana/mebeler':
@@ -106,9 +101,18 @@ switch ($uri) {
         break;
     case '/admin/sarana/elektronik':
         auth();
-        $admin = new AdminController();
+        $admin = new BarangElektronikController();
         $admin->elektronik();
         break;
+    // Barang
+
+    case '/admin/barang/daftar-barang':
+        auth();
+        $admin = new BarangController();
+        $admin->barang();
+        break;
+
+
     case '/admin/penempatan/list':
         auth();
         $admin = new AdminController();

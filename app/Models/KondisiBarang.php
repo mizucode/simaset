@@ -10,7 +10,7 @@ class KondisiBarang
      */
     public static function getAllData($conn)
     {
-        $query = "SELECT * FROM kondisi_barang ORDER BY tanggal_perubahan DESC";
+        $query = "SELECT * FROM kondisi_barang";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();

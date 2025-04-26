@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'components/head.php'; ?>
+<?php include './app/Views/Components/head.php'; ?>
 
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
-        <!-- Navbar -->
-        <?php include 'components/navbar.php'; ?>
-        <!-- /.navbar -->
-
-        <!-- Main Sidebar Container -->
-        <?php include 'components/aside.php'; ?>
-        <!-- End Sidebar -->
+        <?php include './app/Views/Components/navbar.php'; ?>
+        <?php include './app/Views/Components/aside.php'; ?>
 
         <!-- Content Wrapper -->
         <div class="content-wrapper bg-white py-4 mb-5 px-2">
             <div class="container-fluid">
+                <?php include './app/Views/Components/helper.php'; ?>
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -28,11 +25,11 @@
 
                             <!-- Card Body -->
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered table-hover text-sm text-center">
+                                <div class="jsgrid-wrapper">
+                                    <table class="jsgrid-table">
                                         <thead>
-                                            <tr class="bg-hover">
-                                                <th>ID</th>
+                                            <tr class="jsgrid-header-row">
+                                                <th>No</th>
                                                 <th>Nama Lokasi</th>
                                                 <th>Alamat</th>
                                                 <th>Luas (m²)</th>
@@ -45,49 +42,54 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($tanahData)) : ?>
-                                                <?php foreach ($tanahData as $tanah) : ?>
-                                                    <tr>
-                                                        <td><?= htmlspecialchars($tanah['id']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['nama_lokasi']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['alamat']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['luas']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['status_kepemilikan']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['no_sertifikat'] ?? '-') ?></td>
+                                            <?php $counter = 1; ?>
+                                            <?php foreach ($tanahData as $index => $tanah): ?>
 
-                                                        <td><?= htmlspecialchars($tanah['tanggal_perolehan']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['penggunaan']); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['keterangan']); ?></td>
-                                                        <td>
-                                                            <div class="d-flex justify-content-center gap-1">
-                                                                <button class="btn btn-sm btn-warning btn-edit"
-                                                                    data-id="<?= $tanah['id']; ?>"
-                                                                    data-nama="<?= htmlspecialchars($tanah['nama_lokasi'], ENT_QUOTES); ?>"
-                                                                    data-alamat="<?= htmlspecialchars($tanah['alamat'], ENT_QUOTES); ?>"
-                                                                    data-luas="<?= $tanah['luas']; ?>"
-                                                                    data-status_kepemilikan="<?= htmlspecialchars($tanah['status_kepemilikan'], ENT_QUOTES); ?>"
-                                                                    data-no_sertifikat="<?= htmlspecialchars($tanah['no_sertifikat'], ENT_QUOTES); ?>"
-                                                                    data-tanggal_perolehan="<?= htmlspecialchars($tanah['tanggal_perolehan'], ENT_QUOTES); ?>"
-                                                                    data-penggunaan="<?= htmlspecialchars($tanah['penggunaan'], ENT_QUOTES); ?>"
-                                                                    data-keterangan="<?= htmlspecialchars($tanah['keterangan'], ENT_QUOTES); ?>"
-                                                                    data-toggle="modal" data-target="#modalTanah">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
-                                                                <a href="/admin/prasarana/tanah?delete=<?= $tanah['id']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else : ?>
-                                                <tr>
-                                                    <td colspan="10" class="text-center">Data tidak ditemukan</td>
+                                                <tr class="jsgrid-row">
+                                                    <td><?= $counter++; ?></td>
+                                                    <td><?= htmlspecialchars($tanah['nama_lokasi']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['alamat']); ?></td>
+                                                    <td><?= $tanah['luas']; ?></td>
+                                                    <td><?= htmlspecialchars($tanah['status_kepemilikan']); ?></td>
+                                                    <td><?= $tanah['no_sertifikat'] ?? '-'; ?></td>
+                                                    <td><?= $tanah['tanggal_perolehan']; ?></td>
+                                                    <td><?= htmlspecialchars($tanah['penggunaan']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['keterangan']); ?></td>
+                                                    <td class="align-middle">
+                                                        <div class="d-flex flex-column gap-2">
+                                                            <button class="btn btn-warning btn-edit mr-2"
+                                                                style="width: 90px;"
+                                                                data-id="<?= $tanah['id']; ?>"
+                                                                data-nama="<?= htmlspecialchars($tanah['nama_lokasi'], ENT_QUOTES); ?>"
+                                                                data-alamat="<?= htmlspecialchars($tanah['alamat'], ENT_QUOTES); ?>"
+                                                                data-luas="<?= $tanah['luas']; ?>"
+                                                                data-status_kepemilikan="<?= htmlspecialchars($tanah['status_kepemilikan'], ENT_QUOTES); ?>"
+                                                                data-no_sertifikat="<?= htmlspecialchars($tanah['no_sertifikat'], ENT_QUOTES); ?>"
+                                                                data-tanggal_perolehan="<?= htmlspecialchars($tanah['tanggal_perolehan'], ENT_QUOTES); ?>"
+                                                                data-penggunaan="<?= htmlspecialchars($tanah['penggunaan'], ENT_QUOTES); ?>"
+                                                                data-keterangan="<?= htmlspecialchars($tanah['keterangan'], ENT_QUOTES); ?>"
+                                                                data-toggle="modal" data-target="#modalTanah">
+                                                                <i class="fas fa-edit mr-1"></i>
+                                                                Edit
+                                                            </button>
+
+                                                            <a href="?delete=<?= $tanah['id']; ?>"
+                                                                class="btn btn-danger"
+                                                                style="width: 90px;"
+                                                                onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                                <i class="fas fa-trash mr-1"></i>
+                                                                Hapus
+                                                            </a>
+                                                        </div>
+
+                                                    </td>
                                                 </tr>
-                                            <?php endif; ?>
+                                            <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 </div>
+
+
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -160,14 +162,11 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="main-footer bg-white text-black">
-            <strong>Copyright &copy; 2025 <a href="#">Lpptsi</a>. Umkuningan.</strong>
-        </footer>
+        <?php include './app/Views/Components/foooter.php'; ?>
     </div>
 
     <!-- Script -->
-    <?php include 'components/script.php'; ?>
+    <?php include './app/Views/Components/script.php'; ?>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
