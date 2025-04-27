@@ -31,40 +31,45 @@ class BarangElektronik
      * @param array $data Data barang elektronik
      * @return bool|string True jika berhasil, pesan error jika gagal
      */
-    public static function storeData($conn, array $data)
-    {
-        $requiredFields = [
-            'barang_id',
-            'kategori_id',
-            'status',
-            'jenis_elektronik',
-            'merk',
-            'tipe_model',
-            'jumlah',
-            'satuan',
-            'kondisi_terakhir',
-            'id_ruangan'
+    public static function storeData(
+        $conn,
+        $barang_id,
+        $kategori_id,
+        $status,
+        $jenis_elektronik,
+        $merk,
+        $tipe_model,
+        $jumlah,
+        $satuan,
+        $kondisi_terakhir,
+        $keterangan
+    ) {
+        $fields = [
+            'barang_id' => $barang_id,
+            'kategori_id' => $kategori_id,
+            'status' => $status,
+            'jenis_elektronik' => $jenis_elektronik,
+            'merk' => $merk,
+            'tipe_model' => $tipe_model,
+            'jumlah' => $jumlah,
+            'satuan' => $satuan,
+            'kondisi_terakhir' => $kondisi_terakhir,
+            'keterangan' => $keterangan
         ];
 
-        foreach ($requiredFields as $field) {
-            if (!isset($data[$field])) {
-                return "Field $field diperlukan";
-            }
-        }
-
-        $columns = implode(', ', array_keys($data));
-        $placeholders = ':' . implode(', :', array_keys($data));
+        $columns = implode(', ', array_keys($fields));
+        $placeholders = ':' . implode(', :', array_keys($fields));
 
         $query = "INSERT INTO barang_elektronik ($columns) VALUES ($placeholders)";
+        $stmt = $conn->prepare($query);
 
-        try {
-            $stmt = $conn->prepare($query);
-            return $stmt->execute($data);
-        } catch (PDOException $e) {
-            error_log("Error in BarangElektronik::storeData - " . $e->getMessage());
-            return "Gagal menyimpan data: " . $e->getMessage();
+        foreach ($fields as $key => $value) {
+            $stmt->bindParam(":$key", $fields[$key]);
         }
+
+        return $stmt->execute();
     }
+
 
     /**
      * Memperbarui data barang elektronik

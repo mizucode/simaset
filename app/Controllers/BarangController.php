@@ -15,7 +15,7 @@ class BarangController
         $barangData = Barang::getAllData($conn);
         $kondisiBarang = KondisiBarang::getAllData($conn);
         $kategoriBarang = KategoriBarang::getAllData($conn);
-        $statusOptions = BarangElektronik::getStatusOptions($conn);
+
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -57,7 +57,6 @@ class BarangController
                     'barangData' => $barangData,
                     'kondisiBarang' => $kondisiBarang,
                     'kategoriBarang' => $kategoriBarang,
-                    'statusOptions' => $statusOptions,
                     'error' => 'Error DB: ' . $e->getMessage()
                 ]);
                 return;
@@ -76,7 +75,6 @@ class BarangController
         $this->renderView('index', [
             'barangData' => $barangData,
             'kondisiBarang' => $kondisiBarang,
-            'statusOptions' => $statusOptions,
             'kategoriBarang' => $kategoriBarang,
         ]);
     }

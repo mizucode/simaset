@@ -13,7 +13,7 @@ class AuthController
         }
 
         // View form login
-        require_once __DIR__ . '/../Views/login.php';
+        require_once __DIR__ . '/../Views/Pages/Login/index.php';
     }
 
     public function login()

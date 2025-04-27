@@ -1,6 +1,5 @@
 <?php
 
-
 class AdminController
 {
     private function renderView(string $view, $data = [])

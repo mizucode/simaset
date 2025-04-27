@@ -22,122 +22,97 @@ class BarangElektronikController
         $barangElektronikData = BarangElektronik::getAllData($conn);
         $statusOptions = BarangElektronik::getStatusOptions($conn);
         $typeOptions = BarangElektronik::getTypeOptions($conn);
+        $kondisiTerakhirOptions = BarangElektronik::getKondisiTerakhirOptions($conn);
         $barangData = Barang::getAllData($conn);
         $ruanganList = Ruangan::getAllData($conn);
         $kategoriList = KategoriBarang::getAllData($conn);
         // Tambahkan ini jika diperlukan
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Validasi input
-            $requiredFields = [
-                'kode_be',
-                'nama_be',
-                'kategori_id',
-                'status',
-                'jenis_elektronik',
-                'merk',
-                'tipe_model',
-                'kondisi_terakhir',
-                'id_ruangan',
-                'jumlah',
-                'satuan'
-            ];
-
-            $missingFields = [];
-            foreach ($requiredFields as $field) {
-                if (empty($_POST[$field])) {
-                    $missingFields[] = $field;
-                }
-            }
-
-            if (!empty($missingFields)) {
-                $this->renderView('index', [
-                    'barangElektronikData' => $barangElektronikData,
-                    'ruanganList' => $ruanganList,
-                    'barangData' => $barangData,
-                    'kategoriList' => $kategoriList,
-                    'statusOptions' => $statusOptions,
-                    'typeOptions' => $typeOptions,
-                    'error' => 'Field berikut harus diisi: ' . implode(', ', $missingFields),
-                    'formData' => $_POST
-                ]);
-                return;
-            }
-
-            // Siapkan data untuk model
-            $data = [
-                'barang_id' => $_POST['kode_be'], // Sesuaikan dengan struktur tabel
-                'kategori_id' => $_POST['kategori_id'],
-                'status' => $_POST['status'],
-                'jenis_elektronik' => $_POST['jenis_elektronik'],
-                'merk' => $_POST['merk'],
-                'tipe_model' => $_POST['tipe_model'],
-                'jumlah' => (int)$_POST['jumlah'],
-                'satuan' => $_POST['satuan'],
-                'kondisi_terakhir' => $_POST['kondisi_terakhir'],
-                'id_ruangan' => $_POST['id_ruangan'],
-                'tahun_perolehan' => $_POST['tahun_perolehan'] ?? null,
-                'keterangan' => $_POST['keterangan'] ?? null
-            ];
+            // Ambil data dari form
+            $id = $_POST['id'] ?? null;
+            $barang_id = $_POST['barang_id'];
+            $kategori_id = $_POST['kategori_id'];
+            $status = $_POST['status'];
+            $jenis_elektronik = $_POST['jenis_elektronik'];
+            $merk = $_POST['merk'];
+            $tipe_model = $_POST['tipe_model'];
+            $jumlah = $_POST['jumlah'];
+            $satuan = $_POST['satuan'];
+            $kondisi_terakhir = $_POST['kondisi_terakhir'];
+            $keterangan = $_POST['keterangan'];
 
             try {
-                if (!empty($_POST['id'])) {
-                    // Update data yang sudah ada
-                    $success = BarangElektronik::updateData($conn, $_POST['id'], $data);
-                    $action = 'diupdate';
+                if ($id) {
+                    // Update data
+                    $success = BarangElektronik::updateData(
+                        $conn,
+                        $id,
+                        $barang_id,
+                        $kategori_id,
+                        $status,
+                        $jenis_elektronik,
+                        $merk,
+                        $tipe_model,
+                        $jumlah,
+                        $satuan,
+                        $kondisi_terakhir,
+                        $keterangan
+                    );
                 } else {
                     // Simpan data baru
-                    $success = BarangElektronik::storeData($conn, $data);
-                    $action = 'ditambahkan';
+                    $success = BarangElektronik::storeData(
+                        $conn,
+                        $barang_id,
+                        $kategori_id,
+                        $status,
+                        $jenis_elektronik,
+                        $merk,
+                        $tipe_model,
+                        $jumlah,
+                        $satuan,
+                        $kondisi_terakhir,
+                        $keterangan
+                    );
                 }
 
                 if ($success) {
-                    $_SESSION['flash_message'] = "Data berhasil $action";
+                    // Redirect ke halaman mebeler
                     header('Location: /admin/sarana/elektronik');
                     exit();
                 } else {
-                    throw new Exception("Gagal menyimpan data");
+                    // Tampilkan error jika gagal
+                    $this->renderView('index', [
+                        'barangElektronikData' => $barangElektronikData,
+                        'ruanganList' => $ruanganList,
+                        'barangData' => $barangData,
+                        'kategoriList' => $kategoriList,
+                        'statusOptions' => $statusOptions,
+                        'kondisiTerakhirOptions' => $kondisiTerakhirOptions,
+                        'typeOptions' => $typeOptions,
+                    ]);
+                    return;
                 }
-            } catch (Exception $e) {
-                $this->renderView('index', [
-                    'barangElektronikData' => $barangElektronikData,
-                    'ruanganList' => $ruanganList,
-                    'barangData' => $barangData,
-                    'kategoriList' => $kategoriList,
-                    'typeOptions' => $typeOptions,
-                    'error' => 'Error: ' . $e->getMessage(),
-                    'formData' => $_POST
-                ]);
-                return;
-            }
-        }
-
-        // Handle delete request
-        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-            try {
-                $success = BarangElektronik::deleteData($conn, $_GET['delete']);
-
-                if ($success) {
-                    $_SESSION['flash_message'] = "Data berhasil dihapus";
-                } else {
-                    $_SESSION['flash_error'] = "Gagal menghapus data";
-                }
-
-                header('Location: /admin/sarana/elektronik');
-                exit();
-            } catch (Exception $e) {
+            } catch (PDOException $e) {
+                // Tampilkan error database
                 $this->renderView('index', [
                     'barangElektronikData' => $barangElektronikData,
                     'ruanganList' => $ruanganList,
                     'barangData' => $barangData,
                     'kategoriList' => $kategoriList,
                     'statusOptions' => $statusOptions,
+                    'kondisiTerakhirOptions' => $kondisiTerakhirOptions,
                     'typeOptions' => $typeOptions,
                     'error' => 'Error menghapus data: ' . $e->getMessage()
                 ]);
                 return;
             }
         }
+
+
+
+        // Handle delete request
+
 
         // Tampilkan pesan flash jika ada
         $flashMessage = $_SESSION['flash_message'] ?? null;
@@ -152,6 +127,7 @@ class BarangElektronikController
             'barangData' => $barangData,
             'statusOptions' => $statusOptions,
             'typeOptions' => $typeOptions,
+            'kondisiTerakhirOptions' => $kondisiTerakhirOptions,
             'kategoriList' => $kategoriList,
             'flashMessage' => $flashMessage,
             'flashError' => $flashError

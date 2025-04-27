@@ -91,8 +91,9 @@
                         <div class="card-header">
                             <h3 class="card-title" id="modalTitle">Form Data Barang</h3>
                         </div>
-                        <form action="/admin/barang/daftar-barang" method="POST">
+                        <form action="/admin/sarana/elektronik" method="POST">
                             <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="kategori_id" value="4">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
@@ -109,7 +110,6 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-
                                         <div class="form-group">
                                             <label>Status</label>
                                             <select name="status" id="status" class="form-control" required>
@@ -124,7 +124,7 @@
                                             <label>Jenis Elektronik</label>
                                             <select name="jenis_elektronik" id="jenis_elektronik" class="form-control" required>
                                                 <?php foreach ($typeOptions as $type) : ?>
-                                                    <option value="<?= htmlspecialchars($status); ?>">
+                                                    <option value="<?= htmlspecialchars($type); ?>">
                                                         <?= htmlspecialchars(ucwords(str_replace('_', ' ', $type))); ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -139,6 +139,8 @@
                                             <label>Tipe / Model</label>
                                             <input type="text" name="tipe_model" id="tipe_model" class="form-control" required>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Jumlah</label>
                                             <input type="number" placeholder="1" name="jumlah" id="jumlah" class="form-control" required>
@@ -163,22 +165,15 @@
                                             <label>Kondisi Terakhir</label>
                                             <select name="kondisi_terakhir" id="kondisi_terakhir" class="form-control" required>
                                                 <?php foreach ($kondisiTerakhirOptions as $kt) : ?>
-                                                    <option value="<?= htmlspecialchars($status); ?>">
+                                                    <option value="<?= htmlspecialchars($kt); ?>">
                                                         <?= htmlspecialchars(ucwords(str_replace('_', ' ', $kt))); ?>
                                                     </option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Kondisi</label>
-                                            <select name="kondisi_id" id="kondisi_id" class="form-control" required>
-                                                <option value="">Pilih Kondisi</option>
-                                                <?php foreach ($kondisiBarang as $kondisi) : ?>
-                                                    <option value="<?= $kondisi['id']; ?>"><?= htmlspecialchars($kondisi['nama_kondisi']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <label>Keterangan</label>
+                                            <input type="text" name="keterangan" id="keterangan" class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +207,6 @@
                     document.getElementById("id").value = this.dataset.id;
                     document.getElementById("kode_barang").value = this.dataset.kode;
                     document.getElementById("nama_barang").value = this.dataset.nama;
-                    document.getElementById("kategori_id").value = this.dataset.kategori;
                     document.getElementById("tahun_perolehan").value = this.dataset.tahun;
                     document.getElementById("kondisi_id").value = this.dataset.kondisi;
                     document.getElementById("jumlah").value = this.dataset.jumlah;
