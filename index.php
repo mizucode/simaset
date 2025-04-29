@@ -11,7 +11,7 @@ $allowedRoutes = [
     '/logout',
     '/admin',
     '/admin/prasarana/tanah',
-    '/admin/prasarana/tanah/export',
+    '/admin/prasarana/tanah/tambah',
     '/admin/prasarana/gedung',
     '/admin/prasarana/ruangan',
     '/admin/prasarana/lapang',
@@ -25,6 +25,7 @@ $allowedRoutes = [
     '/admin/penempatan/detail',
     '/admin/kondisi/daftar-kondisi',
     '/admin/barang/daftar-barang',
+    '/admin/barang/daftar-barang/tambah',
 
 ];
 
@@ -62,6 +63,11 @@ switch ($uri) {
         auth();
         $admin = new TanahController();
         $admin->tanah(); // Metode ini akan menangani baik POST maupun GET
+        break;
+    case  '/admin/prasarana/tanah/tambah':
+        auth();
+        $admin = new TanahController();
+        $admin->create(); // Metode ini akan menangani baik POST maupun GET
         break;
 
     case '/admin/prasarana/gedung':
@@ -106,12 +112,18 @@ switch ($uri) {
         break;
     // Barang
 
+
     case '/admin/barang/daftar-barang':
         auth();
         $admin = new BarangController();
         $admin->barang();
         break;
 
+    case '/admin/barang/daftar-barang/tambah':
+        auth();
+        $admin = new BarangController();
+        $admin->create();
+        break;
 
     case '/admin/penempatan/list':
         auth();

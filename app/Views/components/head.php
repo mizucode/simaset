@@ -11,15 +11,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
         rel="stylesheet"
-        href="../../AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css" />
+        href="/../../AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css" />
     <!-- overlayScrollbars -->
     <link
         rel="stylesheet"
-        href="../../AdminLTE-3.2.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
+        href="/../../AdminLTE-3.2.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
     <!-- Theme style -->
     <link
         rel="stylesheet"
-        href="../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
+        href="/../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
@@ -30,10 +30,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
 
     <!-- jsGrid styles -->
-    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.css">
-    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.min.css">
-    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.css">
-    <link rel="stylesheet" href="../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.min.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.min.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.min.css">
     <style>
         .jsgrid-wrapper {
             overflow-x: auto;

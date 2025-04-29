@@ -34,7 +34,7 @@ class BarangElektronikController
             $barang_id = $_POST['barang_id'];
             $kategori_id = $_POST['kategori_id'];
             $status = $_POST['status'];
-            $jenis_elektronik = $_POST['jenis_elektronik'];
+            $spesifikasi = $_POST['spesifikasi'];
             $merk = $_POST['merk'];
             $tipe_model = $_POST['tipe_model'];
             $jumlah = $_POST['jumlah'];
@@ -51,7 +51,7 @@ class BarangElektronikController
                         $barang_id,
                         $kategori_id,
                         $status,
-                        $jenis_elektronik,
+                        $spesifikasi,
                         $merk,
                         $tipe_model,
                         $jumlah,
@@ -59,6 +59,11 @@ class BarangElektronikController
                         $kondisi_terakhir,
                         $keterangan
                     );
+                    if ($success) {
+                        $_SESSION['update'] = 'Data berhasil diperbarui.';
+                    } else {
+                        $_SESSION['error'] = 'Gagal memperbarui data.';
+                    }
                 } else {
                     // Simpan data baru
                     $success = BarangElektronik::storeData(
@@ -66,7 +71,7 @@ class BarangElektronikController
                         $barang_id,
                         $kategori_id,
                         $status,
-                        $jenis_elektronik,
+                        $spesifikasi,
                         $merk,
                         $tipe_model,
                         $jumlah,
@@ -74,10 +79,14 @@ class BarangElektronikController
                         $kondisi_terakhir,
                         $keterangan
                     );
+                    if ($success) {
+                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
+                    } else {
+                        $_SESSION['error'] = 'Gagal memperbarui data.';
+                    }
                 }
 
                 if ($success) {
-                    // Redirect ke halaman mebeler
                     header('Location: /admin/sarana/elektronik');
                     exit();
                 } else {
@@ -112,7 +121,16 @@ class BarangElektronikController
 
 
         // Handle delete request
-
+        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+            $id = $_GET['delete'];
+            if (BarangElektronik::deleteData($conn, $id)) {
+                $_SESSION['success'] = 'Data berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data.';
+            }
+            header('Location: /admin/sarana/elektronik');
+            exit();
+        }
 
         // Tampilkan pesan flash jika ada
         $flashMessage = $_SESSION['flash_message'] ?? null;

@@ -2,7 +2,7 @@
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link bg-navy">
         <img
-            src="../../AdminLTE-3.2.0/dist/img/AdminLTELogo.png"
+            src="/../../AdminLTE-3.2.0/dist/img/AdminLTELogo.png"
             alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3"
             style="opacity: 0.8" />
@@ -150,6 +150,12 @@
                             <a href="/admin/barang/daftar-barang" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Daftar Barang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/barang/daftar-barang/tambah" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tambah Data Barang</p>
                             </a>
                         </li>
 

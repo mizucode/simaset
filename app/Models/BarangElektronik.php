@@ -36,7 +36,7 @@ class BarangElektronik
         $barang_id,
         $kategori_id,
         $status,
-        $jenis_elektronik,
+        $spesifikasi,
         $merk,
         $tipe_model,
         $jumlah,
@@ -48,7 +48,7 @@ class BarangElektronik
             'barang_id' => $barang_id,
             'kategori_id' => $kategori_id,
             'status' => $status,
-            'jenis_elektronik' => $jenis_elektronik,
+            'spesifikasi' => $spesifikasi,
             'merk' => $merk,
             'tipe_model' => $tipe_model,
             'jumlah' => $jumlah,
@@ -79,29 +79,52 @@ class BarangElektronik
      * @param array $data Data yang akan diupdate
      * @return bool|string True jika berhasil, pesan error jika gagal
      */
-    public static function updateData($conn, $id, array $data)
-    {
-        if (empty($id)) {
-            return "ID barang diperlukan";
-        }
+    public static function updateData(
+        $conn,
+        $id,
+        $barang_id,
+        $kategori_id,
+        $status,
+        $spesifikasi,
+        $merk,
+        $tipe_model,
+        $jumlah,
+        $satuan,
+        $kondisi_terakhir,
+        $keterangan
+    ) {
+        $query = "UPDATE barang_elektronik SET
+            barang_id = :barang_id,
+            kategori_id = :kategori_id,
+            status = :status,
+            spesifikasi = :spesifikasi,
+            merk = :merk,
+            tipe_model = :tipe_model,
+            jumlah = :jumlah,
+            satuan = :satuan,
+            kondisi_terakhir = :kondisi_terakhir,
+            keterangan = :keterangan
+        WHERE id = :id";
 
-        $setClause = [];
-        foreach ($data as $key => $value) {
-            $setClause[] = "$key = :$key";
-        }
-        $setClause = implode(', ', $setClause);
+        $stmt = $conn->prepare($query);
 
-        $query = "UPDATE barang_elektronik SET $setClause WHERE id = :id";
-        $data['id'] = $id;
+        // Bind the parameters
+        $stmt->bindParam(':barang_id', $barang_id);
+        $stmt->bindParam(':kategori_id', $kategori_id);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':spesifikasi', $spesifikasi);
+        $stmt->bindParam(':merk', $merk);
+        $stmt->bindParam(':tipe_model', $tipe_model);
+        $stmt->bindParam(':jumlah', $jumlah);
+        $stmt->bindParam(':satuan', $satuan);
+        $stmt->bindParam(':kondisi_terakhir', $kondisi_terakhir);
+        $stmt->bindParam(':keterangan', $keterangan);
+        $stmt->bindParam(':id', $id);
 
-        try {
-            $stmt = $conn->prepare($query);
-            return $stmt->execute($data);
-        } catch (PDOException $e) {
-            error_log("Error in BarangElektronik::updateData - " . $e->getMessage());
-            return "Gagal mengupdate data: " . $e->getMessage();
-        }
+        // Execute the query
+        return $stmt->execute();
     }
+
 
     /**
      * Menghapus data barang elektronik
@@ -112,20 +135,10 @@ class BarangElektronik
      */
     public static function deleteData($conn, $id)
     {
-        if (empty($id)) {
-            return "ID barang diperlukan";
-        }
-
         $query = "DELETE FROM barang_elektronik WHERE id = :id";
-
-        try {
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log("Error in BarangElektronik::deleteData - " . $e->getMessage());
-            return "Gagal menghapus data: " . $e->getMessage();
-        }
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
     }
 
     /**
@@ -179,7 +192,7 @@ class BarangElektronik
 
     public static function getTypeOptions($conn)
     {
-        $stmt = $conn->query("SHOW COLUMNS FROM barang_elektronik LIKE 'jenis_elektronik'");
+        $stmt = $conn->query("SHOW COLUMNS FROM barang_elektronik LIKE 'spesifikasi'");
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {

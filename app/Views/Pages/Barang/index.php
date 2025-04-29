@@ -19,8 +19,7 @@
 
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Data Barang</h3>
-                                <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#modalBarang">Tambah Data</button>
+                                <h3 class="h4">Daftar Data Barang</h3>
                             </div>
 
                             <div class="card-body">
