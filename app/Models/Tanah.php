@@ -4,7 +4,9 @@ class Tanah
 {
     public static function getAllData($conn)
     {
-        $query = "SELECT * FROM tanah";
+        $query = "SELECT tanah.*, lokasi.kode_lokasi, lokasi.label_lokasi, lokasi.keterangan 
+              FROM tanah
+              LEFT JOIN lokasi ON tanah.lokasi_id = lokasi.id";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();
@@ -14,6 +16,7 @@ class Tanah
             return "Query gagal: " . $e->getMessage();
         }
     }
+
 
     // 
     public static function deleteData($conn, $id)

@@ -19,12 +19,14 @@
                             <!-- Card Header -->
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center align-content-center">
                                 <h3 class="h4">Data Aset Tanah</h3>
-                                <div class="btn btn-primary ml-auto">
-                                    <a href="/admin/prasarana/tanah/tambah" class="btn">
-                                        <h3 class="card-title" id="modalTitle">Tambah Data Tanah</h3>
-                                    </a>
-                                </div>
+                                <a href="/admin/prasarana/tanah/tambah" class="btn btn-warning text-dark ml-auto">
+                                    <div class="text-dark d-flex flex-row align-items-center gap-2">
+                                        <i class="fas fa-plus mr-1"></i>
+                                        Tambah Data
+                                    </div>
+                                </a>
                             </div>
+
                             <!-- /.card-header -->
 
                             <!-- Card Body -->
@@ -35,19 +37,30 @@
                                             <tr class="jsgrid-header-row">
                                                 <th>No</th>
                                                 <th>Kode Aset</th>
+
                                                 <th>Nama Tanah</th>
-                                                <th>Luas (m²)</th>
-                                                <th>Status Kepemilikan</th>
+                                                <th>Jenis</th>
+                                                <th>Kepemilikan</th>
                                                 <th>No Sertifikat</th>
                                                 <th>Tanggal Sertifikat</th>
-                                                <th>Tanggal Perolehan</th>
+                                                <th>Luas</th>
+                                                <th>Alamat</th>
+                                                <th>Koordinat</th>
+                                                <th>Kampus</th>
+                                                <th>Fungsi</th>
                                                 <th>Nilai Perolehan</th>
+                                                <th>Tanggal Perolehan</th>
                                                 <th>Sumber Dana</th>
+                                                <th>Nilai Pasar</th>
+                                                <th>Tanggal Nilai</th>
+                                                <th>Pemilik Sertifikat</th>
                                                 <th>Status Sertifikat</th>
+                                                <th>Pajak Tahunan</th>
                                                 <th>Kondisi</th>
                                                 <th>Akses</th>
                                                 <th>Unit</th>
                                                 <th>Penanggung Jawab</th>
+                                                <th>Kontak</th>
                                                 <th>Status</th>
                                                 <th>Aksi</th>
 
@@ -59,19 +72,29 @@
                                                 <tr class="jsgrid-row">
                                                     <td><?= $counter++; ?></td>
                                                     <td><?= htmlspecialchars($tanah['kode_aset']); ?></td>
-                                                    <td><?= htmlspecialchars($tanah['nama_tanah']); ?></td>
-                                                    <td><?= number_format($tanah['luas'], 2); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['nama_tanah'], 2); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['jenis']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['kepemilikan']); ?></td>
-                                                    <td><?= $tanah['no_sertifikat'] ?? '-'; ?></td>
+                                                    <td><?= htmlspecialchars($tanah['no_sertifikat']); ?></td>
                                                     <td><?= date('d-m-Y', strtotime($tanah['tgl_sertifikat'])); ?></td>
+                                                    <td><?= number_format($tanah['luas']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['alamat']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['koordinat']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['kampus']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['fungsi']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['nilai_perolehan']); ?></td>
                                                     <td><?= date('d-m-Y', strtotime($tanah['tgl_perolehan'])); ?></td>
-                                                    <td><?= number_format($tanah['nilai_perolehan'], 2); ?></td>
                                                     <td><?= htmlspecialchars($tanah['sumber_dana']); ?></td>
+                                                    <td><?= number_format($tanah['nilai_pasar']); ?></td>
+                                                    <td><?= date('d-m-Y', strtotime($tanah['tgl_nilai'])); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['pemilik_sertifikat']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['status_sertifikat']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['pajak_tahunan']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['kondisi']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['akses']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['unit']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['penanggung_jawab']); ?></td>
+                                                    <td><?= htmlspecialchars($tanah['kontak']); ?></td>
                                                     <td><?= htmlspecialchars($tanah['status']); ?></td>
                                                     <td class="align-middle">
                                                         <div class="d-flex flex-column gap-2">

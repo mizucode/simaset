@@ -64,6 +64,7 @@ switch ($uri) {
         $admin = new TanahController();
         $admin->tanah(); // Metode ini akan menangani baik POST maupun GET
         break;
+
     case  '/admin/prasarana/tanah/tambah':
         auth();
         $admin = new TanahController();

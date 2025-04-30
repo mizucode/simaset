@@ -5,7 +5,6 @@ class TanahController
 {
     private function renderView(string $view, $data = [])
     {
-        // Ekstrak data agar bisa dipakai langsung sebagai variabel di view
         extract($data);
         require_once __DIR__ . "/../Views/Pages/Tanah/{$view}.php";
     }

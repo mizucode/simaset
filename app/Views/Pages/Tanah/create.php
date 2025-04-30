@@ -21,35 +21,142 @@
                                 <h3 class="card-title">Tambah Data Barang</h3>
                             </div>
 
-                            <form action="/admin/barang/daftar-barang" method="POST">
+                            <form action="/admin/prasaran/tanah" method="POST">
                                 <input type="hidden" name="id" id="id">
+                                <input type="hidden" name="lokasi_id" value="1" id="lokasi_id">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Kode Barang</label>
-                                                <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
+                                                <label>Kode Aset</label>
+                                                <input type="text" name="kode_aset" id="kode_aset" class="form-control" required>
                                             </div>
                                             <div class="form-group">
-                                                <label>Nama Barang</label>
-                                                <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
+                                                <label>Nama Tanah</label>
+                                                <input type="text" name="nama_tanah" id="nama_tanah" class="form-control" required>
                                             </div>
                                             <div class="form-group">
-                                                <label>Kategori</label>
-                                                <select name="kategori_id" id="kategori_id" class="form-control" required>
-                                                    <option value="">Pilih Kategori</option>
-                                                    <?php foreach ($kategoriBarang as $kategori) : ?>
-                                                        <option value="<?= $kategori['id']; ?>"><?= htmlspecialchars($kategori['nama_kategori']); ?></option>
-                                                    <?php endforeach; ?>
+                                                <label>Jenis</label>
+                                                <select name="jenis" id="jenis" class="form-control" required>
+                                                    <option value="">Pilih Jenis Bangunan</option>
+                                                    <option value="Bangunan">Bangunan</option>
+                                                    <option value="Kosong">Lahan Kosong</option>
+                                                    <option value="Pertanian">Pertanian</option>
+                                                    <option value="Parkir">Parkir</option>
+                                                    <option value="Lainnya">Lainnya</option>
                                                 </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Kepemilikan</label>
+                                                <select name="kepemilikan" id="kepemimilkan" class="form-control" required>
+                                                    <option value="">Pilih Jenis Kepemilikan</option>
+                                                    <option value="SHM">SHM</option>
+                                                    <option value="HGB">HGB</option>
+                                                    <option value="Hak Pakai">Hak Pakai</option>
+                                                    <option value="Sewa">Sewa</option>
+                                                    <option value="Hibah">Hibah</option>
+                                                    <option value="Wakaf">Wakaf</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tgl_sertifikat">Tanggal Sertifikat</label>
+                                                <input type="date" name="tgl_sertifikat" id="tgl_sertifikat" class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="luas">Luas (m²)</label>
+                                                <input type="number" name="luas" id="luas" class="form-control" step="0.01" placeholder="Masukkan luas dalam meter persegi">
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Alamat</label>
+                                                <textarea name="alamt" id="alamat" class="form-control" required></textarea>
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Koordinat</label>
+                                                <input type="text" name="koordinat" id="koordinat" class="form-control" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Letak Kampus</label>
+                                                <input type="text" name="kampus" id="kampus" class="form-control" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Fungsi</label>
+                                                <input type="text" name="fungsi" id="kampus" class="form-control" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nilai_perolehan">Nilai Perolehan</label>
+                                                <input type="number" name="nilai_perolahan" id="nilai_perolehan" class="form-control" step="0.01" placeholder="Masukkan Nilai Rupiah">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="tgl_perolehan">Tanggal Perolehan</label>
+                                                <input type="date" name="tgl_sertifikat" id="tgl_sertifikat" class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Sumber Dana</label>
+                                                <select name="sumber_dana" id="sumber_dana" class="form-control" required>
+                                                    <option value="">Pilih Jenis Kepemilikan</option>
+                                                    <option value="APBN">APBN</option>
+                                                    <option value="APBD">APBD</option>
+                                                    <option value="Hibah">Hibah</option>
+                                                    <option value="Swadaya">Swadaya</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="nilai_pasar">Nilai Pasar</label>
+                                                <input type="number" name="nilai_pasar" id="nilai_pasar" class="form-control" step="0.01" placeholder="Masukkan Nilai Rupiah">
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label for="tgl_nilai">Tanggal Nilai</label>
+                                                <input type="date" name="tgl_nilai" id="tgl_nilai" class="form-control">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Pemilik Sertifikat</label>
+                                                <input type="text" name="pemilik_sertifikat" id="pemilik_sertifikat" class="form-control" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label>Status Sertifikat</label>
+                                                <select name="status_sertifikat" id="status_sertifikat" class="form-control" required>
+                                                    <option value="">Pilih Status Sertifikat</option>
+                                                    <option value="Asli">APBN</option>
+                                                    <option value="Pihak Lain">APBD</option>
+                                                    <option value="Proses">Hibah</option>
+                                                </select>
+                                            </div>
+                                            <!-- Chechkpoint -->
+                                            <div class="form-group">
+                                                <label>Status Sertifikat</label>
+                                                <select name="status_sertifikat" id="status_sertifikat" class="form-control" required>
+                                                    <option value="">Pilih Status Sertifikat</option>
+                                                    <option value="Asli">APBN</option>
+                                                    <option value="Pihak Lain">APBD</option>
+                                                    <option value="Proses">Hibah</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label></label>
+                                                <input type="text" name="" id="" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label></label>
+                                                <input type="text" name="" id="" class="form-control" required>
                                             </div>
 
                                         </div>
                                         <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Tahun Perolehan</label>
-                                                <input type="number" name="tahun_perolehan" id="tahun_perolehan" class="form-control" required>
-                                            </div>
                                             <div class="form-group">
                                                 <label>Jumlah</label>
                                                 <input type="number" name="jumlah" id="jumlah" class="form-control" required>
