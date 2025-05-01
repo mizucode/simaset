@@ -59,6 +59,35 @@
         </div>
     </div>
 
+    <section class="course_details_area section_gap">
+        <div class="container">
+            <p>
+                Sepertinya halaman yang Anda cari tidak tersedia. Berikut beberapa kemungkinan penyebabnya:
+            </p>
+            <ul>
+                <li>Tautan salah atau kedaluwarsa - Periksa kembali alamat URL yang Anda masukkan.</li>
+                <li>Halaman telah dipindahkan atau dihapus - Coba cari halaman terkait di menu navigasi kami.</li>
+                <li>Kesalahan pengetikan - Pastikan tidak ada typo dalam URL.</li>
+            </ul>
+            <p></p>
+
+            <p>
+                Apa yang bisa Anda lakukan?
+            </p>
+            <ul>
+                <li>Kembali ke Beranda untuk mencari informasi lainnya.</li>
+                <li>Gunakan fitur pencarian di situs kami.</li>
+                <li>Laporkan masalah ini ke tim kami jika Anda merasa ini adalah kesalahan.</li>
+            </ul>
+            <p></p>
+
+            <p>
+                Butuh bantuan lebih lanjut? Hubungi kami di berbagai kontak.<br>
+                Terima kasih atas pengertiannya!
+            </p>
+        </div>
+    </section>
+
     <footer class="footer-area">
         <div class="container">
             <div class="row footer-bottom d-flex justify-content-between mt-0">

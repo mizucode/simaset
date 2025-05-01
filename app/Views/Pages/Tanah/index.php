@@ -10,16 +10,21 @@
 
         <div class="content-wrapper bg-white py-4 mb-5 px-2">
             <div class="container-fluid">
+                <?php include './app/Views/Components/helper.php'; ?>
                 <div class="row">
                     <div class="col-12">
 
-                        <?php if (!empty($error)) : ?>
-                            <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
-                        <?php endif; ?>
+
 
                         <div class="card">
-                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Daftar Data Barang</h3>
+                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center align-content-center">
+                                <h3 class="h4">Data Aset Tanah</h3>
+                                <a href="/admin/prasarana/tanah/tambah" class="btn btn-warning text-dark ml-auto">
+                                    <div class="text-dark d-flex flex-row align-items-center gap-2">
+                                        <i class="fas fa-plus mr-1"></i>
+                                        Tambah Data
+                                    </div>
+                                </a>
                             </div>
 
                             <div class="card-body">
@@ -28,8 +33,17 @@
                                         <thead>
                                             <tr class="jsgrid-header-row">
                                                 <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
+                                                <th>Kode Tanah</th>
+                                                <th>Nama Tanah</th>
+                                                <th>Luas</th>
+                                                <th>Status Tanah</th>
+                                                <th>Nomor Sertifikat</th>
+                                                <th>Tanggal Sertifikat</th>
+                                                <th>Tanggal Pajak</th>
+                                                <th>Pengunaan</th>
+                                                <th>Sumber Dana</th>
+                                                <th>Alamat</th>
+                                                <th>Keterangan</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
@@ -40,11 +54,36 @@
                                                     <tr class="jsgrid-row">
                                                         <td><?= $counter++; ?></td>
                                                         <td><?= htmlspecialchars($tanah['kode_tanah'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($tanah['nama_tanah'] ?? '-'); ?></td> <!-- Changed from $barang to $tanah -->
+                                                        <td><?= htmlspecialchars($tanah['nama_tanah'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['luas'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['status_tanah'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['sertifikat_nomor'] ?? '-'); ?></td>
+                                                        <td><?= date($tanah['sertifikat_tanggal'] ?? '-'); ?></td>
+                                                        <td><?= date($tanah['pajak_tanggal'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['penggunaan'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['sumber_dana'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['alamat'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($tanah['keterangan'] ?? '-'); ?></td>
                                                         <td>
                                                             <div class="d-flex flex-column gap-2">
+                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalBarang"
+                                                                    data-id="<?= $tanah['id']; ?>"
+                                                                    data-kode="<?= $tanah['kode_tanah']; ?>"
+                                                                    data-nama="<?= $tanah['nama_tanah']; ?>"
+                                                                    data-luas="<?= $tanah['luas']; ?>"
+                                                                    data-status="<?= $tanah['status_tanah']; ?>"
+                                                                    data-sertifikat_nomor="<?= $tanah['sertifikat_nomor']; ?>"
+                                                                    data-sertifikat_tanggal="<?= $tanah['sertifikat_tanggal']; ?>"
+                                                                    data-pajak_tanggal="<?= $tanah['pajak_tanggal']; ?>"
+                                                                    data-penggunaan="<?= $tanah['penggunaan']; ?>"
+                                                                    data-sumber_dana="<?= $tanah['sumber_dana']; ?>"
+                                                                    data-alamat="<?= $tanah['alamat']; ?>"
+                                                                    data-keterangan="<?= $tanah['keterangan']; ?>"
+                                                                    data-lokasi="<?= $tanah['lokasi_id']; ?>">
+                                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                                </button>
 
-                                                                <a href="/admin/tanah/daftar-tanah?delete=<?= $tanah['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                                <a href="/admin/prasarana/tanah?delete=<?= $tanah['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                                 </a>
                                                             </div>
@@ -67,66 +106,80 @@
         </div>
 
         <!-- Modal Form -->
+        <!-- Modal Form -->
         <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog" aria-labelledby="modalBarangLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="card card-primary mb-0">
                         <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data Barang</h3>
+                            <h3 class="card-title" id="modalTitle">Form Data Tanah</h3>
                         </div>
-                        <form action="/admin/barang/daftar-barang" method="POST">
+                        <form action="/admin/prasarana/tanah" method="POST">
                             <input type="hidden" name="id" id="id">
+                            <input type="hidden" name="lokasi_id" id="lokasi_id" value="1">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Kode Barang</label>
-                                            <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
+                                            <label>Kode Tanah</label>
+                                            <input type="text" name="kode_tanah" id="kode_tanah" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Nama Barang</label>
-                                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
+                                            <label>Nama Tanah</label>
+                                            <input type="text" name="nama_tanah" id="nama_tanah" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Kategori</label>
-                                            <select name="kategori_id" id="kategori_id" class="form-control" required>
-                                                <option value="">Pilih Kategori</option>
-                                                <?php foreach ($kategoriBarang as $kategori) : ?>
-                                                    <option value="<?= $kategori['id']; ?>"><?= htmlspecialchars($kategori['nama_kategori']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <label>Luas</label>
+                                            <input type="text" name="luas" id="luas" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Tahun Perolehan</label>
-                                            <input type="number" name="tahun_perolehan" id="tahun_perolehan" class="form-control" required>
+                                            <label>Status Tanah</label>
+                                            <input type="text" name="status_tanah" id="status_tanah" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Jumlah</label>
-                                            <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                                            <label>Nomor Sertifikat</label>
+                                            <input type="text" name="sertifikat_nomor" id="sertifikat_nomor" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Tanggal Sertifikat</label>
+                                            <input type="date" name="sertifikat_tanggal" id="sertifikat_tanggal" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label>Kondisi</label>
-                                            <select name="kondisi_id" id="kondisi_id" class="form-control" required>
-                                                <option value="">Pilih Kondisi</option>
-                                                <?php foreach ($kondisiBarang as $kondisi) : ?>
-                                                    <option value="<?= $kondisi['id']; ?>"><?= htmlspecialchars($kondisi['nama_kondisi']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <label>Tanggal Pajak</label>
+                                            <input type="date" name="pajak_tanggal" id="pajak_tanggal" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Penggunaan</label>
+                                            <input type="text" name="penggunaan" id="penggunaan" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Sumber Dana</label>
+                                            <input type="text" name="sumber_dana" id="sumber_dana" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Alamat</label>
+                                            <input type="text" name="alamat" id="alamat" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Keterangan</label>
+                                            <textarea name="keterangan" id="keterangan" class="form-control"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                            </div> <!-- /.card-body -->
+                            </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                 <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
                             </div>
                         </form>
+
                     </div> <!-- /.card -->
                 </div>
             </div>
         </div>
+
 
         <footer class="main-footer bg-white text-black">
             <strong>&copy; 2025 <a href="#">Lpptsi</a>. Umkuningan.</strong>
@@ -141,16 +194,22 @@
 
             editButtons.forEach(button => {
                 button.addEventListener("click", function() {
-                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
+                    document.getElementById("modalTitle").textContent = "Edit Data Tanah";
                     document.getElementById("submitBtn").textContent = "Update Data";
                     document.getElementById("submitBtn").className = "btn btn-warning";
                     document.getElementById("id").value = this.dataset.id;
-                    document.getElementById("kode_barang").value = this.dataset.kode;
-                    document.getElementById("nama_barang").value = this.dataset.nama;
-                    document.getElementById("kategori_id").value = this.dataset.kategori;
-                    document.getElementById("tahun_perolehan").value = this.dataset.tahun;
-                    document.getElementById("kondisi_id").value = this.dataset.kondisi;
-                    document.getElementById("jumlah").value = this.dataset.jumlah;
+                    document.getElementById("kode_tanah").value = this.dataset.kode;
+                    document.getElementById("nama_tanah").value = this.dataset.nama;
+                    document.getElementById("lokasi_id").value = this.dataset.lokasi;
+                    document.getElementById("luas").value = this.dataset.luas;
+                    document.getElementById("status_tanah").value = this.dataset.status;
+                    document.getElementById("sertifikat_nomor").value = this.dataset.sertifikat_nomor;
+                    document.getElementById("sertifikat_tanggal").value = this.dataset.sertifikat_tanggal;
+                    document.getElementById("pajak_tanggal").value = this.dataset.pajak_tanggal;
+                    document.getElementById("penggunaan").value = this.dataset.penggunaan;
+                    document.getElementById("sumber_dana").value = this.dataset.sumber_dana;
+                    document.getElementById("alamat").value = this.dataset.alamat;
+                    document.getElementById("keterangan").value = this.dataset.keterangan;
                 });
             });
 
