@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Models/Tanah.php';
+require_once __DIR__ . '/../Models/Lokasi.php';
 
 class TanahController
 {
@@ -8,42 +9,49 @@ class TanahController
         extract($data);
         require_once __DIR__ . "/../Views/Pages/Tanah/{$view}.php";
     }
+
     public function create()
     {
         global $conn;
-        $barangData = Barang::getAllData($conn);
-        $kondisiBarang = KondisiBarang::getAllData($conn);
-        $kategoriBarang = KategoriBarang::getAllData($conn);
+        $tanahData = Tanah::getAllData($conn);
+        $lokasi = Lokasi::getAllData($conn);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Ambil data dari form
             $id = $_POST['id'] ?? null;
-            $nama_barang = $_POST['nama_barang'];
-            $kategori_id = $_POST['kategori_id'];
-            $kode_barang = $_POST['kode_barang'];
-            $jumlah = $_POST['jumlah'];
-            $kondisi_id = $_POST['kondisi_id'];
-            $tahun_perolehan = $_POST['tahun_perolehan'] ?? null;
+            $lokasi_id = $_POST['lokasi_id'];
+            $kode_tanah = $_POST['kode_tanah'];
+            $nama_tanah = $_POST['nama_tanah'];
 
             try {
                 if ($id) {
                     // Update data
-                    $success = Barang::updateData($conn, $id, $nama_barang, $kategori_id, $kode_barang, $tahun_perolehan, $kondisi_id, $jumlah);
+                    $success = Tanah::updateData(
+                        $conn,
+                        $id,
+                        $lokasi_id,
+                        $kode_tanah,
+                        $nama_tanah
+                    );
                 } else {
                     // Simpan data baru
-                    $success = Barang::storeData($conn, $nama_barang, $kategori_id, $kode_barang, $tahun_perolehan, $kondisi_id, $jumlah);
+                    $success = Tanah::storeData(
+                        $conn,
+                        $lokasi_id,
+                        $kode_tanah,
+                        $nama_tanah
+                    );
                 }
 
                 if ($success) {
                     // Redirect ke halaman mebeler
-                    header('Location: /admin/barang/daftar-barang');
+                    header('Location: /admin/prasarana/tanah');
                     exit();
                 } else {
                     // Tampilkan error jika gagal
                     $this->renderView('index', [
-                        'barangData' => $barangData,
-                        'kondisiBarang' => $kondisiBarang,
-                        'kategoriBarang' => $kategoriBarang,
+                        'tanahData' => $tanahData,
+                        'lokasi' => $lokasi,
                         'error' => 'Gagal menyimpan atau mengupdate data.'
                     ]);
                     return;
@@ -51,9 +59,8 @@ class TanahController
             } catch (PDOException $e) {
                 // Tampilkan error database
                 $this->renderView('index', [
-                    'barangData' => $barangData,
-                    'kondisiBarang' => $kondisiBarang,
-                    'kategoriBarang' => $kategoriBarang,
+                    'tanahData' => $tanahData,
+                    'lokasi' => $lokasi,
                     'error' => 'Error DB: ' . $e->getMessage()
                 ]);
                 return;
@@ -62,79 +69,80 @@ class TanahController
 
 
         $this->renderView('create', [
-            'barangData' => $barangData,
-            'kondisiBarang' => $kondisiBarang,
-            'kategoriBarang' => $kategoriBarang,
+            'tanahData' => $tanahData,
+            'lokasi' => $lokasi,
         ]);
     }
 
     public function tanah()
     {
         global $conn;
+        $tanahData = Tanah::getAllData($conn);
+        $lokasi = Lokasi::getAllData($conn);
 
-        // Hapus data
-        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-            $id = $_GET['delete'];
-            if (Tanah::deleteData($conn, $id)) {
-                $_SESSION['success'] = 'Data berhasil dihapus.';
-            } else {
-                $_SESSION['error'] = 'Gagal menghapus data.';
-            }
-            header('Location: /admin/prasarana/tanah');
-            exit();
-        }
 
-        // Edit data → ambil data untuk isi form
-        $editData = null;
-        if (isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-            $id = $_GET['edit'];
-            $editData = Tanah::getById($conn, $id);
-        }
-
-        // Store atau Update data
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Ambil data dari form
             $id = $_POST['id'] ?? null;
-            $nama_lokasi = $_POST['nama_lokasi'];
-            $alamat = $_POST['alamat'];
-            $luas = $_POST['luas'];
-            $status_kepemilikan = $_POST['status_kepemilikan'];
-            $no_sertifikat = $_POST['no_sertifikat'];
-            $tanggal_perolehan = $_POST['tanggal_perolehan'];
-            $penggunaan = $_POST['penggunaan'];
-            $keterangan = $_POST['keterangan'];
+            $lokasi_id = $_POST['lokasi_id'];
+            $kode_tanah = $_POST['kode_tanah'];
+            $nama_tanah = $_POST['nama_tanah'];
 
             try {
                 if ($id) {
-                    // UPDATE
-                    $success = Tanah::updateData($conn, $id, $nama_lokasi, $alamat, $luas, $status_kepemilikan, $no_sertifikat, $tanggal_perolehan, $penggunaan, $keterangan);
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil diperbarui.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
+                    // Update data
+                    $success = Tanah::updateData(
+                        $conn,
+                        $id,
+                        $lokasi_id,
+                        $kode_tanah,
+                        $nama_tanah
+                    );
                 } else {
-                    // STORE
-                    $success = Tanah::storeData($conn, $nama_lokasi, $alamat, $luas, $status_kepemilikan, $no_sertifikat, $tanggal_perolehan, $penggunaan, $keterangan);
-                    if ($success) {
-                        $_SESSION['success'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal menambahkan data.';
-                    }
+                    // Simpan data baru
+                    $success = Tanah::storeData(
+                        $conn,
+                        $lokasi_id,
+                        $kode_tanah,
+                        $nama_tanah
+                    );
                 }
 
-                header('Location: /admin/prasarana/tanah');
-                exit();
+                if ($success) {
+                    // Redirect ke halaman mebeler
+                    header('Location: /admin/prasarana/tanah');
+                    exit();
+                } else {
+                    // Tampilkan error jika gagal
+                    $this->renderView('index', [
+                        'tanahData' => $tanahData,
+                        'lokasi' => $lokasi,
+                        'error' => 'Gagal menyimpan atau mengupdate data.'
+                    ]);
+                    return;
+                }
             } catch (PDOException $e) {
-                $this->renderView('index', ['error' => 'Error DB: ' . $e->getMessage()]);
+                // Tampilkan error database
+                $this->renderView('index', [
+                    'tanahData' => $tanahData,
+                    'lokasi' => $lokasi,
+                    'error' => 'Error DB: ' . $e->getMessage()
+                ]);
                 return;
             }
         }
 
-        // Ambil semua data tanah
-        $tanahData = Tanah::getAllData($conn);
+        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+            // Hapus data
+            $id = $_GET['delete'];
+            Barang::deleteData($conn, $id);
+            header('Location: /admin/prasarana/tanah');
+            exit();
+        }
+
         $this->renderView('index', [
             'tanahData' => $tanahData,
-            'editData' => $editData
+            'lokasi' => $lokasi,
         ]);
     }
 }

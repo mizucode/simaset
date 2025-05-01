@@ -2,91 +2,74 @@
 
 class Tanah
 {
+    // Method untuk mengambil semua data barang
     public static function getAllData($conn)
     {
-        $query = "SELECT tanah.*, lokasi.kode_lokasi, lokasi.label_lokasi, lokasi.keterangan 
-              FROM tanah
-              LEFT JOIN lokasi ON tanah.lokasi_id = lokasi.id";
+        $query = "SELECT * FROM tanah";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            // Jika terjadi error dalam query, tampilkan pesan
             return "Query gagal: " . $e->getMessage();
         }
     }
 
+    // Method untuk menyimpan data barang baru
+    public static function storeData(
+        $conn,
+        $lokasi_id,
+        $kode_tanah,
+        $nama_tanah
+    ) {
+        $fields = [
+            'lokasi_id' => $lokasi_id,
+            'kode_tanah' => $kode_tanah,
+            'nama_tanah' => $nama_tanah
+        ];
 
-    // 
-    public static function deleteData($conn, $id)
-    {
-        $query = "DELETE FROM tanah WHERE id = :id";
+        $columns = implode(', ', array_keys($fields));
+        $placeholders = ':' . implode(', :', array_keys($fields));
+
+        $query = "INSERT INTO tanah ($columns) VALUES ($placeholders)";
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id', $id);
+
+        foreach ($fields as $key => $value) {
+            $stmt->bindParam(":$key", $fields[$key]);
+        }
+
         return $stmt->execute();
     }
 
-    public static function storeData(
-        $conn,
-        $nama_lokasi,
-        $alamat,
-        $luas,
-        $status_kepemilikan,
-        $no_sertifikat,
-        $tanggal_perolehan,
-        $penggunaan,
-        $keterangan
-    ) {
-        $query = "INSERT INTO tanah (nama_lokasi, alamat, luas, status_kepemilikan, no_sertifikat, tanggal_perolehan, penggunaan, keterangan) VALUES (:nama_lokasi, :alamat, :luas, :status_kepemilikan, :no_sertifikat, :tanggal_perolehan, :penggunaan, :keterangan)";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':nama_lokasi', $nama_lokasi);
-        $stmt->bindParam(':alamat', $alamat);
-        $stmt->bindParam(':luas', $luas);
-        $stmt->bindParam(':status_kepemilikan', $status_kepemilikan);
-        $stmt->bindParam(':no_sertifikat', $no_sertifikat);
-        $stmt->bindParam(':tanggal_perolehan', $tanggal_perolehan);
-        $stmt->bindParam(':penggunaan', $penggunaan);
-        $stmt->bindParam(':keterangan', $keterangan);
-        return $stmt->execute(); // gunakan return biar bisa tahu hasilnya sukses/gagal
-    }
-
-    public static function getById($conn, $id)
-    {
-        $query = "SELECT * FROM tanah WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        try {
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            return null;
-        }
-    }
-
+    // Method untuk memperbarui data barang
     public static function updateData(
         $conn,
         $id,
-        $nama_lokasi,
-        $alamat,
-        $luas,
-        $status_kepemilikan,
-        $no_sertifikat,
-        $tanggal_perolehan,
-        $penggunaan,
-        $keterangan
+        $lokasi_id,
+        $kode_tanah,
+        $nama_tanah
     ) {
-        $query = "UPDATE tanah SET nama_lokasi = :nama_lokasi, alamat = :alamat, luas = :luas, status_kepemilikan = :status_kepemilikan, no_sertifikat = :no_sertifikat, tanggal_perolehan = :tanggal_perolehan, penggunaan = :penggunaan, keterangan = :keterangan WHERE id = :id";
+        $query = "UPDATE tanah SET
+            lokasi_id = :lokasi_id,
+            kode_tanah = :kode_tanah
+            WHERE id = :id";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':lokasi_id', $lokasi_id);
+        $stmt->bindParam(':kode_tanah', $kode_tanah);
+        $stmt->bindParam(':nama_tanah', $nama_tanah);
+
+        return $stmt->execute();
+    }
+
+    // Method untuk menghapus data barang
+    public static function deleteData($conn, $id)
+    {
+        $query = "DELETE FROM barang WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nama_lokasi', $nama_lokasi);
-        $stmt->bindParam(':alamat', $alamat);
-        $stmt->bindParam(':luas', $luas);
-        $stmt->bindParam(':status_kepemilikan', $status_kepemilikan);
-        $stmt->bindParam(':no_sertifikat', $no_sertifikat);
-        $stmt->bindParam(':tanggal_perolehan', $tanggal_perolehan);
-        $stmt->bindParam(':penggunaan', $penggunaan);
-        $stmt->bindParam(':keterangan', $keterangan);
         return $stmt->execute();
     }
 }
