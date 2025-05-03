@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/KategoriBarang.php';
+require_once __DIR__ . '/../Models/BarangElektronik.php';
+
 class BarangController
 {
     private function renderView(string $view, $data = [])
@@ -38,11 +40,11 @@ class BarangController
 
                 if ($success) {
                     // Redirect ke halaman mebeler
-                    header('Location: /admin/barang/daftar-barang');
+                    header('Location: /admin/barang/kategori-barang');
                     exit();
                 } else {
                     // Tampilkan error jika gagal
-                    $this->renderView('index', [
+                    $this->renderView('kategori', [
                         'barangData' => $barangData,
                         'kondisiBarang' => $kondisiBarang,
                         'kategoriBarang' => $kategoriBarang,
@@ -52,7 +54,7 @@ class BarangController
                 }
             } catch (PDOException $e) {
                 // Tampilkan error database
-                $this->renderView('index', [
+                $this->renderView('kategori', [
                     'barangData' => $barangData,
                     'kondisiBarang' => $kondisiBarang,
                     'kategoriBarang' => $kategoriBarang,
@@ -67,6 +69,19 @@ class BarangController
             'barangData' => $barangData,
             'kondisiBarang' => $kondisiBarang,
             'kategoriBarang' => $kategoriBarang,
+        ]);
+    }
+
+    public function daftarBarang()
+    {
+        global $conn;
+        $barangElektronik = BarangElektronik::getAllData($conn);
+        // $barangMebeler = BarangMebeler::getAllData($conn);
+
+        $allBarang = array_merge($barangElektronik);
+
+        $this->renderView('index', [
+            'allBarang' => $allBarang
         ]);
     }
 
@@ -92,18 +107,28 @@ class BarangController
                 if ($id) {
                     // Update data
                     $success = Barang::updateData($conn, $id, $nama_barang, $kategori_id, $kode_barang, $tahun_perolehan, $kondisi_id, $jumlah);
+                    if ($success) {
+                        $_SESSION['update'] = 'Data berhasil update.';
+                    } else {
+                        $_SESSION['error'] = 'Gagal memperbarui data.';
+                    }
                 } else {
                     // Simpan data baru
                     $success = Barang::storeData($conn, $nama_barang, $kategori_id, $kode_barang, $tahun_perolehan, $kondisi_id, $jumlah);
+                    if ($success) {
+                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
+                    } else {
+                        $_SESSION['error'] = 'Gagal menambahkan data.';
+                    }
                 }
 
                 if ($success) {
                     // Redirect ke halaman mebeler
-                    header('Location: /admin/barang/daftar-barang');
+                    header('Location: /admin/barang/kategori-barang');
                     exit();
                 } else {
                     // Tampilkan error jika gagal
-                    $this->renderView('index', [
+                    $this->renderView('kategori', [
                         'barangData' => $barangData,
                         'kondisiBarang' => $kondisiBarang,
                         'kategoriBarang' => $kategoriBarang,
@@ -113,7 +138,7 @@ class BarangController
                 }
             } catch (PDOException $e) {
                 // Tampilkan error database
-                $this->renderView('index', [
+                $this->renderView('kategori', [
                     'barangData' => $barangData,
                     'kondisiBarang' => $kondisiBarang,
                     'kategoriBarang' => $kategoriBarang,
@@ -126,13 +151,17 @@ class BarangController
         if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             // Hapus data
             $id = $_GET['delete'];
-            Barang::deleteData($conn, $id);
-            header('Location: /admin/barang/daftar-barang');
+            if (Barang::deleteData($conn, $id)) {
+                $_SESSION['success'] = 'Data berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data.';
+            }
+            header('Location: /admin/barang/kategori-barang');
             exit();
         }
 
         // Render default view
-        $this->renderView('index', [
+        $this->renderView('kategori', [
             'barangData' => $barangData,
             'kondisiBarang' => $kondisiBarang,
             'kategoriBarang' => $kategoriBarang,

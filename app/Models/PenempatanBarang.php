@@ -4,32 +4,14 @@ class PenempatanBarang
     // Ambil semua data penempatan lengkap dengan nama ruangan dan kondisi barang
     public static function getAllData($conn)
     {
-        $query = "SELECT 
-                p.*, 
-                r.nama_ruangan, 
-                k.kondisi AS nama_kondisi,
-                b.nama_barang
-            FROM penempatan_barang p
-            JOIN ruangan r ON p.id_ruangan = r.id_ruangan
-            LEFT JOIN kondisi_barang k ON p.id_kondisi_barang = k.id_kondisi_barang
-            LEFT JOIN (
-                SELECT id_barang, 'bergerak' AS jenis_barang, nama_barang FROM bergerak
-                UNION
-                SELECT id_barang, 'mebel' AS jenis_barang, nama_barang FROM mebel
-                UNION
-                SELECT id_barang, 'atk' AS jenis_barang, nama_barang FROM atk
-                UNION
-                SELECT id_barang, 'elektronik' AS jenis_barang, nama_barang FROM elektronik
-            ) AS b 
-            ON p.id_barang = b.id_barang AND p.jenis_barang = b.jenis_barang
-            ORDER BY p.tanggal_penempatan DESC";
+        $query = "SELECT * FROM penempatan_barang";
 
-        $stmt = $conn->prepare($query);
         try {
-            $stmt->execute();
+            $stmt = $conn->query($query);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            return "Query gagal: " . $e->getMessage();
+        } catch (PDOException $e) {
+            error_log("Error in PenempatanBarang::getAllData - " . $e->getMessage());
+            return [];
         }
     }
 

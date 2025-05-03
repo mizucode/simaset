@@ -25,7 +25,12 @@ $allowedRoutes = [
     '/admin/penempatan/detail',
     '/admin/kondisi/daftar-kondisi',
     '/admin/barang/daftar-barang',
-    '/admin/barang/daftar-barang/tambah',
+    // route barang
+    '/admin/barang/kategori-barang',
+    '/admin/barang/kategori-barang/tambah',
+    // route penempatan
+    '/admin/penempatan/daftar-barang',
+    '/admin/penempatan/kategori-barang/tambah',
 
 ];
 
@@ -117,19 +122,29 @@ switch ($uri) {
     case '/admin/barang/daftar-barang':
         auth();
         $admin = new BarangController();
+        $admin->daftarBarang();
+        break;
+    case '/admin/barang/kategori-barang':
+        auth();
+        $admin = new BarangController();
         $admin->barang();
         break;
 
-    case '/admin/barang/daftar-barang/tambah':
+    case '/admin/barang/kategori-barang/tambah':
         auth();
         $admin = new BarangController();
         $admin->create();
         break;
 
-    case '/admin/penempatan/list':
+    case '/admin/penempatan/daftar-barang':
         auth();
-        $admin = new AdminController();
-        $admin->listPenempatan();
+        $admin = new PenempatanController();
+        $admin->PenempatanBarang();
+        break;
+    case '/admin/penempatan/daftar-barang/tambah':
+        auth();
+        $admin = new PenempatanController();
+        $admin->Create();
         break;
     case '/admin/penempatan/form':
         auth();

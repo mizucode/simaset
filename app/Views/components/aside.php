@@ -153,9 +153,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/barang/daftar-barang/tambah" class="nav-link">
+                            <a href="/admin/barang/kategori-barang" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Tambah Data Barang</p>
+                                <p>Kategori Barang</p>
                             </a>
                         </li>
 
@@ -182,7 +182,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/penempatan/list" class="nav-link">
+                            <a href="/admin/penempatan/daftar-barang" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>List Penempatan Barang</p>
                             </a>

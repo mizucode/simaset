@@ -10,7 +10,6 @@
 
         <div class="content-wrapper bg-white py-4 mb-5 px-2">
             <div class="container-fluid">
-                <?php include './app/Views/Components/helper.php'; ?>
                 <div class="row">
                     <div class="col-12">
 
@@ -19,32 +18,65 @@
                         <?php endif; ?>
                         <div class="card card-outline card-info">
                             <div class="card-header">
-                                <h3 class="card-title">Tambah Data Kategori</h3>
+                                <h3 class="card-title">Tambah Data Barang</h3>
                             </div>
 
-                            <form action="/admin/barang/kategori-barang" method="POST">
+                            <form action="/admin/barang/daftar-barang" method="POST">
                                 <input type="hidden" name="id" id="id">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Kode Kategori Barang</label>
-                                                <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Nama Kategori Barang</label>
-                                                <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Kategori</label>
-                                                <select name="kategori_id" id="kategori_id" class="form-control" required>
-                                                    <option value="">Pilih Kategori</option>
-                                                    <?php foreach ($kategoriBarang as $kategori) : ?>
-                                                        <option value="<?= $kategori['id']; ?>"><?= htmlspecialchars($kategori['nama_kategori']); ?></option>
+                                                <label>Nama Barang</label>
+                                                <select name="barang_id" class="form-control" required>
+                                                    <option value="" disabled selected hidden>Pilih Barang</option>
+                                                    <?php foreach ($barangElektronik as $barang) : ?>
+                                                        <?php if ($barang['kategori_id'] == 4) : ?>
+                                                            <option value="<?= $barang['id']; ?>">
+                                                                <?= htmlspecialchars($barang['merk']); ?> - <?= htmlspecialchars($barang['tipe_model']); ?>
+                                                            </option>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                    <option value="" disabled selected hidden>Pilih Barang</option>
+                                                    <?php foreach ($barangElektronik as $barang) : ?>
+                                                        <?php if ($barang['kategori_id'] == 4) : ?>
+                                                            <option value="<?= $barang['id']; ?>">
+                                                                <?= htmlspecialchars($barang['merk']); ?> - <?= htmlspecialchars($barang['tipe_model']); ?>
+                                                            </option>
+                                                        <?php endif; ?>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
+                                            <div class="form-group">
+                                                <label>Lokasi</label>
+                                                <select name="" id="">
+                                                    <option value="">Parkiran</option>
+                                                    <option value="">A204</option>
+                                                    <option value="">A203</option>
+                                                    <option value="">Parkiran Kampus 1</option>
+                                                </select>
+                                            </div>
 
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tahun Perolehan</label>
+                                                <input type="number" name="tahun_perolehan" id="tahun_perolehan" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Jumlah</label>
+                                                <input type="number" name="jumlah" id="jumlah" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Kondisi</label>
+                                                <select name="kondisi_id" id="kondisi_id" class="form-control" required>
+                                                    <option value="">Pilih Kondisi</option>
+                                                    <?php foreach ($kondisiBarang as $kondisi) : ?>
+                                                        <option value="<?= $kondisi['id']; ?>"><?= htmlspecialchars($kondisi['nama_kondisi']); ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div> <!-- /.card-body -->
