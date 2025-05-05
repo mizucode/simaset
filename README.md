@@ -3,6 +3,7 @@
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Tech](https://img.shields.io/badge/tech-stack-blueviolet)
+[![PHP](https://img.shields.io/badge/php-%23777BB4.svg?&logo=php&logoColor=white)](#)
 
 Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik dan tanah dalam suatu instansi, dengan fitur CRUD, penempatan barang, dan pengelompokan data aset.
 
@@ -14,6 +15,12 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 - Form **Tambah Barang Elektronik** sudah berfungsi dengan baik.
 - Fitur **CRUD pada menu Tanah** telah dibuat dan diuji.
+
+#### Crud Menu :
+
+- Tanah
+- Gedung
+- Ruang
 
 ### 🚧 Dalam Proses
 

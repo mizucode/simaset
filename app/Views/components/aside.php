@@ -68,7 +68,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/prasarana/ruangan" class="nav-link">
+                            <a href="/admin/prasarana/ruang" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Ruangan</p>
                             </a>

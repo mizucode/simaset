@@ -12,8 +12,13 @@ $allowedRoutes = [
     '/admin',
     '/admin/prasarana/tanah',
     '/admin/prasarana/tanah/tambah',
+    // Prasarana - Gedung
     '/admin/prasarana/gedung',
-    '/admin/prasarana/ruangan',
+    '/admin/prasarana/gedung/tambah',
+    // Prasarana Ruang
+    '/admin/prasarana/ruang',
+    '/admin/prasarana/ruang/tambah',
+    // 
     '/admin/prasarana/lapang',
     '/admin/sarana/bergerak',
     '/admin/sarana/barang',
@@ -81,14 +86,24 @@ switch ($uri) {
         $admin = new GedungController();
         $admin->gedung();
         break;
-    case '/admin/prasarana/ruangan':
+    case '/admin/prasarana/gedung/tambah':
         auth();
-        $admin = new AdminController();
-        $admin->ruangan();
+        $admin = new GedungController();
+        $admin->create();
+        break;
+    case '/admin/prasarana/ruang':
+        auth();
+        $admin = new RuangController();
+        $admin->ruang();
+        break;
+    case '/admin/prasarana/ruang/tambah':
+        auth();
+        $admin = new RuangController();
+        $admin->create();
         break;
     case '/admin/prasarana/lapang':
         auth();
-        $admin = new AdminController();
+        $admin = new LapangController();
         $admin->lapang();
         break;
     case '/admin/sarana/bergerak':

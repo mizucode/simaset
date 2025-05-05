@@ -97,35 +97,6 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const editButtons = document.querySelectorAll(".btn-edit");
-
-            editButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
-                    document.getElementById("submitBtn").textContent = "Update Data";
-                    document.getElementById("submitBtn").className = "btn btn-warning";
-                    document.getElementById("id").value = this.dataset.id;
-                    document.getElementById("kode_barang").value = this.dataset.kode;
-                    document.getElementById("nama_barang").value = this.dataset.nama;
-                    document.getElementById("kategori_id").value = this.dataset.kategori;
-                    document.getElementById("tahun_perolehan").value = this.dataset.tahun;
-                    document.getElementById("kondisi_id").value = this.dataset.kondisi;
-                    document.getElementById("jumlah").value = this.dataset.jumlah;
-                });
-            });
-
-            $('#modalBarang').on('hidden.bs.modal', function() {
-                document.getElementById("modalTitle").textContent = "Form Data Barang";
-                document.getElementById("submitBtn").textContent = "Simpan";
-                document.getElementById("submitBtn").className = "btn btn-primary";
-                document.querySelector("form").reset();
-                document.getElementById("id").value = "";
-            });
-        });
-    </script>
 </body>
 
 </html>

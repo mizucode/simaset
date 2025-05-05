@@ -13,12 +13,17 @@
                 <?php include './app/Views/Components/helper.php'; ?>
                 <div class="row">
                     <div class="col-12">
+                        <?php if (isset($error)) : ?>
+                            <div style="color: red; background-color: #fdd; padding: 10px; margin-bottom: 10px;">
+                                <?= htmlspecialchars($error) ?>
+                            </div>
+                        <?php endif; ?>
 
 
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center align-content-center">
-                                <h3 class="h4">Data Gedung</h3>
-                                <a href="/admin/prasarana/gedung/tambah" class="btn btn-warning text-dark ml-auto">
+                                <h3 class="h4">Data Ruangan</h3>
+                                <a href="/admin/prasarana/ruang/tambah" class="btn btn-warning text-dark ml-auto">
                                     <div class="text-dark d-flex flex-row align-items-center gap-2">
                                         <i class="fas fa-plus mr-1"></i>
                                         Tambah Data
@@ -32,29 +37,33 @@
                                         <thead>
                                             <tr class="jsgrid-header-row">
                                                 <th>No</th>
-                                                <th>Kode Gedung</th>
-                                                <th>Nama Gedung</th>
+                                                <th>Kode ruang</th>
+                                                <th>Nama ruang</th>
+                                                <th>Gedung</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($gedungData) && is_array($gedungData)) : ?>
+                                            <?php if (!empty($ruangData) && is_array($ruangData)) : ?>
                                                 <?php $counter = 1; ?>
-                                                <?php foreach ($gedungData as $gedung) : ?>
+                                                <?php foreach ($ruangData as $ruang) : ?>
                                                     <tr class="jsgrid-row">
                                                         <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($gedung['kode_gedung'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($gedung['nama_gedung'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($ruang['kode_ruang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($ruang['nama_ruang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($ruang['nama_gedung'] ?? '-'); ?></td>
                                                         <td>
                                                             <div class="d-flex flex-column gap-2">
-                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalGedung"
-                                                                    data-id="<?= $gedung['id']; ?>"
-                                                                    data-kode="<?= $gedung['kode_gedung']; ?>"
-                                                                    data-nama="<?= $gedung['nama_gedung']; ?>">
+                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalruang"
+                                                                    data-id="<?= $ruang['id']; ?>"
+                                                                    data-kode="<?= $ruang['kode_ruang']; ?>"
+                                                                    data-nama="<?= $ruang['nama_ruang']; ?>"
+                                                                    data-gedung_id="<?= $ruang['gedung_id']; ?>">
                                                                     <i class="fas fa-edit mr-1"></i> Edit
                                                                 </button>
 
-                                                                <a href="/admin/prasarana/gedung?delete=<?= $gedung['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+
+                                                                <a href="/admin/prasarana/ruang?delete=<?= $ruang['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                                 </a>
                                                             </div>
@@ -77,25 +86,36 @@
         </div>
 
         <!-- Modal Form -->
-        <div class="modal fade" id="modalGedung" tabindex="-1" role="dialog" aria-labelledby="modalGedungLabel" aria-hidden="true">
+        <div class="modal fade" id="modalruang" tabindex="-1" role="dialog" aria-labelledby="modalruangLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="card card-primary mb-0">
                         <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data Gedung</h3>
+                            <h3 class="card-title" id="modalTitle">Form Data ruang</h3>
                         </div>
-                        <form action="/admin/prasarana/gedung" method="POST">
+
+                        <form action="/admin/prasarana/ruang" method="POST">
                             <input type="hidden" name="id" id="id">
+
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Kode Gedung</label>
-                                            <input type="text" name="kode_gedung" id="kode_gedung" class="form-control" required>
+                                            <label>Kode Ruangan</label>
+                                            <input type="text" name="kode_ruang" id="kode_ruang" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Nama Gedung</label>
-                                            <input type="text" name="nama_gedung" id="nama_gedung" class="form-control" required>
+                                            <label>Nama Ruangan</label>
+                                            <input type="text" name="nama_ruang" id="nama_ruang" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Pilih Gedung</label>
+                                            <select name="gedung_id" id="" class="form-control" required>
+                                                <option value="" disabled selected hidden>Pilih Lokasi Gedung</option>
+                                                <?php foreach ($gedungData as $gedung): ?>
+                                                    <option value="<?= $gedung['id']; ?>"><?= $gedung['nama_gedung']; ?> - <?= $gedung['kode_gedung']; ?></option>
+                                                <?php endforeach; ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -120,27 +140,40 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const editButtons = document.querySelectorAll(".btn-edit");
+            const modal = document.getElementById("modalruang");
+            const modalTitle = document.getElementById("modalTitle");
+            const submitBtn = document.getElementById("submitBtn");
+            const idInput = document.getElementById("id");
+            const kodeInput = document.getElementById("kode_ruang");
+            const namaInput = document.getElementById("nama_ruang");
+            const gedungSelect = document.querySelector("select[name='gedung_id']");
 
             editButtons.forEach(button => {
                 button.addEventListener("click", function() {
-                    document.getElementById("modalTitle").textContent = "Edit Data Gedung";
-                    document.getElementById("submitBtn").textContent = "Update Data";
-                    document.getElementById("submitBtn").className = "btn btn-warning";
-                    document.getElementById("id").value = this.dataset.id;
-                    document.getElementById("kode_gedung").value = this.dataset.kode;
-                    document.getElementById("nama_gedung").value = this.dataset.nama;
+                    modalTitle.textContent = "Edit Data ruang";
+                    submitBtn.textContent = "Update Data";
+                    submitBtn.className = "btn btn-warning";
+                    idInput.value = this.dataset.id;
+                    kodeInput.value = this.dataset.kode;
+                    namaInput.value = this.dataset.nama;
+
+                    // Set gedung select ke value yang cocok, jika ada data-gedung_id di tombol
+                    if (this.dataset.gedung_id) {
+                        gedungSelect.value = this.dataset.gedung_id;
+                    }
                 });
             });
 
-            $('#modalGedung').on('hidden.bs.modal', function() {
-                document.getElementById("modalTitle").textContent = "Form Data Gedung";
-                document.getElementById("submitBtn").textContent = "Simpan";
-                document.getElementById("submitBtn").className = "btn btn-primary";
+            $('#modalruang').on('hidden.bs.modal', function() {
+                modalTitle.textContent = "Form Data ruang";
+                submitBtn.textContent = "Simpan";
+                submitBtn.className = "btn btn-primary";
                 document.querySelector("form").reset();
-                document.getElementById("id").value = "";
+                idInput.value = "";
             });
         });
     </script>
+
 </body>
 
 </html>

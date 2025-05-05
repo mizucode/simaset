@@ -1,11 +1,12 @@
 <?php
 
-class Gedung
+class Ruang
 {
-    // Ambil semua data gedung
     public static function getAllData($conn)
     {
-        $query = "SELECT * FROM gedung";
+        $query = "SELECT r.*, g.nama_gedung 
+          FROM ruang r
+          JOIN gedung g ON r.gedung_id = g.id";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();
@@ -15,55 +16,60 @@ class Gedung
         }
     }
 
-    // Simpan data gedung baru
     public static function storeData(
         $conn,
-        $kode_gedung,
-        $nama_gedung
+        $kode_ruang,
+        $nama_ruang,
+        $gedung_id
     ) {
         $fields = [
-            'kode_gedung' => $kode_gedung,
-            'nama_gedung' => $nama_gedung
+            'kode_ruang' => $kode_ruang,
+            'nama_ruang' => $nama_ruang,
+            'gedung_id' => $gedung_id
+
         ];
 
         $columns = implode(', ', array_keys($fields));
         $placeholders = ':' . implode(', :', array_keys($fields));
 
-        $query = "INSERT INTO gedung ($columns) VALUES ($placeholders)";
+        $query = "INSERT INTO ruang ($columns) VALUES ($placeholders)";
         $stmt = $conn->prepare($query);
 
         foreach ($fields as $key => $value) {
-            $stmt->bindParam(":$key", $fields[$key]);
+            $stmt->bindValue(":$key", $value);
         }
+
 
         return $stmt->execute();
     }
 
-    // Update data gedung
     public static function updateData(
         $conn,
         $id,
-        $kode_gedung,
-        $nama_gedung
+        $kode_ruang,
+        $nama_ruang,
+        $gedung_id,
     ) {
-        $query = "UPDATE gedung SET
-            kode_gedung = :kode_gedung,
-            nama_gedung = :nama_gedung
+        $query = "UPDATE ruang SET 
+            kode_ruang = :kode_ruang,
+            nama_ruang = :nama_ruang, 
+            gedung_id = :gedung_id
             WHERE id = :id";
-
         $stmt = $conn->prepare($query);
 
         $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':kode_gedung', $kode_gedung);
-        $stmt->bindParam(':nama_gedung', $nama_gedung);
+        $stmt->bindParam(':kode_ruang', $kode_ruang);
+        $stmt->bindParam(':nama_ruang', $nama_ruang);
+        $stmt->bindParam(':gedung_id', $gedung_id);
 
         return $stmt->execute();
     }
 
-    // Hapus data gedung
+
+
     public static function deleteData($conn, $id)
     {
-        $query = "DELETE FROM gedung WHERE id = :id";
+        $query = "DELETE FROM ruang WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();

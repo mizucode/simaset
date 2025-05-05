@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../Models/BarangElektronik.php';
 require_once __DIR__ . '/../Models/Barang.php';
-require_once __DIR__ . '/../Models/Ruangan.php';
+require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/KategoriBarang.php';
 
 
@@ -24,7 +24,7 @@ class BarangElektronikController
         $typeOptions = BarangElektronik::getTypeOptions($conn);
         $kondisiTerakhirOptions = BarangElektronik::getKondisiTerakhirOptions($conn);
         $barangData = Barang::getAllData($conn);
-        $ruanganList = Ruangan::getAllData($conn);
+        $ruanganList = Ruang::getAllData($conn);
         $kategoriList = KategoriBarang::getAllData($conn);
         // Tambahkan ini jika diperlukan
 
