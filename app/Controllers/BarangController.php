@@ -3,6 +3,7 @@ require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/KategoriBarang.php';
 require_once __DIR__ . '/../Models/BarangElektronik.php';
+require_once __DIR__ . '/../Models/BarangBergerak.php';
 
 class BarangController
 {
@@ -76,9 +77,9 @@ class BarangController
     {
         global $conn;
         $barangElektronik = BarangElektronik::getAllData($conn);
-        // $barangMebeler = BarangMebeler::getAllData($conn);
+        $barangBergerak = BarangBergerak::getAllData($conn);
 
-        $allBarang = array_merge($barangElektronik);
+        $allBarang = array_merge($barangElektronik, $barangBergerak);
 
         $this->renderView('index', [
             'allBarang' => $allBarang

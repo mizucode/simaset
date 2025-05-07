@@ -20,9 +20,13 @@ $allowedRoutes = [
     '/admin/prasarana/ruang/tambah',
     // 
     '/admin/prasarana/lapang',
+    '/admin/prasarana/lapang/tambah',
+    // 
+
     '/admin/sarana/bergerak',
     '/admin/sarana/barang',
     '/admin/sarana/mebeler',
+
     '/admin/sarana/alat-tulis-kantor',
     '/admin/sarana/elektronik',
     '/admin/penempatan/list',
@@ -106,9 +110,14 @@ switch ($uri) {
         $admin = new LapangController();
         $admin->lapang();
         break;
+    case '/admin/prasarana/lapang/tambah':
+        auth();
+        $admin = new LapangController();
+        $admin->create();
+        break;
     case '/admin/sarana/bergerak':
         auth();
-        $admin = new AdminController();
+        $admin = new BarangBergerakController();
         $admin->bergerak();
         break;
     case '/admin/sarana/barang':
@@ -118,7 +127,7 @@ switch ($uri) {
         break;
     case '/admin/sarana/mebeler':
         auth();
-        $admin = new AdminController();
+        $admin = new BarangMebelerController();
         $admin->mebeler();
         break;
     case '/admin/sarana/alat-tulis-kantor':

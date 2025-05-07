@@ -10,3 +10,5 @@ require_once __DIR__ . '/../app/Controllers/BarangElektronikController.php';
 require_once __DIR__ . '/../app/Controllers/PenempatanController.php';
 require_once __DIR__ . '/../app/Controllers/RuangController.php';
 require_once __DIR__ . '/../app/Controllers/LapangController.php';
+require_once __DIR__ . '/../app/Controllers/BarangBergerakController.php';
+require_once __DIR__ . '/../app/Controllers/BarangMebelerController.php';

@@ -19,11 +19,10 @@
                             </div>
                         <?php endif; ?>
 
-
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center align-content-center">
-                                <h3 class="h4">Data Ruangan</h3>
-                                <a href="/admin/prasarana/ruang/tambah" class="btn btn-warning text-dark ml-auto">
+                                <h3 class="h4">Data Lapangan</h3>
+                                <a href="/admin/prasarana/lapang/tambah" class="btn btn-warning text-dark ml-auto">
                                     <div class="text-dark d-flex flex-row align-items-center gap-2">
                                         <i class="fas fa-plus mr-1"></i>
                                         Tambah Data
@@ -37,33 +36,30 @@
                                         <thead>
                                             <tr class="jsgrid-header-row">
                                                 <th>No</th>
-                                                <th>Kode ruang</th>
-                                                <th>Nama ruang</th>
-                                                <th>Gedung</th>
+                                                <th>Kode Lapang</th>
+                                                <th>Nama Lapang</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($ruangData) && is_array($ruangData)) : ?>
+                                            <?php if (!empty($lapangData) && is_array($lapangData)) : ?>
                                                 <?php $counter = 1; ?>
-                                                <?php foreach ($ruangData as $ruang) : ?>
+                                                <?php foreach ($lapangData as $lapang) : ?>
                                                     <tr class="jsgrid-row">
                                                         <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($ruang['kode_ruang'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($ruang['nama_ruang'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($ruang['nama_gedung'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($lapang['kode_lapang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($lapang['nama_lapang'] ?? '-'); ?></td>
+
                                                         <td>
                                                             <div class="d-flex flex-column gap-2">
-                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalruang"
-                                                                    data-id="<?= $ruang['id']; ?>"
-                                                                    data-kode="<?= $ruang['kode_ruang']; ?>"
-                                                                    data-nama="<?= $ruang['nama_ruang']; ?>"
-                                                                    data-gedung_id="<?= $ruang['gedung_id']; ?>">
+                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modallapang"
+                                                                    data-id="<?= $lapang['id']; ?>"
+                                                                    data-kode="<?= $lapang['kode_lapang']; ?>"
+                                                                    data-nama="<?= $lapang['nama_lapang']; ?>">
                                                                     <i class="fas fa-edit mr-1"></i> Edit
                                                                 </button>
 
-
-                                                                <a href="/admin/prasarana/ruang?delete=<?= $ruang['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                                <a href="/admin/prasarana/lapang?delete=<?= $lapang['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                                 </a>
                                                             </div>
@@ -86,36 +82,27 @@
         </div>
 
         <!-- Modal Form -->
-        <div class="modal fade" id="modalruang" tabindex="-1" role="dialog" aria-labelledby="modalruangLabel" aria-hidden="true">
+        <div class="modal fade" id="modallapang" tabindex="-1" role="dialog" aria-labelledby="modallapangLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="card card-primary mb-0">
                         <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data ruang</h3>
+                            <h3 class="card-title" id="modalTitle">Form Data lapang</h3>
                         </div>
 
-                        <form action="/admin/prasarana/ruang" method="POST">
+                        <form action="/admin/prasarana/lapang" method="POST">
                             <input type="hidden" name="id" id="id">
 
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Kode Ruangan</label>
-                                            <input type="text" name="kode_ruang" id="kode_ruang" class="form-control" required>
+                                            <label>Kode lapangan</label>
+                                            <input type="text" name="kode_lapang" id="kode_lapang" class="form-control" required>
                                         </div>
                                         <div class="form-group">
-                                            <label>Nama Ruangan</label>
-                                            <input type="text" name="nama_ruang" id="nama_ruang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Pilih Gedung</label>
-                                            <select name="gedung_id" id="" class="form-control" required>
-                                                <option value="" disabled selected hidden>Pilih Lokasi Gedung</option>
-                                                <?php foreach ($gedungData as $gedung): ?>
-                                                    <option value="<?= $gedung['id']; ?>"><?= $gedung['nama_gedung']; ?> - <?= $gedung['kode_gedung']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
+                                            <label>Nama lapangan</label>
+                                            <input type="text" name="nama_lapang" id="nama_lapang" class="form-control" required>
                                         </div>
                                     </div>
                                 </div>
@@ -140,32 +127,26 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const editButtons = document.querySelectorAll(".btn-edit");
-            const modal = document.getElementById("modalruang");
+            const modal = document.getElementById("modallapang");
             const modalTitle = document.getElementById("modalTitle");
             const submitBtn = document.getElementById("submitBtn");
             const idInput = document.getElementById("id");
-            const kodeInput = document.getElementById("kode_ruang");
-            const namaInput = document.getElementById("nama_ruang");
-            const gedungSelect = document.querySelector("select[name='gedung_id']");
+            const kodeInput = document.getElementById("kode_lapang");
+            const namaInput = document.getElementById("nama_lapang");
 
             editButtons.forEach(button => {
                 button.addEventListener("click", function() {
-                    modalTitle.textContent = "Edit Data ruang";
+                    modalTitle.textContent = "Edit Data lapang";
                     submitBtn.textContent = "Update Data";
                     submitBtn.className = "btn btn-warning";
                     idInput.value = this.dataset.id;
                     kodeInput.value = this.dataset.kode;
                     namaInput.value = this.dataset.nama;
-
-                    // Set gedung select ke value yang cocok, jika ada data-gedung_id di tombol
-                    if (this.dataset.gedung_id) {
-                        gedungSelect.value = this.dataset.gedung_id;
-                    }
                 });
             });
 
-            $('#modalruang').on('hidden.bs.modal', function() {
-                modalTitle.textContent = "Form Data ruang";
+            $('#modallapang').on('hidden.bs.modal', function() {
+                modalTitle.textContent = "Form Data lapang";
                 submitBtn.textContent = "Simpan";
                 submitBtn.className = "btn btn-primary";
                 document.querySelector("form").reset();

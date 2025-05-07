@@ -2,6 +2,7 @@
 
 class Lapang
 {
+    // Ambil semua data lapang
     public static function getAllData($conn)
     {
         $query = "SELECT * FROM lapang";
@@ -10,37 +11,19 @@ class Lapang
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            // Optional: log error
-            return []; // Kembalikan array kosong supaya view tetap bisa foreach
+            return "Query gagal: " . $e->getMessage();
         }
     }
 
+    // Simpan data lapang baru
     public static function storeData(
         $conn,
-        $kode_lapangan,
-        $nama_lapangan,
-        $lokasi,
-        $jenis_lapangan,
-        $luas,
-        $tahun_dibangun,
-        $kondisi,
-        $status_kepemilikan,
-        $dokumen_legalitas,
-        $pengguna,
-        $keterangan
+        $kode_lapang,
+        $nama_lapang
     ) {
         $fields = [
-            'kode_lapangan' => $kode_lapangan,
-            'nama_lapangan' => $nama_lapangan,
-            'lokasi' => $lokasi,
-            'jenis_lapangan' => $jenis_lapangan,
-            'luas' => $luas,
-            'tahun_dibangun' => $tahun_dibangun,
-            'kondisi' => $kondisi,
-            'status_kepemilikan' => $status_kepemilikan,
-            'dokumen_legalitas' => $dokumen_legalitas,
-            'pengguna' => $pengguna,
-            'keterangan' => $keterangan
+            'kode_lapang' => $kode_lapang,
+            'nama_lapang' => $nama_lapang
         ];
 
         $columns = implode(', ', array_keys($fields));
@@ -50,84 +33,39 @@ class Lapang
         $stmt = $conn->prepare($query);
 
         foreach ($fields as $key => $value) {
-            $stmt->bindValue(":$key", $value);
+            $stmt->bindParam(":$key", $fields[$key]);
         }
 
         return $stmt->execute();
     }
 
+    // Update data lapang
     public static function updateData(
         $conn,
-        $id_lapangan,
-        $kode_lapangan,
-        $nama_lapangan,
-        $lokasi,
-        $jenis_lapangan,
-        $luas,
-        $tahun_dibangun,
-        $kondisi,
-        $status_kepemilikan,
-        $dokumen_legalitas,
-        $pengguna,
-        $keterangan
+        $id,
+        $kode_lapang,
+        $nama_lapang
     ) {
-        $query = "UPDATE lapang SET 
-            kode_lapangan = :kode_lapangan,
-            nama_lapangan = :nama_lapangan,
-            lokasi = :lokasi,
-            jenis_lapangan = :jenis_lapangan,
-            luas = :luas,
-            tahun_dibangun = :tahun_dibangun,
-            kondisi = :kondisi,
-            status_kepemilikan = :status_kepemilikan,
-            dokumen_legalitas = :dokumen_legalitas,
-            pengguna = :pengguna,
-            keterangan = :keterangan,
-            updated_at = CURRENT_TIMESTAMP
-            WHERE id_lapangan = :id_lapangan";
+        $query = "UPDATE lapang SET
+            kode_lapang = :kode_lapang,
+            nama_lapang = :nama_lapang
+            WHERE id = :id";
 
         $stmt = $conn->prepare($query);
 
-        $params = [
-            ':id_lapangan' => $id_lapangan,
-            ':kode_lapangan' => $kode_lapangan,
-            ':nama_lapangan' => $nama_lapangan,
-            ':lokasi' => $lokasi,
-            ':jenis_lapangan' => $jenis_lapangan,
-            ':luas' => $luas,
-            ':tahun_dibangun' => $tahun_dibangun,
-            ':kondisi' => $kondisi,
-            ':status_kepemilikan' => $status_kepemilikan,
-            ':dokumen_legalitas' => $dokumen_legalitas,
-            ':pengguna' => $pengguna,
-            ':keterangan' => $keterangan
-        ];
-
-        foreach ($params as $key => $value) {
-            $stmt->bindValue($key, $value);
-        }
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':kode_lapang', $kode_lapang);
+        $stmt->bindParam(':nama_lapang', $nama_lapang);
 
         return $stmt->execute();
     }
 
-    public static function getById($conn, $id_lapangan)
+    // Hapus data lapang
+    public static function deleteData($conn, $id)
     {
-        $query = "SELECT * FROM lapang WHERE id_lapangan = :id_lapangan";
+        $query = "DELETE FROM lapang WHERE id = :id";
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id_lapangan', $id_lapangan);
-        try {
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            return null;
-        }
-    }
-
-    public static function deleteData($conn, $id_lapangan)
-    {
-        $query = "DELETE FROM lapang WHERE id_lapangan = :id_lapangan";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id_lapangan', $id_lapangan);
+        $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 }

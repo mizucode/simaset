@@ -2,110 +2,141 @@
 
 class BarangMebeler
 {
-    // Method untuk mengambil semua data barang
+    /**
+     * Mendapatkan semua data barang mebeler dengan join ke kategori
+     * 
+     * @param PDO $conn Koneksi database
+     * @return array|string Array data atau pesan error
+     */
     public static function getAllData($conn)
     {
-        $query = "SELECT b.*, kb.nama_kategori, sb.nama_subkategori, l.nama_ruangan, k.nama_kondisi 
-                  FROM barang b
-                  LEFT JOIN kategori_barang kb ON b.kategori_id = kb.id
-                  LEFT JOIN subkategori_barang sb ON b.subkategori_id = sb.id
-                  LEFT JOIN lokasi l ON b.ruangan_id = l.id
-                  LEFT JOIN kondisi_barang k ON b.kondisi_id = k.id";
-        $stmt = $conn->prepare($query);
+        $query = "SELECT b.*, kb.nama_barang, kb.kode_barang, k.nama_kategori
+        FROM barang_mebeler b
+        LEFT JOIN barang kb ON b.barang_id = kb.id
+        LEFT JOIN kategori_barang k ON b.kategori_id = k.id;";
+
         try {
-            $stmt->execute();
+            $stmt = $conn->query($query);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (Exception $e) {
-            return "Query gagal: " . $e->getMessage();
+        } catch (PDOException $e) {
+            error_log("Error in BarangMebeler::getAllData - " . $e->getMessage());
+            return [];
         }
     }
 
-    // Method untuk menyimpan data barang baru
+
+    /**
+     * Menyimpan data baru barang mebeler
+     * 
+     * @param PDO $conn Koneksi database
+     * @param array $data Data barang mebeler
+     * @return bool|string True jika berhasil, pesan error jika gagal
+     */
     public static function storeData(
         $conn,
-        $nama_barang,
-        $kategori_id,
-        $subkategori_id,
-        $ruangan_id,
-        $lapang_id,
-        $kode_barang,
-        $tahun_perolehan,
-        $kondisi_id,
-        $jumlah
+        $kode_barang_mebeler,  // Changed from kode_barang_mebeler
+        $nama_barang_mebeler,  // Changed from nama_barang_mebeler
+        $barang_id,
+        $kategori_id
     ) {
         $fields = [
-            'nama_barang' => $nama_barang,
-            'kategori_id' => $kategori_id,
-            'subkategori_id' => $subkategori_id,
-            'ruangan_id' => $ruangan_id,
-            'lapang_id' => $lapang_id,
-            'kode_barang' => $kode_barang,
-            'tahun_perolehan' => $tahun_perolehan,
-            'kondisi_id' => $kondisi_id,
-            'jumlah' => $jumlah
+            'kode_barang_mebeler' => $kode_barang_mebeler,
+            'nama_barang_mebeler' => $nama_barang_mebeler,
+            'barang_id' => $barang_id,
+            'kategori_id' => $kategori_id
         ];
 
         $columns = implode(', ', array_keys($fields));
         $placeholders = ':' . implode(', :', array_keys($fields));
 
-        $query = "INSERT INTO barang ($columns) VALUES ($placeholders)";
-        $stmt = $conn->prepare($query);
+        $query = "INSERT INTO barang_mebeler ($columns) VALUES ($placeholders)";
 
-        foreach ($fields as $key => $value) {
-            $stmt->bindParam(":$key", $fields[$key]);
+        try {
+            $stmt = $conn->prepare($query);
+            return $stmt->execute($fields); // Using execute with array is cleaner
+        } catch (PDOException $e) {
+            error_log("Error in BarangMebeler::storeData - " . $e->getMessage());
+            return false;
         }
-
-        return $stmt->execute();
     }
 
-    // Method untuk memperbarui data barang
     public static function updateData(
         $conn,
         $id,
-        $nama_barang,
-        $kategori_id,
-        $subkategori_id,
-        $ruangan_id,
-        $lapang_id,
-        $kode_barang,
-        $tahun_perolehan,
-        $kondisi_id,
-        $jumlah
+        $kode_barang_mebeler,  // Changed from kode_barang_mebeler
+        $nama_barang_mebeler,  // Changed from nama_barang_mebeler
+        $barang_id,
+        $kategori_id
     ) {
-        $query = "UPDATE barang SET
-            nama_barang = :nama_barang,
-            kategori_id = :kategori_id,
-            subkategori_id = :subkategori_id,
-            ruangan_id = :ruangan_id,
-            lapang_id = :lapang_id,
-            kode_barang = :kode_barang,
-            tahun_perolehan = :tahun_perolehan,
-            kondisi_id = :kondisi_id,
-            jumlah = :jumlah
-            WHERE id = :id";
+        $query = "UPDATE barang_mebeler SET
+            kode_barang_mebeler = :kode_barang_mebeler,
+            nama_barang_mebeler = :nama_barang_mebeler,
+            barang_id = :barang_id,
+            kategori_id = :kategori_id
+        WHERE id = :id";
 
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':kode_barang_mebeler', $kode_barang_mebeler);
+            $stmt->bindParam(':nama_barang_mebeler', $nama_barang_mebeler);
+            $stmt->bindParam(':barang_id', $barang_id);
+            $stmt->bindParam(':kategori_id', $kategori_id);
+            $stmt->bindParam(':id', $id);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log("Error in BarangMebeler::updateData - " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Memperbarui data barang mebeler
+     * 
+     * @param PDO $conn Koneksi database
+     * @param int $id ID barang mebeler
+     * @param array $data Data yang akan diupdate
+     * @return bool|string True jika berhasil, pesan error jika gagal
+     */
+
+
+    /**
+     * Menghapus data barang mebeler
+     * 
+     * @param PDO $conn Koneksi database
+     * @param int $id ID barang mebeler
+     * @return bool|string True jika berhasil, pesan error jika gagal
+     */
+    public static function deleteData($conn, $id)
+    {
+        $query = "DELETE FROM barang_mebeler WHERE id = :id";
         $stmt = $conn->prepare($query);
-
         $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nama_barang', $nama_barang);
-        $stmt->bindParam(':kategori_id', $kategori_id);
-        $stmt->bindParam(':subkategori_id', $subkategori_id);
-        $stmt->bindParam(':ruangan_id', $ruangan_id);
-        $stmt->bindParam(':lapang_id', $lapang_id);
-        $stmt->bindParam(':kode_barang', $kode_barang);
-        $stmt->bindParam(':tahun_perolehan', $tahun_perolehan);
-        $stmt->bindParam(':kondisi_id', $kondisi_id);
-        $stmt->bindParam(':jumlah', $jumlah);
-
         return $stmt->execute();
     }
 
-    // Method untuk menghapus data barang
-    public static function deleteData($conn, $id)
+    /**
+     * Mendapatkan data barang mebeler berdasarkan ID
+     * 
+     * @param PDO $conn Koneksi database
+     * @param int $id ID barang mebeler
+     * @return array|false Array data atau false jika tidak ditemukan
+     */
+    public static function getById($conn, $id)
     {
-        $query = "DELETE FROM barang WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        $query = "SELECT b.*, kb.nama_barang, kb.kode_barang, k.nama_kategori 
+                  FROM barang_mebeler b
+                  LEFT JOIN barang kb ON b.barang_id = kb.id
+                  LEFT JOIN kategori_barang k ON b.kategori_id = k.id
+                  WHERE b.id = :id";
+
+        try {
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error in Barangmebeler::getById - " . $e->getMessage());
+            return false;
+        }
     }
 }

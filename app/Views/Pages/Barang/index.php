@@ -40,16 +40,26 @@
                                                 <?php foreach ($allBarang as $barang) : ?>
                                                     <tr class="jsgrid-row">
                                                         <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($barang['spesifikasi'] ?? '-'); ?></td>
+                                                        <td>
+                                                            <?= htmlspecialchars(
+                                                                !empty($barang['spesifikasi'])
+                                                                    ? $barang['spesifikasi']
+                                                                    : (!empty($barang['nama_barang_bergerak'])
+                                                                        ? $barang['nama_barang_bergerak']
+                                                                        : '-')
+                                                            ); ?>
+                                                        </td>
                                                         <td><?= htmlspecialchars($barang['jumlah'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($barang['merk'] ?? '-'); ?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>
-                                                <tr>
-                                                    <td colspan="8" class="text-center">Data tidak ditemukan</td>
-                                                </tr>
+                                                <!-- Tampilkan jika kosong -->
+                                                <td colspan="8" class="text-center">Data tidak ditemukan</td>
                                             <?php endif; ?>
+
+                                            <tr>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
