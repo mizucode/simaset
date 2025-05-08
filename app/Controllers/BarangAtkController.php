@@ -1,42 +1,44 @@
 <?php
 
-require_once __DIR__ . '/../Models/BarangBergerak.php';
+require_once __DIR__ . '/../Models/BarangAtk.php';
 require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KategoriBarang.php';
 
 
-class BarangBergerakController
+class BarangAtkController
 {
 
     private function renderView(string $view, $data = [])
     {
         extract($data);
-        require_once __DIR__ . "/../Views/Pages/BarangBergerak/{$view}.php";
+        require_once __DIR__ . "/../Views/Pages/BarangAtk/{$view}.php";
     }
-    public function bergerak()
+
+    public function atk()
     {
+
         global $conn;
 
-        $barangBergerakData = BarangBergerak::getAllData($conn);
+        $barangAtkData = BarangAtk::getAllData($conn);
         $barangData = Barang::getAllData($conn);
         $kategoriList = KategoriBarang::getAllData($conn);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Safely get POST data with null coalescing operator
             $id = $_POST['id'] ?? null;
-            $kode_barang_bergerak = $_POST['kode_barang_bergerak'];
-            $nama_barang_bergerak = $_POST['nama_barang_bergerak'];
+            $kode_barang_atk = $_POST['kode_barang_atk'];
+            $nama_barang_atk = $_POST['nama_barang_atk'];
             $barang_id = $_POST['barang_id'];
             $kategori_id = $_POST['kategori_id']; // Add this line
 
             try {
                 if ($id) {
                     // Update data
-                    $success = BarangBergerak::updateData(
+                    $success = BarangAtk::updateData(
                         $conn,
                         $id,
-                        $kode_barang_bergerak,
-                        $nama_barang_bergerak,
+                        $kode_barang_atk,
+                        $nama_barang_atk,
                         $barang_id,
                         $kategori_id // Add this parameter
                     );
@@ -44,10 +46,10 @@ class BarangBergerakController
                     $_SESSION['update'] = $message;
                 } else {
                     // Simpan data baru
-                    $success = BarangBergerak::storeData(
+                    $success = BarangAtk::storeData(
                         $conn,
-                        $kode_barang_bergerak,
-                        $nama_barang_bergerak,
+                        $kode_barang_atk,
+                        $nama_barang_atk,
                         $barang_id,
                         $kategori_id // Add this parameter
                     );
@@ -56,7 +58,7 @@ class BarangBergerakController
                 }
 
                 if ($success) {
-                    header('Location: /admin/sarana/bergerak');
+                    header('Location: /admin/sarana/atk');
                     exit();
                 }
             } catch (PDOException $e) {
@@ -65,7 +67,7 @@ class BarangBergerakController
 
             // If not redirected, render view with current data
             $this->renderView('index', [
-                'barangBergerakData' => $barangBergerakData,
+                'barangAtkData' => $barangAtkData,
                 'barangData' => $barangData,
                 'kategoriList' => $kategoriList,
             ]);
@@ -75,18 +77,18 @@ class BarangBergerakController
         // Handle delete request
         if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             $id = $_GET['delete'];
-            if (BarangBergerak::deleteData($conn, $id)) {
+            if (BarangAtk::deleteData($conn, $id)) {
                 $_SESSION['success'] = 'Data berhasil dihapus.';
             } else {
                 $_SESSION['error'] = 'Gagal menghapus data.';
             }
-            header('Location: /admin/sarana/bergerak');
+            header('Location: /admin/sarana/atk');
             exit();
         }
 
         // Render view
         $this->renderView('index', [
-            'barangBergerakData' => $barangBergerakData,
+            'barangAtkData' => $barangAtkData,
             'barangData' => $barangData,
             'kategoriList' => $kategoriList,
             'flashMessage' => $_SESSION['update'] ?? null,

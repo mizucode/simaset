@@ -20,14 +20,13 @@
     <link
         rel="stylesheet"
         href="/../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
-    <!-- DataTables Bootstrap 4 -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 
-    <!-- DataTables Buttons -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap4.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
 
     <!-- jsGrid styles -->
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.css">

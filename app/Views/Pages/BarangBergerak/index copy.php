@@ -19,7 +19,7 @@
                     <div class="col-12">
                         <div class="card card-success card-outline">
                             <div class="card-header">
-                                <h3 class="card-title">Formulir Tambah Data Barang atk</h3>
+                                <h3 class="card-title">Formulir Tambah Data Barang Bergerak</h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
@@ -28,19 +28,19 @@
                             </div>
 
                             <div class="card-body">
-                                <form action="/admin/sarana/atk" method="POST">
+                                <form action="/admin/sarana/bergerak" method="POST">
                                     <input type="hidden" name="id" id="form_id" value="">
-                                    <input type="hidden" name="kategori_id" value="3">
+                                    <input type="hidden" name="kategori_id" value="1">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label>Kode Barang</label>
-                                                    <input type="text" name="kode_barang_atk" id="kode_barang_atk" class="form-control" required>
+                                                    <input type="text" name="kode_barang_bergerak" id="kode_barang_bergerak" class="form-control" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Nama Barang</label>
-                                                    <input type="text" name="nama_barang_atk" id="nama_barang_atk" class="form-control" required>
+                                                    <input type="text" name="nama_barang_bergerak" id="nama_barang_bergerak" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
@@ -49,7 +49,7 @@
                                                     <select name="barang_id" id="barang_id" class="form-control" required>
                                                         <option value="" disabled selected hidden>Pilih Barang</option>
                                                         <?php foreach ($barangData as $barang) : ?>
-                                                            <?php if ($barang['kategori_id'] == 3) : ?>
+                                                            <?php if ($barang['kategori_id'] == 1) : ?>
                                                                 <option value="<?= $barang['id']; ?>">
                                                                     <?= htmlspecialchars($barang['kode_barang']); ?> - <?= htmlspecialchars($barang['nama_barang']); ?>
                                                                 </option>
@@ -75,7 +75,7 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Data Barang atk</h3>
+                                <h3 class="h4">Data Barang Bergerak</h3>
                             </div>
 
                             <div class="card-body">
@@ -91,26 +91,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($barangAtkData)) : ?>
-                                                <?php $counter = 2; ?>
-                                                <?php foreach ($barangAtkData as $atk) : ?>
+                                            <?php if (!empty($barangBergerakData)) : ?>
+                                                <?php $counter = 1; ?>
+                                                <?php foreach ($barangBergerakData as $barang) : ?>
                                                     <tr>
                                                         <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($atk['kode_barang_atk'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($atk['nama_barang_atk'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($atk['nama_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['kode_barang_bergerak'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_barang_bergerak'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td>
                                                         <td>
                                                             <div class="d-flex gap-2">
                                                                 <button class="btn btn-warning btn-edit"
-                                                                    data-id="<?= $atk['id']; ?>"
-                                                                    data-kode_barang="<?= $atk['kode_barang_atk']; ?>"
-                                                                    data-nama_barang="<?= $atk['nama_barang_atk']; ?>"
-                                                                    data-barang_id="<?= $atk['barang_id']; ?>"
-                                                                    data-kategori_id="<?= $atk['kategori_id']; ?>">
+                                                                    data-id="<?= $barang['id']; ?>"
+                                                                    data-kode_barang="<?= $barang['kode_barang_bergerak']; ?>"
+                                                                    data-nama_barang="<?= $barang['nama_barang_bergerak']; ?>"
+                                                                    data-barang_id="<?= $barang['barang_id']; ?>"
+                                                                    data-kategori_id="<?= $barang['kategori_id']; ?>">
                                                                     <i class="fas fa-edit mr-1"></i> Edit
                                                                 </button>
 
-                                                                <a href="/admin/sarana/atk?delete=<?= $atk['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                                <a href="/admin/sarana/bergerak?delete=<?= $barang['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                                     <i class="fas fa-trash mr-1"></i> Hapus
                                                                 </a>
                                                             </div>
@@ -123,7 +123,6 @@
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
-
                                     </table>
                                 </div>
                             </div>
@@ -148,13 +147,10 @@
                 button.addEventListener("click", function() {
                     // Set form values
                     document.getElementById("form_id").value = this.dataset.id;
-                    document.getElementById("kode_barang_atk").value = this.dataset.kode_barang;
-                    document.getElementById("nama_barang_atk").value = this.dataset.nama_barang;
+                    document.getElementById("kode_barang_bergerak").value = this.dataset.kode_barang;
+                    document.getElementById("nama_barang_bergerak").value = this.dataset.nama_barang;
                     document.getElementById("barang_id").value = this.dataset.barang_id;
-                    document.getElementById("kategori_id").value = this.dataset.kategori_id || "2"; // Default to 2 if not set
-
-                    // Change form action to update
-                    document.querySelector("form").action = "/admin/sarana/atk/update";
+                    document.getElementById("kategori_id").value = this.dataset.kategori_id;
 
                     // Scroll to form
                     document.querySelector('.card-success').scrollIntoView({
@@ -167,7 +163,6 @@
             document.querySelector('[data-dismiss="modal"]').addEventListener('click', function() {
                 document.querySelector("form").reset();
                 document.getElementById("form_id").value = "";
-                document.querySelector("form").action = "/admin/sarana/atk";
             });
         });
     </script>

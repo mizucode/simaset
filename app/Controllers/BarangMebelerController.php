@@ -77,7 +77,7 @@ class BarangMebelerController
         // Handle delete request
         if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             $id = $_GET['delete'];
-            if (Barangmebeler::deleteData($conn, $id)) {
+            if (BarangMebeler::deleteData($conn, $id)) {
                 $_SESSION['success'] = 'Data berhasil dihapus.';
             } else {
                 $_SESSION['error'] = 'Gagal menghapus data.';

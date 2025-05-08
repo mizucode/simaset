@@ -12,3 +12,4 @@ require_once __DIR__ . '/../app/Controllers/RuangController.php';
 require_once __DIR__ . '/../app/Controllers/LapangController.php';
 require_once __DIR__ . '/../app/Controllers/BarangBergerakController.php';
 require_once __DIR__ . '/../app/Controllers/BarangMebelerController.php';
+require_once __DIR__ . '/../app/Controllers/BarangAtkController.php';

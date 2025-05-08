@@ -27,7 +27,7 @@ $allowedRoutes = [
     '/admin/sarana/barang',
     '/admin/sarana/mebeler',
 
-    '/admin/sarana/alat-tulis-kantor',
+    '/admin/sarana/atk',
     '/admin/sarana/elektronik',
     '/admin/penempatan/list',
     '/admin/penempatan/form',
@@ -39,6 +39,7 @@ $allowedRoutes = [
     '/admin/barang/kategori-barang/tambah',
     // route penempatan
     '/admin/penempatan/daftar-barang',
+    '/admin/penempatan/daftar-barang/tambah',
     '/admin/penempatan/kategori-barang/tambah',
 
 ];
@@ -130,9 +131,9 @@ switch ($uri) {
         $admin = new BarangMebelerController();
         $admin->mebeler();
         break;
-    case '/admin/sarana/alat-tulis-kantor':
+    case '/admin/sarana/atk':
         auth();
-        $admin = new AdminController();
+        $admin = new BarangAtkController();
         $admin->atk();
         break;
     case '/admin/sarana/elektronik':
@@ -168,7 +169,7 @@ switch ($uri) {
     case '/admin/penempatan/daftar-barang/tambah':
         auth();
         $admin = new PenempatanController();
-        $admin->Create();
+        $admin->create();
         break;
     case '/admin/penempatan/form':
         auth();

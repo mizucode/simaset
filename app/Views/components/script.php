@@ -14,6 +14,10 @@
 <script src="/../../AdminLTE-3.2.0/plugins/jquery-mapael/maps/usa_states.min.js"></script>
 <!-- ChartJS -->
 <script src="/../../AdminLTE-3.2.0/plugins/chart.js/Chart.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
+
 
 <!-- AdminLTE for demo purposes -->
 <!-- <script src="/../../AdminLTE-3.2.0/dist/js/demo.js"></script> -->

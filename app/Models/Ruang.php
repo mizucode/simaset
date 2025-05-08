@@ -5,7 +5,7 @@ class Ruang
     public static function getAllData($conn)
     {
         $query = "SELECT r.*, g.nama_gedung 
-          FROM ruang r
+                   FROM ruang r
           JOIN gedung g ON r.gedung_id = g.id";
         $stmt = $conn->prepare($query);
         try {
