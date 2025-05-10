@@ -1,7 +1,3 @@
-Tentu! Ini versi README-mu yang sudah diperbaiki agar lebih rapi, jelas, dan profesional:
-
----
-
 # 📦 Sistem Informasi Manajemen Aset
 
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
