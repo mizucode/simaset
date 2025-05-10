@@ -55,12 +55,13 @@
                                                 <th class="align-middle">Kode Aset</th>
                                                 <th class="align-middle">Nama Aset</th>
                                                 <th class="align-middle">Nomor Sertifikat</th>
-                                                <th class="align-middle">Luas</th>
+                                                <th class="align-middle">Luas (m²)</th>
                                                 <th class="align-middle">Jenis Aset</th>
                                                 <th class="align-middle">Lokasi</th>
-                                                <th class="align-middle">Tanggal Pajak</th>
+                                                <th class="align-middle text-nowrap">Tanggal Pajak</th>
                                                 <th class="align-middle">Fungsi</th>
                                                 <th class="align-middle">Keterangan</th>
+                                                <th class="align-middle">File Sertifikat</th>
                                                 <th class="align-middle">Aksi</th>
 
                                             </tr>
@@ -75,7 +76,7 @@
                                                         <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['luas'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($td['luas'] ?? '-'); ?> m²</td>
                                                         <td class="text-center text-nowrap">
                                                             <?php
                                                             $jenis_aset = htmlspecialchars($td['jenis_aset'] ?? '-');
@@ -92,6 +93,18 @@
                                                         <td><?= htmlspecialchars(date('d-m-Y', strtotime($td['tgl_pajak'])) ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['fungsi'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['keterangan'] ?? '-'); ?></td>
+                                                        <td>
+                                                            <?php if (!empty($td['file_sertifikat'])): ?>
+                                                                <a href="/storage/sertifikat/<?= htmlspecialchars($td['file_sertifikat']); ?>" download class="btn btn-primary btn-sm">
+                                                                    <i class="fas fa-download"></i> Download
+                                                                </a>
+                                                            <?php else: ?>
+                                                                <div class="btn btn-danger btn-sm">
+                                                                    Tidak Ada File
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </td>
+
                                                         <td class="flex gap-2">
                                                             <button onclick="window.location.href='/admin/prasarana/tanah?edit=<?= $td['id']; ?>'" class="flex items-center rounded-lg bg-yellow-400 py-2 px-4 border border-transparent text-center text-sm text-gray-700 transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
 

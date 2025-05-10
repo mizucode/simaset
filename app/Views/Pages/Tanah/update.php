@@ -39,7 +39,7 @@
                                 </h3>
                             </div>
 
-                            <form action="<?= isset($tanah) ? '/admin/prasarana/tanah?edit=' . $tanah['id'] : '/admin/prasarana/tanah/tambah' ?>" method="POST">
+                            <form action="<?= isset($tanah) ? '/admin/prasarana/tanah?edit=' . $tanah['id'] : '/admin/prasarana/tanah/tambah' ?>" method="POST" enctype="multipart/form-data">
                                 <?php if (isset($tanah)) : ?>
                                     <input type="hidden" name="id" value="<?= htmlspecialchars($tanah['id']) ?>">
                                 <?php endif; ?>
@@ -114,6 +114,35 @@
                                                         <input type="text" class="form-control" id="nomor_sertifikat" name="nomor_sertifikat"
                                                             value="<?= isset($tanah) ? htmlspecialchars($tanah['nomor_sertifikat']) : '' ?>"
                                                             placeholder="Masukan nomor sertifikat" required>
+                                                    </div>
+                                                </div>
+                                                <!-- File sertifikat -->
+                                                <div class="form-group mb-4">
+                                                    <label for="file_sertifikat" class="font-weight-bold">Upload Sertifikat Tanah (Jika Ada)</label>
+                                                    <div class="custom-file">
+                                                        <!-- Jika sudah ada file sertifikat, tampilkan nama file yang ada -->
+                                                        <input type="file" class="custom-file-input" id="file_sertifikat" name="file_sertifikat" accept=".pdf,image/*">
+                                                        <label class="custom-file-label" for="file_sertifikat">
+                                                            <?php if (isset($tanah['file_sertifikat']) && !empty($tanah['file_sertifikat'])): ?>
+                                                                <?= htmlspecialchars($tanah['file_sertifikat']); ?>
+                                                            <?php else: ?>
+                                                                Pilih File Sertifikat
+                                                            <?php endif; ?>
+                                                        </label>
+                                                    </div>
+
+                                                    <?php if (isset($tanah['file_sertifikat']) && !empty($tanah['file_sertifikat'])): ?>
+                                                        <div class="mt-2">
+                                                            <a href="/storage/sertifikat/<?= htmlspecialchars($tanah['file_sertifikat']); ?>" target="_blank">
+                                                                Lihat Sertifikat
+                                                            </a>
+                                                        </div>
+                                                    <?php endif; ?>
+
+                                                    <div class="text-slate-500 flex align-center text-sm pt-2">
+                                                        <div>
+                                                            File yang diperbolehkan: PDF, JPG, PNG, atau JPEG.
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <!-- Jenis Aset -->
@@ -229,6 +258,14 @@
                     }
                 });
             <?php endif; ?>
+        });
+    </script>
+
+    <script>
+        document.getElementById('file_sertifikat').addEventListener('change', function(e) {
+            var fileName = e.target.files[0]?.name || 'Pilih File Sertifikat';
+            var nextSibling = e.target.nextElementSibling;
+            nextSibling.innerText = fileName;
         });
     </script>
 </body>

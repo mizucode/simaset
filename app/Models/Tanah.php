@@ -40,7 +40,8 @@ class Tanah
         $lokasi,
         $tgl_pajak,
         $fungsi,
-        $keterangan
+        $keterangan,
+        $file_sertifikat // tambahkan parameter baru
     ) {
         $fields = [
             'kode_aset' => $kode_aset,
@@ -52,6 +53,7 @@ class Tanah
             'tgl_pajak' => $tgl_pajak,
             'fungsi' => $fungsi,
             'keterangan' => $keterangan,
+            'file_sertifikat' => $file_sertifikat // tambahkan ke array
         ];
 
         $columns = implode(', ', array_keys($fields));
@@ -78,7 +80,8 @@ class Tanah
         $lokasi,
         $tgl_pajak,
         $fungsi,
-        $keterangan
+        $keterangan,
+        $file_sertifikat // tambahkan parameter baru
     ) {
         $query = "UPDATE aset_tanah SET 
                 kode_aset = :kode_aset,
@@ -89,7 +92,8 @@ class Tanah
                 lokasi = :lokasi,
                 tgl_pajak = :tgl_pajak,
                 fungsi = :fungsi,
-                keterangan = :keterangan
+                keterangan = :keterangan,
+                file_sertifikat = :file_sertifikat
                 WHERE id = :id";
 
         $stmt = $conn->prepare($query);
@@ -102,6 +106,7 @@ class Tanah
         $stmt->bindParam(':tgl_pajak', $tgl_pajak);
         $stmt->bindParam(':fungsi', $fungsi);
         $stmt->bindParam(':keterangan', $keterangan);
+        $stmt->bindParam(':file_sertifikat', $file_sertifikat);
         $stmt->bindParam(':id', $id);
 
         return $stmt->execute();

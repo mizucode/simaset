@@ -14,7 +14,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ### ✅ Selesai
 
-- **Menu Prasarana Tanah** sudah berfungsi dengan baik.
+- **Menu Prasarana Tanah** sudah berfungsi dengan baik -> Penambahan bagian dokumen sertifikat.
 
 #### CRUD Menu:
 

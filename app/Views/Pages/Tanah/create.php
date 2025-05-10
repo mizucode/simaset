@@ -34,7 +34,7 @@
 
                             </div>
 
-                            <form action="/admin/prasarana/tanah/tambah" method="POST">
+                            <form action="/admin/prasarana/tanah/tambah" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="id" id="id">
                                 <div class="card-body">
                                     <div class="row">
@@ -104,6 +104,22 @@
                                                         <input type="text" class="form-control" id="nomor_sertifikat" name="nomor_sertifikat" placeholder="Masukan nomor sertifikat" required>
                                                     </div>
                                                 </div>
+                                                <!-- File Sertifikat -->
+                                                <div class="form-group mb-4">
+                                                    <label for="file_sertifikat" class="font-weight-bold">Upload Sertifikat Tanah (Jika Ada)</label>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="file_sertifikat" name="file_sertifikat" accept=".pdf,image/*">
+                                                        <label class="custom-file-label" for="file_sertifikat">Pilih File Sertifikat</label>
+                                                    </div>
+                                                    <div class="text-slate-500 flex align-center text-sm pt-2">
+                                                        <div>
+                                                            File yang diperbolehkan: PDF, JPG, PNG, atau JPEG.
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
                                                 <!-- Aset Tanah -->
                                                 <div class="form-group mb-4">
                                                     <label for="jenis_aset_id" class="font-weight-bold">Jenis Aset Tanah</label>
@@ -208,6 +224,14 @@
                     kodeAsetInput.value = '';
                 }
             });
+        });
+    </script>
+
+    <script>
+        document.getElementById('file_sertifikat').addEventListener('change', function(e) {
+            var fileName = e.target.files[0]?.name || 'Pilih File Sertifikat';
+            var nextSibling = e.target.nextElementSibling;
+            nextSibling.innerText = fileName;
         });
     </script>
 
