@@ -8,22 +8,34 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <style>
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus data ini?
 
-        </style>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="content-wrapper bg-white py-4 mb-5 px-3 ">
             <div class="container-fluid ">
-                <?php
-                if (isset($_SESSION['error'])) {
-                    echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
-                    unset($_SESSION['error']); // Menghapus pesan error setelah ditampilkan
-                }
-                ?>
 
-                <?php var_dump($_POST) ?>
                 <div class="row justify-content-center ">
                     <div class="col-auto">
+                        <?php include './app/Views/Components/helper.php'; ?>
                         <div class="card shadow-md">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center ">
                                 <h3 class="h4 mb-0">Data Aset Tanah</h3>
@@ -38,30 +50,33 @@
                                 <div class="overflow-hidden">
                                     <table id="example1" class="table table-bordered table-responsive">
                                         <thead>
-                                            <tr class="text-nowrap">
-                                                <th>No</th>
-                                                <th>Kode Aset</th>
-                                                <th>Nama Aset</th>
-                                                <th>Nomor Sertifikat</th>
-                                                <th>Luas</th>
-                                                <th>Jenis Aset</th>
-                                                <th>Lokasi</th>
-                                                <th>Tanggal Pajak</th>
-                                                <th>Fungsi</th>
-                                                <th>Keterangan</th>
+                                            <tr class="text-center align-middle bg-gray-100">
+                                                <th class="align-middle">No</th>
+                                                <th class="align-middle">Kode Aset</th>
+                                                <th class="align-middle">Nama Aset</th>
+                                                <th class="align-middle">Nomor Sertifikat</th>
+                                                <th class="align-middle">Luas</th>
+                                                <th class="align-middle">Jenis Aset</th>
+                                                <th class="align-middle">Lokasi</th>
+                                                <th class="align-middle">Tanggal Pajak</th>
+                                                <th class="align-middle">Fungsi</th>
+                                                <th class="align-middle">Keterangan</th>
+                                                <th class="align-middle">Aksi</th>
+
                                             </tr>
+
                                         </thead>
                                         <tbody>
                                             <?php if (!empty($tanahData)) : ?>
                                                 <?php $counter = 1; ?>
                                                 <?php foreach ($tanahData as $td) : ?>
-                                                    <tr class="text-nowrap">
-                                                        <td><?= $counter++; ?></td>
+                                                    <tr>
+                                                        <td class="text-center"><?= $counter++; ?></td>
                                                         <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['luas'] ?? '-'); ?></td>
-                                                        <td class="text-center">
+                                                        <td class="text-center text-nowrap">
                                                             <?php
                                                             $jenis_aset = htmlspecialchars($td['jenis_aset'] ?? '-');
                                                             $badgeClass = 'bg-gray-500';
@@ -70,13 +85,28 @@
                                                             } elseif ($jenis_aset === 'Aset Tidak Tetap') {
                                                                 $badgeClass = 'bg-blue-500';
                                                             }
-                                                            echo '<span class="' . $badgeClass . ' text-white px-3 py-1 rounded text-sm w-[120px] text-center d-inline-block">' . $jenis_aset . '</span>';
+                                                            echo '<span class="' . $badgeClass . ' text-white px-2 py-1 rounded text-sm w-[120px] text-center d-inline-block">' . $jenis_aset . '</span>';
                                                             ?>
                                                         </td>
                                                         <td><?= htmlspecialchars($td['lokasi'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars(date('d-m-Y', strtotime($td['tgl_pajak'])) ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['fungsi'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['keterangan'] ?? '-'); ?></td>
+                                                        <td class="flex gap-2">
+                                                            <button onclick="window.location.href='/admin/prasarana/tanah?edit=<?= $td['id']; ?>'" class="flex items-center rounded-lg bg-yellow-400 py-2 px-4 border border-transparent text-center text-sm text-gray-700 transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+
+
+                                                                <i class=" fas fa-edit"></i>Edit
+                                                            </button>
+                                                            <button type="button" data-id="<?= $td['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="flex items-center rounded-lg bg-red-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+
+
+                                                                <i class=" fas fa-trash-alt"></i> Hapus
+                                                            </button>
+
+
+                                                        </td>
+
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>
@@ -100,12 +130,22 @@
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
+        const exportTitle = 'Data Aset Tanah';
+        const exportButtons = ['csv', 'excel', 'pdf', 'print'].map(type => ({
+            extend: type,
+            title: exportTitle
+        }));
+        exportButtons.push({
+            extend: 'colvis',
+            text: 'Tampilkan/Sembunyikan Kolom'
+        });
+
         $("#example1").DataTable({
             responsive: true,
             lengthChange: true,
             ordering: false,
-            autoWidth: true,
-            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            autoWidth: false,
+            buttons: exportButtons,
             language: {
                 search: "Cari:",
                 lengthMenu: "Tampilkan _MENU_ data",
@@ -118,9 +158,25 @@
                 },
                 zeroRecords: "Data tidak ditemukan"
             },
-
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     </script>
+
+    <script>
+        $(document).ready(function() {
+            // Tangkap event klik tombol delete
+            $('.btn-delete').on('click', function() {
+                var id = $(this).data('id');
+                var deleteUrl = '/admin/prasarana/tanah?delete=' + id;
+
+                // Set URL hapus ke tombol Hapus di modal
+                $('#deleteButton').attr('href', deleteUrl);
+
+                // Tampilkan modal
+                $('#deleteModal').modal('show');
+            });
+        });
+    </script>
+
 </body>
 
 </html>

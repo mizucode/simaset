@@ -1,200 +1,130 @@
 <?php
 session_start();
 
-include 'config/config.php';
+require 'config/config.php';
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+class Router
+{
+    private $uri;
+    private $query;
+    private $allowedRoutes = [
+        // Public routes
+        '/' => ['controller' => 'AuthController', 'method' => 'loginForm', 'auth' => false],
+        '/login' => ['controller' => 'AuthController', 'method' => 'login', 'auth' => false],
+        '/logout' => ['controller' => 'AuthController', 'method' => 'logout', 'auth' => true],
 
-$allowedRoutes = [
-    '/',
-    '/login',
-    '/logout',
-    '/admin',
-    '/mizu',
-    '/admin/prasarana/tanah',
-    '/admin/prasarana/tanah/tambah',
-    // Prasarana - Gedung
-    '/admin/prasarana/gedung',
-    '/admin/prasarana/gedung/tambah',
-    // Prasarana Ruang
-    '/admin/prasarana/ruang',
-    '/admin/prasarana/ruang/tambah',
-    // 
-    '/admin/prasarana/lapang',
-    '/admin/prasarana/lapang/tambah',
-    // 
+        // Admin routes
+        '/admin' => ['controller' => 'AdminController', 'method' => 'index', 'auth' => true],
+        '/mizu' => ['controller' => 'AdminController', 'method' => 'devView', 'auth' => true],
 
-    '/admin/sarana/bergerak',
-    '/admin/sarana/barang',
-    '/admin/sarana/mebeler',
+        // Prasarana - Tanah
+        '/admin/prasarana/tanah' => ['controller' => 'TanahController', 'method' => 'tanah', 'auth' => true],
+        '/admin/prasarana/tanah/tambah' => ['controller' => 'TanahController', 'method' => 'create', 'auth' => true],
+        '/admin/prasarana/tanah/edit/([0-9]+)' => ['controller' => 'TanahController', 'method' => 'update', 'auth' => true],
 
-    '/admin/sarana/atk',
-    '/admin/sarana/elektronik',
-    '/admin/penempatan/list',
-    '/admin/penempatan/form',
-    '/admin/penempatan/detail',
-    '/admin/kondisi/daftar-kondisi',
-    '/admin/barang/daftar-barang',
-    // route barang
-    '/admin/barang/kategori-barang',
-    '/admin/barang/kategori-barang/tambah',
-    // route penempatan
-    '/admin/penempatan/daftar-barang',
-    '/admin/penempatan/daftar-barang/tambah',
-    '/admin/penempatan/kategori-barang/tambah',
+        // Prasarana - Gedung
+        '/admin/prasarana/gedung' => ['controller' => 'GedungController', 'method' => 'gedung', 'auth' => true],
+        '/admin/prasarana/gedung/tambah' => ['controller' => 'GedungController', 'method' => 'create', 'auth' => true],
 
-];
+        // Prasarana - Ruang
+        '/admin/prasarana/ruang' => ['controller' => 'RuangController', 'method' => 'ruang', 'auth' => true],
+        '/admin/prasarana/ruang/tambah' => ['controller' => 'RuangController', 'method' => 'create', 'auth' => true],
 
-if (!in_array($uri, $allowedRoutes)) {
-    http_response_code(404);
-    require_once __DIR__ . '/404.php';
-    exit;
-}
-// Routingan
-switch ($uri) {
-    case '/':
-        $auth = new AuthController();
-        $auth->loginForm();
-        break;
+        // Prasarana - Lapang
+        '/admin/prasarana/lapang' => ['controller' => 'LapangController', 'method' => 'lapang', 'auth' => true],
+        '/admin/prasarana/lapang/tambah' => ['controller' => 'LapangController', 'method' => 'create', 'auth' => true],
 
-    case '/login':
-        $auth = new AuthController();
-        $auth->login();
-        break;
+        // Sarana routes
+        '/admin/sarana/bergerak' => ['controller' => 'BarangBergerakController', 'method' => 'bergerak', 'auth' => true],
+        '/admin/sarana/barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
+        '/admin/sarana/mebeler' => ['controller' => 'BarangMebelerController', 'method' => 'mebeler', 'auth' => true],
+        '/admin/sarana/atk' => ['controller' => 'BarangAtkController', 'method' => 'atk', 'auth' => true],
+        '/admin/sarana/elektronik' => ['controller' => 'BarangElektronikController', 'method' => 'elektronik', 'auth' => true],
 
-    case '/logout':
-        $auth = new AuthController();
-        $auth->logout();
-        break;
+        // Barang routes
+        '/admin/barang/daftar-barang' => ['controller' => 'BarangController', 'method' => 'daftarBarang', 'auth' => true],
+        '/admin/barang/kategori-barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
+        '/admin/barang/kategori-barang/tambah' => ['controller' => 'BarangController', 'method' => 'create', 'auth' => true],
 
-    case '/admin':
-        auth(); // Middleware: cek login
-        $admin = new AdminController();
-        $admin->index();
-        break;
-    case '/mizu':
-        auth(); // Middleware: cek login
-        $admin = new AdminController();
-        $admin->devView();
-        break;
+        // Penempatan routes
+        '/admin/penempatan/daftar-barang' => ['controller' => 'PenempatanController', 'method' => 'PenempatanBarang', 'auth' => true],
+        '/admin/penempatan/daftar-barang/tambah' => ['controller' => 'PenempatanController', 'method' => 'create', 'auth' => true],
+        '/admin/penempatan/form' => ['controller' => 'AdminController', 'method' => 'formPenempatan', 'auth' => true],
+        '/admin/penempatan/detail' => ['controller' => 'AdminController', 'method' => 'detailPenempatan', 'auth' => true],
 
+        // Kondisi routes
+        '/admin/kondisi/daftar-kondisi' => ['controller' => 'AdminController', 'method' => 'daftarKondisi', 'auth' => true],
+    ];
 
+    public function __construct()
+    {
+        $this->uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $this->query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
+    }
 
-    case '/admin/prasarana/tanah':
-        auth();
-        $admin = new TanahController();
-        $admin->tanah(); // Metode ini akan menangani baik POST maupun GET
-        break;
+    public function route()
+    {
+        $routeFound = false;
 
-    case  '/admin/prasarana/tanah/tambah':
-        auth();
-        $admin = new TanahController();
-        $admin->create(); // Metode ini akan menangani baik POST maupun GET
-        break;
+        foreach ($this->allowedRoutes as $route => $config) {
+            // Check for simple matches
+            if ($route === $this->uri) {
+                $this->handleRoute($config);
+                $routeFound = true;
+                break;
+            }
 
-    case '/admin/prasarana/gedung':
-        auth();
-        $admin = new GedungController();
-        $admin->gedung();
-        break;
-    case '/admin/prasarana/gedung/tambah':
-        auth();
-        $admin = new GedungController();
-        $admin->create();
-        break;
-    case '/admin/prasarana/ruang':
-        auth();
-        $admin = new RuangController();
-        $admin->ruang();
-        break;
-    case '/admin/prasarana/ruang/tambah':
-        auth();
-        $admin = new RuangController();
-        $admin->create();
-        break;
-    case '/admin/prasarana/lapang':
-        auth();
-        $admin = new LapangController();
-        $admin->lapang();
-        break;
-    case '/admin/prasarana/lapang/tambah':
-        auth();
-        $admin = new LapangController();
-        $admin->create();
-        break;
-    case '/admin/sarana/bergerak':
-        auth();
-        $admin = new BarangBergerakController();
-        $admin->bergerak();
-        break;
-    case '/admin/sarana/barang':
-        auth();
-        $admin = new BarangController();
-        $admin->barang();
-        break;
-    case '/admin/sarana/mebeler':
-        auth();
-        $admin = new BarangMebelerController();
-        $admin->mebeler();
-        break;
-    case '/admin/sarana/atk':
-        auth();
-        $admin = new BarangAtkController();
-        $admin->atk();
-        break;
-    case '/admin/sarana/elektronik':
-        auth();
-        $admin = new BarangElektronikController();
-        $admin->elektronik();
-        break;
-    // Barang
+            // Check for pattern matches (like ID parameters)
+            if (strpos($route, '(') !== false && preg_match('#^' . $route . '$#', $this->uri, $matches)) {
+                $config['params'] = array_slice($matches, 1);
+                $this->handleRoute($config);
+                $routeFound = true;
+                break;
+            }
+        }
 
+        if (!$routeFound) {
+            $this->notFound();
+        }
+    }
 
-    case '/admin/barang/daftar-barang':
-        auth();
-        $admin = new BarangController();
-        $admin->daftarBarang();
-        break;
-    case '/admin/barang/kategori-barang':
-        auth();
-        $admin = new BarangController();
-        $admin->barang();
-        break;
+    private function handleRoute($config)
+    {
+        // Check authentication if required
+        if ($config['auth'] && !$this->isAuthenticated()) {
+            // Redirect to login or show error
+            header('Location: /');
+            exit;
+        }
 
-    case '/admin/barang/kategori-barang/tambah':
-        auth();
-        $admin = new BarangController();
-        $admin->create();
-        break;
+        // Instantiate controller and call method
+        $controller = new $config['controller']();
+        $method = $config['method'];
+        $params = $config['params'] ?? [];
 
-    case '/admin/penempatan/daftar-barang':
-        auth();
-        $admin = new PenempatanController();
-        $admin->PenempatanBarang();
-        break;
-    case '/admin/penempatan/daftar-barang/tambah':
-        auth();
-        $admin = new PenempatanController();
-        $admin->create();
-        break;
-    case '/admin/penempatan/form':
-        auth();
-        $admin = new AdminController();
-        $admin->formPenempatan();
-        break;
-    case '/admin/penempatan/detail':
-        auth();
-        $admin = new AdminController();
-        $admin->detailPenempatan();
-        break;
-    case '/admin/kondisi/daftar-kondisi':
-        auth();
-        $admin = new AdminController();
-        $admin->daftarKondisi();
-        break;
+        // Handle query parameters for specific cases
+        if ($this->uri === '/admin/prasarana/tanah' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
+            $controller->update($_GET['edit']);
+            return;
+        }
 
-    default:
+        call_user_func_array([$controller, $method], $params);
+    }
+
+    private function isAuthenticated()
+    {
+        // Implement your authentication check logic here
+        return isset($_SESSION['user']);
+    }
+
+    private function notFound()
+    {
         http_response_code(404);
-        echo "404 Not Found";
-        break;
+        require __DIR__ . '/404.php';
+        exit;
+    }
 }
+
+// Initialize and run the router
+$router = new Router();
+$router->route();

@@ -28,7 +28,6 @@ class TanahController
             $keterangan = $_POST['keterangan'];
 
             try {
-                // Simpan data baru
                 $success = Tanah::storeData(
                     $conn,
                     $kode_aset,
@@ -59,14 +58,64 @@ class TanahController
         ]);
     }
 
-    public function tanah()
+    public function update($id)
     {
         global $conn;
-        $tanahData = Tanah::getAllData($conn);
+        $tanah = Tanah::getById($conn, $id);
+        $jenis_aset_id = JenisAset::GetAllData($conn);
 
+        if (!$tanah) {
+            $_SESSION['error'] = 'Data tidak ditemukan.';
+            header('Location: /admin/prasarana/tanah');
+            exit();
+        }
 
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $kode_aset = $_POST['kode_aset'];
+            $nama_aset = $_POST['nama_aset'];
+            $jenis_aset_id = $_POST['jenis_aset_id'];
+            $nomor_sertifikat = $_POST['nomor_sertifikat'];
+            $luas = $_POST['luas'];
+            $lokasi = $_POST['lokasi'];
+            $tgl_pajak = $_POST['tgl_pajak'];
+            $fungsi = $_POST['fungsi'];
+            $keterangan = $_POST['keterangan'];
 
+            try {
+                $success = Tanah::updateData(
+                    $conn,
+                    $id,
+                    $kode_aset,
+                    $nama_aset,
+                    $jenis_aset_id,
+                    $nomor_sertifikat,
+                    $luas,
+                    $lokasi,
+                    $tgl_pajak,
+                    $fungsi,
+                    $keterangan
+                );
+
+                $message = $success ? 'Data berhasil diperbarui.' : 'Gagal memperbarui data.';
+                $_SESSION['update'] = $message;
+
+                header('Location: /admin/prasarana/tanah');
+                exit();
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('update', [
+            'tanah' => $tanah,
+            'jenisAsetId' => $jenis_aset_id
+        ]);
+    }
+
+    private function delete()
+    {
         if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+            global $conn;
             $id = $_GET['delete'];
             if (Tanah::deleteData($conn, $id)) {
                 $_SESSION['success'] = 'Data berhasil dihapus.';
@@ -76,10 +125,17 @@ class TanahController
             header('Location: /admin/prasarana/tanah');
             exit();
         }
+    }
+
+    public function tanah()
+    {
+        global $conn;
+        $tanahData = Tanah::getAllData($conn);
+
+        $this->delete();
 
         $this->renderView('index', [
             'tanahData' => $tanahData,
-
         ]);
     }
 }

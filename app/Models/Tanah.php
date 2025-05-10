@@ -4,7 +4,6 @@ ini_set('display_errors', 1);
 
 class Tanah
 {
-    // Ambil semua data tanah
     public static function getAllData($conn)
     {
         $query = "SELECT aset_tanah.*, jenis_aset.jenis_aset 
@@ -19,8 +18,18 @@ class Tanah
         }
     }
 
+    public static function getById($conn, $id)
+    {
+        $query = "SELECT aset_tanah.*, jenis_aset.jenis_aset 
+              FROM aset_tanah 
+              JOIN jenis_aset ON aset_tanah.jenis_aset_id = jenis_aset.id
+              WHERE aset_tanah.id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
-    // Simpan data tanah baru
     public static function storeData(
         $conn,
         $kode_aset,
@@ -32,7 +41,6 @@ class Tanah
         $tgl_pajak,
         $fungsi,
         $keterangan
-
     ) {
         $fields = [
             'kode_aset' => $kode_aset,
@@ -44,7 +52,6 @@ class Tanah
             'tgl_pajak' => $tgl_pajak,
             'fungsi' => $fungsi,
             'keterangan' => $keterangan,
-
         ];
 
         $columns = implode(', ', array_keys($fields));
@@ -53,68 +60,56 @@ class Tanah
         $query = "INSERT INTO aset_tanah ($columns) VALUES ($placeholders)";
         $stmt = $conn->prepare($query);
 
-        foreach ($fields as $key => &$value) {
-            $stmt->bindParam(":$key", $value);
+        foreach ($fields as $key => $value) {
+            $stmt->bindValue(":$key", $value);
         }
 
         return $stmt->execute();
     }
 
-    // Update data tanah
     public static function updateData(
         $conn,
         $id,
-        $lokasi_id,
-        $kode_tanah,
-        $nama_tanah,
+        $kode_aset,
+        $nama_aset,
+        $jenis_aset_id,
+        $nomor_sertifikat,
         $luas,
-        $status_tanah,
-        $sertifikat_nomor,
-        $sertifikat_tanggal,
-        $pajak_tanggal,
-        $penggunaan,
-        $sumber_dana,
-        $alamat,
+        $lokasi,
+        $tgl_pajak,
+        $fungsi,
         $keterangan
     ) {
-        $query = "UPDATE tanah SET
-            lokasi_id = :lokasi_id,
-            kode_tanah = :kode_tanah,
-            nama_tanah = :nama_tanah,
-            luas = :luas,
-            status_tanah = :status_tanah,
-            sertifikat_nomor = :sertifikat_nomor,
-            sertifikat_tanggal = :sertifikat_tanggal,
-            pajak_tanggal = :pajak_tanggal,
-            penggunaan = :penggunaan,
-            sumber_dana = :sumber_dana,
-            alamat = :alamat,
-            keterangan = :keterangan
-            WHERE id = :id";
+        $query = "UPDATE aset_tanah SET 
+                kode_aset = :kode_aset,
+                nama_aset = :nama_aset,
+                jenis_aset_id = :jenis_aset_id,
+                nomor_sertifikat = :nomor_sertifikat,
+                luas = :luas,
+                lokasi = :lokasi,
+                tgl_pajak = :tgl_pajak,
+                fungsi = :fungsi,
+                keterangan = :keterangan
+                WHERE id = :id";
 
         $stmt = $conn->prepare($query);
-
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':lokasi_id', $lokasi_id);
-        $stmt->bindParam(':kode_tanah', $kode_tanah);
-        $stmt->bindParam(':nama_tanah', $nama_tanah);
+        $stmt->bindParam(':kode_aset', $kode_aset);
+        $stmt->bindParam(':nama_aset', $nama_aset);
+        $stmt->bindParam(':jenis_aset_id', $jenis_aset_id);
+        $stmt->bindParam(':nomor_sertifikat', $nomor_sertifikat);
         $stmt->bindParam(':luas', $luas);
-        $stmt->bindParam(':status_tanah', $status_tanah);
-        $stmt->bindParam(':sertifikat_nomor', $sertifikat_nomor);
-        $stmt->bindParam(':sertifikat_tanggal', $sertifikat_tanggal);
-        $stmt->bindParam(':pajak_tanggal', $pajak_tanggal);
-        $stmt->bindParam(':penggunaan', $penggunaan);
-        $stmt->bindParam(':sumber_dana', $sumber_dana);
-        $stmt->bindParam(':alamat', $alamat);
+        $stmt->bindParam(':lokasi', $lokasi);
+        $stmt->bindParam(':tgl_pajak', $tgl_pajak);
+        $stmt->bindParam(':fungsi', $fungsi);
         $stmt->bindParam(':keterangan', $keterangan);
+        $stmt->bindParam(':id', $id);
 
         return $stmt->execute();
     }
 
-    // Hapus data tanah
     public static function deleteData($conn, $id)
     {
-        $query = "DELETE FROM tanah WHERE id = :id";
+        $query = "DELETE FROM aset_tanah WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();

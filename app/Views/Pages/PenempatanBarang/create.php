@@ -12,6 +12,7 @@
 
         <div class="content-wrapper bg-white py-4 mb-5 px-5">
             <div class="container-fluid">
+                app/Views/Pages/PenempatanBarang/index.php
                 <div class="row justify-content-center">
                     <div class="col-12 ">
 

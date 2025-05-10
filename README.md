@@ -1,11 +1,16 @@
+Tentu! Ini versi README-mu yang sudah diperbaiki agar lebih rapi, jelas, dan profesional:
+
+---
+
 # 📦 Sistem Informasi Manajemen Aset
 
 ![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Tech](https://img.shields.io/badge/tech-stack-blueviolet)
 [![PHP](https://img.shields.io/badge/php-%23777BB4.svg?&logo=php&logoColor=white)](#)
+![Last Update](https://img.shields.io/github/last-commit/mizucode/simaset?style=flat)
 
-Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik dan tanah dalam suatu instansi, dengan fitur CRUD, penempatan barang, dan pengelompokan data aset.
+Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik dan tanah dalam suatu instansi, dilengkapi dengan fitur CRUD, penempatan barang, dan pengelompokan data aset.
 
 ---
 
@@ -13,47 +18,39 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ### ✅ Selesai
 
-- Form **Tambah Barang Elektronik** sudah berfungsi dengan baik.
-- Fitur **CRUD pada menu Tanah** telah dibuat dan diuji.
+- **Menu Prasarana Tanah** sudah berfungsi dengan baik.
 
-#### Crud Menu :
+#### CRUD Menu:
 
-- Tanah
 - Gedung
 - Ruang
 
+---
+
 ### 🚧 Dalam Proses
 
-- Fitur **Update Data Barang Elektronik**.
-- Menu **List Penempatan Barang**.
-- Penyempurnaan fitur **CRUD Tanah**.
-- Form tanah hingga tahap **Status Sertifikat**.
-- Fitur **Edit Data Tanah**.
+- Refactor/clean code pada **Menu Gedung**
 
 ---
 
 ## 🛠️ Tahap Pengerjaan
 
-1. Pengembangan fitur **Update Barang Elektronik**.
-2. Implementasi menu **List Penempatan Barang**.
-3. Optimisasi fitur **CRUD Tanah**.
-4. Penyelesaian form tanah secara menyeluruh.
-5. Penambahan fitur **Edit Data Tanah**.
+1. Refactor (clean code) CRUD pada **Menu Gedung**
 
 ---
 
-## 📌 Tugas Selanjutnya
+## 📌 Rencana Selanjutnya
 
-- Pembuatan dan integrasi **Menu Penempatan Barang**.
+- Pembuatan dan integrasi **Menu Penempatan Barang**
 
 ---
 
 ## ⚙️ Teknologi yang Digunakan
 
-- **Frontend:** HTML, CSS, JavaScript, Bootstrap
-- **Backend:** PHP / Laravel / CodeIgniter (sesuaikan dengan stack Anda)
-- **Database:** MySQL / PostgreSQL
-- **Tools:** Git, VS Code, Postman
+- **Frontend:** HTML, CSS, JavaScript, Bootstrap, Tailwind, DataTables
+- **Backend:** PHP (OOP, MVC)
+- **Database:** MySQL
+- **Tools:** Git, Visual Studio Code
 
 ---
 
@@ -61,14 +58,13 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ```
 📦 sistem-informasi-aset/
-├── public/
-│   └── assets/
-├── src/
-│   ├── controllers/
-│   ├── models/
-│   ├── views/
-│   └── routes/
-├── config/
+├── AdminLTE/→ Folder untuk template AdminLTE
+├── app/
+│   ├── controllers/→ Logika aplikasi
+│   ├── models/ → Logika database
+│   └── views/→ Tampilan antarmuka
+├── config/→ Konfigurasi koneksi database
+├── core/→ Pengaturan routing dan autentikasi
 ├── .gitignore
 ├── README.md
 └── index.php
@@ -77,3 +73,5 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 ---
 
 > ✨ _Dokumentasi ini akan terus diperbarui seiring perkembangan fitur._
+
+---
