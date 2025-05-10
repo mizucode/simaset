@@ -2,7 +2,6 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 
     <div class="wrapper">
@@ -10,11 +9,10 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white py-4 mb-5 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
-
 
                         <?php if (!empty($error)) : ?>
                             <div class="alert alert-danger alert-dismissible fade show mb-4">
@@ -34,7 +32,7 @@
 
                             </div>
 
-                            <form action="/admin/prasarana/tanah/tambah" method="POST">
+                            <form action="/admin/tanah/tambah" method="POST">
                                 <input type="hidden" name="id" id="id">
                                 <div class="card-body">
                                     <div class="row">
@@ -96,30 +94,27 @@
                                                 </h5>
                                                 <!-- Nomor sertifikat -->
                                                 <div class="form-group mb-4">
-                                                    <label for="nomor_sertifikat" class="font-weight-bold">Nomor Sertifikat</label>
+                                                    <label for="no_sertifikat" class="font-weight-bold">Nomor Sertifikat</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="nomor_sertifikat" name="nomor_sertifikat" placeholder="Masukan nomor sertifikat" required>
+                                                        <input type="text" class="form-control" id="no_sertifikat" name="no_sertifikat" placeholder="Masukan nomor sertifikat" required>
                                                     </div>
                                                 </div>
                                                 <!-- Aset Tanah -->
                                                 <div class="form-group mb-4">
-                                                    <label for="jenis_aset_id" class="font-weight-bold">Jenis Aset Tanah</label>
+                                                    <label for="jenis_aset" class="font-weight-bold">Jenis Aset Tanah</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
-                                                        <select class="form-control" id="jenis_aset_id" name="jenis_aset_id" required>
-                                                            <option value="" disabled selected>Pilih jenis aset tanah</option>
-                                                            <?php foreach ($jenisAsetId as $id): ?>
-                                                                <option value="<?= htmlspecialchars($id['id']) ?>">
-                                                                    <?= htmlspecialchars($id['jenis_aset']) ?>
-                                                                </option>
-                                                            <?php endforeach; ?>
-                                                        </select>
+                                                        <select class="form-control" id="jenis_aset" name="jenis_aset" required>
 
+                                                            <option value="" disabled selected>Pilih jenis aset tanah</option>
+                                                            <option value="Aset Tetap">Aset Tetap</option>
+                                                            <option value="Aset Tidak Tetap">Aset Tidak Tetap</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-4">
@@ -167,7 +162,7 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/tanah/tambah" class="btn btn-secondary "><span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali</a>
+                                    <a href="/admin/prasarana/tanah" class="btn btn-secondary "><span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali</a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
                                         Simpan Data Tanah

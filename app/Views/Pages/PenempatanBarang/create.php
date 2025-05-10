@@ -159,8 +159,8 @@
                                                         </div>
                                                         <select class="form-control" id="kondisi" name="kondisi" required>
                                                             <option value="" disabled selected>Pilih Kondisi Barang</option>
-                                                            <option value="">Baik</option>
-                                                            <option value="">Rusak</option>
+                                                            <option value="Baik">Baik</option>
+                                                            <option value="Rusak">Rusak</option>
                                                         </select>
                                                     </div>
                                                 </div>

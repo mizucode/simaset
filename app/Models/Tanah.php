@@ -1,11 +1,15 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 class Tanah
 {
     // Ambil semua data tanah
     public static function getAllData($conn)
     {
-        $query = "SELECT * FROM tanah";
+        $query = "SELECT aset_tanah.*, jenis_aset.jenis_aset 
+              FROM aset_tanah 
+              JOIN jenis_aset ON aset_tanah.jenis_aset_id = jenis_aset.id";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();
@@ -15,45 +19,42 @@ class Tanah
         }
     }
 
+
     // Simpan data tanah baru
     public static function storeData(
         $conn,
-        $lokasi_id,
-        $kode_tanah,
-        $nama_tanah,
+        $kode_aset,
+        $nama_aset,
+        $jenis_aset_id,
+        $nomor_sertifikat,
         $luas,
-        $status_tanah,
-        $sertifikat_nomor,
-        $sertifikat_tanggal,
-        $pajak_tanggal,
-        $penggunaan,
-        $sumber_dana,
-        $alamat,
+        $lokasi,
+        $tgl_pajak,
+        $fungsi,
         $keterangan
+
     ) {
         $fields = [
-            'lokasi_id' => $lokasi_id,
-            'kode_tanah' => $kode_tanah,
-            'nama_tanah' => $nama_tanah,
+            'kode_aset' => $kode_aset,
+            'nama_aset' => $nama_aset,
+            'jenis_aset_id' => $jenis_aset_id,
+            'nomor_sertifikat' => $nomor_sertifikat,
             'luas' => $luas,
-            'status_tanah' => $status_tanah,
-            'sertifikat_nomor' => $sertifikat_nomor,
-            'sertifikat_tanggal' => $sertifikat_tanggal,
-            'pajak_tanggal' => $pajak_tanggal,
-            'penggunaan' => $penggunaan,
-            'sumber_dana' => $sumber_dana,
-            'alamat' => $alamat,
-            'keterangan' => $keterangan
+            'lokasi' => $lokasi,
+            'tgl_pajak' => $tgl_pajak,
+            'fungsi' => $fungsi,
+            'keterangan' => $keterangan,
+
         ];
 
         $columns = implode(', ', array_keys($fields));
         $placeholders = ':' . implode(', :', array_keys($fields));
 
-        $query = "INSERT INTO tanah ($columns) VALUES ($placeholders)";
+        $query = "INSERT INTO aset_tanah ($columns) VALUES ($placeholders)";
         $stmt = $conn->prepare($query);
 
-        foreach ($fields as $key => $value) {
-            $stmt->bindParam(":$key", $fields[$key]);
+        foreach ($fields as $key => &$value) {
+            $stmt->bindParam(":$key", $value);
         }
 
         return $stmt->execute();

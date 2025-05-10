@@ -12,4 +12,8 @@ class AdminController
     {
         $this->renderView('index');
     }
+    public function devView()
+    {
+        $this->renderView('test');
+    }
 }

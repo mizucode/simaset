@@ -215,8 +215,8 @@
 
         <!-- /.content -->
 
-        <?php include './app/Views/Components/foooter.php'; ?>
     </div>
+    <?php include './app/Views/Components/foooter.php'; ?>
 
     <?php include './app/Views/Components/script.php'; ?>
 

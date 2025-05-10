@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../Models/Tanah.php';
-require_once __DIR__ . '/../Models/Lokasi.php';
+require_once __DIR__ . '/../Models/JenisAset.php';
 
 class TanahController
 {
@@ -14,83 +14,48 @@ class TanahController
     {
         global $conn;
         $tanahData = Tanah::getAllData($conn);
-        $lokasi = Lokasi::getAllData($conn);
+        $jenis_aset_id = JenisAset::GetAllData($conn);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'] ?? null;
-            $lokasi_id = $_POST['lokasi_id'];
-            $kode_tanah = $_POST['kode_tanah'];
-            $nama_tanah = $_POST['nama_tanah'];
+            $kode_aset = $_POST['kode_aset'];
+            $nama_aset = $_POST['nama_aset'];
+            $jenis_aset_id = $_POST['jenis_aset_id'];
+            $nomor_sertifikat = $_POST['nomor_sertifikat'];
             $luas = $_POST['luas'];
-            $status_tanah = $_POST['status_tanah'];
-            $sertifikat_nomor = $_POST['sertifikat_nomor'];
-            $sertifikat_tanggal = $_POST['sertifikat_tanggal'];
-            $pajak_tanggal = $_POST['pajak_tanggal'];
-            $penggunaan = $_POST['penggunaan'];
-            $sumber_dana = $_POST['sumber_dana'];
-            $alamat = $_POST['alamat'];
+            $lokasi = $_POST['lokasi'];
+            $tgl_pajak = $_POST['tgl_pajak'];
+            $fungsi = $_POST['fungsi'];
             $keterangan = $_POST['keterangan'];
 
             try {
-                if ($id) {
-                    $success = Tanah::updateData(
-                        $conn,
-                        $id,
-                        $lokasi_id,
-                        $kode_tanah,
-                        $nama_tanah,
-                        $luas,
-                        $status_tanah,
-                        $sertifikat_nomor,
-                        $sertifikat_tanggal,
-                        $pajak_tanggal,
-                        $penggunaan,
-                        $sumber_dana,
-                        $alamat,
-                        $keterangan
-                    );
-                } else {
-                    $success = Tanah::storeData(
-                        $conn,
-                        $lokasi_id,
-                        $kode_tanah,
-                        $nama_tanah,
-                        $luas,
-                        $status_tanah,
-                        $sertifikat_nomor,
-                        $sertifikat_tanggal,
-                        $pajak_tanggal,
-                        $penggunaan,
-                        $sumber_dana,
-                        $alamat,
-                        $keterangan
-                    );
-                }
+                // Simpan data baru
+                $success = Tanah::storeData(
+                    $conn,
+                    $kode_aset,
+                    $nama_aset,
+                    $jenis_aset_id,
+                    $nomor_sertifikat,
+                    $luas,
+                    $lokasi,
+                    $tgl_pajak,
+                    $fungsi,
+                    $keterangan
+                );
+                $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
+                $_SESSION['update'] = $message;
 
                 if ($success) {
                     header('Location: /admin/prasarana/tanah');
                     exit();
-                } else {
-                    $this->renderView('index', [
-                        'tanahData' => $tanahData,
-                        'lokasi' => $lokasi,
-                        'error' => 'Gagal menyimpan atau mengupdate data.'
-                    ]);
-                    return;
                 }
             } catch (PDOException $e) {
-                $this->renderView('index', [
-                    'tanahData' => $tanahData,
-                    'lokasi' => $lokasi,
-                    'error' => 'Error DB: ' . $e->getMessage()
-                ]);
-                return;
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
             }
         }
 
         $this->renderView('create', [
             'tanahData' => $tanahData,
-            'lokasi' => $lokasi,
+            'jenisAsetId' => $jenis_aset_id
         ]);
     }
 
@@ -98,89 +63,8 @@ class TanahController
     {
         global $conn;
         $tanahData = Tanah::getAllData($conn);
-        $lokasi = Lokasi::getAllData($conn);
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'] ?? null;
-            $lokasi_id = $_POST['lokasi_id'];
-            $kode_tanah = $_POST['kode_tanah'];
-            $nama_tanah = $_POST['nama_tanah'];
-            $luas = $_POST['luas'];
-            $status_tanah = $_POST['status_tanah'];
-            $sertifikat_nomor = $_POST['sertifikat_nomor'];
-            $sertifikat_tanggal = $_POST['sertifikat_tanggal'];
-            $pajak_tanggal = $_POST['pajak_tanggal'];
-            $penggunaan = $_POST['penggunaan'];
-            $sumber_dana = $_POST['sumber_dana'];
-            $alamat = $_POST['alamat'];
-            $keterangan = $_POST['keterangan'];
 
-            try {
-                if ($id) {
-                    $success = Tanah::updateData(
-                        $conn,
-                        $id,
-                        $lokasi_id,
-                        $kode_tanah,
-                        $nama_tanah,
-                        $luas,
-                        $status_tanah,
-                        $sertifikat_nomor,
-                        $sertifikat_tanggal,
-                        $pajak_tanggal,
-                        $penggunaan,
-                        $sumber_dana,
-                        $alamat,
-                        $keterangan
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil update.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                } else {
-                    $success = Tanah::storeData(
-                        $conn,
-                        $lokasi_id,
-                        $kode_tanah,
-                        $nama_tanah,
-                        $luas,
-                        $status_tanah,
-                        $sertifikat_nomor,
-                        $sertifikat_tanggal,
-                        $pajak_tanggal,
-                        $penggunaan,
-                        $sumber_dana,
-                        $alamat,
-                        $keterangan
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                }
-
-                if ($success) {
-                    header('Location: /admin/prasarana/tanah');
-                    exit();
-                } else {
-                    $this->renderView('index', [
-                        'tanahData' => $tanahData,
-                        'lokasi' => $lokasi,
-                        'error' => 'Gagal menyimpan atau mengupdate data.'
-                    ]);
-                    return;
-                }
-            } catch (PDOException $e) {
-                $this->renderView('index', [
-                    'tanahData' => $tanahData,
-                    'lokasi' => $lokasi,
-                    'error' => 'Error DB: ' . $e->getMessage()
-                ]);
-                return;
-            }
-        }
 
         if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             $id = $_GET['delete'];
@@ -195,7 +79,7 @@ class TanahController
 
         $this->renderView('index', [
             'tanahData' => $tanahData,
-            'lokasi' => $lokasi,
+
         ]);
     }
 }

@@ -10,6 +10,7 @@ $allowedRoutes = [
     '/login',
     '/logout',
     '/admin',
+    '/mizu',
     '/admin/prasarana/tanah',
     '/admin/prasarana/tanah/tambah',
     // Prasarana - Gedung
@@ -70,6 +71,11 @@ switch ($uri) {
         auth(); // Middleware: cek login
         $admin = new AdminController();
         $admin->index();
+        break;
+    case '/mizu':
+        auth(); // Middleware: cek login
+        $admin = new AdminController();
+        $admin->devView();
         break;
 
 

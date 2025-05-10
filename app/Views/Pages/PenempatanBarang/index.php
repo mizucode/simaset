@@ -7,22 +7,46 @@
 
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
+        <style>
+            /* Scroll hanya tabel */
+            .table-responsive {
+                max-height: 400px;
+                /* Bisa kamu atur tinggi maksimal tabelnya */
+                overflow-y: auto;
+            }
+
+            /* Tetap posisikan pagination + info di bawah */
+            #example1_wrapper {
+                display: flex;
+                flex-direction: column;
+            }
+
+            #example1_wrapper .dataTables_paginate,
+            #example1_wrapper .dataTables_info {
+                position: sticky;
+                bottom: 0;
+                background: white;
+                /* supaya nggak transparan pas scroll */
+                z-index: 10;
+                padding: 10px 0;
+            }
+        </style>
 
 
-        <div class="content-wrapper bg-white py-4 mb-5 px-2">
+        <div class="content-wrapper bg-white py-4 mb-5   px-5">
             <div class="container-fluid">
                 <?php include './app/Views/Components/helper.php'; ?>
                 <div class="row justify-content-center">
                     <div class="col-auto">
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4 mb-0">Data Penempatan Barang Saat Ini</h3>
+                                <h3 class="h4 mb-0">Data Riwayat Penempatan Barang</h3>
                             </div>
                             <div class="card-body">
-                                <div class="table-responsive">
-                                    <table id="example1" class="table table-bordered w-auto">
+                                <div class="">
+                                    <table id="example1" class="table table-bordered table-striped table-responsive">
                                         <thead>
-                                            <tr class="text-wrap">
+                                            <tr class="text-nowrap">
                                                 <th>No</th>
                                                 <th class="text-nowrap">Nama Peminjam</th>
                                                 <th>NIK</th>
@@ -69,20 +93,20 @@
                                                             echo '<span class="badge ' . $badgeClass . ' p-2" style="font-size: 1rem;">' . $status . '</span>';
                                                             ?>
                                                         </td>
-
                                                         <td><?= htmlspecialchars($pm['tujuan_peminjaman'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($pm['lokasi'] ?? '-'); ?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>
                                                 <tr>
-                                                    <td colspan="12" class="text-center">Data tidak ditemukan</td>
+                                                    <td colspan="13" class="text-center">Data tidak ditemukan</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
                         </div> <!-- card -->
                     </div>
                 </div>
@@ -100,31 +124,25 @@
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                ordering: true,
-                "autoWidth": true,
-                "stripe": false,
-                screenY: true,
-
-
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
-                "language": {
-                    "search": "Cari:",
-                    "lengthMenu": "Tampilkan _MENU_ data",
-                    "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                    "paginate": {
-                        "first": "Pertama",
-                        "last": "Terakhir",
-                        "next": "Selanjutnya",
-                        "previous": "Sebelumnya"
-                    },
-                    "zeroRecords": "Data tidak ditemukan"
-                }
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
+        $("#example1").DataTable({
+            responsive: true,
+            lengthChange: true,
+            ordering: true,
+            autoWidth: false, // ubah ke false supaya responsif lebih baik
+            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"],
+            language: {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Selanjutnya",
+                    previous: "Sebelumnya"
+                },
+                zeroRecords: "Data tidak ditemukan"
+            }
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     </script>
 </body>
 

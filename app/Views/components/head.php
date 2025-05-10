@@ -21,11 +21,14 @@
         rel="stylesheet"
         href="/../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
 
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <!-- DataTables -->
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-fixheader/css/fixedHeader.bootstrap4.min.css">
+    <script src="/../../AdminLTE-3.2.0/plugins/datatables-fixheader/js/fixedHeader.dataTables.min.css"></script>
 
 
     <!-- jsGrid styles -->

@@ -109,7 +109,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item"><a href="/admin/penempatan/daftar-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
-                                <p>Daftar Barang Tersedia</p>
+                                <p>Daftar Peminjaman Barang</p>
                             </a></li>
                         <li class="nav-item"><a href="/admin/penempatan/daftar-barang/tambah" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Formulir Peminjaman Barang</p>
