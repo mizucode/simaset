@@ -67,14 +67,14 @@ class Router
         $routeFound = false;
 
         foreach ($this->allowedRoutes as $route => $config) {
-            // Check for simple matches
+
             if ($route === $this->uri) {
                 $this->handleRoute($config);
                 $routeFound = true;
                 break;
             }
 
-            // Check for pattern matches (like ID parameters)
+
             if (strpos($route, '(') !== false && preg_match('#^' . $route . '$#', $this->uri, $matches)) {
                 $config['params'] = array_slice($matches, 1);
                 $this->handleRoute($config);
@@ -104,6 +104,14 @@ class Router
 
         // Handle query parameters for specific cases
         if ($this->uri === '/admin/prasarana/tanah' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
+            $controller->update($_GET['edit']);
+            return;
+        }
+        if ($this->uri === '/admin/prasarana/gedung' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
+            $controller->update($_GET['edit']);
+            return;
+        }
+        if ($this->uri === '/admin/prasarana/ruang' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             $controller->update($_GET['edit']);
             return;
         }

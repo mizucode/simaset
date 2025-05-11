@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Models/Gedung.php';
+require_once __DIR__ . '/../Models/JenisAset.php';
 
 class GedungController
 {
@@ -9,65 +10,126 @@ class GedungController
         require_once __DIR__ . "/../Views/Pages/Gedung/{$view}.php";
     }
 
-
-
     public function create()
     {
         global $conn;
         $gedungData = Gedung::getAllData($conn);
+        $jenis_aset_id = JenisAset::GetAllData($conn);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'] ?? null;
             $kode_gedung = $_POST['kode_gedung'];
             $nama_gedung = $_POST['nama_gedung'];
+            $jenis_aset_id = $_POST['jenis_aset_id'];
+            $luas = $_POST['luas'];
+            $jumlah_lantai = $_POST['jumlah_lantai'];
+            $kontruksi = $_POST['kontruksi'];
+            $lokasi = $_POST['lokasi'];
+            $kondisi = $_POST['kondisi'];
+            $unit_kepemilikan = $_POST['unit_kepemilikan'];
+            $fungsi = $_POST['fungsi'];
 
             try {
-                if ($id) {
-                    $success = Gedung::storeData(
-                        $conn,
-                        $kode_gedung,
-                        $nama_gedung
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                } else {
-                    $success = Gedung::storeData(
-                        $conn,
-                        $kode_gedung,
-                        $nama_gedung
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                }
+                $success = Gedung::storeData(
+                    $conn,
+                    $kode_gedung,
+                    $nama_gedung,
+                    $jenis_aset_id,
+                    $luas,
+                    $jumlah_lantai,
+                    $kontruksi,
+                    $lokasi,
+                    $kondisi,
+                    $unit_kepemilikan,
+                    $fungsi
+                );
+
+                $message = $success ? 'Data gedung berhasil ditambahkan.' : 'Gagal menambahkan data gedung.';
+                $_SESSION['update'] = $message;
 
                 if ($success) {
                     header('Location: /admin/prasarana/gedung');
                     exit();
-                } else {
-                    $this->renderView('create', [
-                        'gedungData' => $gedungData,
-                        'error' => 'Gagal menyimpan atau mengupdate data.'
-                    ]);
-                    return;
                 }
             } catch (PDOException $e) {
-                $this->renderView('create', [
-                    'gedungData' => $gedungData,
-                    'error' => 'Error DB: ' . $e->getMessage()
-                ]);
-                return;
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
             }
         }
 
         $this->renderView('create', [
-            'gedungData' => $gedungData
+            'gedungData' => $gedungData,
+            'jenisAsetId' => $jenis_aset_id
         ]);
+    }
+
+    public function update($id)
+    {
+        global $conn;
+        $gedung = Gedung::getById($conn, $id);
+        $jenis_aset_id = JenisAset::GetAllData($conn);
+
+        if (!$gedung) {
+            $_SESSION['error'] = 'Data gedung tidak ditemukan.';
+            header('Location: /admin/prasarana/gedung');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $kode_gedung = $_POST['kode_gedung'];
+            $nama_gedung = $_POST['nama_gedung'];
+            $jenis_aset_id = $_POST['jenis_aset_id'];
+            $luas = $_POST['luas'];
+            $jumlah_lantai = $_POST['jumlah_lantai'];
+            $kontruksi = $_POST['kontruksi'];
+            $lokasi = $_POST['lokasi'];
+            $kondisi = $_POST['kondisi'];
+            $unit_kepemilikan = $_POST['unit_kepemilikan'];
+            $fungsi = $_POST['fungsi'];
+
+            try {
+                $success = Gedung::updateData(
+                    $conn,
+                    $id,
+                    $kode_gedung,
+                    $nama_gedung,
+                    $jenis_aset_id,
+                    $luas,
+                    $jumlah_lantai,
+                    $kontruksi,
+                    $lokasi,
+                    $kondisi,
+                    $unit_kepemilikan,
+                    $fungsi
+                );
+
+                $message = $success ? 'Data gedung berhasil diperbarui.' : 'Gagal memperbarui data gedung.';
+                $_SESSION['update'] = $message;
+
+                header('Location: /admin/prasarana/gedung');
+                exit();
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('update', [
+            'gedung' => $gedung,
+            'jenisAsetId' => $jenis_aset_id
+        ]);
+    }
+
+    private function delete()
+    {
+        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+            global $conn;
+            $id = $_GET['delete'];
+            if (Gedung::deleteData($conn, $id)) {
+                $_SESSION['success'] = 'Data gedung berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data gedung.';
+            }
+            header('Location: /admin/prasarana/gedung');
+            exit();
+        }
     }
 
     public function gedung()
@@ -75,69 +137,10 @@ class GedungController
         global $conn;
         $gedungData = Gedung::getAllData($conn);
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'] ?? null;
-            $kode_gedung = $_POST['kode_gedung'];
-            $nama_gedung = $_POST['nama_gedung'];
-
-            try {
-                if ($id) {
-                    $success = Gedung::updateData(
-                        $conn,
-                        $id,
-                        $kode_gedung,
-                        $nama_gedung
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil update.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                } else {
-                    $success = Gedung::storeData(
-                        $conn,
-                        $kode_gedung,
-                        $nama_gedung
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                }
-
-                if ($success) {
-                    header('Location: /admin/prasarana/gedung');
-                    exit();
-                } else {
-                    $this->renderView('index', [
-                        'gedungData' => $gedungData,
-                        'error' => 'Gagal menyimpan atau mengupdate data.'
-                    ]);
-                    return;
-                }
-            } catch (PDOException $e) {
-                $this->renderView('index', [
-                    'gedungData' => $gedungData,
-                    'error' => 'Error DB: ' . $e->getMessage()
-                ]);
-                return;
-            }
-        }
-
-        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-            $id = $_GET['delete'];
-            if (Gedung::deleteData($conn, $id)) {
-                $_SESSION['success'] = 'Data berhasil dihapus.';
-            } else {
-                $_SESSION['error'] = 'Gagal menghapus data.';
-            }
-            header('Location: /admin/prasarana/gedung');
-            exit();
-        }
+        $this->delete();
 
         $this->renderView('index', [
-            'gedungData' => $gedungData
+            'gedungData' => $gedungData,
         ]);
     }
 }

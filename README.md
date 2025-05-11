@@ -15,23 +15,24 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 ### ✅ Selesai
 
 - **Menu Prasarana Tanah** sudah berfungsi dengan baik -> Penambahan bagian dokumen sertifikat.
+- **Menu Prasarana Gedung** sudah berfungsi dengan baik ->
+- **Menu Prasarana Ruang** sudah berfungsi dengan baik ->
 
 #### CRUD Menu:
 
-- Gedung
-- Ruang
+- Lapang
 
 ---
 
 ### 🚧 Dalam Proses
 
-- Refactor/clean code pada **Menu Gedung**
+- Refactor/clean code pada **Menu Lapang**
 
 ---
 
 ## 🛠️ Tahap Pengerjaan
 
-1. Refactor (clean code) CRUD pada **Menu Gedung**
+1. Refactor (clean code) CRUD pada **Menu Lapang**
 
 ---
 

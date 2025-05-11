@@ -8,172 +8,195 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white py-4 mb-5 px-2">
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus data ruang ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-wrapper bg-white py-4 mb-5 px-3" width="75%">
             <div class="container-fluid">
-                <?php include './app/Views/Components/helper.php'; ?>
-                <div class="row">
-                    <div class="col-12">
-                        <?php if (isset($error)) : ?>
-                            <div style="color: red; background-color: #fdd; padding: 10px; margin-bottom: 10px;">
-                                <?= htmlspecialchars($error) ?>
-                            </div>
-                        <?php endif; ?>
-
-
-                        <div class="card">
-                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center align-content-center">
-                                <h3 class="h4">Data Ruangan</h3>
-                                <a href="/admin/prasarana/ruang/tambah" class="btn btn-warning text-dark ml-auto">
-                                    <div class="text-dark d-flex flex-row align-items-center gap-2">
-                                        <i class="fas fa-plus mr-1"></i>
-                                        Tambah Data
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <?php include './app/Views/Components/helper.php'; ?>
+                        <div class="card shadow-md">
+                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
+                                <h3 class="h4 mb-0">Data Aset Ruang</h3>
+                                <a href="/admin/prasarana/ruang/tambah" class="btn btn-warning btn-sm ml-auto">
+                                    <div class="text-dark">
+                                        <i class="fas fa-plus mr-1"></i> Tambah Data
                                     </div>
                                 </a>
                             </div>
 
-                            <div class="card-body">
-                                <div class="jsgrid-wrapper">
-                                    <table class="jsgrid-table">
+                            <div class="card-body p-3">
+                                <div class="overflow-hidden">
+                                    <style>
+                                        .compact-table th,
+                                        .compact-table td {
+                                            padding-top: 0.30rem !important;
+                                            padding-bottom: 0.30rem !important;
+                                            vertical-align: middle !important;
+                                        }
+
+                                        .compact-table .btn {
+                                            padding: 0.25rem 0.5rem !important;
+                                            font-size: 0.8rem !important;
+                                        }
+                                    </style>
+                                    <table id="example1" class="table table-bordered table-responsive">
                                         <thead>
-                                            <tr class="jsgrid-header-row">
-                                                <th>No</th>
-                                                <th>Kode ruang</th>
-                                                <th>Nama ruang</th>
-                                                <th>Gedung</th>
-                                                <th>Aksi</th>
+                                            <tr class="text-center align-middle bg-gray-100">
+                                                <th class="align-middle">No</th>
+                                                <th class="align-middle">Kode Ruang</th>
+                                                <th class="align-middle">Nama Ruang</th>
+                                                <th class="align-middle">Gedung</th>
+                                                <th class="align-middle">Lantai</th>
+                                                <th class="align-middle">Luas (m²)</th>
+                                                <th class="align-middle">Kapasitas</th>
+                                                <th class="align-middle">Status</th>
+                                                <th class="align-middle">Kondisi</th>
+                                                <th class="align-middle">Fungsi</th>
+                                                <th class="align-middle">Keterangan</th>
+                                                <th class="align-middle">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($ruangData) && is_array($ruangData)) : ?>
+                                            <?php if (!empty($ruangData)) : ?>
                                                 <?php $counter = 1; ?>
                                                 <?php foreach ($ruangData as $ruang) : ?>
-                                                    <tr class="jsgrid-row">
-                                                        <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($ruang['kode_ruang'] ?? '-'); ?></td>
+                                                    <tr class="align-middle">
+                                                        <td class="text-center"><?= $counter++; ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($ruang['kode_ruang'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($ruang['nama_ruang'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($ruang['nama_gedung'] ?? '-'); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($ruang['lantai'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($ruang['luas'] ?? '-'); ?> m²</td>
+                                                        <td class="text-center"><?= htmlspecialchars($ruang['kapasitas'] ?? '-'); ?></td>
                                                         <td>
-                                                            <div class="d-flex flex-column gap-2">
-                                                                <button class="btn btn-warning btn-edit" data-toggle="modal" data-target="#modalruang"
-                                                                    data-id="<?= $ruang['id']; ?>"
-                                                                    data-kode="<?= $ruang['kode_ruang']; ?>"
-                                                                    data-nama="<?= $ruang['nama_ruang']; ?>"
-                                                                    data-gedung_id="<?= $ruang['gedung_id']; ?>">
-                                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                            <?php
+                                                            $status = htmlspecialchars($ruang['status'] ?? '-');
+                                                            $badgeClass = 'bg-gray-500';
+                                                            if ($status === 'Terpakai') {
+                                                                $badgeClass = 'bg-green-500';
+                                                            } elseif ($status === 'Kosong') {
+                                                                $badgeClass = 'bg-blue-500';
+                                                            } elseif ($status === 'Dalam Perbaikan') {
+                                                                $badgeClass = 'bg-yellow-500';
+                                                            }
+                                                            echo '<span class="' . $badgeClass . ' text-white px-3 py-1 rounded text-sm w-[120px] text-center d-inline-block">' . $status . '</span>';
+                                                            ?>
+                                                        </td>
+                                                        <td>
+                                                            <?php
+                                                            $kondisi = htmlspecialchars($ruang['kondisi_ruang'] ?? '-');
+                                                            $badgeClass = 'bg-gray-500';
+                                                            if ($kondisi === 'Baik') {
+                                                                $badgeClass = 'bg-green-500';
+                                                            } elseif ($kondisi === 'Rusak Ringan') {
+                                                                $badgeClass = 'bg-yellow-500';
+                                                            } elseif ($kondisi === 'Rusak Berat') {
+                                                                $badgeClass = 'bg-red-500';
+                                                            }
+                                                            echo '<span class="' . $badgeClass . ' text-white px-3 py-1 rounded text-sm w-[120px] text-center d-inline-block">' . $kondisi . '</span>';
+                                                            ?>
+                                                        </td>
+                                                        <td><?= htmlspecialchars($ruang['fungsi'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($ruang['keterangan'] ?? '-'); ?></td>
+                                                        <td class="text-center">
+                                                            <div class="inline-flex flex-col items-center gap-2">
+                                                                <button onclick="window.location.href='/admin/prasarana/ruang?edit=<?= $ruang['id']; ?>'" class="w-24 flex justify-center items-center rounded-lg bg-yellow-400 py-1 px-2 border border-transparent text-center text-sm text-gray-700 transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-1 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                                                                    <i class="fas fa-edit"></i> Edit
                                                                 </button>
-
-
-                                                                <a href="/admin/prasarana/ruang?delete=<?= $ruang['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                                    <i class="fas fa-trash mr-1"></i> Hapus
-                                                                </a>
+                                                                <button type="button" data-id="<?= $ruang['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="w-24 flex justify-center items-center rounded-lg bg-red-600 py-1 px-2 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-1 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                                                    <i class="fas fa-trash-alt"></i> Hapus
+                                                                </button>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>
                                                 <tr>
-                                                    <td colspan="4" class="text-center">Data tidak ditemukan</td>
+                                                    <td colspan="10" class="text-center">Data tidak ditemukan</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        </div> <!-- card -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Form -->
-        <div class="modal fade" id="modalruang" tabindex="-1" role="dialog" aria-labelledby="modalruangLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="card card-primary mb-0">
-                        <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data ruang</h3>
-                        </div>
-
-                        <form action="/admin/prasarana/ruang" method="POST">
-                            <input type="hidden" name="id" id="id">
-
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label>Kode Ruangan</label>
-                                            <input type="text" name="kode_ruang" id="kode_ruang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nama Ruangan</label>
-                                            <input type="text" name="nama_ruang" id="nama_ruang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Pilih Gedung</label>
-                                            <select name="gedung_id" id="" class="form-control" required>
-                                                <option value="" disabled selected hidden>Pilih Lokasi Gedung</option>
-                                                <?php foreach ($gedungData as $gedung): ?>
-                                                    <option value="<?= $gedung['id']; ?>"><?= $gedung['nama_gedung']; ?> - <?= $gedung['kode_gedung']; ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
-                            </div>
-                        </form>
-                    </div> <!-- /.card -->
-                </div>
-            </div>
-        </div>
-
-        <footer class="main-footer bg-white text-black">
-            <strong>&copy; 2025 <a href="#">Lpptsi</a>. Umkuningan.</strong>
-        </footer>
+        <?php include './app/Views/Components/foooter.php'; ?>
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const editButtons = document.querySelectorAll(".btn-edit");
-            const modal = document.getElementById("modalruang");
-            const modalTitle = document.getElementById("modalTitle");
-            const submitBtn = document.getElementById("submitBtn");
-            const idInput = document.getElementById("id");
-            const kodeInput = document.getElementById("kode_ruang");
-            const namaInput = document.getElementById("nama_ruang");
-            const gedungSelect = document.querySelector("select[name='gedung_id']");
+        const exportTitle = 'Data Aset Ruang';
+        const exportButtons = ['csv', 'excel', 'pdf', 'print'].map(type => ({
+            extend: type,
+            title: exportTitle
+        }));
+        exportButtons.push({
+            extend: 'colvis',
+            text: 'Tampilkan/Sembunyikan Kolom'
+        });
 
-            editButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    modalTitle.textContent = "Edit Data ruang";
-                    submitBtn.textContent = "Update Data";
-                    submitBtn.className = "btn btn-warning";
-                    idInput.value = this.dataset.id;
-                    kodeInput.value = this.dataset.kode;
-                    namaInput.value = this.dataset.nama;
+        $("#example1").DataTable({
+            responsive: true,
+            lengthChange: true,
+            ordering: false,
+            autoWidth: false,
+            buttons: exportButtons,
+            language: {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Selanjutnya",
+                    previous: "Sebelumnya"
+                },
+                zeroRecords: "Data tidak ditemukan"
+            },
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    </script>
 
-                    // Set gedung select ke value yang cocok, jika ada data-gedung_id di tombol
-                    if (this.dataset.gedung_id) {
-                        gedungSelect.value = this.dataset.gedung_id;
-                    }
-                });
-            });
+    <script>
+        $(document).ready(function() {
+            // Tangkap event klik tombol delete
+            $('button[data-target="#deleteModal"]').on('click', function() {
+                var id = $(this).data('id');
+                var deleteUrl = '/admin/prasarana/ruang?delete=' + id;
 
-            $('#modalruang').on('hidden.bs.modal', function() {
-                modalTitle.textContent = "Form Data ruang";
-                submitBtn.textContent = "Simpan";
-                submitBtn.className = "btn btn-primary";
-                document.querySelector("form").reset();
-                idInput.value = "";
+                // Set URL hapus ke tombol Hapus di modal
+                $('#deleteButton').attr('href', deleteUrl);
+
+                // Tampilkan modal
+                $('#deleteModal').modal('show');
             });
         });
     </script>
-
 </body>
 
 </html>

@@ -63,21 +63,19 @@
                                                 <th class="align-middle">Keterangan</th>
                                                 <th class="align-middle">File Sertifikat</th>
                                                 <th class="align-middle">Aksi</th>
-
                                             </tr>
-
                                         </thead>
                                         <tbody>
                                             <?php if (!empty($tanahData)) : ?>
                                                 <?php $counter = 1; ?>
                                                 <?php foreach ($tanahData as $td) : ?>
-                                                    <tr>
-                                                        <td class="text-center"><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['luas'] ?? '-'); ?> m²</td>
-                                                        <td class="text-center text-nowrap">
+                                                    <tr class="align-middle">
+                                                        <td class="text-center align-middle"><?= $counter++; ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['luas'] ?? '-'); ?> m²</td>
+                                                        <td class="text-center align-middle text-nowrap">
                                                             <?php
                                                             $jenis_aset = htmlspecialchars($td['jenis_aset'] ?? '-');
                                                             $badgeClass = 'bg-gray-500';
@@ -89,11 +87,11 @@
                                                             echo '<span class="' . $badgeClass . ' text-white px-2 py-1 rounded text-sm w-[120px] text-center d-inline-block">' . $jenis_aset . '</span>';
                                                             ?>
                                                         </td>
-                                                        <td><?= htmlspecialchars($td['lokasi'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars(date('d-m-Y', strtotime($td['tgl_pajak'])) ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['fungsi'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['keterangan'] ?? '-'); ?></td>
-                                                        <td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['lokasi'] ?? '-'); ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars(date('d-m-Y', strtotime($td['tgl_pajak'])) ?? '-'); ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['fungsi'] ?? '-'); ?></td>
+                                                        <td class="text-center align-middle"><?= htmlspecialchars($td['keterangan'] ?? '-'); ?></td>
+                                                        <td class="text-center align-middle">
                                                             <?php if (!empty($td['file_sertifikat'])): ?>
                                                                 <a href="/storage/sertifikat/<?= htmlspecialchars($td['file_sertifikat']); ?>" download class="btn btn-primary btn-sm">
                                                                     <i class="fas fa-download"></i> Download
@@ -104,27 +102,29 @@
                                                                 </div>
                                                             <?php endif; ?>
                                                         </td>
-
-                                                        <td class="flex gap-2">
-                                                            <button onclick="window.location.href='/admin/prasarana/tanah?edit=<?= $td['id']; ?>'" class="flex items-center rounded-lg bg-yellow-400 py-2 px-4 border border-transparent text-center text-sm text-gray-700 transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
-
-
-                                                                <i class=" fas fa-edit"></i>Edit
-                                                            </button>
-                                                            <button type="button" data-id="<?= $td['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="flex items-center rounded-lg bg-red-600 py-2 px-4 border border-transparent text-center text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2   disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-
-
-                                                                <i class=" fas fa-trash-alt"></i> Hapus
-                                                            </button>
-
-
+                                                        <td class="text-center align-middle">
+                                                            <div class="inline-flex flex-col items-center gap-2">
+                                                                <button
+                                                                    onclick="window.location.href='/admin/prasarana/tanah?edit=<?= $td['id']; ?>'"
+                                                                    class="w-24 flex justify-center items-center rounded-lg bg-yellow-400 py-2 px-4 border border-transparent text-sm text-gray-700 transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                                    type="button">
+                                                                    <i class="fas fa-edit"></i> Edit
+                                                                </button>
+                                                                <button
+                                                                    type="button"
+                                                                    data-id="<?= $td['id']; ?>"
+                                                                    data-toggle="modal"
+                                                                    data-target="#deleteModal"
+                                                                    class="w-24 flex justify-center items-center rounded-lg bg-red-600 py-2 px-4 border border-transparent text-sm text-white transition-all shadow-sm hover:shadow-lg focus:bg-slate-700 focus:shadow-none active:bg-slate-700 hover:bg-slate-700 hover:text-white active:shadow-none gap-2 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                                                                    <i class="fas fa-trash-alt"></i> Hapus
+                                                                </button>
+                                                            </div>
                                                         </td>
-
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>
-                                                <tr>
-                                                    <td colspan="10" class="text-center">Data tidak ditemukan</td>
+                                                <tr class="align-middle">
+                                                    <td colspan="12" class="text-center align-middle">Data tidak ditemukan</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>

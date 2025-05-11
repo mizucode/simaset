@@ -9,132 +9,138 @@ class RuangController
         extract($data);
         require_once __DIR__ . "/../Views/Pages/Ruang/{$view}.php";
     }
+
     public function create()
     {
         global $conn;
         $ruangData = Ruang::getAllData($conn);
-        $gedungData = Gedung::getAllData($conn);
+        $gedungList = Gedung::getAllData($conn);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'];
+            $gedung_id = $_POST['gedung_id'];
             $kode_ruang = $_POST['kode_ruang'];
             $nama_ruang = $_POST['nama_ruang'];
-            $gedung_id = $_POST['gedung_id'] ?? null;
+            $kapasitas = $_POST['kapasitas'] ?? null;
+            $lantai = $_POST['lantai'];
+            $luas = $_POST['luas'] ?? null;
+            $status = $_POST['status'];
+            $fungsi = $_POST['fungsi'];
+            $kondisi_ruang = $_POST['kondisi_ruang'];
+            $keterangan = $_POST['keterangan'] ?? null;
 
             try {
-                if ($id) {
-                    $success = Ruang::updateData(
-                        $conn,
-                        $id,
-                        $kode_ruang,
-                        $nama_ruang,
-                        $gedung_id
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil diperbarui.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                } else {
-                    $success = Ruang::storeData(
-                        $conn,
-                        $kode_ruang,
-                        $nama_ruang,
-                        $gedung_id
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal menambahkan data.';
-                    }
-                }
+                $success = Ruang::storeData(
+                    $conn,
+                    $gedung_id,
+                    $kode_ruang,
+                    $nama_ruang,
+                    $kapasitas,
+                    $lantai,
+                    $luas,
+                    $status,
+                    $fungsi,
+                    $kondisi_ruang,
+                    $keterangan
+                );
 
+                $message = $success ? 'Data ruang berhasil ditambahkan.' : 'Gagal menambahkan data ruang.';
+                $_SESSION['update'] = $message;
 
                 if ($success) {
                     header('Location: /admin/prasarana/ruang');
                     exit();
-                } else {
-                    $this->renderView('index', [
-                        'ruangData' => $ruangData,
-                        'error' => 'Gagal menyimpan atau mengupdate data.'
-                    ]);
-                    return;
                 }
             } catch (PDOException $e) {
-                $this->renderView('index', [
-                    'ruangData' => $ruangData,
-                    'error' => 'Error DB: ' . $e->getMessage()
-                ]);
-                return;
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
             }
         }
+
         $this->renderView('create', [
             'ruangData' => $ruangData,
-            'gedungData' => $gedungData
+            'gedungList' => $gedungList
         ]);
     }
+
+    public function update($id)
+    {
+        global $conn;
+        $ruang = Ruang::getById($conn, $id);
+        $gedungList = Gedung::getAllData($conn);
+
+        if (!$ruang) {
+            $_SESSION['error'] = 'Data ruang tidak ditemukan.';
+            header('Location: /admin/prasarana/ruang');
+            exit();
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $gedung_id = $_POST['gedung_id'];
+            $kode_ruang = $_POST['kode_ruang'];
+            $nama_ruang = $_POST['nama_ruang'];
+            $kapasitas = $_POST['kapasitas'] ?? null;
+            $lantai = $_POST['lantai'];
+            $luas = $_POST['luas'] ?? null;
+            $status = $_POST['status'];
+            $fungsi = $_POST['fungsi'];
+            $kondisi_ruang = $_POST['kondisi_ruang'];
+            $keterangan = $_POST['keterangan'] ?? null;
+
+            try {
+                $success = Ruang::updateData(
+                    $conn,
+                    $id,
+                    $gedung_id,
+                    $kode_ruang,
+                    $nama_ruang,
+                    $kapasitas,
+                    $lantai,
+                    $luas,
+                    $status,
+                    $fungsi,
+                    $kondisi_ruang,
+                    $keterangan
+                );
+
+                $message = $success ? 'Data ruang berhasil diperbarui.' : 'Gagal memperbarui data ruang.';
+                $_SESSION['update'] = $message;
+
+                header('Location: /admin/prasarana/ruang');
+                exit();
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('update', [
+            'ruang' => $ruang,
+            'gedungList' => $gedungList
+        ]);
+    }
+
+    private function delete()
+    {
+        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+            global $conn;
+            $id = $_GET['delete'];
+            if (Ruang::deleteData($conn, $id)) {
+                $_SESSION['success'] = 'Data ruang berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data ruang.';
+            }
+            header('Location: /admin/prasarana/ruang');
+            exit();
+        }
+    }
+
     public function ruang()
     {
         global $conn;
         $ruangData = Ruang::getAllData($conn);
-        $gedungData = Gedung::getAllData($conn);
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $id = $_POST['id'];
-            $kode_ruang = $_POST['kode_ruang'];
-            $nama_ruang = $_POST['nama_ruang'];
-            $gedung_id = $_POST['gedung_id'] ?? null;
+        $this->delete();
 
-            try {
-                if ($id) {
-                    $success = Ruang::updateData(
-                        $conn,
-                        $id,
-                        $kode_ruang,
-                        $nama_ruang,
-                        $gedung_id
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil diperbarui.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal memperbarui data.';
-                    }
-                } else {
-                    $success = Ruang::storeData(
-                        $conn,
-                        $kode_ruang,
-                        $nama_ruang,
-                        $gedung_id
-                    );
-                    if ($success) {
-                        $_SESSION['update'] = 'Data berhasil ditambahkan.';
-                    } else {
-                        $_SESSION['error'] = 'Gagal menambahkan data.';
-                    }
-                }
-
-
-                if ($success) {
-                    header('Location: /admin/prasarana/ruang');
-                    exit();
-                } else {
-                    $this->renderView('index', [
-                        'ruangData' => $ruangData,
-                        'error' => 'Gagal menyimpan atau mengupdate data.'
-                    ]);
-                    return;
-                }
-            } catch (PDOException $e) {
-                $this->renderView('index', [
-                    'ruangData' => $ruangData,
-                    'error' => 'Error DB: ' . $e->getMessage()
-                ]);
-                return;
-            }
-        }
         $this->renderView('index', [
             'ruangData' => $ruangData,
-            'gedungData' =>   $gedungData
         ]);
     }
 }
