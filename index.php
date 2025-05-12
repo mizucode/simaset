@@ -38,8 +38,10 @@ class Router
         '/admin/sarana/bergerak' => ['controller' => 'SaranaBergerakController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
         '/admin/sarana/barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
-        '/admin/sarana/mebeler' => ['controller' => 'BarangMebelerController', 'method' => 'mebeler', 'auth' => true],
-        '/admin/sarana/atk' => ['controller' => 'BarangAtkController', 'method' => 'atk', 'auth' => true],
+        '/admin/sarana/mebelair' => ['controller' => 'SaranaMebelairController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/mebelair/tambah' => ['controller' => 'SaranaMebelairController', 'method' => 'create', 'auth' => true],
+        '/admin/sarana/atk' => ['controller' => 'SaranaATKController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/atk/tambah' => ['controller' => 'SaranaATKController', 'method' => 'create', 'auth' => true],
         '/admin/sarana/elektronik' => ['controller' => 'BarangElektronikController', 'method' => 'elektronik', 'auth' => true],
 
         // Barang routes
@@ -109,7 +111,8 @@ class Router
             '/admin/prasarana/gedung',
             '/admin/prasarana/ruang',
             '/admin/prasarana/lapang',
-            '/admin/sarana/bergerak'
+            '/admin/sarana/bergerak',
+            '/admin/sarana/mebelair'
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {

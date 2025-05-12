@@ -8,122 +8,119 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white py-4 mb-5 px-2">
-            <div class="container-fluid">
-                <?php include './app/Views/Components/helper.php'; ?>
-
-                <!-- Flash Messages -->
-
-                <?php var_dump($_POST); ?>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card card-success card-outline">
-                            <div class="card-header">
-                                <h3 class="card-title">Formulir Tambah Data Barang mebeler</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                <form action="/admin/sarana/mebeler" method="POST">
-                                    <input type="hidden" name="id" id="form_id" value="">
-                                    <input type="hidden" name="kategori_id" value="2">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Kode Barang</label>
-                                                    <input type="text" name="kode_barang_mebeler" id="kode_barang_mebeler" class="form-control" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Nama Barang</label>
-                                                    <input type="text" name="nama_barang_mebeler" id="nama_barang_mebeler" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Pilih Jenis Barang</label>
-                                                    <select name="barang_id" id="barang_id" class="form-control" required>
-                                                        <option value="" disabled selected hidden>Pilih Barang</option>
-                                                        <?php foreach ($barangData as $barang) : ?>
-                                                            <?php if ($barang['kategori_id'] == 2) : ?>
-                                                                <option value="<?= $barang['id']; ?>">
-                                                                    <?= htmlspecialchars($barang['kode_barang']); ?> - <?= htmlspecialchars($barang['nama_barang']); ?>
-                                                                </option>
-                                                            <?php endif; ?>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                        <button type="submit" class="btn btn-primary">Simpan</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus data barang mebelair ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
+        <div class="content-wrapper bg-white py-4 mb-5 px-3" width="75%">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <?php include './app/Views/Components/helper.php'; ?>
+                        <div class="card shadow-md">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Data Barang mebeler</h3>
+                                <h3 class="h4 mb-0">Data Barang Mebelair</h3>
+                                <a href="/admin/sarana/mebelair/tambah" class="btn btn-warning btn-sm ml-auto">
+                                    <div class="text-dark">
+                                        <i class="fas fa-plus mr-1"></i> Tambah Data
+                                    </div>
+                                </a>
                             </div>
 
-                            <div class="card-body">
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-striped">
+                            <div class="card-body p-3">
+                                <div class="overflow-hidden">
+                                    <style>
+                                        .compact-table th,
+                                        .compact-table td {
+                                            padding-top: 0.30rem !important;
+                                            padding-bottom: 0.30rem !important;
+                                            vertical-align: middle !important;
+                                        }
+
+                                        .compact-table .btn {
+                                            padding: 0.25rem 0.5rem !important;
+                                            font-size: 0.8rem !important;
+                                        }
+                                    </style>
+                                    <table id="example1" class="table table-bordered table-responsive">
                                         <thead>
-                                            <tr>
+                                            <tr class="text-center align-middle bg-gray-100">
                                                 <th>No</th>
-                                                <th>Kode Barang</th>
+                                                <th>No Registrasi</th>
                                                 <th>Nama Barang</th>
-                                                <th>Kategori</th>
+                                                <th>Jenis</th>
+                                                <th>Merk</th>
+                                                <th>Jumlah</th>
+                                                <th>Satuan</th>
+                                                <th>Kondisi</th>
+                                                <th>Sumber</th>
+                                                <th>Keterangan</th>
                                                 <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($barangMebelerData)) : ?>
-                                                <?php $counter = 2; ?>
-                                                <?php foreach ($barangMebelerData as $mebeler) : ?>
-                                                    <tr>
-                                                        <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($mebeler['kode_barang_mebeler'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($mebeler['nama_barang_mebeler'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($mebeler['nama_barang'] ?? '-'); ?></td>
+                                            <?php if (!empty($saranaData)) : ?>
+                                                <?php $counter = 1; ?>
+                                                <?php foreach ($saranaData as $barang) : ?>
+                                                    <tr class="align-middle">
+                                                        <td class="text-center"><?= $counter++; ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['merk'] ?? '-'); ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($barang['jumlah'] ?? '0'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['satuan'] ?? 'Unit'); ?></td>
                                                         <td>
-                                                            <div class="d-flex gap-2">
-                                                                <button class="btn btn-warning btn-edit"
-                                                                    data-id="<?= $mebeler['id']; ?>"
-                                                                    data-kode_barang="<?= $mebeler['kode_barang_mebeler']; ?>"
-                                                                    data-nama_barang="<?= $mebeler['nama_barang_mebeler']; ?>"
-                                                                    data-barang_id="<?= $mebeler['barang_id']; ?>"
-                                                                    data-kategori_id="<?= $mebeler['kategori_id']; ?>">
-                                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                            <?php
+                                                            $kondisi = htmlspecialchars($barang['kondisi'] ?? '-');
+                                                            $badgeClass = 'bg-gray-500';
+                                                            if (strpos($kondisi, 'Baik') !== false) {
+                                                                $badgeClass = 'bg-green-500';
+                                                            } elseif (strpos($kondisi, 'Rusak Ringan') !== false) {
+                                                                $badgeClass = 'bg-yellow-500';
+                                                            } elseif (strpos($kondisi, 'Rusak Berat') !== false) {
+                                                                $badgeClass = 'bg-red-500';
+                                                            }
+                                                            echo '<span class="' . $badgeClass . ' text-white px-3 py-1 rounded text-sm w-[120px] text-center d-inline-block">' . $kondisi . '</span>';
+                                                            ?>
+                                                        </td>
+                                                        <td><?= htmlspecialchars($barang['sumber'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars(substr($k = $barang['keterangan'] ?? '-', 0, 30) . (is_string($k) && strlen($k) > 30 ? '...' : '')); ?></td>
+                                                        <td class="text-center">
+                                                            <div class="inline-flex flex-col items-center gap-2">
+                                                                <button onclick="window.location.href='/admin/sarana/mebelair?edit=<?= $barang['id']; ?>'" class="w-24 flex justify-center items-center rounded-lg bg-yellow-400 py-1 px-2 text-sm text-gray-700 hover:bg-slate-700 hover:text-white">
+                                                                    <i class="fas fa-edit"></i> Edit
                                                                 </button>
-
-                                                                <a href="/admin/sarana/mebeler?delete=<?= $mebeler['id']; ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                                    <i class="fas fa-trash mr-1"></i> Hapus
-                                                                </a>
+                                                                <button type="button" data-id="<?= $barang['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="w-24 flex justify-center items-center rounded-lg bg-red-600 py-1 px-2 text-sm text-white hover:bg-slate-700">
+                                                                    <i class="fas fa-trash-alt"></i> Hapus
+                                                                </button>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>
                                                 <tr>
-                                                    <td colspan="5" class="text-center">Data tidak ditemukan</td>
+                                                    <td colspan="11" class="text-center">Data tidak ditemukan</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
-
                                     </table>
                                 </div>
                             </div>
@@ -133,41 +130,50 @@
             </div>
         </div>
 
-        <footer class="main-footer bg-white text-black">
-            <strong>&copy; 2025 <a href="#">Lpptsi</a>. Umkuningan.</strong>
-        </footer>
+        <?php include './app/Views/Components/foooter.php'; ?>
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const editButtons = document.querySelectorAll(".btn-edit");
+        const exportTitle = 'Data Barang Mebelair';
+        const exportButtons = ['csv', 'excel', 'pdf', 'print'].map(type => ({
+            extend: type,
+            title: exportTitle
+        }));
+        exportButtons.push({
+            extend: 'colvis',
+            text: 'Tampilkan/Sembunyikan Kolom'
+        });
 
-            editButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    // Set form values
-                    document.getElementById("form_id").value = this.dataset.id;
-                    document.getElementById("kode_barang_mebeler").value = this.dataset.kode_barang;
-                    document.getElementById("nama_barang_mebeler").value = this.dataset.nama_barang;
-                    document.getElementById("barang_id").value = this.dataset.barang_id;
-                    document.getElementById("kategori_id").value = this.dataset.kategori_id || "2"; // Default to 2 if not set
+        $("#example1").DataTable({
+            responsive: true,
+            lengthChange: true,
+            ordering: false,
+            autoWidth: false,
+            buttons: exportButtons,
+            language: {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Selanjutnya",
+                    previous: "Sebelumnya"
+                },
+                zeroRecords: "Data tidak ditemukan"
+            },
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    </script>
 
-                    // Change form action to update
-                    document.querySelector("form").action = "/admin/sarana/mebeler/update";
-
-                    // Scroll to form
-                    document.querySelector('.card-success').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
-
-            // Reset form when clicking cancel
-            document.querySelector('[data-dismiss="modal"]').addEventListener('click', function() {
-                document.querySelector("form").reset();
-                document.getElementById("form_id").value = "";
-                document.querySelector("form").action = "/admin/sarana/mebeler";
+    <script>
+        $(document).ready(function() {
+            $('button[data-target="#deleteModal"]').on('click', function() {
+                var id = $(this).data('id');
+                var deleteUrl = '/admin/sarana/mebelair?delete=' + id;
+                $('#deleteButton').attr('href', deleteUrl);
+                $('#deleteModal').modal('show');
             });
         });
     </script>

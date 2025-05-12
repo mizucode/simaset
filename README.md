@@ -29,6 +29,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 ### 🚧 Dalam Proses
 
 - Refactor/clean code pada **Menu Mebeler**
+- Refactor/clean code pada **Menu ATK**
 
 ---
 

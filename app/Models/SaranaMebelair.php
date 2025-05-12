@@ -1,6 +1,6 @@
 <?php
 
-class BarangMebelerController
+class SaranaMebelair
 {
     /**
      * Mendapatkan semua data barang mebelair dengan join ke tabel terkait
@@ -10,15 +10,11 @@ class BarangMebelerController
      */
     public static function getAllData($conn)
     {
-        $query = "SELECT sm.*, 
-                  kb.nama_kategori, 
-                  b.nama_barang, 
-                  kb.kode_barang,
-                  kond.nama_kondisi
-                  FROM sarana_mebelair sm
-                  LEFT JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
-                  LEFT JOIN barang b ON sm.barang_id = b.id
-                  LEFT JOIN kondisi_barang kond ON sm.kondisi_barang_id = kond.id";
+        $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+                  FROM sarana_mebelair sb
+                  JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
+                  JOIN barang b ON sb.barang_id = b.id
+                  JOIN kondisi_barang kond ON sb.kondisi_barang_id = kond.id";
 
         try {
             $stmt = $conn->query($query);

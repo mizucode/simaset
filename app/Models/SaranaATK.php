@@ -1,39 +1,35 @@
 <?php
 
-class BarangMebelerController
+class SaranaATK
 {
     /**
-     * Mendapatkan semua data barang mebelair dengan join ke tabel terkait
+     * Mendapatkan semua data barang ATK dengan join ke tabel terkait
      * 
      * @param PDO $conn Koneksi database
      * @return array|string Array data atau pesan error
      */
     public static function getAllData($conn)
     {
-        $query = "SELECT sm.*, 
-                  kb.nama_kategori, 
-                  b.nama_barang, 
-                  kb.kode_barang,
-                  kond.nama_kondisi
-                  FROM sarana_mebelair sm
-                  LEFT JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
-                  LEFT JOIN barang b ON sm.barang_id = b.id
-                  LEFT JOIN kondisi_barang kond ON sm.kondisi_barang_id = kond.id";
+        $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+                  FROM sarana_atk sa
+                  JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+                  JOIN barang b ON sa.barang_id = b.id
+                  JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id";
 
         try {
             $stmt = $conn->query($query);
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log("Error in BarangMebelair::getAllData - " . $e->getMessage());
+            error_log("Error in SaranaATK::getAllData - " . $e->getMessage());
             return [];
         }
     }
 
     /**
-     * Menyimpan data baru barang mebelair
+     * Menyimpan data baru barang ATK
      * 
      * @param PDO $conn Koneksi database
-     * @param array $data Data barang mebelair
+     * @param array $data Data barang ATK
      * @return bool|string True jika berhasil, pesan error jika gagal
      */
     public static function storeData(
@@ -45,7 +41,6 @@ class BarangMebelerController
         $nama_detail_barang,
         $merk,
         $spesifikasi,
-        $sumber,
         $jumlah,
         $satuan,
         $keterangan
@@ -58,7 +53,6 @@ class BarangMebelerController
             'nama_detail_barang' => $nama_detail_barang,
             'merk' => $merk,
             'spesifikasi' => $spesifikasi,
-            'sumber' => $sumber,
             'jumlah' => $jumlah,
             'satuan' => $satuan,
             'keterangan' => $keterangan
@@ -67,22 +61,22 @@ class BarangMebelerController
         $columns = implode(', ', array_keys($fields));
         $placeholders = ':' . implode(', :', array_keys($fields));
 
-        $query = "INSERT INTO sarana_mebelair ($columns) VALUES ($placeholders)";
+        $query = "INSERT INTO sarana_atk ($columns) VALUES ($placeholders)";
 
         try {
             $stmt = $conn->prepare($query);
             return $stmt->execute($fields);
         } catch (PDOException $e) {
-            error_log("Error in BarangMebelair::storeData - " . $e->getMessage());
+            error_log("Error in SaranaATK::storeData - " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Memperbarui data barang mebelair
+     * Memperbarui data barang ATK
      * 
      * @param PDO $conn Koneksi database
-     * @param int $id ID barang mebelair
+     * @param int $id ID barang ATK
      * @param array $data Data yang akan diupdate
      * @return bool|string True jika berhasil, pesan error jika gagal
      */
@@ -96,12 +90,11 @@ class BarangMebelerController
         $nama_detail_barang,
         $merk,
         $spesifikasi,
-        $sumber,
         $jumlah,
         $satuan,
         $keterangan
     ) {
-        $query = "UPDATE sarana_mebelair SET
+        $query = "UPDATE sarana_atk SET
             kategori_barang_id = :kategori_barang_id,
             barang_id = :barang_id,
             kondisi_barang_id = :kondisi_barang_id,
@@ -109,7 +102,6 @@ class BarangMebelerController
             nama_detail_barang = :nama_detail_barang,
             merk = :merk,
             spesifikasi = :spesifikasi,
-            sumber = :sumber,
             jumlah = :jumlah,
             satuan = :satuan,
             keterangan = :keterangan,
@@ -125,51 +117,50 @@ class BarangMebelerController
             $stmt->bindParam(':nama_detail_barang', $nama_detail_barang);
             $stmt->bindParam(':merk', $merk);
             $stmt->bindParam(':spesifikasi', $spesifikasi);
-            $stmt->bindParam(':sumber', $sumber);
             $stmt->bindParam(':jumlah', $jumlah);
             $stmt->bindParam(':satuan', $satuan);
             $stmt->bindParam(':keterangan', $keterangan);
             $stmt->bindParam(':id', $id);
             return $stmt->execute();
         } catch (PDOException $e) {
-            error_log("Error in BarangMebelair::updateData - " . $e->getMessage());
+            error_log("Error in SaranaATK::updateData - " . $e->getMessage());
             return false;
         }
     }
 
     /**
-     * Menghapus data barang mebelair
+     * Menghapus data barang ATK
      * 
      * @param PDO $conn Koneksi database
-     * @param int $id ID barang mebelair
+     * @param int $id ID barang ATK
      * @return bool|string True jika berhasil, pesan error jika gagal
      */
     public static function deleteData($conn, $id)
     {
-        $query = "DELETE FROM sarana_mebelair WHERE id = :id";
+        $query = "DELETE FROM sarana_atk WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
 
     /**
-     * Mendapatkan data barang mebelair berdasarkan ID
+     * Mendapatkan data barang ATK berdasarkan ID
      * 
      * @param PDO $conn Koneksi database
-     * @param int $id ID barang mebelair
+     * @param int $id ID barang ATK
      * @return array|false Array data atau false jika tidak ditemukan
      */
     public static function getById($conn, $id)
     {
-        $query = "SELECT sm.*, 
+        $query = "SELECT sa.*, 
                  kb.nama_kategori, 
                  b.nama_barang, 
                  kond.nama_kondisi
-                 FROM sarana_mebelair sm
-                 LEFT JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
-                 LEFT JOIN barang b ON sm.barang_id = b.id
-                 LEFT JOIN kondisi_barang kond ON sm.kondisi_barang_id = kond.id
-                 WHERE sm.id = :id";
+                 FROM sarana_atk sa
+                 LEFT JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+                 LEFT JOIN barang b ON sa.barang_id = b.id
+                 LEFT JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
+                 WHERE sa.id = :id";
 
         try {
             $stmt = $conn->prepare($query);
@@ -177,7 +168,7 @@ class BarangMebelerController
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log("Error in BarangMebelair::getById - " . $e->getMessage());
+            error_log("Error in SaranaATK::getById - " . $e->getMessage());
             return false;
         }
     }

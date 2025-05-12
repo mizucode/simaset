@@ -67,8 +67,8 @@
                         <li class="nav-item"><a href="/admin/sarana/bergerak" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Bergerak</p>
                             </a></li>
-                        <li class="nav-item"><a href="/admin/sarana/mebeler" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
-                                <p>Mebeler</p>
+                        <li class="nav-item"><a href="/admin/sarana/mebelair" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
+                                <p>Mebelair</p>
                             </a></li>
                         <li class="nav-item"><a href="/admin/sarana/atk" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Alat Tulis Kantor</p>
