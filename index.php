@@ -35,7 +35,8 @@ class Router
         '/admin/prasarana/lapang/tambah' => ['controller' => 'LapangController', 'method' => 'create', 'auth' => true],
 
         // Sarana routes
-        '/admin/sarana/bergerak' => ['controller' => 'BarangBergerakController', 'method' => 'bergerak', 'auth' => true],
+        '/admin/sarana/bergerak' => ['controller' => 'SaranaBergerakController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
         '/admin/sarana/barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
         '/admin/sarana/mebeler' => ['controller' => 'BarangMebelerController', 'method' => 'mebeler', 'auth' => true],
         '/admin/sarana/atk' => ['controller' => 'BarangAtkController', 'method' => 'atk', 'auth' => true],
@@ -103,18 +104,19 @@ class Router
         $params = $config['params'] ?? [];
 
         // Handle query parameters for specific cases
-        if ($this->uri === '/admin/prasarana/tanah' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
+        $allowedUris = [
+            '/admin/prasarana/tanah',
+            '/admin/prasarana/gedung',
+            '/admin/prasarana/ruang',
+            '/admin/prasarana/lapang',
+            '/admin/sarana/bergerak'
+        ];
+
+        if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             $controller->update($_GET['edit']);
             return;
         }
-        if ($this->uri === '/admin/prasarana/gedung' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-            $controller->update($_GET['edit']);
-            return;
-        }
-        if ($this->uri === '/admin/prasarana/ruang' && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-            $controller->update($_GET['edit']);
-            return;
-        }
+
 
         call_user_func_array([$controller, $method], $params);
     }
