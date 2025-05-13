@@ -19,50 +19,38 @@
 
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Ini Index</h3>
+                                <h3 class="h4">Daftar Seluruh Barang</h3>
                             </div>
 
                             <div class="card-body">
-                                <div class="jsgrid-wrapper">
-                                    <table class="jsgrid-table">
-                                        <thead>
-                                            <tr class="jsgrid-header-row">
-                                                <th>No</th>
-                                                <th>Kode Barang</th>
-                                                <th>Nama Barang</th>
-                                                <th>Kategori</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-
-                                            <?php if (!empty($allBarang)) : ?>
-                                                <?php $counter = 1; ?>
-                                                <?php foreach ($allBarang as $barang) : ?>
-                                                    <tr class="jsgrid-row">
-                                                        <td><?= $counter++; ?></td>
-                                                        <td>
-                                                            <?= htmlspecialchars(
-                                                                !empty($barang['spesifikasi'])
-                                                                    ? $barang['spesifikasi']
-                                                                    : (!empty($barang['nama_barang_bergerak'])
-                                                                        ? $barang['nama_barang_bergerak']
-                                                                        : '-')
-                                                            ); ?>
-                                                        </td>
-                                                        <td><?= htmlspecialchars($barang['jumlah'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($barang['merk'] ?? '-'); ?></td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else : ?>
-                                                <!-- Tampilkan jika kosong -->
-                                                <td colspan="8" class="text-center">Data tidak ditemukan</td>
-                                            <?php endif; ?>
-
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Kode Barang</th>
+                                            <th>Nama Barang</th>
+                                            <th>Kategori</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if (!empty($jenisBarang)) : ?>
+                                            <?php $counter = 1; ?>
+                                            <?php foreach ($jenisBarang as $barang) : ?>
+                                                <tr>
+                                                    <td><?= $counter++; ?></td>
+                                                    <td><?= htmlspecialchars($barang['kode_barang'] ?? '-'); ?></td>
+                                                    <td><?= htmlspecialchars($barang['nama_barang'] ?? '-'); ?></td>
+                                                    <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td> <!-- Perbaikan di sini -->
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else : ?>
                                             <tr>
+                                                <td colspan="4" class="text-center">Data tidak ditemukan</td>
                                             </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        <?php endif; ?>
+                                    </tbody>
+                                </table>
+
                             </div>
                         </div> <!-- card -->
                     </div>
@@ -100,7 +88,6 @@
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
-
                                     </div>
                                 </div> <!-- /.card-body -->
                                 <div class="modal-footer">
@@ -121,6 +108,15 @@
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "stripe": false
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             const editButtons = document.querySelectorAll(".btn-edit");
 
@@ -133,9 +129,6 @@
                     document.getElementById("kode_barang").value = this.dataset.kode;
                     document.getElementById("nama_barang").value = this.dataset.nama;
                     document.getElementById("kategori_id").value = this.dataset.kategori;
-                    document.getElementById("tahun_perolehan").value = this.dataset.tahun;
-                    document.getElementById("kondisi_id").value = this.dataset.kondisi;
-                    document.getElementById("jumlah").value = this.dataset.jumlah;
                 });
             });
 

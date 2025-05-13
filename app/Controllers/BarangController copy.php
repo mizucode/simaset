@@ -2,10 +2,8 @@
 require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/KategoriBarang.php';
-require_once __DIR__ . '/../Models/SaranaBergerak.php';
-require_once __DIR__ . '/../Models/SaranaMebelair.php';
-require_once __DIR__ . '/../Models/SaranaATK.php';
-require_once __DIR__ . '/../Models/SaranaElektronik.php';
+require_once __DIR__ . '/../Models/BarangElektronik.php';
+require_once __DIR__ . '/../Models/BarangBergerak.php';
 
 class BarangController
 {
@@ -75,18 +73,15 @@ class BarangController
         ]);
     }
 
-    public function indexDaftarBarang()
+    public function daftarBarang()
     {
         global $conn;
-        $barangBergerak = SaranaBergerak::getAllData($conn);
-        $barangMebelair = SaranaMebelair::getAllData($conn);
-        $barangATK = SaranaATK::getAllData($conn);
-        $barangElektronik = SaranaElektronik::getAllData($conn);
+        $barangElektronik = BarangElektronik::getAllData($conn);
+        $barangBergerak = BarangBergerak::getAllData($conn);
 
+        $allBarang = array_merge($barangElektronik, $barangBergerak);
 
-        $allBarang = array_merge($barangElektronik, $barangBergerak, $barangATK, $barangMebelair);
-
-        $this->renderView('indexDaftarBarang', [
+        $this->renderView('index', [
             'allBarang' => $allBarang
         ]);
     }

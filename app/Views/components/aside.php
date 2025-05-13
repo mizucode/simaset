@@ -92,6 +92,9 @@
                         <li class="nav-item"><a href="/admin/barang/daftar-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Daftar Barang</p>
                             </a></li>
+                        <li class="nav-item"><a href="/admin/barang/jenis-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
+                                <p>Jenis Barang</p>
+                            </a></li>
                         <li class="nav-item"><a href="/admin/barang/kategori-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Kategori Barang</p>
                             </a></li>

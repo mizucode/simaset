@@ -16,3 +16,5 @@ require_once __DIR__ . '/../app/Controllers/BarangAtkController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaBergerakController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaMebelairController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaATKController.php';
+require_once __DIR__ . '/../app/Controllers/SaranaElektronikController.php';
+require_once __DIR__ . '/../app/Controllers/JenisBarangController.php';

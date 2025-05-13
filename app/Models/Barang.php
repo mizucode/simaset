@@ -5,10 +5,9 @@ class Barang
     // Method untuk mengambil semua data barang
     public static function getAllData($conn)
     {
-        $query = "SELECT b.*, kb.nama_kategori, k.nama_kondisi 
+        $query = "SELECT b.*, kb.nama_kategori
                   FROM barang b
-                  LEFT JOIN kategori_barang kb ON b.kategori_id = kb.id
-                  LEFT JOIN kondisi_barang k ON b.kondisi_id = k.id";
+                  LEFT JOIN kategori_barang kb ON b.kategori_id = kb.id";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();

@@ -34,18 +34,30 @@ class Router
         '/admin/prasarana/lapang' => ['controller' => 'LapangController', 'method' => 'lapang', 'auth' => true],
         '/admin/prasarana/lapang/tambah' => ['controller' => 'LapangController', 'method' => 'create', 'auth' => true],
 
-        // Sarana routes
+        // Sarana - Barang
+        '/admin/sarana/barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
+
+
+        // Sarana - Bergerak
         '/admin/sarana/bergerak' => ['controller' => 'SaranaBergerakController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
-        '/admin/sarana/barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
+
+        // Sarana - Mebelair
         '/admin/sarana/mebelair' => ['controller' => 'SaranaMebelairController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/mebelair/tambah' => ['controller' => 'SaranaMebelairController', 'method' => 'create', 'auth' => true],
+
+        // Sarana - ATK
         '/admin/sarana/atk' => ['controller' => 'SaranaATKController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/atk/tambah' => ['controller' => 'SaranaATKController', 'method' => 'create', 'auth' => true],
-        '/admin/sarana/elektronik' => ['controller' => 'BarangElektronikController', 'method' => 'elektronik', 'auth' => true],
+
+        // Sarana - Elektronik
+        '/admin/sarana/elektronik' => ['controller' => 'SaranaElektronikController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/elektronik/tambah' => ['controller' => 'SaranaElektronikController', 'method' => 'create', 'auth' => true],
 
         // Barang routes
-        '/admin/barang/daftar-barang' => ['controller' => 'BarangController', 'method' => 'daftarBarang', 'auth' => true],
+
+        '/admin/barang/daftar-barang' => ['controller' => 'BarangController', 'method' => 'indexDaftarBarang', 'auth' => true],
+        '/admin/barang/jenis-barang' => ['controller' => 'JenisBarangController', 'method' => 'index', 'auth' => true],
         '/admin/barang/kategori-barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
         '/admin/barang/kategori-barang/tambah' => ['controller' => 'BarangController', 'method' => 'create', 'auth' => true],
 
@@ -113,7 +125,8 @@ class Router
             '/admin/prasarana/lapang',
             '/admin/sarana/bergerak',
             '/admin/sarana/mebelair',
-            '/admin/sarana/atk'
+            '/admin/sarana/atk',
+            '/admin/sarana/elektronik'
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
