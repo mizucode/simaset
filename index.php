@@ -112,7 +112,8 @@ class Router
             '/admin/prasarana/ruang',
             '/admin/prasarana/lapang',
             '/admin/sarana/bergerak',
-            '/admin/sarana/mebelair'
+            '/admin/sarana/mebelair',
+            '/admin/sarana/atk'
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {

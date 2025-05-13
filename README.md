@@ -19,23 +19,24 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 - **Menu Prasarana Ruang** sudah berfungsi dengan baik ->
 - **Menu Prasarana Lapang** sudah berfungsi dengan baik ->
 - **Menu Sarana Barang Bergerak** sudah berfungsi dengan baik ->
+- **Menu Sarana Barang Mebelair** sudah berfungsi dengan baik ->
+- **Menu Sarana Barang ATK** sudah berfungsi dengan baik ->
 
 #### CRUD Menu:
 
-- Mebeler
+- Elektronik
 
 ---
 
 ### 🚧 Dalam Proses
 
-- Refactor/clean code pada **Menu Mebeler**
-- Refactor/clean code pada **Menu ATK**
+- Refactor/clean code pada **Menu Elektronik**
 
 ---
 
 ## 🛠️ Tahap Pengerjaan
 
-1. Refactor (clean code) CRUD pada **Menu Mebeler**
+1. Refactor (clean code) CRUD pada **Menu Elektronik**
 
 ---
 
