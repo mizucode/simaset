@@ -58,6 +58,7 @@ class Router
 
         '/admin/barang/daftar-barang' => ['controller' => 'BarangController', 'method' => 'indexDaftarBarang', 'auth' => true],
         '/admin/barang/jenis-barang' => ['controller' => 'JenisBarangController', 'method' => 'index', 'auth' => true],
+        '/admin/barang/jenis-barang/tambah' => ['controller' => 'JenisBarangController', 'method' => 'create', 'auth' => true],
         '/admin/barang/kategori-barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
         '/admin/barang/kategori-barang/tambah' => ['controller' => 'BarangController', 'method' => 'create', 'auth' => true],
 
@@ -126,7 +127,8 @@ class Router
             '/admin/sarana/bergerak',
             '/admin/sarana/mebelair',
             '/admin/sarana/atk',
-            '/admin/sarana/elektronik'
+            '/admin/sarana/elektronik',
+            '/admin/barang/jenis-barang'
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {

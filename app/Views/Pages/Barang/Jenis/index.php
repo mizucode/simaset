@@ -8,136 +8,137 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white py-4 mb-5 px-2">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-
-                        <?php if (!empty($error)) : ?>
-                            <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
-                        <?php endif; ?>
-
-                        <div class="card">
-                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Daftar Seluruh Barang</h3>
-                            </div>
-
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Kode Barang</th>
-                                            <th>Nama Barang</th>
-                                            <th>Kategori</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php if (!empty($jenisBarang)) : ?>
-                                            <?php $counter = 1; ?>
-                                            <?php foreach ($jenisBarang as $barang) : ?>
-                                                <tr>
-                                                    <td><?= $counter++; ?></td>
-                                                    <td><?= htmlspecialchars($barang['kode_barang'] ?? '-'); ?></td>
-                                                    <td><?= htmlspecialchars($barang['nama_barang'] ?? '-'); ?></td>
-                                                    <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td> <!-- Perbaikan di sini -->
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data tidak ditemukan</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                    </tbody>
-                                </table>
-
-                            </div>
-                        </div> <!-- card -->
+        <!-- Modal Konfirmasi Hapus -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Apakah Anda yakin ingin menghapus data jenis barang ini?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Form -->
-        <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog" aria-labelledby="modalBarangLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="card card-primary mb-0">
-                        <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data Barang</h3>
-                        </div>
-                        <form action="/admin/barang/daftar-barang" method="POST">
-                            <input type="hidden" name="id" id="id">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Kode Kategori Barang</label>
-                                            <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nama Kategori</label>
-                                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Jenis Kategori</label>
-                                            <select name="kategori_id" id="kategori_id" class="form-control" required>
-                                                <option value="">Pilih Kategori</option>
-                                                <?php foreach ($kategoriBarang as $kategori) : ?>
-                                                    <option value="<?= $kategori['id']; ?>"><?= htmlspecialchars($kategori['nama_kategori']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
+        <div class="content-wrapper bg-white py-4 mb-5 px-3">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-12">
+                        <?php include './app/Views/Components/helper.php'; ?>
+
+
+                        <?php if (!empty($errorMessage)) : ?>
+                            <div class="alert alert-danger">
+                                <?php echo htmlspecialchars($errorMessage); ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="card shadow-md">
+                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
+                                <h3 class="h4 mb-0">Data Jenis Barang</h3>
+                                <a href="/admin/barang/jenis-barang/tambah" class="btn btn-warning btn-sm ml-auto">
+                                    <div class="text-dark">
+                                        <i class="fas fa-plus mr-1"></i> Tambah Data
                                     </div>
-                                </div> <!-- /.card-body -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
+                                </a>
+                            </div>
+
+                            <div class="card-body p-3">
+                                <div class="table-responsive">
+                                    <table id="example1" class="table table-bordered table-striped table-hover w-100">
+                                        <thead class="bg-gray-100">
+                                            <tr class="text-center align-middle">
+                                                <th width="5%">No</th>
+                                                <th width="15%">Kode Barang</th>
+                                                <th width="30%">Nama Barang</th>
+                                                <th width="20%">Kategori</th>
+                                                <th width="30%">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (!empty($jenisBarangData)) : ?>
+                                                <?php $counter = 1; ?>
+                                                <?php foreach ($jenisBarangData as $barang) : ?>
+                                                    <tr class="align-middle">
+                                                        <td class="text-center"><?= $counter++; ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($barang['kode_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td>
+                                                        <td class="text-center">
+                                                            <div class="d-flex justify-content-center gap-2">
+                                                                <button onclick="window.location.href='/admin/barang/jenis-barang?edit=<?= $barang['id']; ?>'" class="btn btn-warning btn-sm">
+                                                                    <i class="fas fa-edit mr-1"></i> Edit
+                                                                </button>
+                                                                <button type="button" data-id="<?= $barang['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm">
+                                                                    <i class="fas fa-trash-alt mr-1"></i> Hapus
+                                                                </button>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else : ?>
+                                                <tr>
+                                                    <td colspan="5" class="text-center">Data tidak ditemukan</td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
                                 </div>
-                        </form>
-                    </div> <!-- /.card -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
+        <?php include './app/Views/Components/foooter.php'; ?>
     </div>
-    <footer class="main-footer bg-white text-black">
-        <strong>&copy; 2025 <a href="#">Lpptsi</a>. Umkuningan.</strong>
-    </footer>
 
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "stripe": false
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        const exportTitle = 'Data Jenis Barang';
+
+        $("#example1").DataTable({
+            responsive: true,
+            lengthChange: true,
+            ordering: false,
+            autoWidth: false,
+            dom: '<"row"<"col-md-6"B><"col-md-6"f>>rt<"row"<"col-md-6"l><"col-md-6"p>>',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            language: {
+                search: "Cari:",
+                lengthMenu: "Tampilkan _MENU_ data",
+                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                paginate: {
+                    first: "Pertama",
+                    last: "Terakhir",
+                    next: "Selanjutnya",
+                    previous: "Sebelumnya"
+                },
+                zeroRecords: "Data tidak ditemukan"
+            }
         });
+    </script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const editButtons = document.querySelectorAll(".btn-edit");
-
-            editButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
-                    document.getElementById("submitBtn").textContent = "Update Data";
-                    document.getElementById("submitBtn").className = "btn btn-warning";
-                    document.getElementById("id").value = this.dataset.id;
-                    document.getElementById("kode_barang").value = this.dataset.kode;
-                    document.getElementById("nama_barang").value = this.dataset.nama;
-                    document.getElementById("kategori_id").value = this.dataset.kategori;
-                });
-            });
-
-            $('#modalBarang').on('hidden.bs.modal', function() {
-                document.getElementById("modalTitle").textContent = "Form Data Barang";
-                document.getElementById("submitBtn").textContent = "Simpan";
-                document.getElementById("submitBtn").className = "btn btn-primary";
-                document.querySelector("form").reset();
-                document.getElementById("id").value = "";
+    <script>
+        $(document).ready(function() {
+            $('button[data-target="#deleteModal"]').on('click', function() {
+                var id = $(this).data('id');
+                var deleteUrl = '/admin/barang/jenis-barang?delete=' + id;
+                $('#deleteButton').attr('href', deleteUrl);
+                $('#deleteModal').modal('show');
             });
         });
     </script>

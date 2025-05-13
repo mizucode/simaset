@@ -21,10 +21,13 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 - **Menu Sarana Barang Bergerak** sudah berfungsi dengan baik ->
 - **Menu Sarana Barang Mebelair** sudah berfungsi dengan baik ->
 - **Menu Sarana Barang ATK** sudah berfungsi dengan baik ->
+- **Menu Sarana Barang Elektronik** sudah berfungsi dengan baik ->
+- **Menu Barang Daftar Barang** sudah berfungsi dengan baik ->
+- **Menu Barang Jenis Barang** sudah berfungsi dengan baik ->
 
-#### CRUD Menu:
+#### Commit Version Menu:
 
-- Elektronik
+- Commit Darurat Penggantian database
 
 ---
 
