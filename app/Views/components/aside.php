@@ -95,9 +95,6 @@
                         <li class="nav-item"><a href="/admin/barang/jenis-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Jenis Barang</p>
                             </a></li>
-                        <li class="nav-item"><a href="/admin/barang/kategori-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
-                                <p>Kategori Barang</p>
-                            </a></li>
                     </ul>
                 </li>
 
@@ -106,20 +103,21 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-handshake me-2"></i>
                         <p>
-                            Penempatan Barang
+                            Transaksi Barang
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="/admin/penempatan/daftar-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
-                                <p>Daftar Peminjaman Barang</p>
+                        <li class="nav-item"><a href="/admin/transaksi/riwayat-barang" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
+                                <p>Riwayat Barang</p>
                             </a></li>
-                        <li class="nav-item"><a href="/admin/penempatan/daftar-barang/tambah" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
+                        <li class="nav-item"><a href="/admin/transaksi/formulir-pemimjaman" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
                                 <p>Formulir Peminjaman Barang</p>
                             </a></li>
-                        <li class="nav-item"><a href="/admin/penempatan/detail" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
-                                <p>Detail Pemindahan Barang</p>
+                        <li class="nav-item"><a href="/admin/transaksi/formulir-pengembalian" class="nav-link"><i class="far fa-circle nav-icon me-2"></i>
+                                <p>Formulir Pengembalian Barang</p>
                             </a></li>
+
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">
@@ -166,7 +164,7 @@
                 </li>
 
                 <!-- Logout -->
-                <li class="nav-item">
+                <li class="nav-item mb-5">
                     <a href="/logout" class="nav-link">
                         <i class="nav-icon fas fa-sign-out-alt me-2"></i>
                         <p>Log Out</p>

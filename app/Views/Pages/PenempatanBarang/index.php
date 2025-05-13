@@ -40,7 +40,7 @@
                     <div class="col-auto">
                         <div class="card">
                             <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4 mb-0">Data Riwayat Penempatan Barang</h3>
+                                <h3 class="h4 mb-0">Data Riwayat Pinjaman Barang</h3>
                             </div>
                             <div class="card-body">
                                 <div class="">

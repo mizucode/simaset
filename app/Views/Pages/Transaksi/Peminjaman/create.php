@@ -6,7 +6,6 @@
 
     <div class="wrapper">
 
-
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
@@ -29,7 +28,7 @@
 
                             <div class="card-header bg-navy text-white">
                                 <h3 class="card-title">
-                                    <i class="fas fa-clipboard-list mr-2"></i>Formulir Peminjaman Barang
+                                    Formulir Peminjaman Barang
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -38,7 +37,7 @@
                                 </div>
                             </div>
 
-                            <form action="/admin/penempatan/daftar-barang/tambah" method="POST">
+                            <form action="/admin/transaksi/formulir-pemimjaman" method="POST">
                                 <input type="hidden" name="id" id="id">
                                 <div class="card-body">
                                     <div class="row">
@@ -46,12 +45,11 @@
                                             <!-- Identitas Peminjam -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3">
-                                                    <i class="fas fa-user-circle text-primary mr-2"></i>
                                                     I. Data Peminjam
                                                 </h5>
                                                 <!-- Nama Peminjam -->
                                                 <div class="form-group mb-4">
-                                                    <label for="nama_peminjam" class="font-weight-bold"><i class="fas fa-user-tie mr-1"></i> Nama Peminjam</label>
+                                                    <label for="nama_peminjam" class="font-weight-bold">Nama Peminjam</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
@@ -61,7 +59,7 @@
                                                 </div>
                                                 <!-- NIK -->
                                                 <div class="form-group mb-4">
-                                                    <label for="nik" class="font-weight-bold"><i class="fas fa-id-card mr-1"></i> NIM/NIK/NIP</label>
+                                                    <label for="nik" class="font-weight-bold">NIM/NIK/NIP</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-id-badge text-primary"></i></span>
@@ -71,7 +69,7 @@
                                                 </div>
                                                 <!-- Jabatan -->
                                                 <div class="form-group mb-4">
-                                                    <label for="jabatan" class="font-weight-bold"><i class="fas fa-briefcase mr-1"></i> Jabatan</label>
+                                                    <label for="jabatan" class="font-weight-bold">Jabatan</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-user-tag text-primary"></i></span>
@@ -81,7 +79,7 @@
                                                 </div>
                                                 <!-- No telepon -->
                                                 <div class="form-group mb-4">
-                                                    <label for="no_telepon" class="font-weight-bold"><i class="fas fa-phone mr-1"></i> No telepon</label>
+                                                    <label for="no_telepon" class="font-weight-bold">No telepon</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-mobile-alt text-primary"></i></span>
@@ -92,14 +90,12 @@
                                             </div>
 
                                             <!-- Identitas Barang Dipinjam -->
-                                            <div class="col-12 mb-5">
-                                                <h5 class="border-bottom pb-2 mb-3">
-                                                    <i class="fas fa-boxes text-primary mr-2"></i>
-                                                    II. Data Barang
+                                            <div class="col-12 mb-5 <h5 class=" border-bottom pb-2 mb-3">
+                                                II. Data Barang
                                                 </h5>
                                                 <!-- Nama Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="nama_barang" class="font-weight-bold"><i class="fas fa-box mr-1"></i> Nama Barang</label>
+                                                    <label for="nama_barang" class="font-weight-bold">Nama Barang</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
@@ -107,43 +103,50 @@
                                                         <select class="form-control" id="nama_barang" name="nama_barang" required>
                                                             <option value="" disabled selected>Pilih Nama Barang</option>
 
-                                                            <!-- Group Barang Elektronik -->
-                                                            <optgroup label="Barang Bergerak">
-                                                                <?php foreach ($barangBergerak as $barang) : ?>
-                                                                    <option value="<?= $barang['nama_barang_bergerak']; ?>">
-                                                                        <?= $barang['kode_barang_bergerak']; ?> - <?= $barang['nama_barang_bergerak']; ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            </optgroup>
-                                                            <optgroup label="Barang ">
-                                                                <?php foreach ($barangBergerak as $barang) : ?>
-                                                                    <option value="<?= $barang['nama_barang_bergerak']; ?>">
-                                                                        <?= $barang['kode_barang_bergerak']; ?> - <?= $barang['nama_barang_bergerak']; ?>
+                                                            <optgroup label="Alat Tulis Kantor">
+                                                                <?php foreach ($barangATK as $barang) : ?>
+                                                                    <option value="<?= $barang['nama_detail_barang']; ?>">
+                                                                        <?= $barang['no_registrasi']; ?> - <?= $barang['nama_detail_barang']; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
 
-                                                            <!-- Group Barang Mebel/Furniture -->
-                                                            <optgroup label="Barang Mebel/Furniture">
-                                                                <?php foreach ($barangAtk as $barang) : ?>
-                                                                    <option value="<?= $barang['nama_barang_atk']; ?>">
-                                                                        <?= $barang['kode_barang_atk']; ?> - <?= $barang['nama_barang_atk']; ?>
+                                                            <!-- Group Barang Bergerak -->
+                                                            <optgroup label="Barang Bergerak">
+                                                                <?php foreach ($barangBergerak as $barang) : ?>
+                                                                    <option value="<?= $barang['nama_detail_barang']; ?>">
+                                                                        <?= $barang['no_registrasi']; ?> - <?= $barang['nama_detail_barang']; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
+
+
+                                                            <!-- Group Barang Mebel/Furniture -->
+                                                            <optgroup label="BarangMebelair">
+                                                                <?php foreach ($barangMebelair as $barang) : ?>
+                                                                    <option value="<?= $barang['nama_detail_barang']; ?>">
+                                                                        <?= $barang['no_registrasi']; ?> - <?= $barang['nama_detail_barang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+
                                                             <optgroup label="Barang Elektronik">
                                                                 <?php foreach ($barangElektronik as $barang) : ?>
-                                                                    <option value="<?= $barang['tipe_model']; ?>">
-                                                                        <?= $barang['merk']; ?> - <?= $barang['tipe_model']; ?>
+                                                                    <option value="<?= $barang['nama_detail_barang']; ?>">
+                                                                        <?= $barang['no_registrasi']; ?> - <?= $barang['nama_detail_barang']; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
+
+
+
+
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <!-- Jumlah Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="jumlah_barang" class="font-weight-bold"><i class="fas fa-calculator mr-1"></i> Jumlah</label>
+                                                    <label for="jumlah_barang" class="font-weight-bold">Jumlah</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
@@ -153,7 +156,7 @@
                                                 </div>
                                                 <!-- Kondisi Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="kondisi" class="font-weight-bold"><i class="fas fa-clipboard-check mr-1"></i> Kondisi</label>
+                                                    <label for="kondisi" class="font-weight-bold">Kondisi</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-heart text-primary"></i></span>
@@ -167,7 +170,7 @@
                                                 </div>
                                                 <!-- Tanggal Dipinjam -->
                                                 <div class="form-group mb-4">
-                                                    <label for="tanggal_peminjaman" class="font-weight-bold"><i class="far fa-calendar mr-1"></i> Tanggal Peminjaman</label>
+                                                    <label for="tanggal_peminjaman" class="font-weight-bold">Tanggal Peminjaman</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="far fa-calendar-alt text-primary"></i></span>
@@ -175,9 +178,9 @@
                                                         <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman" required>
                                                     </div>
                                                 </div>
-                                                <!-- Tanggal Dipinjam -->
+                                                <!-- Tanggal Pengembalian -->
                                                 <div class="form-group mb-4">
-                                                    <label for="tanggal_pengembalian" class="font-weight-bold"><i class="far fa-calendar-check mr-1"></i> Tanggal Pengembalian</label>
+                                                    <label for="tanggal_pengembalian" class="font-weight-bold">Tanggal Pengembalian</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-calendar-check text-primary"></i></span>
@@ -187,7 +190,7 @@
                                                 </div>
                                                 <!-- Lokasi -->
                                                 <div class="form-group mb-4">
-                                                    <label for="lokasi" class="font-weight-bold"><i class="fas fa-box mr-1"></i>Lokasi Peminjaman</label>
+                                                    <label for="lokasi " class="font-weight-bold">Lokasi Peminjaman</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
@@ -195,32 +198,27 @@
                                                         <select class="form-control" id="lokasi" name="lokasi" required>
                                                             <option value="" disabled selected>Pilih Lokasi Barang</option>
 
-
                                                             <optgroup label="Gedung">
-                                                                <?php foreach ($gedung as $lokasi) : ?>
+                                                                <?php foreach ($gedungData as $lokasi) : ?>
                                                                     <option value="<?= $lokasi['nama_gedung']; ?>">
                                                                         <?= $lokasi['kode_gedung']; ?> - <?= $lokasi['nama_gedung']; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
                                                             <optgroup label="Lapang">
-                                                                <?php foreach ($lapang as $lokasi) : ?>
+                                                                <?php foreach ($lapangData as $lokasi) : ?>
                                                                     <option value="<?= $lokasi['nama_lapang']; ?>">
                                                                         <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
                                                             <optgroup label="Ruang">
-                                                                <?php foreach ($ruang as $lokasi) : ?>
+                                                                <?php foreach ($ruangData as $lokasi) : ?>
                                                                     <option value="<?= $lokasi['nama_ruang']; ?>">
                                                                         <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
-
-
-
-
                                                         </select>
                                                     </div>
                                                 </div>
@@ -229,11 +227,10 @@
                                             <!-- Tujuan Peminjaman -->
                                             <div class="col-12 ">
                                                 <h5 class="border-bottom pb-2 mb-3">
-                                                    <i class="fas fa-bullseye text-primary mr-2"></i>
                                                     III. Tujuan Peminjaman
                                                 </h5>
                                                 <div class="form-group mb-4">
-                                                    <label for="status" class="font-weight-bold"><i class="fas fa-clipboard-check mr-1"></i> Status</label>
+                                                    <label for="status" class="font-weight-bold">Status</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-heart text-primary"></i></span>
@@ -246,7 +243,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group mb-0">
-                                                    <label for="tujuan_peminjaman" class="font-weight-bold"><i class="fas fa-info-circle mr-1"></i> Tujuan Peminjaman</label>
+                                                    <label for="tujuan_peminjaman" class="font-weight-bold">Tujuan Peminjaman</label>
                                                     <textarea class="form-control" id="tujuan_peminjaman" name="tujuan_peminjaman" rows="3" placeholder="Masukan tujuan peminjaman barang"></textarea>
                                                 </div>
                                             </div>
@@ -273,55 +270,7 @@
 
     <?php include './app/Views/Components/script.php'; ?>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const editButtons = document.querySelectorAll(".btn-edit");
 
-            editButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
-                    document.getElementById("submitBtn").innerHTML = '<i class="fas fa-edit mr-1"></i> Update Data';
-                    document.getElementById("submitBtn").className = "btn btn-warning";
-                    document.getElementById("id").value = this.dataset.id;
-                    document.getElementById("kode_barang").value = this.dataset.kode;
-                    document.getElementById("nama_barang").value = this.dataset.nama;
-                    document.getElementById("kategori_id").value = this.dataset.kategori;
-                    document.getElementById("tahun_perolehan").value = this.dataset.tahun;
-                    document.getElementById("kondisi_id").value = this.dataset.kondisi;
-                    document.getElementById("jumlah").value = this.dataset.jumlah;
-                });
-            });
-
-            $('#modalBarang').on('hidden.bs.modal', function() {
-                document.getElementById("modalTitle").textContent = "Form Data Barang";
-                document.getElementById("submitBtn").innerHTML = '<i class="fas fa-save mr-1"></i> Simpan';
-                document.getElementById("submitBtn").className = "btn btn-primary";
-                document.querySelector("form").reset();
-                document.getElementById("id").value = "";
-            });
-
-            // Inisialisasi Select2 dengan pengaturan tambahan
-            $('.select2').select2({
-                theme: 'bootstrap4',
-                placeholder: 'Pilih Barang',
-                width: '100%',
-                allowClear: true
-            });
-
-            // Set tanggal peminjaman default ke hari ini
-            document.getElementById('tanggal_peminjaman').valueAsDate = new Date();
-
-            // Validasi tahun perolehan
-            document.getElementById('tahun_perolehan').addEventListener('change', function() {
-                const currentYear = new Date().getFullYear();
-                if (this.value < 2000 || this.value > currentYear + 1) {
-                    this.setCustomValidity(`Tahun harus antara 2000 dan ${currentYear + 1}`);
-                } else {
-                    this.setCustomValidity('');
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

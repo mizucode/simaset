@@ -62,9 +62,16 @@ class Router
         '/admin/barang/kategori-barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
         '/admin/barang/kategori-barang/tambah' => ['controller' => 'BarangController', 'method' => 'create', 'auth' => true],
 
+        // Transaksi
+        '/admin/transaksi/riwayat-barang' => ['controller' => 'TransaksiBarangController', 'method' => 'index', 'auth' => true],
+        '/admin/transaksi/formulir-pemimjaman' => ['controller' => 'TransaksiBarangController', 'method' => 'createPeminjaman', 'auth' => true],
+        '/admin/transaksi/formulir-pengembalian' => ['controller' => 'TransaksiBarangController', 'method' => 'createPengembalian', 'auth' => true],
+
+
         // Penempatan routes
         '/admin/penempatan/daftar-barang' => ['controller' => 'PenempatanController', 'method' => 'PenempatanBarang', 'auth' => true],
         '/admin/penempatan/daftar-barang/tambah' => ['controller' => 'PenempatanController', 'method' => 'create', 'auth' => true],
+        '/admin/penempatan/daftar-barang/pengembalian' => ['controller' => 'PenempatanController', 'method' => 'pengembalian', 'auth' => true],
         '/admin/penempatan/form' => ['controller' => 'AdminController', 'method' => 'formPenempatan', 'auth' => true],
         '/admin/penempatan/detail' => ['controller' => 'AdminController', 'method' => 'detailPenempatan', 'auth' => true],
 

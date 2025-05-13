@@ -43,7 +43,6 @@
                                                     Data Pengembalian Barang
                                                 </h5>
 
-                                                <!-- Contoh bagian yang diperbarui saja -->
                                                 <!-- Barang yang Dipinjam -->
                                                 <div class="form-group mb-4">
                                                     <label for="barang_pinjam_id" class="font-weight-bold">Barang yang Dikembalikan</label>
