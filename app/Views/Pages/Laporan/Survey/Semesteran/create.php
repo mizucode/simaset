@@ -14,11 +14,11 @@
                         <div class="card card-navy">
                             <div class="card-header text-white">
                                 <h3 class="text-lg">
-                                    Formulir Inventarisasi Barang
+                                    Formulir Inventarisasi Sarpras Semesteran
                                 </h3>
                             </div>
 
-                            <form action="/admin/survey/semesteran/data-inventaris" method="POST">
+                            <form action="/admin/survey/semesteran/tambah" method="POST">
                                 <div class="card-body">
                                     <?php if (isset($_SESSION['error'])): ?>
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -33,13 +33,12 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                Penanggung Jawab Survey
+                                                IDENTITAS PENGISI
                                             </h5>
-                                            <select class="form-control" name="penanggung_jawab_id" required>
-                                                <option value="" selected disabled>Pilih Semester</option>
-                                                <option value="Ganjil">Ganjil</option>
-
-                                            </select>
+                                            <div class="form-group mb-4">
+                                                <label for="penanggung_jawab">Penanggung Jawab Sarpras</label>
+                                                <input type="text" class="form-control" id="penanggung_jawab" name="penanggung_jawab" required>
+                                            </div>
                                             <div class="form-group mb-4">
                                                 <label for="semester">Semester</label>
                                                 <select class="form-control" name="semester" required>

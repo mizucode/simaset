@@ -75,6 +75,12 @@ class Router
         '/admin/penempatan/form' => ['controller' => 'AdminController', 'method' => 'formPenempatan', 'auth' => true],
         '/admin/penempatan/detail' => ['controller' => 'AdminController', 'method' => 'detailPenempatan', 'auth' => true],
 
+        //Laporan
+        '/admin/survey/semesteran' => ['controller' => 'SurveySemesteranController', 'method' => 'index', 'auth' => true],
+        '/admin/survey/semesteran/tambah' => ['controller' => 'SurveySemesteranController', 'method' => 'create', 'auth' => true],
+        '/admin/survey/semesteran/data-inventaris' => ['controller' => 'DataInventarisController', 'method' => 'create', 'auth' => true],
+
+
         // Kondisi routes
         '/admin/kondisi/daftar-kondisi' => ['controller' => 'AdminController', 'method' => 'daftarKondisi', 'auth' => true],
     ];
@@ -135,7 +141,8 @@ class Router
             '/admin/sarana/mebelair',
             '/admin/sarana/atk',
             '/admin/sarana/elektronik',
-            '/admin/barang/jenis-barang'
+            '/admin/barang/jenis-barang',
+            '/admin/survey/semesteran',
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {

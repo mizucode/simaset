@@ -34,7 +34,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ### 🚧 Dalam Proses
 
-- Pembuatan Survey
+- Crud Pada DataInventarisController
 
 ---
 
