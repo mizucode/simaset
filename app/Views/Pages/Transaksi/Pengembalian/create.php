@@ -32,7 +32,7 @@
                                 </div>
                             </div>
 
-                            <form action="/admin/pengembalian/simpan" method="POST">
+                            <form action="/admin/transaksi/formulir-pengembalian" method="POST">
                                 <input type="hidden" name="id" id="id">
                                 <div class="card-body">
                                     <div class="row">
@@ -50,11 +50,19 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-barcode text-primary"></i></span>
                                                         </div>
-                                                        <select class="form-control select2" id="barang_pinjam_id" name="barang_pinjam_id" required>
-                                                            <!-- options -->
+                                                        <select class="form-control" id="barang_pinjam_id" name="barang_pinjam_id" required>
+                                                            <option value="" selected disabled>Pilih Detail Barang</option>
+                                                            <?php foreach ($trPeminjaman as $pm) : ?>
+                                                                <option value="<?= htmlspecialchars($pm['id']); ?>">
+                                                                    <?= htmlspecialchars($pm['nik']); ?> -
+                                                                    <?= htmlspecialchars($pm['nama_peminjam']); ?> -
+                                                                    <?= htmlspecialchars($pm['nama_barang']); ?>
+                                                                </option>
+                                                            <?php endforeach; ?>
                                                         </select>
                                                     </div>
                                                 </div>
+
 
                                                 <!-- Nama Pengembali -->
                                                 <div class="form-group mb-4">

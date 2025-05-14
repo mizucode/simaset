@@ -101,6 +101,41 @@ class TransaksiBarangController
 
     public function createPengembalian()
     {
-        $this->renderView('Pengembalian/create', []);
+        global $conn;
+
+        $trPeminjaman = TransaksiBarang::getAllDataDate($conn);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $barang_pinjam_id = $_POST['barang_pinjam_id'] ?? '';
+            $nama = $_POST['nama'] ?? '';
+            $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? '';
+            $kondisi = $_POST['kondisi'] ?? '';
+            $keterangan = $_POST['nama_barang'] ?? '';
+
+            try {
+                $success = TransaksiBarang::storePengembalian(
+                    $conn,
+                    $barang_pinjam_id,
+                    $nama,
+                    $tanggal_pengembalian,
+                    $kondisi,
+                    $keterangan
+                );
+
+                $message = $success ? 'Data pengembalian berhasil ditambahkan.' : 'Gagal menambahkan data pengembalian.';
+                $_SESSION['update'] = $message;
+
+                if ($success) {
+                    header('Location: /admin/transaksi/riwayat-barang');
+                    exit();
+                }
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('Pengembalian/create', [
+            'trPeminjaman' => $trPeminjaman
+        ]);
     }
 }

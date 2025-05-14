@@ -24,6 +24,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 - **Menu Sarana Barang Elektronik** sudah berfungsi dengan baik ->
 - **Menu Barang Daftar Barang** sudah berfungsi dengan baik ->
 - **Menu Barang Jenis Barang** sudah berfungsi dengan baik ->
+- **Menu Transaksi Barang** sudah berfungsi dengan baik ->
 
 #### Commit Version Menu:
 
@@ -33,7 +34,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ### 🚧 Dalam Proses
 
-- Kurang dibagian form tambah data
+- Pembuatan Survey
 
 ---
 

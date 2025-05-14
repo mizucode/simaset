@@ -16,12 +16,29 @@
     <link
         rel="stylesheet"
         href="/../../AdminLTE-3.2.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
-    <!-- Theme style -->
-    <link
-        rel="stylesheet"
-        href="/../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
+    <!-- Select2 CSS -->
+
+
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/select2/css/select2.min.css" />
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" />
+    <link rel="stylesheet" href="/../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
+
+    <!-- jQuery & Select2 JS -->
+    <!-- jQuery -->
+    <script src="/../../AdminLTE-3.2.0/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/../../AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 -->
+    <script src="/../../AdminLTE-3.2.0/plugins/select2/js/select2.full.min.js"></script>
+    <!-- AdminLTE -->
+    <script src="/../../AdminLTE-3.2.0/dist/js/adminlte.min.js"></script>
+
+
+    <!-- Select2 CSS -->
+
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
 
     <!-- DataTables -->
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -91,6 +108,7 @@
             margin-left: 4px;
         }
     </style>
+
 
 
 </head>

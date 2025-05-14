@@ -140,7 +140,7 @@
                                         <thead>
                                             <tr class="text-nowrap">
                                                 <th>No</th>
-                                                <th>Kode Transaksi</th>
+                                                <th>Detail Peminjaman</th>
                                                 <th>Nama Pengembali</th>
                                                 <th>Tanggal Pengembalian</th>
                                                 <th>Nama Barang</th>
@@ -155,8 +155,14 @@
                                                 <?php foreach ($pengembalianData as $pengembalian) : ?>
                                                     <tr>
                                                         <td><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($pengembalian['kode_transaksi'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($pengembalian['nama'] ?? '-'); ?></td>
+                                                        <td>
+                                                            <?= htmlspecialchars($pengembalian['nik'] ?? '-'); ?> -
+                                                            <?= htmlspecialchars($pengembalian['nama_peminjam'] ?? '-'); ?> -
+                                                            <?= htmlspecialchars($pengembalian['nama_barang'] ?? '-'); ?>
+                                                        </td>
+
+
+                                                        <td><?= htmlspecialchars($pengembalian['nama_peminjam'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars(date('d-m-Y', strtotime($pengembalian['tanggal_pengembalian']))) ?? '-'; ?></td>
                                                         <td><?= htmlspecialchars($pengembalian['nama_barang'] ?? '-'); ?></td>
                                                         <td>
@@ -184,15 +190,11 @@
                                                         </td>
                                                         <td><?= htmlspecialchars($pengembalian['keterangan'] ?? '-'); ?></td>
                                                         <td class="text-nowrap">
-                                                            <a href="/admin/pengembalian/edit/<?= $pengembalian['id'] ?>" class="btn btn-sm btn-warning" title="Edit">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
+
                                                             <button class="btn btn-sm btn-danger btn-hapus" data-id="<?= $pengembalian['id'] ?>" title="Hapus">
-                                                                <i class="fas fa-trash-alt"></i>
+                                                                <i class="fas fa-trash-alt"></i> Hapus
                                                             </button>
-                                                            <a href="/admin/pengembalian/detail/<?= $pengembalian['id'] ?>" class="btn btn-sm btn-info" title="Detail">
-                                                                <i class="fas fa-eye"></i>
-                                                            </a>
+
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
