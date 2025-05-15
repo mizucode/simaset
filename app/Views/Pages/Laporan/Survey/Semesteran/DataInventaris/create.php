@@ -9,6 +9,7 @@
 
         <div class="content-wrapper bg-white mb-5 pt-5 px-4">
             <div class="container-fluid">
+
                 <div class="row justify-content-center">
                     <div class="col-12">
                         <div class="card card-navy">
@@ -18,7 +19,11 @@
                                 </h3>
                             </div>
 
-                            <form action="/admin/survey/semesteran/data-inventaris" method="POST">
+                            <form action="/admin/survey/semesteran/data-inventaris?tambah=<?= htmlspecialchars($semesterData['id']) ?>" method="POST">
+
+
+                                <input type="hidden" name="_method" value="PUT">
+                                <input type="text" id="nama_barang_survey" name="penanggung_jawab_id" value="<?= htmlspecialchars($semesterData['id']) ?>" required hidden>
                                 <div class="card-body">
                                     <?php if (isset($_SESSION['error'])): ?>
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -32,23 +37,6 @@
 
                                     <div class="row">
                                         <div class="col-12">
-
-
-                                            <div class="form-group mb-4">
-                                                <label for="penanggung_jawab_id">Penanggung Jawab Survey</label>
-                                                <select class="form-control" name="penanggung_jawab_id" required>
-                                                    <option value="" selected disabled>Pilih Penanggung Jawab</option>
-                                                    <?php foreach ($semesterData as $data): ?>
-
-                                                        <option value="<?= htmlspecialchars($data['id']) ?>">
-                                                            <?= htmlspecialchars($data['tanggal_pengecekan'] ?? '-') ?> (PJ: <?= htmlspecialchars($data['penanggung_jawab'] ?? '-') ?>)
-                                                        </option>
-
-                                                    <?php endforeach ?>
-                                                </select>
-                                            </div>
-
-
                                             <div class="form-group mb-4">
                                                 <label for="nama_barang_survey">Nama Barang</label>
                                                 <input type="text" class="form-control" id="nama_barang_survey" name="nama_barang_survey" placeholder="Nama Barang Survey" required>

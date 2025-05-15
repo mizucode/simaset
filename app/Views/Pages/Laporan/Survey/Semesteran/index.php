@@ -40,8 +40,8 @@
                                             <button type="button" class="btn btn-outline-secondary">
                                                 <i class="fas fa-filter"></i> Filter
                                             </button>
-                                            <button type="button" class="btn btn-outline-secondary">
-                                                <i class="fas fa-download"></i> Export
+                                            <button type="button" class="btn btn-outline-success" id="btnExportExcel">
+                                                <i class="fas fa-file-excel"></i> Export Excel
                                             </button>
                                         </div>
                                     </div>
@@ -50,34 +50,34 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="bg-light">
-                                            <tr>
+                                            <tr class="text-center">
                                                 <th width="5%">No</th>
                                                 <th width="15%">Penanggung Jawab</th>
                                                 <th width="10%">Semester</th>
                                                 <th width="15%">Tahun Akademik</th>
                                                 <th width="15%">Tanggal Pengecekan</th>
                                                 <th width="15%">Lokasi Survey</th>
-                                                <th width="15%">Jumlah Barang</th>
-                                                <th width="10%">Aksi</th>
+                                                <th width="13%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php $no = 1; ?>
                                             <?php foreach ($semesterData as $data): ?>
                                                 <tr>
-                                                    <td><?= $no++ ?></td>
+                                                    <td class="text-center"><?= $no++ ?></td>
                                                     <td><?= htmlspecialchars($data['penanggung_jawab'] ?? '') ?></td>
                                                     <td><?= htmlspecialchars($data['semester'] ?? '') ?></td>
                                                     <td><?= htmlspecialchars($data['tahun_akademik'] ?? '') ?></td>
                                                     <td><?= date('d M Y', strtotime($data['tanggal_pengecekan'] ?? '')) ?></td>
                                                     <td><?= htmlspecialchars($data['lokasi_survey'] ?? '') ?></td>
-                                                    <td><?= htmlspecialchars($data['jumlah_barang'] ?? '0') ?></td>
                                                     <td>
                                                         <div class="btn-group btn-group-sm">
                                                             <a href="/admin/survey/semesteran?edit=<?= $data['id'] ?>" class="btn btn-info" title="Detail">
                                                                 <i class="fas fa-eye"></i> Detail
                                                             </a>
-
+                                                            <a href="/admin/survey/semesteran?delete=<?= $data['id'] ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </a>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -115,6 +115,58 @@
 
         <?php include './app/Views/Components/footer.php'; ?>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script>
+        document.getElementById('btnExportExcel').addEventListener('click', function() {
+            // Ambil tabel yang akan di-export
+            const table = document.querySelector('.table');
+
+            // Konversi tabel ke workbook SheetJS
+            const workbook = XLSX.utils.table_to_book(table);
+
+            // Generate file XLSX
+            XLSX.writeFile(workbook, 'Laporan_Inventaris_Semesteran.xlsx', {
+                bookType: 'xlsx',
+                type: 'file'
+            });
+        });
+
+        // Jika ingin menyesuaikan data sebelum export
+        function exportToExcel() {
+            const table = document.querySelector('.table');
+            const rows = table.querySelectorAll('tr');
+            const data = [];
+
+            // Ambil header
+            const headers = [];
+            table.querySelectorAll('thead th').forEach(th => {
+                headers.push(th.innerText);
+            });
+            data.push(headers);
+
+            // Ambil data per row
+            rows.forEach((row, index) => {
+                // Skip header jika sudah diambil terpisah
+                if (index === 0) return;
+
+                const rowData = [];
+                row.querySelectorAll('td').forEach(td => {
+                    rowData.push(td.innerText);
+                });
+                data.push(rowData);
+            });
+
+            // Buat worksheet
+            const ws = XLSX.utils.aoa_to_sheet(data);
+
+            // Buat workbook
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Laporan");
+
+            // Export ke file
+            XLSX.writeFile(wb, 'Laporan_Inventaris.xlsx');
+        }
+    </script>
 
     <?php include './app/Views/Components/script.php'; ?>
 </body>

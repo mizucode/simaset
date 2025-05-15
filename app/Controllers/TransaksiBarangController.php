@@ -111,7 +111,7 @@ class TransaksiBarangController
             $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? '';
             $kondisi = $_POST['kondisi'] ?? '';
             $keterangan = $_POST['nama_barang'] ?? '';
-
+            // bug???
             try {
                 $success = TransaksiBarang::storePengembalian(
                     $conn,

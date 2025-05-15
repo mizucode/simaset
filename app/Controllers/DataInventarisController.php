@@ -14,54 +14,47 @@ class DataInventarisController
 
     public function index()
     {
-        global $conn;
         $this->renderView('Survey/Semesteran/DataInventaris/create', []);
     }
-    public function create()
+
+    public function create($id)
     {
         global $conn;
-        $semesterData = SurveySemesteran::getAllData($conn);
+        $semesterData = SurveySemesteran::getById($conn, $id);
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $penanggung_jawab    = $_POST['penanggung_jawab'];
-            $semester            = $_POST['semester'];
-            $tahun_akademik      = $_POST['tahun_akademik'];
-            $tanggal_pengecekan  = $_POST['tanggal_pengecekan'];
-            $lokasi_survey       = $_POST['lokasi_survey'];
+            $penanggung_jawab_id = $_POST['penanggung_jawab_id'] ?? '';
+            $nama_barang_survey = $_POST['nama_barang_survey'] ?? '';
+            $jumlah = $_POST['jumlah'] ?? '';
+            $kondisi = $_POST['kondisi'] ?? '';
+            $kebutuhan = $_POST['kebutuhan'] ?? '';
+            $keterangan = $_POST['keterangan'] ?? '';
 
             try {
-                $success = SurveySemesteran::storeData(
+                $success = DataInventaris::store(
                     $conn,
-                    $penanggung_jawab,
-                    $semester,
-                    $tahun_akademik,
-                    $tanggal_pengecekan,
-                    $lokasi_survey,
+                    $penanggung_jawab_id,
+                    $nama_barang_survey,
+                    $jumlah,
+                    $kondisi,
+                    $kebutuhan,
+                    $keterangan
                 );
 
-                $message = $success ? 'Data survey semesteran berhasil ditambahkan.' : 'Gagal menambahkan data surevey semesteran.';
+                $message = $success ? 'Data pengembalian berhasil ditambahkan.' : 'Gagal menambahkan data pengembalian.';
                 $_SESSION['update'] = $message;
 
                 if ($success) {
-                    header('Location: /admin/survey/semesteran');
+                    header('Location: /admin/survey/semesteran?edit=' . $id);
                     exit();
                 }
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
             }
         }
+
         $this->renderView('Survey/Semesteran/DataInventaris/create', [
             'semesterData' => $semesterData
-        ]);
-    }
-    public function update($id)
-    {
-        global $conn;
-        $semesterData = SurveySemesteran::getById($conn, $id);
-
-
-        $this->renderView('Survey/Semesteran/update', [
-            'data' => $semesterData
         ]);
     }
 }

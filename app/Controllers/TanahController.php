@@ -35,7 +35,10 @@ class TanahController
                     mkdir($uploadDir, 0777, true); // buat folder kalau belum ada
                 }
 
-                $fileName = time() . '_' . basename($_FILES['file_sertifikat']['name']);
+                // Replace spaces with underscores in filename
+                $originalName = basename($_FILES['file_sertifikat']['name']);
+                $sanitizedName = str_replace(' ', '_', $originalName);
+                $fileName = time() . '_' . $sanitizedName;
                 $targetFile = $uploadDir . $fileName;
 
                 if (move_uploaded_file($_FILES['file_sertifikat']['tmp_name'], $targetFile)) {
@@ -62,7 +65,7 @@ class TanahController
                     $tgl_pajak,
                     $fungsi,
                     $keterangan,
-                    $file_sertifikat // tambahkan di model
+                    $file_sertifikat
                 );
                 $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
                 $_SESSION['update'] = $message;
@@ -81,7 +84,6 @@ class TanahController
             'jenisAsetId' => $jenis_aset_id
         ]);
     }
-
 
     public function update($id)
     {
@@ -107,28 +109,28 @@ class TanahController
             $keterangan = $_POST['keterangan'];
 
             // Handle file upload
-            $file_sertifikat = $tanah['file_sertifikat']; // tetap gunakan file lama kalau tidak upload baru
+            $file_sertifikat = $tanah['file_sertifikat'];
             if (!empty($_FILES['file_sertifikat']['name'])) {
                 $uploadDir = __DIR__ . '/../../storage/sertifikat/';
                 if (!is_dir($uploadDir)) {
-                    mkdir($uploadDir, 0777, true); // Membuat direktori jika belum ada
+                    mkdir($uploadDir, 0777, true);
                 }
 
-                $fileName = time() . '_' . basename($_FILES['file_sertifikat']['name']);
+                // Replace spaces with underscores in filename
+                $originalName = basename($_FILES['file_sertifikat']['name']);
+                $sanitizedName = str_replace(' ', '_', $originalName);
+                $fileName = time() . '_' . $sanitizedName;
                 $targetFile = $uploadDir . $fileName;
 
-                // Proses upload file
                 if (move_uploaded_file($_FILES['file_sertifikat']['tmp_name'], $targetFile)) {
-                    // Jika upload berhasil, simpan nama file baru
                     $file_sertifikat = $fileName;
 
                     // Hapus file lama jika ada
                     $oldFile = $uploadDir . $tanah['file_sertifikat'];
                     if (!empty($tanah['file_sertifikat']) && file_exists($oldFile)) {
-                        unlink($oldFile); // Menghapus file lama
+                        unlink($oldFile);
                     }
                 } else {
-                    // Jika upload gagal, tampilkan pesan error
                     $_SESSION['error'] = 'Gagal mengupload file sertifikat.';
                     $this->renderView('update', [
                         'tanah' => $tanah,
@@ -138,7 +140,6 @@ class TanahController
                 }
             }
 
-            // Update data tanah setelah file sertifikat berhasil diupload atau tidak ada perubahan file
             try {
                 $success = Tanah::updateData(
                     $conn,
@@ -152,27 +153,24 @@ class TanahController
                     $tgl_pajak,
                     $fungsi,
                     $keterangan,
-                    $file_sertifikat // tambahkan di model
+                    $file_sertifikat
                 );
 
-                // Menampilkan pesan sesuai dengan status update
                 $message = $success ? 'Data berhasil diperbarui.' : 'Gagal memperbarui data.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/prasarana/tanah');
+                header('Location: /admin/prasarana/tanah?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
             }
         }
 
-        // Menampilkan halaman update
         $this->renderView('update', [
             'tanah' => $tanah,
             'jenisAsetId' => $jenis_aset_id
         ]);
     }
-
 
     private function delete()
     {
@@ -189,6 +187,90 @@ class TanahController
         }
     }
 
+    public function download()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('HTTP/1.1 403 Forbidden');
+            exit('Unauthorized');
+        }
+
+        if (!isset($_GET['filename']) || !isset($_GET['jenis'])) {
+            http_response_code(400);
+            echo "Invalid request.";
+            exit;
+        }
+
+        $filename = basename($_GET['filename']); // hindari directory traversal
+        $jenis = $_GET['jenis'];
+
+        // Tentukan folder berdasarkan jenis file
+        $folderMap = [
+            'sertifikat' => __DIR__ . '/../../storage/sertifikat/',
+            'bukti' => __DIR__ . '/../../storage/bukti_kepemilikan/',
+        ];
+
+        if (!array_key_exists($jenis, $folderMap)) {
+            http_response_code(400);
+            echo "Jenis file tidak valid.";
+            exit;
+        }
+
+        $filepath = $folderMap[$jenis] . $filename;
+
+        if (!file_exists($filepath)) {
+            http_response_code(404);
+            echo "File not found.";
+            exit;
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Length: ' . filesize($filepath));
+        readfile($filepath);
+        exit;
+    }
+
+    public function preview()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('HTTP/1.1 403 Forbidden');
+            exit('Unauthorized');
+        }
+
+        $filename = basename($_GET['filename']);
+        $jenis = $_GET['jenis'];
+
+        // Pastikan folder sesuai dengan jenis file
+        $folder = '';
+        if ($jenis === 'sertifikat') {
+            $folder = 'sertifikat';
+        } elseif ($jenis === 'bukti') {
+            $folder = 'bukti';
+        } else {
+            http_response_code(400);
+            echo "Invalid file type.";
+            exit;
+        }
+
+        $filepath = __DIR__ . '/../../storage/' . $folder . '/' . $filename;
+
+        if (!file_exists($filepath)) {
+            http_response_code(404);
+            echo "File not found.";
+            exit;
+        }
+
+        // Tampilkan langsung file PDF di browser
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="' . $filename . '"');
+        readfile($filepath);
+        exit;
+    }
+
+
+
+
     public function tanah()
     {
         global $conn;
@@ -198,6 +280,16 @@ class TanahController
 
         $this->renderView('index', [
             'tanahData' => $tanahData,
+        ]);
+    }
+
+    public function detail($id)
+    {
+        global $conn;
+        $detailData = Tanah::getById($conn, $id);
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
         ]);
     }
 }

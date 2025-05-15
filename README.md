@@ -41,6 +41,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 ## 🛠️ Tahap Pengerjaan
 
 1. Refactor (clean code) CRUD pada **Menu Elektronik**
+1. Masih Banyak Bug di **Menu Survey Semesteran**
 
 ---
 

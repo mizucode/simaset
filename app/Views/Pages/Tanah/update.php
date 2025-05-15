@@ -13,24 +13,8 @@
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
 
-                        <?php if (!empty($error)) : ?>
-                            <div class="alert alert-danger alert-dismissible fade show mb-4">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <?= htmlspecialchars($error); ?>
-                            </div>
-                        <?php endif; ?>
 
-                        <?php if (isset($_SESSION['update'])) : ?>
-                            <div class="alert alert-success alert-dismissible fade show mb-4">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <?= htmlspecialchars($_SESSION['update']); ?>
-                            </div>
-                            <?php unset($_SESSION['update']); ?>
-                        <?php endif; ?>
+
 
                         <div class="card card-navy">
                             <div class="card-header text-white">

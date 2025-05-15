@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/datatables-fixheader/css/fixedHeader.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
 
     <!-- jsGrid CSS -->
     <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.min.css">
@@ -32,6 +33,7 @@
 
     <!-- jQuery (harus di load sebelum JS lainnya) -->
     <script src="/../../AdminLTE-3.2.0/plugins/jquery/jquery.min.js"></script>
+
 
     <!-- Style Tambahan -->
     <style>

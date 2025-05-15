@@ -17,6 +17,14 @@ class Tanah
             return "Query gagal: " . $e->getMessage();
         }
     }
+    public static function getByFilename($conn, $filename)
+    {
+        $stmt = $conn->prepare("SELECT * FROM tanah WHERE file_sertifikat = ?");
+        $stmt->bind_param("s", $filename);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
 
     public static function getById($conn, $id)
     {
@@ -111,6 +119,44 @@ class Tanah
 
         return $stmt->execute();
     }
+
+    public function preview()
+    {
+        if (!isset($_SESSION['user'])) {
+            header('HTTP/1.1 403 Forbidden');
+            exit('Unauthorized');
+        }
+
+        $filename = basename($_GET['filename']);
+        $jenis = $_GET['jenis'];
+
+        // Pastikan folder sesuai dengan jenis file
+        $folder = '';
+        if ($jenis === 'sertifikat') {
+            $folder = 'sertifikat';
+        } elseif ($jenis === 'bukti') {
+            $folder = 'bukti';
+        } else {
+            http_response_code(400);
+            echo "Invalid file type.";
+            exit;
+        }
+
+        $filepath = __DIR__ . '/../../storage/' . $folder . '/' . $filename;
+
+        if (!file_exists($filepath)) {
+            http_response_code(404);
+            echo "File not found.";
+            exit;
+        }
+
+        // Tampilkan langsung file PDF di browser
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="' . $filename . '"');
+        readfile($filepath);
+        exit;
+    }
+
 
     public static function deleteData($conn, $id)
     {

@@ -20,7 +20,6 @@ class Router
         // Prasarana - Tanah
         '/admin/prasarana/tanah' => ['controller' => 'TanahController', 'method' => 'tanah', 'auth' => true],
         '/admin/prasarana/tanah/tambah' => ['controller' => 'TanahController', 'method' => 'create', 'auth' => true],
-        '/admin/prasarana/tanah/edit/([0-9]+)' => ['controller' => 'TanahController', 'method' => 'update', 'auth' => true],
 
         // Prasarana - Gedung
         '/admin/prasarana/gedung' => ['controller' => 'GedungController', 'method' => 'gedung', 'auth' => true],
@@ -78,7 +77,7 @@ class Router
         //Laporan
         '/admin/survey/semesteran' => ['controller' => 'SurveySemesteranController', 'method' => 'index', 'auth' => true],
         '/admin/survey/semesteran/tambah' => ['controller' => 'SurveySemesteranController', 'method' => 'create', 'auth' => true],
-        '/admin/survey/semesteran/data-inventaris' => ['controller' => 'DataInventarisController', 'method' => 'create', 'auth' => true],
+        '/admin/survey/semesteran/data-inventaris' => ['controller' => 'DataInventarisController', 'method' => 'update', 'auth' => true],
 
 
         // Kondisi routes
@@ -143,12 +142,36 @@ class Router
             '/admin/sarana/elektronik',
             '/admin/barang/jenis-barang',
             '/admin/survey/semesteran',
+            '/admin/survey/semesteran/data-inventaris',
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
             $controller->update($_GET['edit']);
             return;
         }
+
+        if (in_array($this->uri, $allowedUris) && isset($_GET['tambah']) && is_numeric($_GET['tambah'])) {
+            $controller->create($_GET['tambah']);
+            return;
+        }
+
+        if (in_array($this->uri, $allowedUris) && isset($_GET['detail']) && is_numeric($_GET['detail'])) {
+            $controller->detail($_GET['detail']);
+            return;
+        }
+        if (in_array($this->uri, $allowedUris) && isset($_GET['download'])) {
+            $controller->download(); // TANPA parameter
+            return;
+        }
+
+        if (in_array($this->uri, $allowedUris) && isset($_GET['preview']) && isset($_GET['filename']) && isset($_GET['jenis'])) {
+            $controller->preview(); // Tanpa parameter
+            return;
+        }
+
+
+
+
 
 
         call_user_func_array([$controller, $method], $params);

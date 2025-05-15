@@ -8,6 +8,7 @@
         <?php include './app/Views/Components/aside.php'; ?>
 
         <div class="content-wrapper bg-white mb-5 pt-5 px-4">
+
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-12">
@@ -17,7 +18,7 @@
                                     <h3 class="card-title text-lg">
                                         Detail Inventarisasi Sarpras
                                     </h3>
-                                    <a href="/admin/sarana/ruangan" class="btn btn-light btn-sm">
+                                    <a href="/admin/survey/semesteran" class="btn btn-secondary btn-sm">
                                         <i class="fas fa-arrow-left mr-1"></i>Kembali
                                     </a>
                                 </div>
@@ -73,7 +74,7 @@
                                         Daftar Inventaris Sarpras
 
                                     </h5>
-                                    <a href="/admin/survey/semesteran/data-inventaris" class="btn btn-warning btn-sm ml-auto">
+                                    <a href="/admin/survey/semesteran/data-inventaris?tambah=<?= htmlspecialchars($data['id']) ?>" class="btn btn-warning btn-sm ml-auto">
                                         <div class="text-dark">
                                             <i class="fas fa-plus mr-1"></i> Tambah Data
                                         </div>
@@ -92,6 +93,7 @@
                                                 <th width="15%">Kondisi</th>
                                                 <th width="20%">Kebutuhan Perbaikan/Pengadaan</th>
                                                 <th width="25%">Keterangan</th>
+                                                <th width="25%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -108,6 +110,7 @@
                                                     </td>
                                                     <td><?= htmlspecialchars($row['kebutuhan']) ?: '-' ?></td>
                                                     <td><?= htmlspecialchars($row['keterangan']) ?: '-' ?></td>
+                                                    <td>Hapus</td>
                                                 </tr>
                                             <?php endforeach; ?>
 
@@ -115,12 +118,21 @@
                                         </tbody>
                                     </table>
                                 </div>
-
+                                <div class="border-bottom pb-2 mb-3 mt-5 flex justify-content-between">
+                                    <h5 class=" text-bold">
+                                        Catatatan dan Dokumentasi
+                                    </h5>
+                                    <a href="/admin/survey/semesteran/data-inventaris?tambah=<?= htmlspecialchars($data['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
                                 <div class="row mt-4">
                                     <div class="col-md-6">
                                         <div class="callout callout-info">
                                             <h5>Catatan Tambahan</h5>
-                                            <p>Ruangan ini secara keseluruhan dalam kondisi baik, hanya perlu perbaikan kecil pada beberapa kursi dan penggantian proyektor yang sudah rusak.</p>
+                                            <p>Ruangan ini secara keseluruhan berada dalam kondisi yang baik dan layak digunakan. Hanya terdapat beberapa kursi yang memerlukan perbaikan kecil agar nyaman saat dipakai. Selain itu, penggantian proyektor yang sudah rusak juga perlu dilakukan supaya kualitas presentasi menjadi optimal. Secara umum, fasilitas ruangan ini sudah memadai dan siap menunjang aktivitas sehari-hari. Perbaikan kecil pada kursi dan pergantian alat proyeksi akan membuat ruangan semakin lengkap dan nyaman. Dengan sedikit perbaikan tersebut, ruangan ini dapat berfungsi secara maksimal dan mendukung kegiatan yang dilakukan di dalamnya.</p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -132,17 +144,17 @@
                                                 <div class="row">
                                                     <div class="col-4">
                                                         <a href="#" data-toggle="lightbox" data-title="Foto Ruangan">
-                                                            <img src="https://via.placeholder.com/150" class="img-fluid mb-2" alt="Foto Ruangan" />
+                                                            <img src="https://plus.unsplash.com/premium_photo-1746718185563-9d3782845c06?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" class="img-fluid mb-2" alt="Foto Ruangan" />
                                                         </a>
                                                     </div>
                                                     <div class="col-4">
                                                         <a href="#" data-toggle="lightbox" data-title="Foto Kerusakan">
-                                                            <img src="https://via.placeholder.com/150" class="img-fluid mb-2" alt="Foto Kerusakan" />
+                                                            <img src="https://plus.unsplash.com/premium_photo-1746718185563-9d3782845c06?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" class="img-fluid mb-2" alt="Foto Kerusakan" />
                                                         </a>
                                                     </div>
                                                     <div class="col-4">
                                                         <a href="#" data-toggle="lightbox" data-title="Foto Proyektor">
-                                                            <img src="https://via.placeholder.com/150" class="img-fluid mb-2" alt="Foto Proyektor" />
+                                                            <img src="https://plus.unsplash.com/premium_photo-1746718185563-9d3782845c06?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" class="img-fluid mb-2" alt="Foto Proyektor" />
                                                         </a>
                                                     </div>
                                                 </div>
@@ -153,15 +165,12 @@
                             </div>
 
                             <div class="card-footer text-right">
-                                <a href="/admin/sarana/ruangan/edit/1" class="btn btn-warning">
-                                    <i class="fas fa-edit mr-2"></i>Edit Data
-                                </a>
+
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-hapus">
                                     <i class="fas fa-trash mr-2"></i>Hapus Data
                                 </button>
-                                <a href="#" class="btn btn-primary">
-                                    <i class="fas fa-print mr-2"></i>Cetak Laporan
-                                </a>
+
+
                             </div>
                         </div>
                     </div>
@@ -192,12 +201,14 @@
 
         <?php include './app/Views/Components/footer.php'; ?>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 
     <?php include './app/Views/Components/script.php'; ?>
 
     <!-- Ekstensi untuk lightbox gambar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css">
+
+
 
     <script>
         $(document).ready(function() {

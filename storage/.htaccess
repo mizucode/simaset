@@ -1,2 +1,3 @@
-# Block akses langsung
+# Blokir semua akses langsung ke folder ini
+Order deny,allow
 Deny from all

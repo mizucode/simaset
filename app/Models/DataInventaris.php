@@ -16,4 +16,36 @@ class DataInventaris
             return [];
         }
     }
+
+    public static function store(
+        $conn,
+        $penanggung_jawab_id,
+        $nama_barang_survey,
+        $jumlah,
+        $kondisi,
+        $kebutuhan,
+        $keterangan
+    ) {
+        $fields = [
+            'penanggung_jawab_id' => $penanggung_jawab_id,
+            'nama_barang_survey' => $nama_barang_survey,
+            'jumlah' => $jumlah,
+            'kondisi' => $kondisi,
+            'kebutuhan' => $kebutuhan,
+            'keterangan' => $keterangan
+        ];
+
+        $columns = implode(', ', array_keys($fields));
+        $placeholders = ':' . implode(', :', array_keys($fields));
+
+        $query = "INSERT INTO survey_semesteran_barang ($columns) VALUES ($placeholders)";
+
+        try {
+            $stmt = $conn->prepare($query);
+            return $stmt->execute($fields);
+        } catch (PDOException $e) {
+            error_log("Error in storePeminjaman - " . $e->getMessage());
+            return "Query gagal: " . $e->getMessage();
+        }
+    }
 }
