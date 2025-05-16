@@ -74,6 +74,11 @@ class Router
         '/admin/penempatan/form' => ['controller' => 'AdminController', 'method' => 'formPenempatan', 'auth' => true],
         '/admin/penempatan/detail' => ['controller' => 'AdminController', 'method' => 'detailPenempatan', 'auth' => true],
 
+        //Mutasi
+        '/admin/transaksi/mutasi/riwayat-barang' => ['controller' => 'MutasiController', 'method' => 'index', 'auth' => true],
+        '/admin/transaksi/mutasi/barang-keluar' => ['controller' => 'MutasiBarangKeluarController', 'method' => 'index', 'auth' => true],
+        '/admin/transaksi/mutasi/barang-keluar/tambah' => ['controller' => 'MutasiBarangKeluarController', 'method' => 'create', 'auth' => true],
+
         //Laporan
         '/admin/survey/semesteran' => ['controller' => 'SurveySemesteranController', 'method' => 'index', 'auth' => true],
         '/admin/survey/semesteran/tambah' => ['controller' => 'SurveySemesteranController', 'method' => 'create', 'auth' => true],

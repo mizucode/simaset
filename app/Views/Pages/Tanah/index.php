@@ -39,9 +39,12 @@
                                     <h3 class="card-title text-lg">
                                         Data Aset Tanah
                                     </h3>
-                                    <a href="/admin/prasarana/tanah/tambah" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-plus mr-1"></i>Tambah Data
+                                    <a href="/admin/prasarana/tanah/tambah" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
                                     </a>
+
                                 </div>
                             </div>
 
@@ -72,7 +75,7 @@
                                                         <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($td['luas'] ?? '-'); ?></td>
-                                                        <td class="text-center"><?= htmlspecialchars($td['lokasi'] ?? '-'); ?></td>
+                                                        <td class=""><?= htmlspecialchars($td['lokasi'] ?? '-'); ?></td>
                                                         <td class="text-center"><?= !empty($td['tgl_pajak']) ? date('d-m-Y', strtotime($td['tgl_pajak'])) : '-'; ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($td['fungsi'] ?? '-'); ?></td>
                                                         <td class="text-center">

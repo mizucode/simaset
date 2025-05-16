@@ -16,14 +16,23 @@
                         <div class="card card-navy">
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
-                                    <h3 class="card-title text-lg">
+                                    <h3 class="card-title mb-0">
                                         Detail Data Tanah
                                     </h3>
-                                    <a href="/admin/prasarana/tanah" class="btn btn-secondary btn-sm">
-                                        <i class="fas fa-arrow-left mr-1"></i>Kembali
-                                    </a>
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#modal-hapus">
+                                            <i class="fas fa-trash mr-1"></i> Hapus
+                                        </button>
+                                        <a href="/admin/prasarana/tanah?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
+                                            <i class="fas fa-edit mr-1"></i> Edit
+                                        </a>
+                                        <a href="/admin/prasarana/tanah" class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-arrow-left mr-1"></i> Kembali
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+
 
                             <div class="card-body">
                                 <div class="row mb-4">
@@ -161,14 +170,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-footer text-right">
-                                <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#modal-hapus">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                                <a href="/admin/prasarana/tanah?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </a>
-                            </div>
+
                         </div>
                     </div>
                 </div>

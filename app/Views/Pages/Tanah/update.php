@@ -8,7 +8,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -115,13 +115,7 @@
                                                         </label>
                                                     </div>
 
-                                                    <?php if (isset($tanah['file_sertifikat']) && !empty($tanah['file_sertifikat'])): ?>
-                                                        <div class="mt-2">
-                                                            <a href="/storage/sertifikat/<?= htmlspecialchars($tanah['file_sertifikat']); ?>" target="_blank">
-                                                                Lihat Sertifikat
-                                                            </a>
-                                                        </div>
-                                                    <?php endif; ?>
+
 
                                                     <div class="text-slate-500 flex align-center text-sm pt-2">
                                                         <div>
@@ -196,7 +190,7 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/tanah" class="btn btn-secondary">
+                                    <a href="/admin/prasarana/tanah?detail=<?= htmlspecialchars($tanah['id']) ?>" class="btn btn-secondary">
                                         <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                                     </a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">

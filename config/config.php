@@ -16,3 +16,5 @@ require_once __DIR__ . '/../app/Controllers/JenisBarangController.php';
 require_once __DIR__ . '/../app/Controllers/TransaksiBarangController.php';
 require_once __DIR__ . '/../app/Controllers/SurveySemesteranController.php';
 require_once __DIR__ . '/../app/Controllers/DataInventarisController.php';
+require_once __DIR__ . '/../app/Controllers/MutasiController.php';
+require_once __DIR__ . '/../app/Controllers/MutasiBarangKeluarController.php';

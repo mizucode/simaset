@@ -135,7 +135,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-handshake me-2"></i>
                         <p>
-                            Transaksi Barang
+                            Peminjaman Barang
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -149,13 +149,42 @@
                         <li class="nav-item">
                             <a href="/admin/transaksi/formulir-pemimjaman" class="nav-link">
                                 <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Formulir Peminjaman Barang</p>
+                                <p>Form Peminjaman</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/admin/transaksi/formulir-pengembalian" class="nav-link">
                                 <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Formulir Pengembalian Barang</p>
+                                <p>Form Pengembalian</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cart-arrow-down me-2"></i>
+                        <p>
+                            Mutasi
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/transaksi/mutasi/riwayat-barang" class="nav-link">
+                                <i class="far fa-circle nav-icon me-2"></i>
+                                <p>Daftar Barang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/transaksi/mutasi/barang-masuk" class="nav-link">
+                                <i class="far fa-circle nav-icon me-2"></i>
+                                <p>Barang Masuk</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/transaksi/mutasi/barang-keluar" class="nav-link">
+                                <i class="far fa-circle nav-icon me-2"></i>
+                                <p>Barang Keluar</p>
                             </a>
                         </li>
                     </ul>
