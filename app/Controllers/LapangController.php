@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
+require_once __DIR__ . '/../Models/SaranaBergerak.php';
 
 class LapangController
 {
@@ -132,6 +133,25 @@ class LapangController
 
         $this->renderView('index', [
             'lapangData' => $lapangData,
+        ]);
+    }
+
+    public function detail($id)
+    {
+        global $conn;
+
+        $detailData = Lapang::getById($conn, $id);
+        $barangList = SaranaBergerak::getAllData($conn);
+
+        // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
+        $filteredBarangList = array_filter($barangList, function ($barang) use ($detailData) {
+            return $barang['lokasi'] == $detailData['nama_ruang'];
+        });
+
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
+            'filteredBarangList' => $filteredBarangList
         ]);
     }
 }

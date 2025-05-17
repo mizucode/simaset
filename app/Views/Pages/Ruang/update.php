@@ -8,11 +8,10 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
-
                         <?php if (!empty($error)) : ?>
                             <div class="alert alert-danger alert-dismissible fade show mb-4">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -77,11 +76,9 @@
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
                                                         <input type="text" class="form-control" id="kode_ruang" name="kode_ruang"
-                                                            value="<?= isset($ruang) ? htmlspecialchars($ruang['kode_ruang']) : '' ?>"
-                                                            <?= isset($ruang) ? 'readonly' : '' ?> required>
+                                                            value="<?= isset($ruang) ? htmlspecialchars($ruang['kode_ruang']) : '' ?>" required>
                                                     </div>
                                                 </div>
-
                                                 <!-- Nama Ruang -->
                                                 <div class="form-group mb-4">
                                                     <label for="nama_ruang" class="font-weight-bold">Nama Ruang</label>

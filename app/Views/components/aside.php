@@ -1,10 +1,9 @@
 <aside class="main-sidebar sidebar-light-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link bg-navy">
-        <img src="/../../AdminLTE-3.2.0/dist/img/AdminLTELogo.png"
+    <a href="#" class="brand-link bg-navy">
+        <img src="/img/favicon.png"
             alt="AdminLTE Logo"
-            class="brand-image img-circle elevation-3"
-            style="opacity: 0.8">
+            class="brand-image ">
         <span class="brand-text font-weight-bold">Inventori Barang</span>
     </a>
 

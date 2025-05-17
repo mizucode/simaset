@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -44,7 +44,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="kode_gedung" name="kode_gedung" placeholder="Contoh: GDG001" readonly required>
+                                                        <input type="text" class="form-control" id="kode_gedung" name="kode_gedung" placeholder="Contoh: GDG001" required>
                                                     </div>
                                                 </div>
                                                 <!-- Nama Gedung -->
@@ -195,32 +195,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const namaGedungInput = document.getElementById('nama_gedung');
-            const kodeGedungInput = document.getElementById('kode_gedung');
 
-            namaGedungInput.addEventListener('input', function() {
-                let namaGedung = namaGedungInput.value.trim();
-
-                if (namaGedung.length > 0) {
-                    // Ambil huruf pertama dari setiap kata
-                    let singkatan = namaGedung
-                        .split(' ')
-                        .filter(kata => kata.length > 0)
-                        .map(kata => kata.charAt(0).toUpperCase())
-                        .join('');
-
-                    // Gabungkan dengan awalan GDG-
-                    let kodeGedung = `GDG-${singkatan}`;
-                    kodeGedungInput.value = kodeGedung;
-                } else {
-                    // Kosongkan jika nama gedung kosong
-                    kodeGedungInput.value = '';
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>

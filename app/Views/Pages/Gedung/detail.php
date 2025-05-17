@@ -11,20 +11,21 @@
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-12">
+                        <?php include './app/Views/Components/helper.php'; ?>
                         <div class="card card-navy">
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3 class="card-title text-lg">
-                                        Detail Ruangan
+                                        Detail Gedung
                                     </h3>
                                     <div class="text-right">
                                         <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= $detailData['id']; ?>">
                                             <i class="fas fa-trash mr-1"></i> Hapus
                                         </button>
-                                        <a href="/admin/prasarana/ruang?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
+                                        <a href="/admin/prasarana/gedung?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
                                             <i class="fas fa-edit mr-1"></i> Edit
                                         </a>
-                                        <a href="/admin/prasarana/ruang" class="btn btn-secondary btn-sm">
+                                        <a href="/admin/prasarana/gedung" class="btn btn-secondary btn-sm">
                                             <i class="fas fa-arrow-left mr-1"></i> Kembali
                                         </a>
                                     </div>
@@ -76,21 +77,27 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-purple"><i class="fas fa-users"></i></span>
+                                            <span class="info-box-icon bg-purple"><i class="fas fa-hard-hat"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Kapasitas</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['kapasitas'] ?? '30') ?> orang</span>
+                                                <span class="info-box-text">Konstruksi</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['kontruksi'] ?? 'Tidak ada data') ?></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-<?= ($detailData['status'] ?? 'Terpakai') === 'Terpakai' ? 'green' : 'blue' ?>"><i class="fas fa-info-circle"></i></span>
+                                            <span class="info-box-icon bg-<?=
+                                                                            ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'green' : (($detailData['kondisi'] ?? 'Baik') === 'Rusak Ringan' ? 'yellow' : 'red')
+                                                                            ?>">
+                                                <i class="fas fa-info-circle"></i>
+                                            </span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Status</span>
+                                                <span class="info-box-text">Kondisi</span>
                                                 <span class="info-box-number">
-                                                    <span class="badge badge-<?= ($detailData['status'] ?? 'Terpakai') === 'Terpakai' ? 'success' : 'primary' ?>">
-                                                        <?= htmlspecialchars($detailData['status'] ?? 'Terpakai') ?>
+                                                    <span class="badge badge-<?=
+                                                                                ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'success' : (($detailData['kondisi'] ?? 'Baik') === 'Rusak Ringan' ? 'warning' : 'danger')
+                                                                                ?>">
+                                                        <?= htmlspecialchars($detailData['kondisi'] ?? 'Baik') ?>
                                                     </span>
                                                 </span>
                                             </div>
@@ -100,48 +107,51 @@
 
                                 <div class="border-bottom pb-2 mb-3">
                                     <h5 class="text-bold">
-                                        Barang Inventaris dalam Ruangan
+                                        Daftar Ruangan Pada Gedung
                                     </h5>
                                 </div>
 
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="bg-light">
-                                            <tr>
+                                            <tr class="align-middle text-center">
                                                 <th width="5%">No</th>
-                                                <th width="30%">Nama Barang</th>
-                                                <th width="15%">Jumlah</th>
-                                                <th width="20%">Kondisi</th>
+                                                <th width="30%">Nama Ruang</th>
+                                                <th width="10%">Kapasitas</th>
+                                                <th width="10%">Letak Lantai</th>
+                                                <th width="10%">Status</th>
                                                 <th width="30%">Keterangan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($filteredBarangList)): ?>
+                                            <?php if (!empty($filteredRuangList)): ?>
                                                 <?php $no = 1; ?>
-                                                <?php foreach ($filteredBarangList as $barang): ?>
+                                                <?php foreach ($filteredRuangList as $barang): ?>
                                                     <tr>
-                                                        <td><?= $no++ ?></td>
-                                                        <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-') ?></td>
-                                                        <td><?= htmlspecialchars($barang['jumlah'] ?? '0') ?></td>
-                                                        <td>
-                                                            <?php if (isset($barang['kondisi'])): ?>
-                                                                <?php if ($barang['kondisi'] == 'Baik'): ?>
-                                                                    <span class="badge badge-success">Baik</span>
-                                                                <?php elseif ($barang['kondisi'] == 'Rusak Ringan'): ?>
-                                                                    <span class="badge badge-warning">Rusak Ringan</span>
+                                                        <td class="text-center"><?= $no++ ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_ruang'] ?? '-') ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($barang['kapasitas'] ?? '-') ?></td>
+                                                        <td class="text-center"><?= htmlspecialchars($barang['lantai'] ?? '-') ?></td>
+                                                        <td class="text-center">
+                                                            <?php if (isset($barang['status'])): ?>
+                                                                <?php if ($barang['status'] == 'Terpakai'): ?>
+                                                                    <span class="badge badge-success">Terpakai</span>
+                                                                <?php elseif ($barang['status'] == 'Kosong'): ?>
+                                                                    <span class="badge badge-warning">Kosong</span>
                                                                 <?php else: ?>
-                                                                    <span class="badge badge-danger"><?= htmlspecialchars($barang['kondisi']) ?></span>
+                                                                    <span class="badge badge-danger"><?= htmlspecialchars($barang['status']) ?></span>
                                                                 <?php endif; ?>
                                                             <?php else: ?>
                                                                 -
                                                             <?php endif; ?>
                                                         </td>
+
                                                         <td><?= htmlspecialchars($barang['keterangan'] ?? '-') ?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="5" class="text-center">Tidak ada data barang hibah</td>
+                                                    <td colspan="5" class="text-center">Tidak ada data ruangan pada gedung ini</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
@@ -154,36 +164,36 @@
                                     </h5>
                                 </div>
 
-                                <div class="row mt-4">
-                                    <div class="col-md-6">
-                                        <div class="callout callout-info">
-                                            <h5>Fungsi Ruangan</h5>
-                                            <p><?= htmlspecialchars($detailData['fungsi'] ?? 'Ruang kelas untuk perkuliahan regular') ?></p>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Fungsi</label>
+                                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                                <?= htmlspecialchars($detailData['fungsi']) ?>
+                                            </p>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="callout callout-warning">
-                                            <h5>Keterangan</h5>
-                                            <p><?= htmlspecialchars($detailData['keterangan'] ?? 'Tidak ada Keterangan') ?></p>
+                                        <div class="form-group">
+                                            <label>Jenis Aset</label>
+                                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                                <?= htmlspecialchars($detailData['jenis_aset']) ?>
+                                            </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Unit Kepemilikan</label>
+                                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                                <?= htmlspecialchars($detailData['unit_kepemilikan']) ?>
+                                            </p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Lokasi</label>
+                                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                                <?= htmlspecialchars($detailData['lokasi']) ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="border-bottom pb-2 mb-3 mt-5">
-                                    <h5 class="text-bold">
-                                        Dokumentasi Ruangan
-                                    </h5>
-                                </div>
 
-                                <div class="row mt-4">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">kosong</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -200,7 +210,8 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah Anda yakin ingin menghapus ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
+                        <p>Apakah Anda yakin ingin menghapus data gedung ini?
+                            Tindakan ini akan menghapus seluruh data ruangan yang terkait dan tidak dapat dibatalkan.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -237,7 +248,7 @@
             // Tangkap event klik tombol delete
             $('button[data-target="#deleteModal"]').on('click', function() {
                 var id = $(this).data('id');
-                var deleteUrl = '/admin/prasarana/ruang?delete=' + id;
+                var deleteUrl = '/admin/prasarana/gedung?delete=' + id;
 
                 // Set URL hapus ke tombol Hapus di modal
                 $('#deleteButton').attr('href', deleteUrl);

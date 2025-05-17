@@ -99,7 +99,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-12">
                                         <div class="form-group">
                                             <label>Fungsi</label>
                                             <p class="form-control-plaintext border rounded p-2 bg-light">
@@ -109,11 +109,9 @@
                                         <div class="form-group">
                                             <label>Jenis Aset</label>
                                             <p class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['jenis_aset_id']) ?>
+                                                <?= htmlspecialchars($detailData['jenis_aset']) ?>
                                             </p>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Keterangan</label>
                                             <p class="form-control-plaintext border rounded p-2 bg-light">

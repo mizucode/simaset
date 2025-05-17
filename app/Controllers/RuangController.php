@@ -105,7 +105,7 @@ class RuangController
                 $message = $success ? 'Data ruang berhasil diperbarui.' : 'Gagal memperbarui data ruang.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/prasarana/ruang');
+                header('Location: /admin/prasarana/ruang' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();

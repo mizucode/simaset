@@ -35,6 +35,15 @@
                                 <div class="row mb-4">
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
+                                            <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Kode Ruangan</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['kode_ruang'] ?? '-') ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-box bg-light">
                                             <span class="info-box-icon bg-info"><i class="fas fa-door-open"></i></span>
                                             <div class="info-box-content">
                                                 <span class="info-box-text">Nama Ruangan</span>
@@ -46,20 +55,12 @@
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-success"><i class="fas fa-building"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Gedung</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_gedung'] ?? 'Gedung A') ?></span>
+                                                <span class="info-box-text">Letak Gedung</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_gedung'] ?? 'Belum terdata gedung') ?></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-warning"><i class="fas fa-layer-group"></i></span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">Lantai</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['lantai'] ?? '1') ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
 
                                 <div class="row mb-4">
@@ -95,6 +96,35 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-4">
+                                        <div class="info-box bg-light">
+                                            <span class="info-box-icon bg-warning"><i class="fas fa-layer-group"></i></span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Letak Lantai</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['lantai'] ?? '1') ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-box bg-light">
+                                            <span class="info-box-icon bg-info"> <i class="fas fa-info-circle"></i></span>
+
+                                            </span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Kondisi Ruang</span>
+                                                <span class="info-box-number">
+                                                    <span class="badge badge-<?=
+                                                                                ($detailData['kondisi_ruang'] ?? 'Baik') === 'Baik' ? 'success' : (($detailData['kondisi_ruang'] ?? 'Baik') === 'Rusak Ringan' ? 'warning' : 'danger')
+                                                                                ?>">
+                                                        <?= htmlspecialchars($detailData['kondisi_ruang'] ?? 'Baik') ?>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="border-bottom pb-2 mb-3">
                                     <h5 class="text-bold">
@@ -139,7 +169,7 @@
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="5" class="text-center">Tidak ada data barang hibah</td>
+                                                    <td colspan="5" class="text-center">Tidak ada data barang di ruangan ini</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
@@ -163,22 +193,6 @@
                                         <div class="callout callout-warning">
                                             <h5>Keterangan</h5>
                                             <p><?= htmlspecialchars($detailData['keterangan'] ?? 'Tidak ada Keterangan') ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="border-bottom pb-2 mb-3 mt-5">
-                                    <h5 class="text-bold">
-                                        Dokumentasi Ruangan
-                                    </h5>
-                                </div>
-
-                                <div class="row mt-4">
-                                    <div class="col-md-12">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div class="row">kosong</div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>

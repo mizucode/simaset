@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -61,7 +61,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Contoh: RNG001" readonly required>
+                                                        <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Contoh: RNG001" required>
                                                     </div>
                                                 </div>
                                                 <!-- Nama Ruang -->
@@ -86,7 +86,7 @@
                                                 </div>
                                                 <!-- Lantai -->
                                                 <div class="form-group mb-4">
-                                                    <label for="lantai" class="font-weight-bold">Lantai</label>
+                                                    <label for="lantai" class="font-weight-bold">Letak Lantai</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-layer-group text-primary"></i></span>
@@ -157,11 +157,10 @@
                                                         </div>
                                                         <input type="text" class="form-control" id="fungsi" name="fungsi" placeholder="Masukkan fungsi ruang dalam meter persegi">
                                                     </div>
-                                                    <!-- Keterangan -->
-                                                    <div class="form-group mb-4">
-                                                        <label for="keterangan" class="font-weight-bold">Keterangan</label>
-                                                        <textarea class="form-control" id="keterangan" name="keterangan" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
-                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-4">
+                                                    <label for="keterangan" class="font-weight-bold">Keterangan</label>
+                                                    <textarea class="form-control" id="keterangan" name="keterangan" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -187,36 +186,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const namaRuangInput = document.getElementById('nama_ruang');
-            const kodeRuangInput = document.getElementById('kode_ruang');
-            const gedungSelect = document.getElementById('gedung_id');
 
-            function generateKodeRuang() {
-                let namaRuang = namaRuangInput.value.trim();
-                let gedungId = gedungSelect.value;
-
-                if (namaRuang.length > 0 && gedungId) {
-                    // Ambil huruf pertama dari setiap kata nama ruang
-                    let singkatan = namaRuang
-                        .split(' ')
-                        .filter(kata => kata.length > 0)
-                        .map(kata => kata.charAt(0).toUpperCase())
-                        .join('');
-
-                    // Gabungkan dengan awalan RNG- dan ID gedung
-                    let kodeRuang = `RNG-${gedungId}-${singkatan}`;
-                    kodeRuangInput.value = kodeRuang;
-                } else {
-                    kodeRuangInput.value = '';
-                }
-            }
-
-            namaRuangInput.addEventListener('input', generateKodeRuang);
-            gedungSelect.addEventListener('change', generateKodeRuang);
-        });
-    </script>
 </body>
 
 </html>

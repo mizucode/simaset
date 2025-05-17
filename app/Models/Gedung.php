@@ -114,6 +114,13 @@ class Gedung
 
     public static function deleteData($conn, $id)
     {
+        // 1. Hapus dulu semua ruang yang terkait
+        $deleteRuangQuery = "DELETE FROM aset_ruang WHERE gedung_id = :id";
+        $deleteRuangStmt = $conn->prepare($deleteRuangQuery);
+        $deleteRuangStmt->bindParam(':id', $id);
+        $deleteRuangStmt->execute();
+
+        // 2. Hapus data gedung
         $query = "DELETE FROM aset_gedung WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);

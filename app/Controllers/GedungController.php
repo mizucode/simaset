@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Models/Gedung.php';
+require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
 
 class GedungController
@@ -104,7 +105,7 @@ class GedungController
                 $message = $success ? 'Data gedung berhasil diperbarui.' : 'Gagal memperbarui data gedung.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/prasarana/gedung');
+                header('Location: /admin/prasarana/gedung?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -123,9 +124,9 @@ class GedungController
             global $conn;
             $id = $_GET['delete'];
             if (Gedung::deleteData($conn, $id)) {
-                $_SESSION['success'] = 'Data gedung berhasil dihapus.';
+                $_SESSION['success'] = 'Data berhasil dihapus.';
             } else {
-                $_SESSION['error'] = 'Gagal menghapus data gedung.';
+                $_SESSION['error'] = 'Gagal menghapus data.';
             }
             header('Location: /admin/prasarana/gedung');
             exit();
@@ -149,10 +150,18 @@ class GedungController
         global $conn;
 
         $detailData = Gedung::getById($conn, $id);
+        $ruangList = Ruang::getAllData($conn);
+
+        // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
+        $filteredRuangList = array_filter($ruangList, function ($ruang) use ($detailData) {
+            return $ruang['gedung_id'] == $detailData['id'];
+        });
 
         $this->delete();
+
         $this->renderView('detail', [
             'detailData' => $detailData,
+            'filteredRuangList' => $filteredRuangList
         ]);
     }
 }
