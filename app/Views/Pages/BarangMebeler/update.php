@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -36,7 +36,7 @@
                                             <!-- Data Identitas Sarana -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    IDENTITAS SARANA MEbELAIR
+                                                    IDENTITAS SARANA MEBELAIR
                                                 </h5>
                                                 <!-- Barang -->
                                                 <div class="form-group mb-4">
@@ -125,6 +125,27 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <div class="form-group mb-4">
+                                                    <label for="bahan" class="font-weight-bold">Bahan</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-copyright text-primary"></i></span>
+                                                        </div>
+                                                        <select class="form-control" id="bahan" name="bahan">
+                                                            <option value="" <?= !isset($sarana['bahan']) ? 'selected disabled' : 'disabled' ?>>Pilih Bahan...</option>
+                                                            <option value="Kayu" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Kayu') ? 'selected' : '' ?>>Kayu</option>
+                                                            <option value="Besi" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Besi') ? 'selected' : '' ?>>Besi</option>
+                                                            <option value="Aluminium" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Aluminium') ? 'selected' : '' ?>>Aluminium</option>
+                                                            <option value="Stainless Steel" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Stainless Steel') ? 'selected' : '' ?>>Stainless Steel</option>
+                                                            <option value="Rotan" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Rotan') ? 'selected' : '' ?>>Rotan</option>
+                                                            <option value="Plastik" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Plastik') ? 'selected' : '' ?>>Plastik</option>
+                                                            <option value="Kaca" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Kaca') ? 'selected' : '' ?>>Kaca</option>
+                                                            <option value="Bambu" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Bambu') ? 'selected' : '' ?>>Bambu</option>
+                                                            <option value="Kulit" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Kulit') ? 'selected' : '' ?>>Kulit</option>
+                                                            <option value="Kain" <?= (isset($sarana['bahan']) && $sarana['bahan'] == 'Kain') ? 'selected' : '' ?>>Kain</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <!-- Sumber -->
                                                 <div class="form-group mb-4">
                                                     <label for="sumber" class="font-weight-bold">Sumber</label>
@@ -168,6 +189,35 @@
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     INFORMASI TAMBAHAN
                                                 </h5>
+                                                <div class="form-group mb-4">
+                                                    <label for="lokasi" class="font-weight-bold">Lokasi Penempatan Barang</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
+                                                        </div>
+                                                        <select class="form-control" id="lokasi" name="lokasi" required>
+                                                            <option value="" disabled <?= !isset($sarana['lokasi']) ? 'selected' : '' ?>>Pilih Lokasi Barang</option>
+
+                                                            <optgroup label="Lapang">
+                                                                <?php foreach ($lapangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_lapang']; ?>"
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $lokasi['nama_lapang']) ? 'selected' : '' ?>>
+                                                                        <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+
+                                                            <optgroup label="Ruang">
+                                                                <?php foreach ($ruangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_ruang']; ?>"
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $lokasi['nama_ruang']) ? 'selected' : '' ?>>
+                                                                        <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <!-- Keterangan -->
                                                 <div class="form-group mb-4">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
@@ -179,7 +229,7 @@
                                     </div>
 
                                     <div class="card-footer text-right text-white">
-                                        <a href="/admin/sarana/mebelair" class="btn btn-secondary">
+                                        <a href="/admin/sarana/mebelair?detail=<?= isset($sarana) ? htmlspecialchars($sarana['id']) : ''; ?>" class="btn btn-secondary">
                                             <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                                         </a>
                                         <button type="submit" class="btn btn-primary" id="submitBtn">

@@ -1,8 +1,4 @@
 <?php
-require_once __DIR__ . '/../Models/SaranaMebelair.php';
-require_once __DIR__ . '/../Models/KategoriBarang.php';
-require_once __DIR__ . '/../Models/Barang.php';
-require_once __DIR__ . '/../Models/KondisiBarang.php';
 
 class SaranaMebelairController
 {
@@ -19,6 +15,8 @@ class SaranaMebelairController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         // Filter barang untuk kategori mebelair (asumsi ID kategori mebelair = 2)
         $filteredBarangList = array_filter($barangList, function ($barang) {
@@ -36,6 +34,8 @@ class SaranaMebelairController
             $sumber = $_POST['sumber'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'];
+            $bahan = $_POST['bahan'];
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -51,6 +51,8 @@ class SaranaMebelairController
                     $sumber,
                     $jumlah,
                     $satuan,
+                    $lokasi,
+                    $bahan,
                     $keterangan
                 );
 
@@ -70,7 +72,9 @@ class SaranaMebelairController
             'saranaData' => $saranaData,
             'kategoriList' => $kategoriList,
             'barangList' => $filteredBarangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            'lapangData' => $lapangData,
+            'ruangData' => $ruangData,
         ]);
     }
 
@@ -81,6 +85,8 @@ class SaranaMebelairController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         if (!$sarana) {
             $_SESSION['error'] = 'Data sarana mebelair tidak ditemukan.';
@@ -99,6 +105,8 @@ class SaranaMebelairController
             $sumber = $_POST['sumber'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'];
+            $bahan = $_POST['bahan'];
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -115,13 +123,15 @@ class SaranaMebelairController
                     $sumber,
                     $jumlah,
                     $satuan,
+                    $lokasi,
+                    $bahan,
                     $keterangan
                 );
 
                 $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/sarana/mebelair');
+                header('Location: /admin/sarana/mebelair?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -132,7 +142,9 @@ class SaranaMebelairController
             'sarana' => $sarana,
             'kategoriList' => $kategoriList,
             'barangList' => $barangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            'lapangData' => $lapangData,
+            'ruangData' => $ruangData,
         ]);
     }
 
@@ -160,6 +172,17 @@ class SaranaMebelairController
 
         $this->renderView('index', [
             'saranaData' => $saranaData,
+        ]);
+    }
+    public function detail($id)
+    {
+        global $conn;
+
+        $detailData = SaranaMebelair::getById($conn, $id);
+
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
         ]);
     }
 }

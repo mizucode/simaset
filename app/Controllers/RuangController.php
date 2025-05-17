@@ -151,9 +151,13 @@ class RuangController
 
         $detailData = Ruang::getById($conn, $id);
         $barangList = SaranaBergerak::getAllData($conn);
+        $barangMebel = SaranaMebelair::getAllData($conn);
+
+        // Gabungkan kedua array barang
+        $semuaBarang = array_merge($barangList, $barangMebel);
 
         // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
-        $filteredBarangList = array_filter($barangList, function ($barang) use ($detailData) {
+        $filteredBarangList = array_filter($semuaBarang, function ($barang) use ($detailData) {
             return $barang['lokasi'] == $detailData['nama_ruang'];
         });
 

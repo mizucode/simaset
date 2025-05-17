@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -36,7 +36,7 @@
                                             <!-- Data Identitas Sarana -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    IDENTITAS SARANA MEbELAIR
+                                                    IDENTITAS SARANA MEBELAIR
                                                 </h5>
                                                 <!-- Barang -->
                                                 <div class="form-group mb-4">
@@ -98,7 +98,28 @@
                                                     </div>
                                                 </div>
                                                 <!-- Material -->
+                                                <div class="form-group mb-4">
+                                                    <label for="bahan" class="font-weight-bold">Bahan</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-copyright text-primary"></i></span>
+                                                        </div>
+                                                        <select class="form-control" id="bahan" name="bahan">
+                                                            <option value="" selected disabled>Pilih Bahan...</option>
+                                                            <option value="Kayu">Kayu</option>
+                                                            <option value="Besi">Besi</option>
+                                                            <option value="Aluminium">Aluminium</option>
+                                                            <option value="Stainless Steel">Stainless Steel</option>
+                                                            <option value="Rotan">Rotan</option>
+                                                            <option value="Plastik">Plastik</option>
+                                                            <option value="Kaca">Kaca</option>
+                                                            <option value="Bambu">Bambu</option>
+                                                            <option value="Kulit">Kulit</option>
+                                                            <option value="Kain">Kain</option>
+                                                        </select>
 
+                                                    </div>
+                                                </div>
                                                 <!-- Spesifikasi -->
                                                 <div class="form-group mb-4">
                                                     <label for="spesifikasi" class="font-weight-bold">Spesifikasi</label>
@@ -172,6 +193,32 @@
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     INFORMASI TAMBAHAN
                                                 </h5>
+                                                <div class="form-group mb-4">
+                                                    <label for="lokasi " class="font-weight-bold">Lokasi Penempatan Barang</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
+                                                        </div>
+                                                        <select class="form-control" id="lokasi" name="lokasi" required>
+                                                            <option value="" disabled selected>Pilih Lokasi Barang</option>
+
+                                                            <optgroup label="Lapang">
+                                                                <?php foreach ($lapangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_lapang']; ?>">
+                                                                        <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                            <optgroup label="Ruang">
+                                                                <?php foreach ($ruangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_ruang']; ?>">
+                                                                        <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <!-- Keterangan -->
                                                 <div class="form-group mb-4">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
@@ -202,27 +249,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Generate nomor registrasi otomatis
-            const barangSelect = document.getElementById('barang_id');
-            const noRegInput = document.getElementById('no_registrasi');
 
-            function generateNoRegistrasi() {
-                const barangId = barangSelect.value;
-
-                if (barangId) {
-                    const timestamp = new Date().getTime().toString().slice(-4);
-                    noRegInput.value = `REG-MBL-${barangId}-${timestamp}`;
-                }
-            }
-
-            barangSelect.addEventListener('change', generateNoRegistrasi);
-
-            // Generate nomor registrasi saat pertama kali load
-            generateNoRegistrasi();
-        });
-    </script>
 </body>
 
 </html>

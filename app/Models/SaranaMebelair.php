@@ -44,6 +44,8 @@ class SaranaMebelair
         $sumber,
         $jumlah,
         $satuan,
+        $lokasi,
+        $bahan,
         $keterangan
     ) {
         $fields = [
@@ -57,6 +59,8 @@ class SaranaMebelair
             'sumber' => $sumber,
             'jumlah' => $jumlah,
             'satuan' => $satuan,
+            'lokasi' => $lokasi,
+            'bahan' => $bahan,
             'keterangan' => $keterangan
         ];
 
@@ -95,6 +99,8 @@ class SaranaMebelair
         $sumber,
         $jumlah,
         $satuan,
+        $lokasi,
+        $bahan,
         $keterangan
     ) {
         $query = "UPDATE sarana_mebelair SET
@@ -104,10 +110,12 @@ class SaranaMebelair
             no_registrasi = :no_registrasi,
             nama_detail_barang = :nama_detail_barang,
             merk = :merk,
+            lokasi = :lokasi,
             spesifikasi = :spesifikasi,
             sumber = :sumber,
             jumlah = :jumlah,
             satuan = :satuan,
+            bahan = :bahan,
             keterangan = :keterangan,
             updated_at = CURRENT_TIMESTAMP
         WHERE id = :id";
@@ -124,6 +132,8 @@ class SaranaMebelair
             $stmt->bindParam(':sumber', $sumber);
             $stmt->bindParam(':jumlah', $jumlah);
             $stmt->bindParam(':satuan', $satuan);
+            $stmt->bindParam(':lokasi', $lokasi);
+            $stmt->bindParam(':bahan', $bahan);
             $stmt->bindParam(':keterangan', $keterangan);
             $stmt->bindParam(':id', $id);
             return $stmt->execute();
