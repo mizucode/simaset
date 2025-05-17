@@ -78,6 +78,8 @@ class Router
         '/admin/transaksi/mutasi/riwayat-barang' => ['controller' => 'MutasiController', 'method' => 'index', 'auth' => true],
         '/admin/transaksi/mutasi/barang-keluar' => ['controller' => 'MutasiBarangKeluarController', 'method' => 'index', 'auth' => true],
         '/admin/transaksi/mutasi/barang-keluar/tambah' => ['controller' => 'MutasiBarangKeluarController', 'method' => 'create', 'auth' => true],
+        '/admin/transaksi/mutasi/barang-masuk' => ['controller' => 'MutasiBarangMasukController', 'method' => 'index', 'auth' => true],
+        '/admin/transaksi/mutasi/barang-masuk/tambah' => ['controller' => 'MutasiBarangMasukController', 'method' => 'create', 'auth' => true],
 
         //Laporan
         '/admin/survey/semesteran' => ['controller' => 'SurveySemesteranController', 'method' => 'index', 'auth' => true],
@@ -148,6 +150,8 @@ class Router
             '/admin/barang/jenis-barang',
             '/admin/survey/semesteran',
             '/admin/survey/semesteran/data-inventaris',
+            '/admin/transaksi/mutasi/barang-keluar',
+            '/admin/transaksi/mutasi/barang-masuk',
         ];
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {

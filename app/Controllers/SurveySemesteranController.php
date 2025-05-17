@@ -11,13 +11,26 @@ class SurveySemesteranController
         extract($data);
         require_once __DIR__ . "/../Views/Pages/Laporan/{$view}.php";
     }
-
+    private function delete()
+    {
+        if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+            global $conn;
+            $id = $_GET['delete'];
+            if (SurveySemesteran::deleteData($conn, $id)) {
+                $_SESSION['success'] = 'Data penerimaan berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data penerimaan.';
+            }
+            header('Location: /admin/survey/semesteran');
+            exit();
+        }
+    }
 
     public function index()
     {
         global $conn;
         $semesterData = SurveySemesteran::getAllData($conn);
-
+        $this->delete();
         $this->renderView('Survey/Semesteran/index', [
             'semesterData' => $semesterData
         ]);

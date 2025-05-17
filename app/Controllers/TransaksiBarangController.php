@@ -18,11 +18,14 @@ class TransaksiBarangController
         require_once __DIR__ . "/../Views/Pages/Transaksi/{$view}.php";
     }
 
+
+
     public function index()
     {
         global $conn;
         $peminjamanData = TransaksiBarang::getAllData($conn);
         $pengembalianData = TransaksiBarang::getAllDataPengembalian($conn);
+
 
         $this->renderView('index', [
             'peminjamanData' => $peminjamanData,

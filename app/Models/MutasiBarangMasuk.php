@@ -1,11 +1,10 @@
 <?php
 
-
-class MutasiBarangKeluar
+class MutasiBarangMasuk
 {
     public static function getAllData($conn)
     {
-        $query = "SELECT * FROM mutasi_barang_keluar";
+        $query = "SELECT * FROM mutasi_barang_masuk";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();
@@ -14,43 +13,46 @@ class MutasiBarangKeluar
             return "Query gagal: " . $e->getMessage();
         }
     }
+
     public static function getById($conn, $id)
     {
-        $query = "SELECT * FROM mutasi_barang_keluar WHERE id = :id";
+        $query = "SELECT * FROM mutasi_barang_masuk WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC); // Use fetch() instead of fetchAll() for single row
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             error_log("Error in getById: " . $e->getMessage());
-            return false; // Return false on failure
+            return false;
         }
     }
 
     public static function storeData(
         $conn,
-        $tanggal_keluar,
+        $tanggal_penerimaan,
+        $sumber_barang,
         $nama_barang,
         $jumlah,
-        $tujuan,
-        $penerima,
-        $keterangan
+        $kondisi,
+        $nomor_nota = null,
+        $keterangan = null
     ) {
         $fields = [
-            'tanggal_keluar' => $tanggal_keluar,
+            'tanggal_penerimaan' => $tanggal_penerimaan,
+            'sumber_barang' => $sumber_barang,
             'nama_barang' => $nama_barang,
             'jumlah' => $jumlah,
-            'tujuan' => $tujuan,
-            'penerima' => $penerima,
+            'kondisi' => $kondisi,
+            'nomor_nota' => $nomor_nota,
             'keterangan' => $keterangan
         ];
 
         $columns = implode(', ', array_keys($fields));
         $placeholders = ':' . implode(', :', array_keys($fields));
 
-        $query = "INSERT INTO mutasi_barang_keluar ($columns) VALUES ($placeholders)";
+        $query = "INSERT INTO mutasi_barang_masuk ($columns) VALUES ($placeholders)";
         $stmt = $conn->prepare($query);
 
         foreach ($fields as $key => $value) {
@@ -63,28 +65,31 @@ class MutasiBarangKeluar
     public static function updateData(
         $conn,
         $id,
-        $tanggal_keluar,
+        $tanggal_penerimaan,
+        $sumber_barang,
         $nama_barang,
         $jumlah,
-        $tujuan,
-        $penerima,
-        $keterangan
+        $kondisi,
+        $nomor_nota = null,
+        $keterangan = null
     ) {
-        $query = "UPDATE mutasi_barang_keluar SET 
-            tanggal_keluar = :tanggal_keluar,
+        $query = "UPDATE mutasi_barang_masuk SET 
+            tanggal_penerimaan = :tanggal_penerimaan,
+            sumber_barang = :sumber_barang,
             nama_barang = :nama_barang,
             jumlah = :jumlah,
-            tujuan = :tujuan,
-            penerima = :penerima,
+            kondisi = :kondisi,
+            nomor_nota = :nomor_nota,
             keterangan = :keterangan
             WHERE id = :id";
 
         $stmt = $conn->prepare($query);
-        $stmt->bindParam(':tanggal_keluar', $tanggal_keluar);
+        $stmt->bindParam(':tanggal_penerimaan', $tanggal_penerimaan);
+        $stmt->bindParam(':sumber_barang', $sumber_barang);
         $stmt->bindParam(':nama_barang', $nama_barang);
         $stmt->bindParam(':jumlah', $jumlah);
-        $stmt->bindParam(':tujuan', $tujuan);
-        $stmt->bindParam(':penerima', $penerima);
+        $stmt->bindParam(':kondisi', $kondisi);
+        $stmt->bindParam(':nomor_nota', $nomor_nota);
         $stmt->bindParam(':keterangan', $keterangan);
         $stmt->bindParam(':id', $id);
 
@@ -93,7 +98,7 @@ class MutasiBarangKeluar
 
     public static function deleteData($conn, $id)
     {
-        $query = "DELETE FROM mutasi_barang_keluar WHERE id = :id";
+        $query = "DELETE FROM mutasi_barang_masuk WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();

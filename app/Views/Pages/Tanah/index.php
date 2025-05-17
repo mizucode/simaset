@@ -58,11 +58,6 @@
                                                 <th width="5%">No</th>
                                                 <th width="15%">Nama Aset</th>
                                                 <th width="12%">Nomor Sertifikat</th>
-                                                <th width="8%">Luas (m²)</th>
-                                                <th width="15%">Lokasi</th>
-                                                <th width="12%">Tanggal Pajak</th>
-                                                <th width="10%">Fungsi</th>
-                                                <th width="10%">File Sertifikat</th>
                                                 <th width="8%">Aksi</th>
                                             </tr>
                                         </thead>
@@ -74,19 +69,6 @@
                                                         <td class="text-center"><?= $counter++; ?></td>
                                                         <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
-                                                        <td class="text-center"><?= htmlspecialchars($td['luas'] ?? '-'); ?></td>
-                                                        <td class=""><?= htmlspecialchars($td['lokasi'] ?? '-'); ?></td>
-                                                        <td class="text-center"><?= !empty($td['tgl_pajak']) ? date('d-m-Y', strtotime($td['tgl_pajak'])) : '-'; ?></td>
-                                                        <td class="text-center"><?= htmlspecialchars($td['fungsi'] ?? '-'); ?></td>
-                                                        <td class="text-center">
-                                                            <?php if (!empty($td['file_sertifikat'])): ?>
-                                                                <a href="/admin/prasarana/tanah?download=<?= htmlspecialchars($td['id']); ?>" download class="btn btn-primary btn-sm">
-                                                                    <i class="fas fa-file-download"></i> Unduh
-                                                                </a>
-                                                            <?php else: ?>
-                                                                <span class="badge badge-danger">Tidak Ada File</span>
-                                                            <?php endif; ?>
-                                                        </td>
 
                                                         <td class="text-center">
                                                             <a href="/admin/prasarana/tanah?detail=<?= $td['id']; ?>" class="btn btn-sm btn-info" title="Detail">

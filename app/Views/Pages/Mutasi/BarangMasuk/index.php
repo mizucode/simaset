@@ -15,9 +15,9 @@
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3 class="card-title text-lg">
-                                        Data Pengeluaran Barang
+                                        Data Penerimaan Barang
                                     </h3>
-                                    <a href="/admin/transaksi/mutasi/barang-keluar/tambah" class="btn btn-warning btn-sm">
+                                    <a href="/admin/transaksi/mutasi/barang-masuk/tambah" class="btn btn-warning btn-sm">
                                         <i class="fas fa-plus mr-1"></i>Tambah Data
                                     </a>
                                 </div>
@@ -27,7 +27,7 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Cari data pengeluaran...">
+                                            <input type="text" class="form-control" placeholder="Cari data penerimaan...">
                                             <div class="input-group-append">
                                                 <button class="btn btn-primary" type="button">
                                                     <i class="fas fa-search"></i>
@@ -52,35 +52,40 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
-                                                <th width="10%">Tanggal Keluar</th>
+                                                <th width="10%">Tanggal Terima</th>
+                                                <th width="15%">Sumber Barang</th>
                                                 <th width="20%">Nama Barang</th>
                                                 <th width="10%">Jumlah</th>
-                                                <th width="15%">Tujuan</th>
-                                                <th width="15%">Penerima</th>
-                                                <th width="15%">Keterangan</th>
+                                                <th width="10%">Kondisi</th>
+                                                <th width="10%">No. Nota</th>
+                                                <th width="10%">Keterangan</th>
                                                 <th width="10%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             $no = 1;
-                                            foreach ($mutasiBK as $data):
+                                            foreach ($mutasiBM as $data):
                                             ?>
                                                 <tr>
                                                     <td class="text-center"><?= $no++ ?></td>
-                                                    <td><?= date('d M Y', strtotime($data['tanggal_keluar'])) ?></td>
+                                                    <td><?= date('d M Y', strtotime($data['tanggal_penerimaan'])) ?></td>
+                                                    <td><?= htmlspecialchars($data['sumber_barang']) ?></td>
                                                     <td><?= htmlspecialchars($data['nama_barang']) ?></td>
                                                     <td class="text-center"><?= htmlspecialchars($data['jumlah']) ?></td>
-                                                    <td><?= htmlspecialchars($data['tujuan']) ?></td>
-                                                    <td><?= htmlspecialchars($data['penerima']) ?></td>
+                                                    <td class="text-center">
+                                                        <span class="badge <?= $data['kondisi'] == 'Baik' ? 'badge-success' : 'badge-danger' ?>">
+                                                            <?= htmlspecialchars($data['kondisi']) ?>
+                                                        </span>
+                                                    </td>
+                                                    <td><?= htmlspecialchars($data['nomor_nota']) ?></td>
                                                     <td><?= htmlspecialchars($data['keterangan']) ?></td>
                                                     <td class="text-center">
                                                         <div class="btn-group btn-group-sm">
-
-                                                            <a href="/admin/transaksi/mutasi/barang-keluar?edit=<?= htmlspecialchars($data['id']) ?>" class="btn btn-warning" title="Edit">
+                                                            <a href="/admin/transaksi/mutasi/barang-masuk?edit=<?= htmlspecialchars($data['id']) ?>" class="btn btn-warning" title="Edit">
                                                                 <i class="fas fa-edit"></i>
                                                             </a>
-                                                            <a href="/admin/transaksi/mutasi/barang-keluar?delete=<?= htmlspecialchars($data['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">
+                                                            <a href="/admin/transaksi/mutasi/barang-masuk?delete=<?= htmlspecialchars($data['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">
                                                                 <i class="fas fa-trash"></i>
                                                             </a>
                                                         </div>
@@ -88,8 +93,6 @@
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
-
-
                                     </table>
                                 </div>
                             </div>
@@ -111,7 +114,7 @@
             const workbook = XLSX.utils.table_to_book(table);
 
             // Generate file XLSX
-            XLSX.writeFile(workbook, 'Laporan_Pengeluaran_Barang.xlsx', {
+            XLSX.writeFile(workbook, 'Laporan_Penerimaan_Barang.xlsx', {
                 bookType: 'xlsx',
                 type: 'file'
             });
@@ -150,7 +153,7 @@
             XLSX.utils.book_append_sheet(wb, ws, "Laporan");
 
             // Export ke file
-            XLSX.writeFile(wb, 'Laporan_Pengeluaran_Barang.xlsx');
+            XLSX.writeFile(wb, 'Laporan_Penerimaan_Barang.xlsx');
         }
     </script>
 

@@ -15,16 +15,16 @@
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3 class="card-title text-lg">
-                                        Detail Gedung
+                                        Detail Ruangan
                                     </h3>
                                     <div class="text-right">
                                         <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= $detailData['id']; ?>">
                                             <i class="fas fa-trash mr-1"></i> Hapus
                                         </button>
-                                        <a href="/admin/prasarana/gedung?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
+                                        <a href="/admin/prasarana/ruang?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
                                             <i class="fas fa-edit mr-1"></i> Edit
                                         </a>
-                                        <a href="/admin/prasarana/gedung" class="btn btn-secondary btn-sm">
+                                        <a href="/admin/prasarana/ruang" class="btn btn-secondary btn-sm">
                                             <i class="fas fa-arrow-left mr-1"></i> Kembali
                                         </a>
                                     </div>
@@ -32,23 +32,22 @@
                             </div>
 
                             <div class="card-body">
-                                <!-- Info Box Utama -->
                                 <div class="row mb-4">
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-info"><i class="fas fa-building"></i></span>
+                                            <span class="info-box-icon bg-info"><i class="fas fa-door-open"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Nama Gedung</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_gedung'] ?? 'Gedung A') ?></span>
+                                                <span class="info-box-text">Nama Ruangan</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_ruang'] ?? 'Ruang A1') ?></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
+                                            <span class="info-box-icon bg-success"><i class="fas fa-building"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Kode Gedung</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['kode_gedung'] ?? 'GDG-001') ?></span>
+                                                <span class="info-box-text">Gedung</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_gedung'] ?? 'Gedung A') ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -56,41 +55,40 @@
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-warning"><i class="fas fa-layer-group"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Jumlah Lantai</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['jumlah_lantai'] ?? '4') ?></span>
+                                                <span class="info-box-text">Lantai</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['lantai'] ?? '1') ?></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Info Box Kedua -->
                                 <div class="row mb-4">
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-primary"><i class="fas fa-ruler-combined"></i></span>
                                             <div class="info-box-content">
                                                 <span class="info-box-text">Luas</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['luas'] ?? '1500') ?> m²</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['luas'] ?? '50') ?> m²</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-purple"><i class="fas fa-warehouse"></i></span>
+                                            <span class="info-box-icon bg-purple"><i class="fas fa-users"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Konstruksi</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['kontruksi'] ?? 'Beton') ?></span>
+                                                <span class="info-box-text">Kapasitas</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['kapasitas'] ?? '30') ?> orang</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'green' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'yellow' : 'red') ?>"><i class="fas fa-info-circle"></i></span>
+                                            <span class="info-box-icon bg-<?= ($detailData['status'] ?? 'Terpakai') === 'Terpakai' ? 'green' : 'blue' ?>"><i class="fas fa-info-circle"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Kondisi</span>
+                                                <span class="info-box-text">Status</span>
                                                 <span class="info-box-number">
-                                                    <span class="badge badge-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'success' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : 'danger') ?>">
-                                                        <?= htmlspecialchars($detailData['kondisi'] ?? 'Baik') ?>
+                                                    <span class="badge badge-<?= ($detailData['status'] ?? 'Terpakai') === 'Terpakai' ? 'success' : 'primary' ?>">
+                                                        <?= htmlspecialchars($detailData['status'] ?? 'Terpakai') ?>
                                                     </span>
                                                 </span>
                                             </div>
@@ -98,10 +96,9 @@
                                     </div>
                                 </div>
 
-                                <!-- Daftar Ruangan dalam Gedung -->
                                 <div class="border-bottom pb-2 mb-3">
                                     <h5 class="text-bold">
-                                        Ruangan dalam Gedung Ini
+                                        Barang Inventaris dalam Ruangan
                                     </h5>
                                 </div>
 
@@ -110,46 +107,45 @@
                                         <thead class="bg-light">
                                             <tr>
                                                 <th width="5%">No</th>
-                                                <th width="25%">Nama Ruangan</th>
-                                                <th width="15%">Lantai</th>
-                                                <th width="15%">Luas</th>
-                                                <th width="15%">Kapasitas</th>
-                                                <th width="15%">Status</th>
-                                                <th width="10%">Aksi</th>
+                                                <th width="30%">Nama Barang</th>
+                                                <th width="15%">Jumlah</th>
+                                                <th width="20%">Kondisi</th>
+                                                <th width="30%">Keterangan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php if (!empty($detailData)): ?>
+                                            <?php if (!empty($filteredBarangList)): ?>
                                                 <?php $no = 1; ?>
-                                                <?php foreach ($detailData as $ruangan): ?>
+                                                <?php foreach ($filteredBarangList as $barang): ?>
                                                     <tr>
                                                         <td><?= $no++ ?></td>
-                                                        <td><?= htmlspecialchars($ruangan['nama_ruang'] ?? '-') ?></td>
-                                                        <td><?= htmlspecialchars($ruangan['lantai'] ?? '-') ?></td>
-                                                        <td><?= htmlspecialchars($ruangan['luas'] ?? '-') ?> m²</td>
-                                                        <td><?= htmlspecialchars($ruangan['kapasitas'] ?? '-') ?> orang</td>
+                                                        <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-') ?></td>
+                                                        <td><?= htmlspecialchars($barang['jumlah'] ?? '0') ?></td>
                                                         <td>
-                                                            <span class="badge badge-<?= ($ruangan['status'] ?? 'Terpakai') === 'Terpakai' ? 'success' : 'primary' ?>">
-                                                                <?= htmlspecialchars($ruangan['status'] ?? 'Terpakai') ?>
-                                                            </span>
+                                                            <?php if (isset($barang['kondisi'])): ?>
+                                                                <?php if ($barang['kondisi'] == 'Baik'): ?>
+                                                                    <span class="badge badge-success">Baik</span>
+                                                                <?php elseif ($barang['kondisi'] == 'Rusak Ringan'): ?>
+                                                                    <span class="badge badge-warning">Rusak Ringan</span>
+                                                                <?php else: ?>
+                                                                    <span class="badge badge-danger"><?= htmlspecialchars($barang['kondisi']) ?></span>
+                                                                <?php endif; ?>
+                                                            <?php else: ?>
+                                                                -
+                                                            <?php endif; ?>
                                                         </td>
-                                                        <td class="text-center">
-                                                            <a href="/admin/prasarana/ruang/detail/<?= $ruangan['id'] ?>" class="btn btn-info btn-xs" title="Detail">
-                                                                <i class="fas fa-eye"></i>
-                                                            </a>
-                                                        </td>
+                                                        <td><?= htmlspecialchars($barang['keterangan'] ?? '-') ?></td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="7" class="text-center">Tidak ada data ruangan</td>
+                                                    <td colspan="5" class="text-center">Tidak ada data barang hibah</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
                                     </table>
                                 </div>
 
-                                <!-- Informasi Tambahan -->
                                 <div class="border-bottom pb-2 mb-3 mt-5">
                                     <h5 class="text-bold">
                                         Informasi Tambahan
@@ -159,26 +155,21 @@
                                 <div class="row mt-4">
                                     <div class="col-md-6">
                                         <div class="callout callout-info">
-                                            <h5>Fungsi Gedung</h5>
-                                            <p><?= htmlspecialchars($detailData['fungsi'] ?? 'Gedung perkuliahan dan administrasi') ?></p>
+                                            <h5>Fungsi Ruangan</h5>
+                                            <p><?= htmlspecialchars($detailData['fungsi'] ?? 'Ruang kelas untuk perkuliahan regular') ?></p>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="callout callout-warning">
-                                            <h5>Unit Kepemilikan</h5>
-                                            <p>
-                                                <span class="badge badge-<?= ($detailData['unit_kepemilikan'] ?? 'FPST') === 'FPST' ? 'success' : 'warning' ?>">
-                                                    <?= htmlspecialchars($detailData['unit_kepemilikan'] ?? 'FPST') ?>
-                                                </span>
-                                            </p>
+                                            <h5>Keterangan</h5>
+                                            <p><?= htmlspecialchars($detailData['keterangan'] ?? 'Tidak ada Keterangan') ?></p>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Dokumentasi Gedung -->
                                 <div class="border-bottom pb-2 mb-3 mt-5">
                                     <h5 class="text-bold">
-                                        Dokumentasi Gedung
+                                        Dokumentasi Ruangan
                                     </h5>
                                 </div>
 
@@ -186,23 +177,7 @@
                                     <div class="col-md-12">
                                         <div class="card">
                                             <div class="card-body">
-                                                <div class="row">
-                                                    <?php if (!empty($dokumentasi)): ?>
-                                                        <?php foreach ($dokumentasi as $doc): ?>
-                                                            <div class="col-md-3 mb-3">
-                                                                <a href="<?= $doc['url'] ?>" data-toggle="lightbox" data-title="<?= htmlspecialchars($doc['keterangan'] ?? 'Dokumentasi Gedung') ?>" data-gallery="gedung-gallery">
-                                                                    <img src="<?= $doc['thumbnail'] ?>" class="img-fluid rounded" alt="Dokumentasi">
-                                                                </a>
-                                                                <p class="text-center mt-2 small"><?= htmlspecialchars($doc['keterangan'] ?? '') ?></p>
-                                                            </div>
-                                                        <?php endforeach; ?>
-                                                    <?php else: ?>
-                                                        <div class="col-12 text-center text-muted">
-                                                            <i class="fas fa-image fa-3x mb-2"></i>
-                                                            <p>Belum ada dokumentasi</p>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </div>
+                                                <div class="row">kosong</div>
                                             </div>
                                         </div>
                                     </div>
@@ -213,8 +188,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal Konfirmasi Hapus -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -225,7 +198,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah Anda yakin ingin menghapus gedung ini? Semua ruangan dalam gedung ini juga akan terhapus.</p>
+                        <p>Apakah Anda yakin ingin menghapus ruangan ini? Tindakan ini tidak dapat dibatalkan.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
@@ -234,7 +207,6 @@
                 </div>
             </div>
         </div>
-
         <?php include './app/Views/Components/footer.php'; ?>
     </div>
 
@@ -250,11 +222,20 @@
                 event.preventDefault();
                 $(this).ekkoLightbox();
             });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi lightbox untuk gambar dokumentasi
+            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });
 
             // Tangkap event klik tombol delete
             $('button[data-target="#deleteModal"]').on('click', function() {
                 var id = $(this).data('id');
-                var deleteUrl = '/admin/prasarana/gedung?delete=' + id;
+                var deleteUrl = '/admin/prasarana/ruang?delete=' + id;
 
                 // Set URL hapus ke tombol Hapus di modal
                 $('#deleteButton').attr('href', deleteUrl);

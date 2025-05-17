@@ -37,29 +37,39 @@
                         <div class="card card-navy">
                             <div class="card-header text-white">
                                 <h3 class="text-lg">
-                                    Update Mutasi Barang Keluar
+                                    Formulir Mutasi Barang Masuk
                                 </h3>
                             </div>
 
-                            <form action="/admin/transaksi/mutasi/barang-keluar?edit=<?= $mutasi['id'] ?>" method="POST">
+                            <form action="/admin/transaksi/mutasi/barang-masuk/tambah" method="POST">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <!-- Data Mutasi Barang Keluar -->
+                                            <!-- Data Mutasi Barang Masuk -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    DATA MUTASI BARANG KELUAR
+                                                    DATA MUTASI BARANG MASUK
                                                 </h5>
 
-                                                <!-- Tanggal Keluar -->
+                                                <!-- Tanggal Penerimaan -->
                                                 <div class="form-group mb-4">
-                                                    <label for="tanggal_keluar" class="font-weight-bold">Tanggal Keluar</label>
+                                                    <label for="tanggal_penerimaan" class="font-weight-bold">Tanggal Penerimaan</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-calendar-alt text-primary"></i></span>
                                                         </div>
-                                                        <input type="date" class="form-control" id="tanggal_keluar" name="tanggal_keluar"
-                                                            value="<?= htmlspecialchars($mutasi['tanggal_keluar']) ?>" required>
+                                                        <input type="date" class="form-control" id="tanggal_penerimaan" name="tanggal_penerimaan" required>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Sumber Barang -->
+                                                <div class="form-group mb-4">
+                                                    <label for="sumber_barang" class="font-weight-bold">Sumber Barang</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-truck text-primary"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="sumber_barang" name="sumber_barang" placeholder="Masukkan sumber barang" required>
                                                     </div>
                                                 </div>
 
@@ -70,8 +80,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-box text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="nama_barang" name="nama_barang"
-                                                            value="<?= htmlspecialchars($mutasi['nama_barang']) ?>" placeholder="Masukkan nama barang" required>
+                                                        <input type="text" class="form-control" id="nama_barang" name="nama_barang" placeholder="Masukkan nama barang" required>
                                                     </div>
                                                 </div>
 
@@ -82,40 +91,41 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
-                                                        <input type="number" class="form-control" id="jumlah" name="jumlah"
-                                                            value="<?= htmlspecialchars($mutasi['jumlah']) ?>" placeholder="Masukkan jumlah barang" required>
+                                                        <input type="number" class="form-control" id="jumlah" name="jumlah" placeholder="Masukkan jumlah barang" required>
                                                     </div>
                                                 </div>
 
-                                                <!-- Tujuan -->
+                                                <!-- Kondisi -->
                                                 <div class="form-group mb-4">
-                                                    <label for="tujuan" class="font-weight-bold">Tujuan</label>
+                                                    <label for="kondisi" class="font-weight-bold">Kondisi Barang</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt text-primary"></i></span>
+                                                            <span class="input-group-text bg-light"><i class="fas fa-check-circle text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="tujuan" name="tujuan"
-                                                            value="<?= htmlspecialchars($mutasi['tujuan']) ?>" placeholder="Masukkan tujuan barang" required>
+                                                        <select class="form-control" id="kondisi" name="kondisi" required>
+                                                            <option value="">Pilih Kondisi</option>
+                                                            <option value="Baik">Baik</option>
+                                                            <option value="Rusak">Rusak</option>
+                                                            <option value="Perlu Perbaikan">Perlu Perbaikan</option>
+                                                        </select>
                                                     </div>
                                                 </div>
 
-                                                <!-- Penerima -->
+                                                <!-- Nomor Nota -->
                                                 <div class="form-group mb-4">
-                                                    <label for="penerima" class="font-weight-bold">Penerima</label>
+                                                    <label for="nomor_nota" class="font-weight-bold">Nomor Nota</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-user text-primary"></i></span>
+                                                            <span class="input-group-text bg-light"><i class="fas fa-file-invoice text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="penerima" name="penerima"
-                                                            value="<?= htmlspecialchars($mutasi['penerima']) ?>" placeholder="Masukkan nama penerima" required>
+                                                        <input type="text" class="form-control" id="nomor_nota" name="nomor_nota" placeholder="Masukkan nomor nota (opsional)">
                                                     </div>
                                                 </div>
 
                                                 <!-- Keterangan -->
                                                 <div class="form-group mb-4">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
-                                                    <textarea class="form-control" id="keterangan" name="keterangan" rows="3"
-                                                        placeholder="Masukkan keterangan tambahan"><?= htmlspecialchars($mutasi['keterangan']) ?></textarea>
+                                                    <textarea class="form-control" id="keterangan" name="keterangan" rows="3" placeholder="Masukkan keterangan tambahan"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,12 +133,12 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/mutasi/barang-keluar" class="btn btn-secondary">
+                                    <a href="/admin/transaksi/mutasi/barang-masuk" class="btn btn-secondary">
                                         <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                                     </a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
-                                        Update Data Mutasi
+                                        Simpan Data Mutasi
                                     </button>
                                 </div>
                             </form>

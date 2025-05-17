@@ -183,7 +183,7 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/tanah/tambah" class="btn btn-secondary "><span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali</a>
+                                    <a href="/admin/prasarana/tanah" class="btn btn-secondary "><span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali</a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
                                         Simpan Data Tanah

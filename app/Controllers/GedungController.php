@@ -143,4 +143,16 @@ class GedungController
             'gedungData' => $gedungData,
         ]);
     }
+
+    public function detail($id)
+    {
+        global $conn;
+
+        $detailData = Gedung::getById($conn, $id);
+
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
+        ]);
+    }
 }
