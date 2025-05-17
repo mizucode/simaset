@@ -197,7 +197,6 @@
                                                         </div>
                                                         <select class="form-control" id="lokasi" name="lokasi" required>
                                                             <option value="" disabled <?= !isset($sarana['lokasi']) ? 'selected' : '' ?>>Pilih Lokasi Barang</option>
-
                                                             <optgroup label="Lapang">
                                                                 <?php foreach ($lapangData as $lokasi) : ?>
                                                                     <option value="<?= $lokasi['nama_lapang']; ?>"
