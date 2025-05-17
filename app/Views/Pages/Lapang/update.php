@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -50,7 +50,7 @@
                                                 <!-- Kode Lapang -->
                                                 <div class="form-group mb-4">
                                                     <label for="kode_lapang" class="font-weight-bold">Kode Lapang</label>
-                                                    <input type="text" class="form-control" id="kode_lapang" name="kode_lapang" value="<?= htmlspecialchars($lapang['kode_lapang']) ?>" readonly required>
+                                                    <input type="text" class="form-control" id="kode_lapang" name="kode_lapang" value="<?= htmlspecialchars($lapang['kode_lapang']) ?>" required>
                                                 </div>
 
                                                 <!-- Nama Lapang -->
@@ -125,7 +125,7 @@
                                     </div>
 
                                     <div class="card-footer text-right text-white">
-                                        <a href="/admin/prasarana/lapang" class="btn btn-secondary">
+                                        <a href="/admin/prasarana/lapang?detail=<?= htmlspecialchars($lapang['id']) ?>" class="btn btn-secondary">
                                             <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                                         </a>
                                         <button type="submit" class="btn btn-primary" id="submitBtn">

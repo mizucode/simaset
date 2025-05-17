@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -61,7 +61,7 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="kode_lapang" name="kode_lapang" placeholder="Contoh: LPN001" readonly required>
+                                                        <input type="text" class="form-control" id="kode_lapang" name="kode_lapang" placeholder="Contoh: LPN001" required>
                                                     </div>
                                                 </div>
                                                 <!-- Nama Lapang -->
@@ -187,36 +187,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const namaLapangInput = document.getElementById('nama_lapang');
-            const kodeLapangInput = document.getElementById('kode_lapang');
-            const jenisAsetSelect = document.getElementById('jenis_aset_id');
 
-            function generateKodeLapang() {
-                let namaLapang = namaLapangInput.value.trim();
-                let jenisAsetId = jenisAsetSelect.value;
-
-                if (namaLapang.length > 0 && jenisAsetId) {
-                    // Ambil huruf pertama dari setiap kata nama lapang
-                    let singkatan = namaLapang
-                        .split(' ')
-                        .filter(kata => kata.length > 0)
-                        .map(kata => kata.charAt(0).toUpperCase())
-                        .join('');
-
-                    // Gabungkan dengan awalan LPN- dan ID jenis aset
-                    let kodeLapang = `LPN-${jenisAsetId}-${singkatan}`;
-                    kodeLapangInput.value = kodeLapang;
-                } else {
-                    kodeLapangInput.value = '';
-                }
-            }
-
-            namaLapangInput.addEventListener('input', generateKodeLapang);
-            jenisAsetSelect.addEventListener('change', generateKodeLapang);
-        });
-    </script>
 </body>
 
 </html>

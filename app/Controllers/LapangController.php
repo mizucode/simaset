@@ -95,7 +95,7 @@ class LapangController
                     ? 'Data lapang berhasil diperbarui.'
                     : 'Gagal memperbarui data lapang.';
 
-                header('Location: /admin/prasarana/lapang');
+                header('Location: /admin/prasarana/lapang?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -145,7 +145,7 @@ class LapangController
 
         // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
         $filteredBarangList = array_filter($barangList, function ($barang) use ($detailData) {
-            return $barang['lokasi'] == $detailData['nama_ruang'];
+            return $barang['lokasi'] == $detailData['nama_lapang'];
         });
 
         $this->delete();
