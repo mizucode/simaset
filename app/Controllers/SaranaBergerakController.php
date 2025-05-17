@@ -1,8 +1,5 @@
 <?php
-require_once __DIR__ . '/../Models/SaranaBergerak.php';
-require_once __DIR__ . '/../Models/KategoriBarang.php';
-require_once __DIR__ . '/../Models/Barang.php';
-require_once __DIR__ . '/../Models/KondisiBarang.php';
+
 
 class SaranaBergerakController
 {
@@ -19,6 +16,8 @@ class SaranaBergerakController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         $filteredBarangList = array_filter($barangList, function ($barang) {
             return $barang['kategori_id'] == 1;
@@ -36,6 +35,7 @@ class SaranaBergerakController
             $sumber = $_POST['sumber'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'];
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -52,6 +52,7 @@ class SaranaBergerakController
                     $sumber,
                     $jumlah,
                     $satuan,
+                    $lokasi,
                     $keterangan
                 );
 
@@ -71,7 +72,9 @@ class SaranaBergerakController
             'saranaData' => $saranaData,
             'kategoriList' => $kategoriList,
             'barangList' => $filteredBarangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            "lapangData" => $lapangData,
+            "ruangData" => $ruangData,
         ]);
     }
 
@@ -82,6 +85,8 @@ class SaranaBergerakController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         if (!$sarana) {
             $_SESSION['error'] = 'Data sarana bergerak tidak ditemukan.';
@@ -101,6 +106,7 @@ class SaranaBergerakController
             $sumber = $_POST['sumber'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'] ?? 'Unit';
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -118,13 +124,14 @@ class SaranaBergerakController
                     $sumber,
                     $jumlah,
                     $satuan,
+                    $lokasi,
                     $keterangan
                 );
 
                 $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/sarana/bergerak');
+                header('Location: /admin/sarana/bergerak?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -135,7 +142,9 @@ class SaranaBergerakController
             'sarana' => $sarana,
             'kategoriList' => $kategoriList,
             'barangList' => $barangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            "lapangData" => $lapangData,
+            "ruangData" => $ruangData,
         ]);
     }
 
@@ -165,6 +174,17 @@ class SaranaBergerakController
 
         $this->renderView('index', [
             'saranaData' => $saranaData,
+        ]);
+    }
+    public function detail($id)
+    {
+        global $conn;
+
+        $detailData = SaranaBergerak::getById($conn, $id);
+
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
         ]);
     }
 }

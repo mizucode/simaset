@@ -54,6 +54,7 @@ class SaranaBergerak
         $sumber,
         $jumlah,
         $satuan,
+        $lokasi,
         $keterangan
     ) {
         $fields = [
@@ -68,6 +69,7 @@ class SaranaBergerak
             'sumber' => $sumber,
             'jumlah' => $jumlah,
             'satuan' => $satuan,
+            'lokasi' => $lokasi,
             'keterangan' => $keterangan
         ];
 
@@ -98,6 +100,7 @@ class SaranaBergerak
         $sumber,
         $jumlah,
         $satuan,
+        $lokasi,
         $keterangan
     ) {
         $fields = [
@@ -112,6 +115,7 @@ class SaranaBergerak
             'sumber' => $sumber,
             'jumlah' => $jumlah,
             'satuan' => $satuan,
+            'lokasi' => $lokasi,
             'keterangan' => $keterangan
         ];
 

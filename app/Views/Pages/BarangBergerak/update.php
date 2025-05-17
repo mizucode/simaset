@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-12">
@@ -97,7 +97,7 @@
                                                         </div>
                                                         <input type="text" class="form-control" id="no_registrasi" name="no_registrasi"
                                                             value="<?= isset($sarana) ? htmlspecialchars($sarana['no_registrasi']) : '' ?>"
-                                                            placeholder="Contoh: REG-VHC-001" required <?= isset($sarana) ? 'readonly' : '' ?>>
+                                                            placeholder="Contoh: REG-VHC-001" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -210,10 +210,38 @@
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     INFORMASI TAMBAHAN
                                                 </h5>
+                                                <div class="form-group mb-4">
+                                                    <label for="lokasi" class="font-weight-bold">Lokasi Penempatan Barang</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
+                                                        </div>
+                                                        <select class="form-control" id="lokasi" name="lokasi" required>
+                                                            <option value="" disabled <?= !isset($sarana['lokasi']) ? 'selected' : '' ?>>Pilih Lokasi Barang</option>
 
+                                                            <optgroup label="Lapang">
+                                                                <?php foreach ($lapangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_lapang']; ?>"
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $lokasi['nama_lapang']) ? 'selected' : '' ?>>
+                                                                        <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+
+                                                            <optgroup label="Ruang">
+                                                                <?php foreach ($ruangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_ruang']; ?>"
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $lokasi['nama_ruang']) ? 'selected' : '' ?>>
+                                                                        <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <!-- Keterangan -->
                                                 <div class="form-group mb-4">
-                                                    <label for="keterangan" class="font-weight-bold">Catatan/Keterangan</label>
+                                                    <label for="keterangan" class="font-weight-bold">Keterangan</label>
                                                     <textarea class="form-control" id="keterangan" name="keterangan" rows="2"
                                                         placeholder="Tambahkan catatan penting atau riwayat perawatan"><?= isset($sarana) ? htmlspecialchars($sarana['keterangan']) : '' ?></textarea>
                                                 </div>
@@ -222,7 +250,7 @@
                                     </div>
 
                                     <div class="card-footer text-right text-white">
-                                        <a href="/admin/sarana/bergerak" class="btn btn-secondary">
+                                        <a href="/admin/sarana/bergerak?detail=<?= isset($sarana) ? htmlspecialchars($sarana['id']) : '' ?>" class="btn btn-secondary">
                                             <i class="fas fa-arrow-left mr-2"></i>Kembali
                                         </a>
                                         <button type="submit" class="btn btn-primary" id="submitBtn">
@@ -241,30 +269,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto-generate registration number for new items
-            <?php if (!isset($sarana)) : ?>
-                const barangSelect = document.getElementById('barang_id');
-                const noRegInput = document.getElementById('no_registrasi');
 
-                function generateNoRegistrasi() {
-                    const barangId = barangSelect.value;
-                    if (barangId) {
-                        const timestamp = new Date().getTime().toString().slice(-4);
-                        noRegInput.value = `REG-VHC-${barangId}-${timestamp}`;
-                    }
-                }
-
-                barangSelect.addEventListener('change', generateNoRegistrasi);
-
-                // Trigger on initial load if barang is already selected
-                if (barangSelect.value) {
-                    generateNoRegistrasi();
-                }
-            <?php endif; ?>
-        });
-    </script>
 </body>
 
 </html>
