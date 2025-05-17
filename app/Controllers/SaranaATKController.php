@@ -158,4 +158,16 @@ class SaranaATKController
             'saranaData' => $saranaData,
         ]);
     }
+
+    public function detail($id)
+    {
+        global $conn;
+
+        $detailData = SaranaATK::getById($conn, $id);
+
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
+        ]);
+    }
 }

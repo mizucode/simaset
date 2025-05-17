@@ -34,7 +34,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ### 🚧 Dalam Proses
 
-- Crud Pada DataInventarisController
+- Sedang mengerjakan di **Menu ATK**
 
 ---
 
