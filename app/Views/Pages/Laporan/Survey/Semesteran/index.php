@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4">
             <div class="container-fluid">
                 <div class="row justify-content-center">
                     <div class="col-12">
@@ -70,15 +70,10 @@
                                                     <td><?= htmlspecialchars($data['tahun_akademik'] ?? '') ?></td>
                                                     <td><?= date('d M Y', strtotime($data['tanggal_pengecekan'] ?? '')) ?></td>
                                                     <td><?= htmlspecialchars($data['lokasi_survey'] ?? '') ?></td>
-                                                    <td>
-                                                        <div class="btn-group btn-group-sm">
-                                                            <a href="/admin/survey/semesteran?edit=<?= $data['id'] ?>" class="btn btn-info" title="Detail">
-                                                                <i class="fas fa-eye"></i> Detail
-                                                            </a>
-                                                            <a href="/admin/survey/semesteran?delete=<?= $data['id'] ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                                <i class="fas fa-trash"></i> Hapus
-                                                            </a>
-                                                        </div>
+                                                    <td class="text-center">
+                                                        <a href="/admin/survey/semesteran?edit=<?= $data['id'] ?>" class="btn btn-info" title="Detail">
+                                                            <i class="fas fa-eye"></i> Detail
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>

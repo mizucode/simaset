@@ -30,7 +30,7 @@
                                             <th>Kode Barang</th>
                                             <th>Nama Barang</th>
                                             <th>Kategori</th>
-                                            <th>Kondisi Awal</th>
+                                            <th>lokasi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -43,7 +43,7 @@
                                                     <td><?= htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></td>
                                                     <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-'); ?></td>
                                                     <td><?= htmlspecialchars($barang['kategori'] ?? '-'); ?></td>
-                                                    <td><?= htmlspecialchars($barang['kondisi'] ?? '-'); ?></td>
+                                                    <td><?= htmlspecialchars($barang['lokasi'] ?? '-'); ?></td>
 
 
                                                 </tr>

@@ -48,4 +48,12 @@ class DataInventaris
             return "Query gagal: " . $e->getMessage();
         }
     }
+
+    public static function deleteData($conn, $id)
+    {
+        $query = "DELETE FROM survey_semesteran_barang WHERE id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
 }

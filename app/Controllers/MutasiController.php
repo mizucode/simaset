@@ -10,7 +10,14 @@ class MutasiController
 
     public function index()
     {
-        $this->renderView('index', []);
+        global $conn;
+        $mutasiBM = MutasiBarangMasuk::getAllData($conn);
+        $mutasiBK = MutasiBarangKeluar::getAllData($conn);
+
+        $this->renderView('index', [
+            'mutasiBM' => $mutasiBM,
+            'mutasiBK' => $mutasiBK,
+        ]);
     }
 
     public function create() {}

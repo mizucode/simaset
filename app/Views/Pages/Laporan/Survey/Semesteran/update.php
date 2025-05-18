@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4">
 
             <div class="container-fluid">
                 <div class="row justify-content-center">
@@ -18,9 +18,16 @@
                                     <h3 class="card-title text-lg">
                                         Detail Inventarisasi Sarpras
                                     </h3>
-                                    <a href="/admin/survey/semesteran" class="btn btn-secondary btn-sm">
-                                        <i class="fas fa-arrow-left mr-1"></i>Kembali
-                                    </a>
+
+                                    <div class="text-right">
+                                        <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= $detailData['id']; ?>">
+                                            <i class="fas fa-trash mr-1"></i> Hapus
+                                        </button>
+
+                                        <a href="/admin/survey/semesteran" class="btn btn-secondary btn-sm">
+                                            <i class="fas fa-arrow-left mr-1"></i> Kembali
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
 
@@ -118,50 +125,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <div class="border-bottom pb-2 mb-3 mt-5 flex justify-content-between">
-                                    <h5 class=" text-bold">
-                                        Catatatan dan Dokumentasi
-                                    </h5>
-                                    <a href="/admin/survey/semesteran/data-inventaris?tambah=<?= htmlspecialchars($data['id']) ?>" class="btn btn-warning btn-sm ml-auto">
-                                        <div class="text-dark">
-                                            <i class="fas fa-plus mr-1"></i> Tambah Data
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="row mt-4">
-                                    <div class="col-md-6">
-                                        <div class="callout callout-info">
-                                            <h5>Catatan Tambahan</h5>
-                                            <p>Ruangan ini secara keseluruhan berada dalam kondisi yang baik dan layak digunakan. Hanya terdapat beberapa kursi yang memerlukan perbaikan kecil agar nyaman saat dipakai. Selain itu, penggantian proyektor yang sudah rusak juga perlu dilakukan supaya kualitas presentasi menjadi optimal. Secara umum, fasilitas ruangan ini sudah memadai dan siap menunjang aktivitas sehari-hari. Perbaikan kecil pada kursi dan pergantian alat proyeksi akan membuat ruangan semakin lengkap dan nyaman. Dengan sedikit perbaikan tersebut, ruangan ini dapat berfungsi secara maksimal dan mendukung kegiatan yang dilakukan di dalamnya.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="card">
-                                            <div class="card-header bg-light">
-                                                <h3 class="card-title">Dokumentasi</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-4">
-                                                        <a href="#" data-toggle="lightbox" data-title="Foto Ruangan">
-                                                            <img src="https://plus.unsplash.com/premium_photo-1746718185563-9d3782845c06?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" class="img-fluid mb-2" alt="Foto Ruangan" />
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <a href="#" data-toggle="lightbox" data-title="Foto Kerusakan">
-                                                            <img src="https://plus.unsplash.com/premium_photo-1746718185563-9d3782845c06?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" class="img-fluid mb-2" alt="Foto Kerusakan" />
-                                                        </a>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <a href="#" data-toggle="lightbox" data-title="Foto Proyektor">
-                                                            <img src="https://plus.unsplash.com/premium_photo-1746718185563-9d3782845c06?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw2fHx8ZW58MHx8fHx8" class="img-fluid mb-2" alt="Foto Proyektor" />
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+
                             </div>
 
                             <div class="card-footer text-right">
