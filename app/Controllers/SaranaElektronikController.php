@@ -1,8 +1,5 @@
 <?php
-require_once __DIR__ . '/../Models/SaranaElektronik.php';
-require_once __DIR__ . '/../Models/KategoriBarang.php';
-require_once __DIR__ . '/../Models/Barang.php';
-require_once __DIR__ . '/../Models/KondisiBarang.php';
+
 
 class SaranaElektronikController
 {
@@ -19,6 +16,8 @@ class SaranaElektronikController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         // Filter barang untuk kategori elektronik (asumsi ID kategori elektronik = 1)
         $filteredBarangList = array_filter($barangList, function ($barang) {
@@ -36,6 +35,7 @@ class SaranaElektronikController
             $tipe = $_POST['tipe'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'] ?? null;
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -51,6 +51,7 @@ class SaranaElektronikController
                     $tipe,
                     $jumlah,
                     $satuan,
+                    $lokasi,
                     $keterangan
                 );
 
@@ -70,7 +71,9 @@ class SaranaElektronikController
             'saranaData' => $saranaData,
             'kategoriList' => $kategoriList,
             'barangList' => $filteredBarangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            'lapangData' => $lapangData,
+            'ruangData' => $ruangData,
         ]);
     }
 
@@ -81,6 +84,8 @@ class SaranaElektronikController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         if (!$sarana) {
             $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan.';
@@ -99,6 +104,7 @@ class SaranaElektronikController
             $tipe = $_POST['tipe'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'] ?? null;
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -115,13 +121,14 @@ class SaranaElektronikController
                     $tipe,
                     $jumlah,
                     $satuan,
+                    $lokasi,
                     $keterangan
                 );
 
                 $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/sarana/elektronik');
+                header('Location: /admin/sarana/elektronik?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -132,7 +139,9 @@ class SaranaElektronikController
             'sarana' => $sarana,
             'kategoriList' => $kategoriList,
             'barangList' => $barangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            'lapangData' => $lapangData,
+            'ruangData' => $ruangData
         ]);
     }
 
@@ -160,6 +169,18 @@ class SaranaElektronikController
 
         $this->renderView('index', [
             'saranaData' => $saranaData,
+        ]);
+    }
+
+    public function detail($id)
+    {
+        global $conn;
+
+        $detailData = SaranaElektronik::getById($conn, $id);
+
+        $this->delete();
+        $this->renderView('detail', [
+            'detailData' => $detailData,
         ]);
     }
 }
