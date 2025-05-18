@@ -13,6 +13,9 @@ class Router
         '/login' => ['controller' => 'AuthController', 'method' => 'login', 'auth' => false],
         '/logout' => ['controller' => 'AuthController', 'method' => 'logout', 'auth' => true],
 
+        // aktifkan untuk menambah user
+        // '/superadmin/add' => ['controller' => 'AuthController', 'method' => 'adduser', 'auth' => false],
+
         // Admin routes
         '/admin' => ['controller' => 'AdminController', 'method' => 'index', 'auth' => true],
         '/mizu' => ['controller' => 'AdminController', 'method' => 'devView', 'auth' => true],

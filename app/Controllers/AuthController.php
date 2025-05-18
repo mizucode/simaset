@@ -27,23 +27,43 @@ class AuthController
         $stmt->execute(['username' => $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user) {
-            // Bandingkan password biasa
-            if ($password == $user['password']) {
-                // Kalau kamu pakai password_hash() di database, ganti dengan:
-                // if (password_verify($password, $user['password']))
-
-                $_SESSION['login'] = true;
-                $_SESSION['user'] = $user;
-                header('Location: /admin');
-                exit;
-            }
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['login'] = true;
+            $_SESSION['user'] = $user;
+            header('Location: /admin');
+            exit;
         }
 
         $_SESSION['error'] = "Username atau Password Salah!";
         header('Location: /');
         exit;
     }
+
+
+    public function adduser()
+    {
+        global $conn;
+
+        // Untuk menambahkan admin baru
+        $username = 'admin';
+        $plain_password = 'akuatmin';
+        $email = 'admin@example.com';
+
+        // Pastikan pakai password_hash
+        $hashed_password = password_hash($plain_password, PASSWORD_DEFAULT);
+
+        $stmt = $conn->prepare("INSERT INTO user (username, password, email, status, role) VALUES (:username, :password, :email, 'disetujui', 'admin')");
+        $stmt->execute([
+            'username' => $username,
+            'password' => $hashed_password,
+            'email' => $email
+        ]);
+
+        echo "Admin berhasil ditambahkan!";
+    }
+
+
+
 
     public function logout()
     {

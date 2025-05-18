@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../Models/User.php';
 class AdminController
 {
     private function renderView(string $view, $data = [])

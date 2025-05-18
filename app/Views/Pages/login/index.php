@@ -112,23 +112,27 @@
                     <div class="register_form">
                         <h3>Masuk Ke Akun</h3>
                         <p>Sistem Aset dan Inventori</p>
+
+                        <!-- Tampilkan Pesan Error -->
                         <?php if (isset($_SESSION['error'])): ?>
                             <p style="color: red;"><?= $_SESSION['error'];
                                                     unset($_SESSION['error']); ?></p>
                         <?php endif; ?>
-                        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+
+                        <!-- Debugging Information -->
+                        <?php if (isset($_SESSION['debug'])): ?>
+                            <div style="background:#f8f9fa;padding:15px;margin-bottom:20px;border:1px solid #ddd;font-family:monospace;">
+                                <h4 style="margin-top:0;">Debug Information:</h4>
+                                <pre><?= htmlspecialchars(print_r($_SESSION['debug'], true)) ?></pre>
+                            </div>
+                            <?php unset($_SESSION['debug']); ?>
+                        <?php endif; ?>
+
                         <form class="form_area" action="/login" method="POST">
                             <div class="row">
                                 <div class="col-lg-12 form_group">
-                                    <input name="username" placeholder="Nama Pengguna" required="" type="text">
+                                    <input name="username" placeholder="Nama Pengguna" required="" type="text" value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>">
                                     <input name="password" placeholder="Kata Sandi" required="" type="password">
-                                    <!-- <div class="captcha_container">
-                    <img src="captcha.php" alt="Captcha Image" class="captcha_image">
-
-                    <button type="button" class="refresh_captcha">↻</button>
-                    <input type="text" name="captcha_input" placeholder="Kode Verifikasi" required>
-                  </div> -->
-
                                 </div>
 
                                 <div class="col-lg-12 text-center">
@@ -138,7 +142,6 @@
                                 <div class="col-lg-12 text-center mt-3">
                                     <a href="#" class="btn btn-link">Panduan Penggunaan Aplikasi SIM</a>
                                 </div>
-
                             </div>
                         </form>
                     </div>
