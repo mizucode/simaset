@@ -43,6 +43,7 @@ class SaranaATK
         $spesifikasi,
         $jumlah,
         $satuan,
+        $lokasi,
         $keterangan
     ) {
         $fields = [
@@ -55,6 +56,7 @@ class SaranaATK
             'spesifikasi' => $spesifikasi,
             'jumlah' => $jumlah,
             'satuan' => $satuan,
+            'lokasi' => $lokasi,
             'keterangan' => $keterangan
         ];
 
@@ -92,6 +94,7 @@ class SaranaATK
         $spesifikasi,
         $jumlah,
         $satuan,
+        $lokasi,
         $keterangan
     ) {
         $query = "UPDATE sarana_atk SET
@@ -104,6 +107,7 @@ class SaranaATK
             spesifikasi = :spesifikasi,
             jumlah = :jumlah,
             satuan = :satuan,
+            lokasi = :lokasi,
             keterangan = :keterangan,
             updated_at = CURRENT_TIMESTAMP
         WHERE id = :id";
@@ -120,6 +124,7 @@ class SaranaATK
             $stmt->bindParam(':jumlah', $jumlah);
             $stmt->bindParam(':satuan', $satuan);
             $stmt->bindParam(':keterangan', $keterangan);
+            $stmt->bindParam(':lokasi', $lokasi);
             $stmt->bindParam(':id', $id);
             return $stmt->execute();
         } catch (PDOException $e) {

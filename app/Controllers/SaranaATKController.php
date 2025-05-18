@@ -19,6 +19,8 @@ class SaranaATKController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         // Filter barang untuk kategori ATK (asumsi ID kategori ATK = 1)
         $filteredBarangList = array_filter($barangList, function ($barang) {
@@ -35,6 +37,7 @@ class SaranaATKController
             $spesifikasi = $_POST['spesifikasi'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'] ?? null;
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -49,6 +52,7 @@ class SaranaATKController
                     $spesifikasi,
                     $jumlah,
                     $satuan,
+                    $lokasi,
                     $keterangan
                 );
 
@@ -68,7 +72,9 @@ class SaranaATKController
             'saranaData' => $saranaData,
             'kategoriList' => $kategoriList,
             'barangList' => $filteredBarangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            'lapangData' => $lapangData,
+            'ruangData' => $ruangData
         ]);
     }
 
@@ -79,6 +85,8 @@ class SaranaATKController
         $kategoriList = KategoriBarang::getAllData($conn);
         $barangList = Barang::getAllData($conn);
         $kondisiList = KondisiBarang::getAllData($conn);
+        $lapangData = Lapang::getAllData($conn);
+        $ruangData = Ruang::getAllData($conn);
 
         if (!$sarana) {
             $_SESSION['error'] = 'Data sarana ATK tidak ditemukan.';
@@ -96,6 +104,7 @@ class SaranaATKController
             $spesifikasi = $_POST['spesifikasi'] ?? null;
             $jumlah = $_POST['jumlah'] ?? 1;
             $satuan = $_POST['satuan'] ?? 'Unit';
+            $lokasi = $_POST['lokasi'] ?? null;
             $keterangan = $_POST['keterangan'] ?? null;
 
             try {
@@ -111,13 +120,14 @@ class SaranaATKController
                     $spesifikasi,
                     $jumlah,
                     $satuan,
+                    $lokasi,
                     $keterangan
                 );
 
                 $message = $success ? 'Data sarana ATK berhasil diperbarui.' : 'Gagal memperbarui data sarana ATK.';
                 $_SESSION['update'] = $message;
 
-                header('Location: /admin/sarana/atk');
+                header('Location: /admin/sarana/atk?detail=' . $id);
                 exit();
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -128,7 +138,9 @@ class SaranaATKController
             'sarana' => $sarana,
             'kategoriList' => $kategoriList,
             'barangList' => $barangList,
-            'kondisiList' => $kondisiList
+            'kondisiList' => $kondisiList,
+            'lapangData' => $lapangData,
+            'ruangData' => $ruangData
         ]);
     }
 

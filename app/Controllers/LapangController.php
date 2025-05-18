@@ -142,9 +142,15 @@ class LapangController
 
         $detailData = Lapang::getById($conn, $id);
         $barangList = SaranaBergerak::getAllData($conn);
+        $barangMebel = SaranaMebelair::getAllData($conn);
+        $barangATK = SaranaATK::getAllData($conn);
+        $barangElektronik = SaranaElektronik::getAllData($conn);
+
+        // Gabungkan kedua array barang
+        $semuaBarang = array_merge($barangList, $barangMebel, $barangATK, $barangElektronik);
 
         // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
-        $filteredBarangList = array_filter($barangList, function ($barang) use ($detailData) {
+        $filteredBarangList = array_filter($semuaBarang, function ($barang) use ($detailData) {
             return $barang['lokasi'] == $detailData['nama_lapang'];
         });
 

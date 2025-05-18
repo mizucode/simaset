@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -46,11 +46,14 @@
                                                             <span class="input-group-text bg-light"><i class="fas fa-boxes text-primary"></i></span>
                                                         </div>
                                                         <select class="form-control" id="barang_id" name="barang_id" required>
-                                                            <option value="" disabled <?= !isset($sarana) ? 'selected' : ''; ?>>Pilih Jenis Barang</option>
+                                                            <option value="" disabled <?= !isset($sarana) ? 'selected' : '' ?>>Pilih Jenis Barang</option>
                                                             <?php foreach ($barangList as $barang): ?>
-                                                                <option value="<?= htmlspecialchars($barang['id']) ?>" <?= isset($sarana) && $sarana['barang_id'] == $barang['id'] ? 'selected' : ''; ?>>
-                                                                    <?= htmlspecialchars($barang['nama_barang']) ?>
-                                                                </option>
+                                                                <?php if ($barang['kategori_id'] == 3): ?>
+                                                                    <option value="<?= htmlspecialchars($barang['id']) ?>"
+                                                                        <?= (isset($sarana) && $sarana['barang_id'] == $barang['id']) ? 'selected' : '' ?>>
+                                                                        <?= htmlspecialchars($barang['nama_barang']) ?>
+                                                                    </option>
+                                                                <?php endif; ?>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
@@ -153,6 +156,34 @@
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     INFORMASI TAMBAHAN
                                                 </h5>
+                                                <div class="form-group mb-4">
+                                                    <label for="lokasi" class="font-weight-bold">Lokasi Penempatan Barang</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
+                                                        </div>
+                                                        <select class="form-control" id="lokasi" name="lokasi" required>
+                                                            <option value="" disabled <?= !isset($sarana['lokasi']) ? 'selected' : '' ?>>Pilih Lokasi Barang</option>
+                                                            <optgroup label="Lapang">
+                                                                <?php foreach ($lapangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_lapang']; ?>"
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $lokasi['nama_lapang']) ? 'selected' : '' ?>>
+                                                                        <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+
+                                                            <optgroup label="Ruang">
+                                                                <?php foreach ($ruangData as $lokasi) : ?>
+                                                                    <option value="<?= $lokasi['nama_ruang']; ?>"
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $lokasi['nama_ruang']) ? 'selected' : '' ?>>
+                                                                        <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
+                                                                    </option>
+                                                                <?php endforeach; ?>
+                                                            </optgroup>
+                                                        </select>
+                                                    </div>
+                                                </div>
                                                 <!-- Keterangan -->
                                                 <div class="form-group mb-4">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
@@ -164,7 +195,7 @@
                                     </div>
 
                                     <div class="card-footer text-right text-white">
-                                        <a href="/admin/sarana/atk" class="btn btn-secondary">
+                                        <a href="/admin/sarana/atk?detail=<?= isset($sarana) ? htmlspecialchars($sarana['id']) : ''; ?>" class="btn btn-secondary">
                                             <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                                         </a>
                                         <button type="submit" class="btn btn-primary" id="submitBtn">
@@ -183,26 +214,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const barangSelect = document.getElementById('barang_id');
-            const noRegInput = document.getElementById('no_registrasi');
 
-            function generateNoRegistrasi() {
-                const barangId = barangSelect.value;
-
-                if (barangId) {
-                    const timestamp = new Date().getTime().toString().slice(-4);
-                    noRegInput.value = `REG-ATK-${barangId}-${timestamp}`;
-                }
-            }
-
-            barangSelect.addEventListener('change', generateNoRegistrasi);
-
-            // Generate nomor registrasi saat pertama kali load
-            generateNoRegistrasi();
-        });
-    </script>
 </body>
 
 </html>

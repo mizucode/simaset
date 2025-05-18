@@ -16,7 +16,7 @@
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3 class="card-title text-lg">
-                                        Detail Barang ATK
+                                        Detail Barang Alat Tulis Kantor (ATK)
                                     </h3>
                                     <div class="text-right">
                                         <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= $detailData['id']; ?>">
@@ -56,8 +56,8 @@
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-purple"><i class="fas fa-tags"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Jenis Barang</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['barang'] ?? '-') ?></span>
+                                                <span class="info-box-text">Merk</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['merk'] ?? '-') ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -77,21 +77,21 @@
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-orange"><i class="fas fa-industry"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Merk</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['merk'] ?? '-') ?></span>
+                                                <span class="info-box-text">Satuan</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['satuan'] ?? '-') ?></span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'green' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : 'danger') ?>">
-                                                <i class="fas fa-heartbeat"></i>
+                                            <span class="info-box-icon bg-<?= ($detailData['nama_kondisi'] ?? 'Baik') === 'Baik' ? 'green' : ($detailData['nama_kondisi'] === 'Rusak Ringan' ? 'warning' : ($detailData['knama_kondisindisi'] === 'Rusak Berat' ? 'danger' : ($detailData['nama_kondisi'] === 'Hilang' ? 'dark' : 'info'))) ?>">
+                                                <i class="fas fa-clipboard-check"></i>
                                             </span>
                                             <div class="info-box-content">
                                                 <span class="info-box-text">Kondisi</span>
                                                 <span class="info-box-number">
-                                                    <span class="badge badge-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'success' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : 'danger') ?>">
-                                                        <?= htmlspecialchars($detailData['kondisi'] ?? 'Baik') ?>
+                                                    <span class="badge badge-<?= ($detailData['nama_kondisi'] ?? 'Baik') === 'Baik' ? 'success' : ($detailData['nama_kondisi'] === 'Rusak Ringan' ? 'warning' : ($detailData['nama_kondisi'] === 'Rusak Berat' ? 'danger' : ($detailData['nama_kondisi'] === 'Hilang' ? 'dark' : 'info'))) ?>">
+                                                        <?= htmlspecialchars($detailData['nama_kondisi'] ?? 'Baik') ?>
                                                     </span>
                                                 </span>
                                             </div>
@@ -99,22 +99,7 @@
                                     </div>
                                 </div>
 
-                                <div class="border-bottom pb-2 mb-3">
-                                    <h5 class="text-bold">
-                                        Spesifikasi Barang
-                                    </h5>
-                                </div>
 
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label>Spesifikasi Lengkap</label>
-                                            <p class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['spesifikasi'] ?? 'Tidak ada spesifikasi') ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="border-bottom pb-2 mb-3 mt-3">
                                     <h5 class="text-bold">
@@ -123,21 +108,13 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-12">
                                         <div class="form-group">
-                                            <label>Tanggal Masuk</label>
+                                            <label>Spesifikasi</label>
                                             <p class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['tanggal_masuk'] ?? '-') ?>
+                                                <?= htmlspecialchars($detailData['spesifikasi'] ?? '-') ?>
                                             </p>
                                         </div>
-                                        <div class="form-group">
-                                            <label>Sumber Dana</label>
-                                            <p class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['sumber_dana'] ?? '-') ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Lokasi Penyimpanan</label>
                                             <p class="form-control-plaintext border rounded p-2 bg-light">
@@ -151,29 +128,8 @@
                                             </p>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="border-bottom pb-2 mb-3 mt-3">
-                                    <h5 class="text-bold">
-                                        Dokumentasi Barang
-                                    </h5>
-                                </div>
 
-                                <div class="row">
-                                    <?php if (!empty($detailData['dokumentasi'])): ?>
-                                        <?php $dokumentasi = json_decode($detailData['dokumentasi'], true); ?>
-                                        <?php foreach ($dokumentasi as $index => $doc): ?>
-                                            <div class="col-md-3 mb-3">
-                                                <a href="<?= htmlspecialchars($doc) ?>" data-toggle="lightbox" data-gallery="dokumentasi-gallery">
-                                                    <img src="<?= htmlspecialchars($doc) ?>" class="img-fluid rounded" alt="Dokumentasi <?= $index + 1 ?>">
-                                                </a>
-                                            </div>
-                                        <?php endforeach; ?>
-                                    <?php else: ?>
-                                        <div class="col-12">
-                                            <p class="text-muted">Tidak ada dokumentasi tersedia</p>
-                                        </div>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -181,26 +137,27 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Apakah Anda yakin ingin menghapus barang ATK ini? Tindakan ini tidak dapat dibatalkan.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
-                    </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Apakah Anda yakin ingin menghapus barang ATK ini? Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
                 </div>
             </div>
         </div>
-        <?php include './app/Views/Components/footer.php'; ?>
+    </div>
+    <?php include './app/Views/Components/footer.php'; ?>
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
