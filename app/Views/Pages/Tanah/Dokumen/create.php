@@ -30,7 +30,7 @@
                                 <h3 class="text-lg">Formulir Dokumen Tanah</h3>
                             </div>
 
-                            <form action="/admin/dokumen-tanah/tambah" method="POST" enctype="multipart/form-data">
+                            <form action="/admin/prasarana/tanah?tambah-dokumen=<?= $tanahData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 mb-5">
@@ -43,17 +43,19 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt text-primary"></i></span>
                                                     </div>
-                                                    <select class="form-control" id="aset_tanah_id" name="aset_tanah_id" required>
-                                                        <option value="" disabled selected>Pilih Aset Tanah</option>
-                                                        <?php foreach ($asetTanahList as $aset): ?>
-                                                            <option value="<?= htmlspecialchars($aset['id']) ?>">
-                                                                <?= htmlspecialchars($aset['nama_tanah']) ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <input type="text" class="form-control" id="aset_tanah_id" name="aset_tanah_id"
+                                                        value="<?= htmlspecialchars($tanahData['id']) ?>" readonly>
                                                 </div>
                                             </div>
-
+                                            <div class="form-group mb-4">
+                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
+                                                </div>
+                                            </div>
                                             <!-- Upload Dokumen -->
                                             <div class="form-group mb-4">
                                                 <label for="path_dokumen" class="font-weight-bold">Upload Dokumen Tanah</label>

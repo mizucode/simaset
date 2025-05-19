@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Models/Tanah.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
+require_once __DIR__ . '/../Models/DokumenAsetTanah.php';
 
 class TanahController
 {
@@ -268,9 +269,6 @@ class TanahController
         exit;
     }
 
-
-
-
     public function tanah()
     {
         global $conn;
@@ -283,13 +281,236 @@ class TanahController
         ]);
     }
 
+    public function dokumen($id)
+    {
+        global $conn;
+        $tanahData = Tanah::getById($conn, $id);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $aset_tanah_id = $_POST['aset_tanah_id'];
+            $nama_dokumen = $_POST['nama_dokumen'];
+            $path_dokumen = '';
+
+            if (!empty($_FILES['path_dokumen']['name'])) {
+                $uploadDir = __DIR__ . '/../../storage/dokumen_tanah/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $originalName = basename($_FILES['path_dokumen']['name']);
+                $sanitizedName = str_replace(' ', '_', $originalName);
+                $fileName = time() . '_' . $sanitizedName;
+                $targetFile = $uploadDir . $fileName;
+
+                // Debug: print the target file path
+                error_log("Attempting to upload file to: " . $targetFile);
+
+                if (move_uploaded_file($_FILES['path_dokumen']['tmp_name'], $targetFile)) {
+                    $path_dokumen = $fileName;
+                    error_log("File uploaded successfully: " . $path_dokumen);
+                } else {
+                    error_log("File upload failed. Error: " . $_FILES['path_dokumen']['error']);
+                    $_SESSION['error'] = 'Gagal mengupload file sertifikat.';
+                    $this->renderView('create', [
+                        'tanahData' => $tanahData,
+                    ]);
+                    return;
+                }
+            }
+
+            try {
+                $success = Tanah::storeDokumenTanah(
+                    $conn,
+                    $aset_tanah_id,
+                    $nama_dokumen,
+                    $path_dokumen, // Now this contains the filename if upload was successful
+                );
+                $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
+                $_SESSION['update'] = $message;
+
+                if ($success) {
+                    header('Location: /admin/prasarana/tanah');
+                    exit();
+                }
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('/Dokumen/create', [  // Fixed typo in view path (changed from '/Doumen/create')
+            'tanahData' => $tanahData,
+        ]);
+    }
+    public function downloadDokumen($id)
+    {
+        global $conn;
+
+        // 1. Ambil data dokumen dari database
+        $dokumen = DokumenAsetTanah::getDokumenById($conn, $id);
+
+        if (!$dokumen || empty($dokumen['path_dokumen'])) {
+            $_SESSION['error'] = 'Dokumen tidak ditemukan.';
+            header('Location: /admin/prasarana/tanah');
+            exit();
+        }
+
+        // 2. Tentukan path file
+        $filePath = __DIR__ . '/../../storage/dokumen_tanah/' . $dokumen['path_dokumen'];
+
+        // 3. Validasi file
+        if (!file_exists($filePath)) {
+            $_SESSION['error'] = 'File tidak ditemukan di server.';
+            header('Location: /admin/prasarana/tanah');
+            exit();
+        }
+
+        // 4. Set headers untuk download
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+
+        // 5. Output file
+        ob_clean();
+        flush();
+        readfile($filePath);
+        exit;
+    }
+
+    public function previewDokumen($id)
+    {
+        global $conn;
+
+        // Ambil data dokumen dari database
+        $dokumen = DokumenAsetTanah::getDokumenGambarById($conn, $id);
+
+        if (!$dokumen || empty($dokumen['path_dokumen'])) {
+            header("HTTP/1.0 404 Not Found");
+            exit();
+        }
+
+        $filePath = __DIR__ . '/../../storage/dokumentasi_tanah/' . $dokumen['path_dokumen'];
+
+        // Validasi file dan pastikan hanya gambar yang ditampilkan
+        if (!file_exists($filePath)) {
+            header("HTTP/1.0 404 Not Found");
+            exit();
+        }
+
+        $mimeType = mime_content_type($filePath);
+
+        // Hanya izinkan tipe MIME gambar
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!in_array($mimeType, $allowedTypes)) {
+            header("HTTP/1.0 403 Forbidden");
+            exit('File bukan gambar yang valid');
+        }
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+        exit;
+    }
+    public function dokumenGambar($id)
+    {
+        global $conn;
+        $tanahData = Tanah::getById($conn, $id);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $aset_tanah_id = $_POST['aset_tanah_id'];
+            $nama_dokumen = $_POST['nama_dokumen'];
+            $path_dokumen = '';
+
+            if (!empty($_FILES['path_dokumen']['name'])) {
+                $uploadDir = __DIR__ . '/../../storage/dokumentasi_tanah/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $originalName = basename($_FILES['path_dokumen']['name']);
+                $sanitizedName = str_replace(' ', '_', $originalName);
+                $fileName = time() . '_' . $sanitizedName;
+                $targetFile = $uploadDir . $fileName;
+
+                // Debug: print the target file path
+                error_log("Attempting to upload file to: " . $targetFile);
+
+                if (move_uploaded_file($_FILES['path_dokumen']['tmp_name'], $targetFile)) {
+                    $path_dokumen = $fileName;
+                    error_log("File uploaded successfully: " . $path_dokumen);
+                } else {
+                    error_log("File upload failed. Error: " . $_FILES['path_dokumen']['error']);
+                    $_SESSION['error'] = 'Gagal mengupload file sertifikat.';
+                    $this->renderView('create', [
+                        'tanahData' => $tanahData,
+                    ]);
+                    return;
+                }
+            }
+
+            try {
+                $success = Tanah::storeDokumentasiTanah(
+                    $conn,
+                    $aset_tanah_id,
+                    $nama_dokumen,
+                    $path_dokumen, // Now this contains the filename if upload was successful
+                );
+                $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
+                $_SESSION['update'] = $message;
+
+                if ($success) {
+                    header('Location: /admin/prasarana/tanah');
+                    exit();
+                }
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('/Dokumen/createFoto', [  // Fixed typo in view path (changed from '/Doumen/create')
+            'tanahData' => $tanahData,
+        ]);
+    }
+
     public function detail($id)
     {
         global $conn;
+
+        // Ambil data detail berdasarkan ID
         $detailData = Tanah::getById($conn, $id);
+
+        // Ambil semua dokumen berdasarkan ID tanah
+        $dokumenAsetTanah = DokumenAsetTanah::getAllData($conn, $id);
+        $dokumenGambarTanah = DokumenAsetTanah::getAllDataGambar($conn, $id);
+
+        // Pastikan keduanya adalah array
+        if (!is_array($dokumenAsetTanah)) {
+            $dokumenAsetTanah = [];
+        }
+
+        if (!is_array($dokumenGambarTanah)) {
+            $dokumenGambarTanah = [];
+        }
+
+        // Filter dokumen yang hanya memiliki aset_jenis_id sesuai dengan ID dari detailData
+        $filteredDokumen = array_filter($dokumenAsetTanah, function ($dokumen) use ($detailData) {
+            return $dokumen['aset_tanah_id'] == $detailData['id'];
+        });
+
+        $filteredGambar = array_filter($dokumenGambarTanah, function ($dokumen) use ($detailData) {
+            return $dokumen['aset_tanah_id'] == $detailData['id'];
+        });
+
         $this->delete();
+
+        // Kirim data ke view
         $this->renderView('detail', [
             'detailData' => $detailData,
+            'dokumenAsetTanah' => $filteredDokumen,
+            'dokumenGambar' => $filteredGambar,
         ]);
     }
 }

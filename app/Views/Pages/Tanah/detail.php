@@ -75,10 +75,7 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-
 
                                 <div class="row mb-4">
                                     <div class="col-12">
@@ -91,6 +88,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+
 
                                 <div class="border-bottom pb-2 mb-3">
                                     <h5 class="text-bold">
@@ -121,54 +120,96 @@
                                     </div>
                                 </div>
 
-
-                                <div class="border-bottom pb-2 mb-3 mt-4">
+                                <div class="border-bottom pb-2 mt-5 flex justify-content-between">
                                     <h5 class="text-bold">
                                         Dokumen
                                     </h5>
+                                    <a href="/admin/prasarana/tanah?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
                                 </div>
 
-                                <div class="row mt-4">
-                                    <div class="col-md-12">
-                                        <div class="card shadow-sm">
-                                            <div class="card-header bg-primary text-white">
-                                                <h3 class="card-title mb-0">
-                                                    </i>Dokumen Sertifikat
-                                                </h3>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="bg-light">
+                                            <tr class="text-center">
+                                                <th width="5%">No</th>
+                                                <th width="80%">Nama Dokumen</th>
+                                                <th width="30%">Link download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (!empty($dokumenAsetTanah)): ?>
+                                                <?php $no = 1; ?>
+                                                <?php foreach ($dokumenAsetTanah as $barang): ?>
+                                                    <tr>
+                                                        <td><?= $no++ ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_dokumen'] ?? '-') ?></td>
+                                                        <td class="text-center">
+                                                            <a href="/admin/prasarana/tanah?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-success" title="Download" download>
+                                                                <i class="fas fa-download"></i> Download
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3" class="text-center">Tidak ada data dokumen</td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Dokumentasi Gambar Section -->
+                                <div class="border-bottom pb-2 my-5 flex justify-content-between">
+                                    <h5 class="text-bold">
+                                        Dokumen
+                                    </h5>
+                                    <a href="/admin/prasarana/tanah?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="row mb-4">
+                                    <?php if (!empty($dokumenGambar)): ?>
+                                        <?php $no = 1; ?>
+                                        <?php foreach ($dokumenGambar as $barang): ?>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card h-100">
+                                                    <div class="card-img-top splash-art-container" style="height: 200px; overflow: hidden;">
+                                                        <?php if ($barang['path_dokumen'] && in_array(pathinfo($barang['path_dokumen'], PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
+                                                            <img src="/admin/prasarana/tanah?preview-gambar=<?= htmlspecialchars($barang['id']) ?>"
+                                                                alt="<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Tanah') ?>"
+                                                                class="img-fluid h-100 w-100"
+                                                                style="object-fit: cover;">
+                                                        <?php else: ?>
+                                                            <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
+                                                                Tidak ada preview
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <h6 class="card-title"><?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Tanah') ?></h6>
+                                                    </div>
+
+                                                </div>
                                             </div>
-                                            <div class="card-body">
-                                                <?php if (!empty($detailData['file_sertifikat'])): ?>
-                                                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center p-3 bg-light rounded">
-                                                        <div class="mb-2 mb-md-0">
-                                                            <i class="fas fa-file-pdf text-danger mr-2"></i>
-                                                            <span class="font-weight-bold"><?= htmlspecialchars(basename($detailData['file_sertifikat'])) ?></span>
-                                                        </div>
-                                                        <div class="d-flex flex-wrap gap-2">
-                                                            <a href="/admin/prasarana/tanah?download=1&filename=<?= urlencode($detailData['file_sertifikat']); ?>&jenis=sertifikat"
-                                                                class="btn btn-outline-primary btn-sm"
-                                                                download>
-                                                                <i class="fas fa-download mr-1"></i> Unduh
-                                                            </a>
-                                                            <a href="/admin/prasarana/tanah?preview=1&filename=<?= urlencode($detailData['file_sertifikat']); ?>&jenis=sertifikat"
-                                                                target="_blank"
-                                                                class="btn btn-info btn-sm">
-                                                                <i class="fas fa-eye mr-1"></i> Pratinjau
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                <?php else: ?>
-                                                    <div class="text-center py-4">
-                                                        <i class="fas fa-file-excel text-muted fa-3x mb-3"></i>
-                                                        <p class="text-muted font-italic">Tidak ada dokumen sertifikat tersedia</p>
-                                                    </div>
-                                                <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="col-12">
+                                            <div class="alert alert-info text-center" role="alert">
+                                                Tidak ada data dokumen
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php endif; ?>
                                 </div>
+                                <!-- End Dokumentasi Gambar Section -->
                             </div>
-
-
                         </div>
                     </div>
                 </div>

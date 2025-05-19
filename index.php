@@ -126,21 +126,32 @@ class Router
         }
     }
 
-    private function handleRoute($config)
+    private function handleRoute(array $config): void
     {
-        // Check authentication if required
-        if ($config['auth'] && !$this->isAuthenticated()) {
-            // Redirect to login or show error
-            header('Location: /');
-            exit;
-        }
+        $this->checkAuthentication($config);
 
-        // Instantiate controller and call method
         $controller = new $config['controller']();
         $method = $config['method'];
         $params = $config['params'] ?? [];
 
-        // Handle query parameters for specific cases
+        if ($this->shouldHandleQueryParameters()) {
+            $this->handleQueryParameters($controller);
+            return;
+        }
+
+        call_user_func_array([$controller, $method], $params);
+    }
+
+    private function checkAuthentication(array $config): void
+    {
+        if ($config['auth'] && !$this->isAuthenticated()) {
+            header('Location: /');
+            exit;
+        }
+    }
+
+    private function shouldHandleQueryParameters(): bool
+    {
         $allowedUris = [
             '/admin/prasarana/tanah',
             '/admin/prasarana/gedung',
@@ -157,42 +168,38 @@ class Router
             '/admin/transaksi/mutasi/barang-masuk',
         ];
 
-        if (in_array($this->uri, $allowedUris) && isset($_GET['edit']) && is_numeric($_GET['edit'])) {
-            $controller->update($_GET['edit']);
-            return;
-        }
-
-        if (in_array($this->uri, $allowedUris) && isset($_GET['tambah']) && is_numeric($_GET['tambah'])) {
-            $controller->create($_GET['tambah']);
-            return;
-        }
-        if (in_array($this->uri, $allowedUris) && isset($_GET['tambah-dokumen']) && is_numeric($_GET['tambah-dokumen'])) {
-            $controller->dokumen($_GET['tambah-dokumen']);
-            return;
-        }
-
-        if (in_array($this->uri, $allowedUris) && isset($_GET['detail']) && is_numeric($_GET['detail'])) {
-            $controller->detail($_GET['detail']);
-            return;
-        }
-        if (in_array($this->uri, $allowedUris) && isset($_GET['download'])) {
-            $controller->download(); // TANPA parameter
-            return;
-        }
-
-        if (in_array($this->uri, $allowedUris) && isset($_GET['preview']) && isset($_GET['filename']) && isset($_GET['jenis'])) {
-            $controller->preview(); // Tanpa parameter
-            return;
-        }
-
-
-
-
-
-
-        call_user_func_array([$controller, $method], $params);
+        return in_array($this->uri, $allowedUris) && !empty($_GET);
     }
 
+    private function handleQueryParameters($controller): void
+    {
+        $queryHandlers = [
+            'edit' => 'update',
+            'tambah' => 'create',
+            'tambah-dokumen' => 'dokumen',
+            'tambah-gambar' => 'dokumenGambar',
+            'detail' => 'detail',
+            'preview-gambar' => 'previewDokumen',
+            'download-dokumen' => 'downloadDokumen', // Ini akan memanggil method downloadDokumen
+        ];
+
+        foreach ($queryHandlers as $param => $method) {
+            if (isset($_GET[$param]) && is_numeric($_GET[$param])) {
+                $controller->$method($_GET[$param]);
+                return;
+            }
+        }
+
+        if (isset($_GET['download'])) {
+            $controller->download();
+            return;
+        }
+
+        if (isset($_GET['preview']) && isset($_GET['filename']) && isset($_GET['jenis'])) {
+            $controller->preview();
+            return;
+        }
+    }
     private function isAuthenticated()
     {
         // Implement your authentication check logic here

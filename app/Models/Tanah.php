@@ -165,4 +165,55 @@ class Tanah
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
     }
+
+    public static function storeDokumenTanah(
+        $conn,
+        $aset_tanah_id,
+        $nama_dokumen,
+        $path_dokumen
+    ) {
+        $fields = [
+            'aset_tanah_id' => $aset_tanah_id,
+            'nama_dokumen' => $nama_dokumen,
+            'path_dokumen' => $path_dokumen
+
+        ];
+
+        $columns = implode(', ', array_keys($fields));
+        $placeholders = ':' . implode(', :', array_keys($fields));
+
+        $query = "INSERT INTO dokumen_aset_tanah ($columns) VALUES ($placeholders)";
+        $stmt = $conn->prepare($query);
+
+        foreach ($fields as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+
+        return $stmt->execute();
+    }
+    public static function storeDokumentasiTanah(
+        $conn,
+        $aset_tanah_id,
+        $nama_dokumen,
+        $path_dokumen
+    ) {
+        $fields = [
+            'aset_tanah_id' => $aset_tanah_id,
+            'nama_dokumen' => $nama_dokumen,
+            'path_dokumen' => $path_dokumen
+
+        ];
+
+        $columns = implode(', ', array_keys($fields));
+        $placeholders = ':' . implode(', :', array_keys($fields));
+
+        $query = "INSERT INTO dokumentasi_tanah ($columns) VALUES ($placeholders)";
+        $stmt = $conn->prepare($query);
+
+        foreach ($fields as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+
+        return $stmt->execute();
+    }
 }
