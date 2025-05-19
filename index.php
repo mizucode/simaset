@@ -166,6 +166,10 @@ class Router
             $controller->create($_GET['tambah']);
             return;
         }
+        if (in_array($this->uri, $allowedUris) && isset($_GET['tambah-dokumen']) && is_numeric($_GET['tambah-dokumen'])) {
+            $controller->dokumen($_GET['tambah-dokumen']);
+            return;
+        }
 
         if (in_array($this->uri, $allowedUris) && isset($_GET['detail']) && is_numeric($_GET['detail'])) {
             $controller->detail($_GET['detail']);

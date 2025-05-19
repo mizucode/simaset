@@ -61,7 +61,7 @@
                                                 <th width="15%">Kode Barang</th>
                                                 <th width="30%">Nama Barang</th>
                                                 <th width="20%">Kategori</th>
-                                                <th width="30%">Aksi</th>
+                                                <th width="15%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -106,29 +106,60 @@
     <?php include './app/Views/Components/script.php'; ?>
 
     <script>
-        const exportTitle = 'Data Jenis Barang';
+        $(function() {
+            // Inisialisasi DataTable untuk example1 (Data Barang Masuk)
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "stripe": false,
+                "buttons": [{
+                        extend: 'copy',
+                        title: 'Data Jenis Barang'
+                    },
+                    {
+                        extend: 'csv',
+                        title: 'Data Jenis Barang'
+                    },
+                    {
+                        extend: 'excel',
+                        title: 'Data Jenis Barang'
+                    },
+                    {
+                        extend: 'pdf',
+                        title: 'Data Jenis Barang'
+                    },
+                    {
+                        extend: 'print',
+                        title: 'Data Jenis Barang'
+                    },
+                    'colvis'
+                ]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
 
-        $("#example1").DataTable({
-            responsive: true,
-            lengthChange: true,
-            ordering: false,
-            autoWidth: false,
-            dom: '<"row"<"col-md-6"B><"col-md-6"f>>rt<"row"<"col-md-6"l><"col-md-6"p>>',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ],
-            language: {
-                search: "Cari:",
-                lengthMenu: "Tampilkan _MENU_ data",
-                info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                paginate: {
-                    first: "Pertama",
-                    last: "Terakhir",
-                    next: "Selanjutnya",
-                    previous: "Sebelumnya"
-                },
-                zeroRecords: "Data tidak ditemukan"
-            }
+        document.addEventListener("DOMContentLoaded", function() {
+            const editButtons = document.querySelectorAll(".btn-edit");
+
+            editButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
+                    document.getElementById("submitBtn").textContent = "Update Data";
+                    document.getElementById("submitBtn").className = "btn btn-warning";
+                    document.getElementById("id").value = this.dataset.id;
+                    document.getElementById("kode_barang").value = this.dataset.kode;
+                    document.getElementById("nama_barang").value = this.dataset.nama;
+                    document.getElementById("kategori_id").value = this.dataset.kategori;
+                });
+            });
+
+            $('#modalBarang').on('hidden.bs.modal', function() {
+                document.getElementById("modalTitle").textContent = "Form Data Barang";
+                document.getElementById("submitBtn").textContent = "Simpan";
+                document.getElementById("submitBtn").className = "btn btn-primary";
+                document.querySelector("form").reset();
+                document.getElementById("id").value = "";
+            });
         });
     </script>
 

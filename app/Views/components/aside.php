@@ -163,7 +163,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-cart-arrow-down me-2"></i>
                         <p>
-                            Mutasi
+                            Transaksi Barang
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -223,33 +223,10 @@
                         <li class="nav-item">
                             <a href="pages/forms/general.html" class="nav-link">
                                 <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Laporan Data Barang</p>
+                                <p>Laporan Barang Hilang</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/advanced.html" class="nav-link">
-                                <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Laporan Mutasi Barang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/editors.html" class="nav-link">
-                                <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Laporan Pengajuan Barang Rusak/Hilang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/validation.html" class="nav-link">
-                                <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Laporan Barang per Ruangan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/forms/validation.html" class="nav-link">
-                                <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Export ke Excel/PDF</p>
-                            </a>
-                        </li>
+
                     </ul>
                 </li>
 

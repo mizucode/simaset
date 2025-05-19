@@ -45,7 +45,7 @@
                                             <!-- Identitas Peminjam -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3">
-                                                    I. Data Peminjam
+                                                    Data Peminjam
                                                 </h5>
                                                 <!-- Nama Peminjam -->
                                                 <div class="form-group mb-4">
@@ -91,7 +91,7 @@
 
                                             <!-- Identitas Barang Dipinjam -->
                                             <div class="col-12 mb-5 <h5 class=" border-bottom pb-2 mb-3">
-                                                II. Data Barang
+                                                Data Barang Dipinjam
                                                 </h5>
                                                 <!-- Nama Barang -->
                                                 <div class="form-group mb-4">
@@ -227,7 +227,7 @@
                                             <!-- Tujuan Peminjaman -->
                                             <div class="col-12 ">
                                                 <h5 class="border-bottom pb-2 mb-3">
-                                                    III. Tujuan Peminjaman
+                                                    Tujuan Peminjaman
                                                 </h5>
                                                 <div class="form-group mb-4">
                                                     <label for="status" class="font-weight-bold">Status</label>

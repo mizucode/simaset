@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-5 px-4 ">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
             <div class="container-fluid ">
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
@@ -80,7 +80,7 @@
                                     </div>
 
                                     <div class="card-footer text-right text-white">
-                                        <a href="/admin/barang" class="btn btn-secondary">
+                                        <a href="/admin/barang/jenis-barang" class="btn btn-secondary">
                                             <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                                         </a>
                                         <button type="submit" class="btn btn-primary" id="submitBtn">

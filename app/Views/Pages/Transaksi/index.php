@@ -146,7 +146,7 @@
                                                 <th>Nama Barang</th>
                                                 <th>Kondisi</th>
                                                 <th>Keterangan</th>
-                                                <th>Aksi</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -189,13 +189,7 @@
                                                             <span class="badge <?= $badgeClass ?>"><?= $kondisi ?></span>
                                                         </td>
                                                         <td><?= htmlspecialchars($pengembalian['keterangan'] ?? '-'); ?></td>
-                                                        <td class="text-nowrap">
 
-                                                            <button class="btn btn-sm btn-danger btn-hapus" data-id="<?= $pengembalian['id'] ?>" title="Hapus">
-                                                                <i class="fas fa-trash-alt"></i> Hapus
-                                                            </button>
-
-                                                        </td>
                                                     </tr>
                                                 <?php endforeach; ?>
                                             <?php else : ?>

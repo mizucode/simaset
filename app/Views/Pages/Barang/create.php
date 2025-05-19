@@ -8,7 +8,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white py-4 mb-5 px-2">
+        <div class="content-wrapper bg-white pt-3 mb-5 px-2">
             <div class="container-fluid">
                 <?php include './app/Views/Components/helper.php'; ?>
                 <div class="row">
