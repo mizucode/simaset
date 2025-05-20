@@ -47,7 +47,7 @@
                         <li class="nav-item">
                             <a href="/admin/prasarana/gedung" class="nav-link">
                                 <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Gedung</p>
+                                <p>Bangunan</p>
                             </a>
                         </li>
                         <li class="nav-item">

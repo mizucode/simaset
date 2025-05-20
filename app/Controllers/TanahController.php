@@ -187,6 +187,42 @@ class TanahController
             exit();
         }
     }
+    public function deleteDokumen()
+    {
+        if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
+            global $conn;
+            $id = $_GET['delete-dokumen'];
+            $aset_tanah_id = DokumenAsetTanah::getDokumenById($conn, $id)['aset_tanah_id'];
+
+            if (DokumenAsetTanah::delete($conn, $id)) {
+                $_SESSION['success'] = 'Data berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data.';
+            }
+
+
+            header('Location: /admin/prasarana/tanah?detail=' . $aset_tanah_id);
+            exit();
+        }
+    }
+    public function deleteDokumentasi()
+    {
+        if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
+            global $conn;
+            $id = $_GET['delete-gambar'];
+            $aset_tanah_id = DokumenAsetTanah::getDokumenGambarById($conn, $id)['aset_tanah_id'];
+
+            if (DokumenAsetTanah::deleteGambar($conn, $id)) {
+                $_SESSION['success'] = 'Data berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data.';
+            }
+
+
+            header('Location: /admin/prasarana/tanah?detail=' . $aset_tanah_id);
+            exit();
+        }
+    }
 
     public function download()
     {
@@ -285,6 +321,7 @@ class TanahController
     {
         global $conn;
         $tanahData = Tanah::getById($conn, $id);
+        $tanahDataId = Tanah::getById($conn, $id)['id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $aset_tanah_id = $_POST['aset_tanah_id'];
@@ -329,7 +366,7 @@ class TanahController
                 $_SESSION['update'] = $message;
 
                 if ($success) {
-                    header('Location: /admin/prasarana/tanah');
+                    header('Location: /admin/prasarana/tanah?detail=' . $tanahDataId);
                     exit();
                 }
             } catch (PDOException $e) {
@@ -414,10 +451,12 @@ class TanahController
         readfile($filePath);
         exit;
     }
+
     public function dokumenGambar($id)
     {
         global $conn;
         $tanahData = Tanah::getById($conn, $id);
+        $tanahDataId = Tanah::getById($conn, $id)['id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $aset_tanah_id = $_POST['aset_tanah_id'];
@@ -462,7 +501,7 @@ class TanahController
                 $_SESSION['update'] = $message;
 
                 if ($success) {
-                    header('Location: /admin/prasarana/tanah');
+                    header('Location: /admin/prasarana/tanah?detail=' . $tanahDataId);
                     exit();
                 }
             } catch (PDOException $e) {
@@ -478,24 +517,17 @@ class TanahController
     public function detail($id)
     {
         global $conn;
-
-        // Ambil data detail berdasarkan ID
         $detailData = Tanah::getById($conn, $id);
-
-        // Ambil semua dokumen berdasarkan ID tanah
         $dokumenAsetTanah = DokumenAsetTanah::getAllData($conn, $id);
         $dokumenGambarTanah = DokumenAsetTanah::getAllDataGambar($conn, $id);
 
-        // Pastikan keduanya adalah array
         if (!is_array($dokumenAsetTanah)) {
             $dokumenAsetTanah = [];
         }
-
         if (!is_array($dokumenGambarTanah)) {
             $dokumenGambarTanah = [];
         }
 
-        // Filter dokumen yang hanya memiliki aset_jenis_id sesuai dengan ID dari detailData
         $filteredDokumen = array_filter($dokumenAsetTanah, function ($dokumen) use ($detailData) {
             return $dokumen['aset_tanah_id'] == $detailData['id'];
         });
@@ -505,8 +537,8 @@ class TanahController
         });
 
         $this->delete();
-
-        // Kirim data ke view
+        $this->deleteDokumen();
+        $this->deleteDokumentasi();
         $this->renderView('detail', [
             'detailData' => $detailData,
             'dokumenAsetTanah' => $filteredDokumen,

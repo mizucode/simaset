@@ -41,6 +41,21 @@ class DokumenAsetTanah
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public static function delete($conn, $id)
+    {
+        $query = "DELETE FROM dokumen_aset_tanah WHERE id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
+
+    public static function deleteGambar($conn, $id)
+    {
+        $query = "DELETE FROM dokumentasi_tanah WHERE id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        return $stmt->execute();
+    }
 
     public static function storeData(
         $conn,

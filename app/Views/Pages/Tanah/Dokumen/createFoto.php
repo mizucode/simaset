@@ -27,7 +27,7 @@
 
                         <div class="card card-navy">
                             <div class="card-header text-white">
-                                <h3 class="text-lg">Formulir Dokumen Tanah</h3>
+                                <h3 class="text-lg">Tambah Dokumentasi Tanah</h3>
                             </div>
 
                             <form action="/admin/prasarana/tanah?tambah-gambar=<?= $tanahData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -63,21 +63,22 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-upload text-primary"></i></span>
                                                     </div>
-                                                    <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
+                                                    <input type="file" class="form-control" id="path_dokumen" name="path_dokumen"
+                                                        accept="image/jpeg, image/png, image/jpg, image/png" required>
                                                 </div>
-                                                <small class="form-text text-muted">Format file: PDF, JPG, PNG (maks. 5MB)</small>
+                                                <small class="form-text text-muted">Format file: JPG, PNG (maks. 5MB)</small>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/dokumen-tanah" class="btn btn-secondary">
-                                        <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                                    <a href="/admin/prasarana/tanah?detail=<?= htmlspecialchars($tanahData['id']) ?>" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                                     </a>
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
-                                        Simpan Dokumen
+                                        <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
                                     </button>
                                 </div>
                             </form>

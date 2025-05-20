@@ -27,7 +27,7 @@
 
                         <div class="card card-navy">
                             <div class="card-header text-white">
-                                <h3 class="text-lg">Formulir Dokumen Tanah</h3>
+                                <h3 class="text-lg">Tambah Dokumen Tanah</h3>
                             </div>
 
                             <form action="/admin/prasarana/tanah?tambah-dokumen=<?= $tanahData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -72,12 +72,12 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/dokumen-tanah" class="btn btn-secondary">
-                                        <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                                    <a href="/admin/prasarana/tanah?detail=<?= htmlspecialchars($tanahData['id']) ?>" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                                     </a>
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
-                                        Simpan Dokumen
+                                        <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
                                     </button>
                                 </div>
                             </form>
