@@ -34,6 +34,7 @@ class Ruang
         $conn,
         $gedung_id,
         $kode_ruang,
+        $jenis_ruangan,
         $nama_ruang,
         $kapasitas,
         $lantai,
@@ -46,6 +47,7 @@ class Ruang
         $fields = [
             'gedung_id' => $gedung_id,
             'kode_ruang' => $kode_ruang,
+            'jenis_ruangan' => $jenis_ruangan,
             'nama_ruang' => $nama_ruang,
             'kapasitas' => $kapasitas,
             'lantai' => $lantai,
@@ -73,6 +75,7 @@ class Ruang
         $conn,
         $id,
         $gedung_id,
+        $jenis_ruangan,
         $kode_ruang,
         $nama_ruang,
         $kapasitas,
@@ -85,6 +88,7 @@ class Ruang
     ) {
         $query = "UPDATE aset_ruang SET 
                 gedung_id = :gedung_id,
+                jenis_ruangan = :jenis_ruangan,
                 kode_ruang = :kode_ruang,
                 nama_ruang = :nama_ruang,
                 kapasitas = :kapasitas,
@@ -98,6 +102,7 @@ class Ruang
 
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':gedung_id', $gedung_id);
+        $stmt->bindParam(':jenis_ruangan', $jenis_ruangan);
         $stmt->bindParam(':kode_ruang', $kode_ruang);
         $stmt->bindParam(':nama_ruang', $nama_ruang);
         $stmt->bindParam(':kapasitas', $kapasitas);

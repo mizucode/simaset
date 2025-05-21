@@ -67,6 +67,34 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <!-- Jenis Ruang -->
+                                                <div class="form-group mb-4">
+                                                    <label for="jenis_ruangan" class="font-weight-bold">Jenis Ruangan</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light">
+                                                                <i class="fas fa-door-open text-primary"></i>
+                                                            </span>
+                                                        </div>
+                                                        <select class="form-control" id="jenis_ruangan" name="jenis_ruangan" required>
+                                                            <option value="" disabled <?= !isset($ruang) ? 'selected' : '' ?>>Pilih Jenis Ruangan</option>
+                                                            <option value="Ruang Kelas" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Kelas') ? 'selected' : '' ?>>Ruang Kelas</option>
+                                                            <option value="Laboratorium" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Laboratorium') ? 'selected' : '' ?>>Laboratorium</option>
+                                                            <option value="Ruang Seminar" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Seminar') ? 'selected' : '' ?>>Ruang Seminar</option>
+                                                            <option value="Ruang Sidang" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Sidang') ? 'selected' : '' ?>>Ruang Sidang</option>
+                                                            <option value="Ruang Dosen" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Dosen') ? 'selected' : '' ?>>Ruang Dosen</option>
+                                                            <option value="Ruang Kaprodi" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Kaprodi') ? 'selected' : '' ?>>Ruang Kaprodi</option>
+                                                            <option value="Perpustakaan" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Perpustakaan') ? 'selected' : '' ?>>Perpustakaan</option>
+                                                            <option value="Ruang Baca" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Baca') ? 'selected' : '' ?>>Ruang Baca</option>
+                                                            <option value="Ruang Multimedia" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang Multimedia') ? 'selected' : '' ?>>Ruang Multimedia</option>
+                                                            <option value="Ruang UKM" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Ruang UKM') ? 'selected' : '' ?>>Ruang UKM</option>
+                                                            <option value="Kantin" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Kantin') ? 'selected' : '' ?>>Kantin</option>
+                                                            <option value="Toilet" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Toilet') ? 'selected' : '' ?>>Toilet</option>
+                                                            <option value="Gudang" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Gudang') ? 'selected' : '' ?>>Gudang</option>
+                                                            <option value="Mushola" <?= (isset($ruang) && $ruang['jenis_ruangan'] == 'Mushola') ? 'selected' : '' ?>>Mushola</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
                                                 <!-- Kode Ruang -->
                                                 <div class="form-group mb-4">

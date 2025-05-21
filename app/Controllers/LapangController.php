@@ -136,6 +136,231 @@ class LapangController
         ]);
     }
 
+    public function dokumen($id)
+    {
+        global $conn;
+        $dokumenData = Lapang::getById($conn, $id);
+        $dokumenDataId = Lapang::getById($conn, $id)['id'];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $aset_lapang_id = $_POST['aset_lapang_id'];
+            $nama_dokumen = $_POST['nama_dokumen'];
+            $path_dokumen = '';
+
+            if (!empty($_FILES['path_dokumen']['name'])) {
+                $uploadDir = __DIR__ . '/../../storage/dokumen_lapang/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $originalName = basename($_FILES['path_dokumen']['name']);
+                $sanitizedName = str_replace(' ', '_', $originalName);
+                $fileName = time() . '_' . $sanitizedName;
+                $targetFile = $uploadDir . $fileName;
+
+                error_log("Attempting to upload file to: " . $targetFile);
+
+                if (move_uploaded_file($_FILES['path_dokumen']['tmp_name'], $targetFile)) {
+                    $path_dokumen = $fileName;
+                    error_log("File uploaded successfully: " . $path_dokumen);
+                } else {
+                    error_log("File upload failed. Error: " . $_FILES['path_dokumen']['error']);
+                    $_SESSION['error'] = 'Gagal mengupload file dokumen.';
+                    $this->renderView('create', [
+                        'dokumenData' => $dokumenData,
+                    ]);
+                    return;
+                }
+            }
+
+            try {
+                $success = DokumenAsetLapang::storeDokumenLapang(
+                    $conn,
+                    $aset_lapang_id,
+                    $nama_dokumen,
+                    $path_dokumen,
+                );
+                $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
+                $_SESSION['update'] = $message;
+
+                if ($success) {
+                    header('Location: /admin/prasarana/lapang?detail=' . $dokumenDataId);
+                    exit();
+                }
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('/Dokumen/create', [
+            'dokumenData' => $dokumenData,
+        ]);
+    }
+
+    public function downloadDokumen($id)
+    {
+        global $conn;
+
+        $dokumen = DokumenAsetLapang::getDokumenById($conn, $id);
+
+        if (!$dokumen || empty($dokumen['path_dokumen'])) {
+            $_SESSION['error'] = 'Dokumen tidak ditemukan.';
+            header('Location: /admin/prasarana/lapang');
+            exit();
+        }
+
+        $filePath = __DIR__ . '/../../storage/dokumen_lapang/' . $dokumen['path_dokumen'];
+
+        if (!file_exists($filePath)) {
+            $_SESSION['error'] = 'File tidak ditemukan di server.';
+            header('Location: /admin/prasarana/lapang');
+            exit();
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Content-Length: ' . filesize($filePath));
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+
+        ob_clean();
+        flush();
+        readfile($filePath);
+        exit;
+    }
+
+    public function deleteDokumen()
+    {
+        if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
+            global $conn;
+            $id = $_GET['delete-dokumen'];
+            $aset_lapang_id = DokumenAsetLapang::getDokumenById($conn, $id)['aset_lapang_id'];
+
+            if (DokumenAsetLapang::delete($conn, $id)) {
+                $_SESSION['success'] = 'Data berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data.';
+            }
+
+            header('Location: /admin/prasarana/lapang?detail=' . $aset_lapang_id);
+            exit();
+        }
+    }
+
+    // dokumen gambar
+    public function dokumenGambar($id)
+    {
+        global $conn;
+        $lapangData = Lapang::getById($conn, $id);
+        $lapangDataId = Lapang::getById($conn, $id)['id'];
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $aset_lapang_id = $_POST['aset_lapang_id'];
+            $nama_dokumen = $_POST['nama_dokumen'];
+            $path_dokumen = '';
+
+            if (!empty($_FILES['path_dokumen']['name'])) {
+                $uploadDir = __DIR__ . '/../../storage/dokumentasi_lapang/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+
+                $originalName = basename($_FILES['path_dokumen']['name']);
+                $sanitizedName = str_replace(' ', '_', $originalName);
+                $fileName = time() . '_' . $sanitizedName;
+                $targetFile = $uploadDir . $fileName;
+
+                error_log("Attempting to upload file to: " . $targetFile);
+
+                if (move_uploaded_file($_FILES['path_dokumen']['tmp_name'], $targetFile)) {
+                    $path_dokumen = $fileName;
+                    error_log("File uploaded successfully: " . $path_dokumen);
+                } else {
+                    error_log("File upload failed. Error: " . $_FILES['path_dokumen']['error']);
+                    $_SESSION['error'] = 'Gagal mengupload file gambar.';
+                    $this->renderView('create', [
+                        'lapangData' => $lapangData,
+                    ]);
+                    return;
+                }
+            }
+
+            try {
+                $success = DokumenAsetLapang::storeDokumentasiLapang(
+                    $conn,
+                    $aset_lapang_id,
+                    $nama_dokumen,
+                    $path_dokumen,
+                );
+                $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
+                $_SESSION['update'] = $message;
+
+                if ($success) {
+                    header('Location: /admin/prasarana/lapang?detail=' . $lapangDataId);
+                    exit();
+                }
+            } catch (PDOException $e) {
+                $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+            }
+        }
+
+        $this->renderView('/Dokumen/createFoto', [
+            'lapangData' => $lapangData,
+        ]);
+    }
+
+    public function previewDokumen($id)
+    {
+        global $conn;
+
+        $dokumen = DokumenAsetLapang::getDokumenGambarById($conn, $id);
+
+        if (!$dokumen || empty($dokumen['path_dokumen'])) {
+            header("HTTP/1.0 404 Not Found");
+            exit();
+        }
+
+        $filePath = __DIR__ . '/../../storage/dokumentasi_lapang/' . $dokumen['path_dokumen'];
+
+        if (!file_exists($filePath)) {
+            header("HTTP/1.0 404 Not Found");
+            exit();
+        }
+
+        $mimeType = mime_content_type($filePath);
+
+        $allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!in_array($mimeType, $allowedTypes)) {
+            header("HTTP/1.0 403 Forbidden");
+            exit('File bukan gambar yang valid');
+        }
+
+        header('Content-Type: ' . $mimeType);
+        header('Content-Length: ' . filesize($filePath));
+        readfile($filePath);
+        exit;
+    }
+
+    public function deleteDokumentasi()
+    {
+        if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
+            global $conn;
+            $id = $_GET['delete-gambar'];
+            $aset_lapang_id = DokumenAsetLapang::getDokumenGambarById($conn, $id)['aset_lapang_id'];
+
+            if (DokumenAsetLapang::deleteGambar($conn, $id)) {
+                $_SESSION['success'] = 'Data berhasil dihapus.';
+            } else {
+                $_SESSION['error'] = 'Gagal menghapus data.';
+            }
+
+            header('Location: /admin/prasarana/lapang?detail=' . $aset_lapang_id);
+            exit();
+        }
+    }
+
     public function detail($id)
     {
         global $conn;
@@ -145,19 +370,42 @@ class LapangController
         $barangMebel = SaranaMebelair::getAllData($conn);
         $barangATK = SaranaATK::getAllData($conn);
         $barangElektronik = SaranaElektronik::getAllData($conn);
+        $dokumenAsetLapang = DokumenAsetLapang::getAllData($conn, $id);
+        $dokumenGambarLapang = DokumenAsetLapang::getAllDataGambar($conn, $id);
+
+
+        if (!is_array($dokumenAsetLapang)) {
+            $dokumenAsetLapang = [];
+        }
+        if (!is_array($dokumenGambarLapang)) {
+            $dokumenGambarLapang = [];
+        }
+
+        $filteredDokumen = array_filter($dokumenAsetLapang, function ($dokumen) use ($detailData) {
+            return $dokumen['aset_lapang_id'] == $detailData['id'];
+        });
+
+        $filteredGambar = array_filter($dokumenGambarLapang, function ($dokumen) use ($detailData) {
+            return $dokumen['aset_lapang_id'] == $detailData['id'];
+        });
+
 
         // Gabungkan kedua array barang
         $semuaBarang = array_merge($barangList, $barangMebel, $barangATK, $barangElektronik);
 
-        // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
+        // Filter barang berdasarkan lokasi lapangan yang sedang dilihat
         $filteredBarangList = array_filter($semuaBarang, function ($barang) use ($detailData) {
             return $barang['lokasi'] == $detailData['nama_lapang'];
         });
 
         $this->delete();
+        $this->deleteDokumen();
+        $this->deleteDokumentasi();
         $this->renderView('detail', [
             'detailData' => $detailData,
-            'filteredBarangList' => $filteredBarangList
+            'filteredBarangList' => $filteredBarangList,
+            'dokumenAsetLapang' => $filteredDokumen,
+            'dokumenGambar' => $filteredGambar,
         ]);
     }
 }

@@ -55,8 +55,8 @@
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-success"><i class="fas fa-building"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Letak Gedung</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_gedung'] ?? 'Belum terdata gedung') ?></span>
+                                                <span class="info-box-text">Letak Ruang</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_ruang'] ?? 'Belum terdata ruang') ?></span>
                                             </div>
                                         </div>
                                     </div>
@@ -106,6 +106,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-4">
+                                        <div class="info-box bg-light">
+                                            <!-- Ganti icon ke jenis ruangan, contoh: door-open -->
+                                            <span class="info-box-icon bg-info"><i class="fas fa-door-open"></i></span>
+                                            <div class="info-box-content">
+                                                <span class="info-box-text">Jenis Ruangan</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['jenis_ruangan'] ?? 'Umum') ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-info"> <i class="fas fa-info-circle"></i></span>
@@ -182,19 +193,128 @@
                                     </h5>
                                 </div>
 
-                                <div class="row mt-4">
-                                    <div class="col-md-6">
-                                        <div class="callout callout-info">
-                                            <h5>Fungsi Ruangan</h5>
-                                            <p><?= htmlspecialchars($detailData['fungsi'] ?? 'Ruang kelas untuk perkuliahan regular') ?></p>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Fungsi</label>
+                                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                                <?= htmlspecialchars($detailData['fungsi'] ?? '1') ?>
+                                            </p>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="callout callout-warning">
-                                            <h5>Keterangan</h5>
-                                            <p><?= htmlspecialchars($detailData['keterangan'] ?? 'Tidak ada Keterangan') ?></p>
+                                        <div class="form-group">
+                                            <label>Jenis Aset</label>
+                                            <p class="form-control-plaintext border rounded p-2 bg-light">
+                                                <?= htmlspecialchars($detailData['keterangan']) ?>
+                                            </p>
                                         </div>
+
+
                                     </div>
+                                </div>
+                                <!-- Dokumen -->
+                                <div class="border-bottom pb-2 mt-5 mb-3 flex justify-content-between">
+                                    <h5 class="text-bold">
+                                        File Dokumen
+                                    </h5>
+                                    <a href="/admin/prasarana/ruang?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="bg-light">
+                                            <tr class="text-center">
+                                                <th width="5%">No</th>
+                                                <th width="80%">Nama Dokumen</th>
+                                                <th width="30%">Link download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (!empty($dokumenAsetRuang)): ?>
+                                                <?php $no = 1; ?>
+                                                <?php foreach ($dokumenAsetRuang as $barang): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++ ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_dokumen'] ?? '-') ?></td>
+                                                        <td class="text-center">
+                                                            <a href="/admin/prasarana/ruang?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-success" title="Download" download>
+                                                                <i class="fas fa-download"></i> Download
+                                                            </a>
+                                                            <a href="/admin/prasarana/ruang?delete-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-danger" title="Hapus"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3" class="text-center">Tidak ada data dokumen</td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="border-bottom pb-2 my-5 flex justify-content-between">
+                                    <h5 class="text-bold">
+                                        Dokumen Gambar
+                                    </h5>
+                                    <a href="/admin/prasarana/ruang?tambah-gambar=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="row mb-4">
+                                    <?php if (!empty($dokumenGambar)): ?>
+                                        <?php $no = 1; ?>
+                                        <?php foreach ($dokumenGambar as $barang): ?>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card h-100 shadow-sm">
+                                                    <div class="card-img-top splash-art-container position-relative" style="height: 200px; overflow: hidden;">
+                                                        <?php if ($barang['path_dokumen'] && in_array(pathinfo($barang['path_dokumen'], PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
+                                                            <img src="/admin/prasarana/ruang?preview-gambar=<?= htmlspecialchars($barang['id']) ?>"
+                                                                alt="<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Ruang') ?>"
+                                                                class="img-fluid h-100 w-100"
+                                                                style="object-fit: cover;"
+                                                                loading="lazy">
+
+                                                        <?php else: ?>
+                                                            <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
+                                                                Tidak ada preview
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="card-body d-flex flex-column">
+                                                        <h6 class="card-title text-center mb-3"><?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Ruang') ?></h6>
+                                                        <div class="mt-auto text-center">
+                                                            <a href="/admin/prasarana/ruang?delete-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-danger" title="Hapus"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </a>
+                                                            <a href="/admin/prasarana/ruang?preview-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-primary" title="Lihat">
+                                                                <i class="fas fa-eye"></i> Lihat
+                                                            </a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="col-12">
+                                            <div class="alert alert-info text-center" role="alert">
+                                                Tidak ada data dokumen
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>

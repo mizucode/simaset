@@ -1,371 +1,544 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SIK - Detail Barang</title>
-
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AdminLTE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/css/adminlte.min.css">
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Bantuan RuTiLahu - Perbaikan Rumah Untuk Layak Huni</title>
     <style>
-        .info-box-small {
-            min-height: 60px;
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        .info-box-small .info-box-icon {
-            width: 50px;
-            font-size: 1.2rem;
+        /* Global Styles */
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
         }
 
-        .info-box-small .info-box-content {
-            padding: 5px 10px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .info-box-small .info-box-text {
-            font-size: 0.8rem;
+        section {
+            padding: 60px 0;
         }
 
-        .info-box-small .info-box-number {
-            font-size: 1rem;
+        h1,
+        h2,
+        h3 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul {
+            margin-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
             font-weight: bold;
         }
 
-        .barang-image {
-            height: 250px;
-            object-fit: cover;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
+        .logo span {
+            color: #f1c40f;
         }
 
-        .detail-label {
-            font-weight: 600;
-            color: #495057;
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f1c40f;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            margin-top: 60px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background: #3498db;
+            margin: 15px auto;
+        }
+
+        /* Target Section */
+        .target {
+            background: #f1f5f9;
+        }
+
+        .target-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .target-card {
+            background: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .target-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .target-card h3 {
+            color: #3498db;
+        }
+
+        /* Help Section */
+        .help-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .help-item {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        /* Process Section */
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+        }
+
+        .benefits h2,
+        .benefits h3 {
+            color: white;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 5px;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Implementation Section */
+        .implementation {
+            background: white;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: #f1c40f;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .cta h2 {
+            color: #2c3e50;
+        }
+
+        .cta .btn {
+            background: #2c3e50;
+            font-size: 18px;
+            padding: 15px 30px;
+        }
+
+        .cta .btn:hover {
+            background: #34495e;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: #f1c40f;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: #f1c40f;
+        }
+
+        .copyright {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #bdc3c7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+
+            nav ul {
+                margin-top: 20px;
+            }
+
+            nav ul li {
+                margin: 0 10px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            section {
+                padding: 40px 0;
+            }
         }
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index.html" class="nav-link">Beranda</a>
-                </li>
-            </ul>
-
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" role="button">
-                        <i class="fas fa-bell"></i>
-                        <span class="badge badge-warning navbar-badge">3</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fas fa-user-circle"></i>
-                        <span class="ml-2">Admin Inventori</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-user mr-2"></i> Profil
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="index.html" class="brand-link text-center">
-                <span class="brand-text font-weight-light"><i class="fas fa-university mr-2"></i> SIK UNS</span>
-            </a>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <li class="nav-item">
-                            <a href="index.html" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>Dashboard</p>
-                            </a>
-                        </li>
-                        <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-boxes"></i>
-                                <p>
-                                    Inventori
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="barang.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Daftar Barang</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="kategori.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Kategori Barang</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="lokasi.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Lokasi Barang</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="peminjaman.html" class="nav-link">
-                                <i class="nav-icon fas fa-exchange-alt"></i>
-                                <p>Peminjaman</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="laporan.html" class="nav-link">
-                                <i class="nav-icon fas fa-file-alt"></i>
-                                <p>Laporan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pengaturan.html" class="nav-link">
-                                <i class="nav-icon fas fa-cog"></i>
-                                <p>Pengaturan</p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </aside>
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Detail Barang Inventori</h1>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="index.html">Beranda</a></li>
-                                <li class="breadcrumb-item"><a href="barang.html">Inventori</a></li>
-                                <li class="breadcrumb-item active">Detail Barang</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header bg-primary">
-                                    <h3 class="card-title">Informasi Lengkap Barang</h3>
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus text-white"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <!-- Kolom Gambar -->
-                                        <div class="col-md-4">
-                                            <div class="text-center mb-3">
-                                                <img src="https://via.placeholder.com/300x200?text=Barang+Kampus" class="img-fluid barang-image" alt="Gambar Barang">
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <div class="info-box bg-light info-box-small mb-3">
-                                                        <span class="info-box-icon bg-info"><i class="fas fa-box"></i></span>
-                                                        <div class="info-box-content">
-                                                            <span class="info-box-text">Stok</span>
-                                                            <span class="info-box-number">5</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="info-box bg-light info-box-small mb-3">
-                                                        <span class="info-box-icon bg-warning"><i class="fas fa-barcode"></i></span>
-                                                        <div class="info-box-content">
-                                                            <span class="info-box-text">Kode</span>
-                                                            <span class="info-box-number">LP-001</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="info-box bg-light info-box-small">
-                                                        <span class="info-box-icon bg-success"><i class="fas fa-check-circle"></i></span>
-                                                        <div class="info-box-content">
-                                                            <span class="info-box-text">Kondisi</span>
-                                                            <span class="info-box-number">Baik</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="info-box bg-light info-box-small">
-                                                        <span class="info-box-icon bg-danger"><i class="fas fa-calendar-alt"></i></span>
-                                                        <div class="info-box-content">
-                                                            <span class="info-box-text">Tahun</span>
-                                                            <span class="info-box-number">2022</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Kolom Detail -->
-                                        <div class="col-md-8">
-                                            <h3 class="mb-3">Laptop ASUS VivoBook 14 A412FA</h3>
-
-                                            <div class="row mb-4">
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="detail-label">Kategori Barang</label>
-                                                        <p>Elektronik - Laptop</p>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="detail-label">Lokasi Penyimpanan</label>
-                                                        <p>Gedung Rektorat Lt.2 - Ruang TU</p>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="detail-label">Sumber Dana</label>
-                                                        <p>DIPA Universitas</p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label class="detail-label">Tanggal Pembelian</label>
-                                                        <p>15 Maret 2022</p>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="detail-label">Masa Garansi</label>
-                                                        <p>2 Tahun (s/d Maret 2024)</p>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="detail-label">Nomor Inventaris</label>
-                                                        <p>UNS/IT/2022/00124</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="detail-label">Spesifikasi Teknis</label>
-                                                <div class="border p-2 bg-light">
-                                                    <ul class="mb-0">
-                                                        <li>Processor: Intel Core i5-10210U</li>
-                                                        <li>RAM: 8GB DDR4</li>
-                                                        <li>Storage: 512GB SSD</li>
-                                                        <li>Layar: 14" FHD IPS</li>
-                                                        <li>Sistem Operasi: Windows 10 Pro</li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="detail-label">Deskripsi</label>
-                                                <div class="border p-2 bg-light">
-                                                    <p class="mb-0">Laptop untuk kebutuhan administrasi di Tata Usaha Rektorat. Dilengkapi dengan lisensi software original untuk produktivitas kantor.</p>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="detail-label">Riwayat Peminjaman (3 bulan terakhir)</label>
-                                                <div class="table-responsive">
-                                                    <table class="table table-sm table-bordered">
-                                                        <thead class="bg-light">
-                                                            <tr>
-                                                                <th>Tanggal</th>
-                                                                <th>Peminjam</th>
-                                                                <th>Unit</th>
-                                                                <th>Keperluan</th>
-                                                                <th>Status</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>12 Mei 2023</td>
-                                                                <td>Budi Santoso (Fak. Teknik)</td>
-                                                                <td>1</td>
-                                                                <td>Workshop</td>
-                                                                <td><span class="badge bg-success">Dikembalikan</span></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>28 April 2023</td>
-                                                                <td>Ani Wijaya (Fak. Ekonomi)</td>
-                                                                <td>1</td>
-                                                                <td>Penelitian</td>
-                                                                <td><span class="badge bg-success">Dikembalikan</span></td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer text-right">
-                                    <button class="btn btn-default mr-2">
-                                        <i class="fas fa-print mr-1"></i> Cetak
-                                    </button>
-                                    <button class="btn btn-warning mr-2">
-                                        <i class="fas fa-pencil-alt mr-1"></i> Edit
-                                    </button>
-                                    <button class="btn btn-danger">
-                                        <i class="fas fa-trash-alt mr-1"></i> Hapus
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">RuTi<span>Lahu</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#about">Tentang Program</a></li>
+                    <li><a href="#target">Sasaran</a></li>
+                    <li><a href="#help">Bantuan</a></li>
+                    <li><a href="#process">Proses</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                    <li><a href="login.php">Login</a></li>
+                </ul>
+            </nav>
         </div>
+    </header>
 
-        <!-- Footer -->
-        <footer class="main-footer">
-            <strong>Sistem Inventori Kampus (SIK) &copy; 2023 <a href="#">Universitas Sebelas Maret</a>.</strong>
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Versi</b> 1.0.0
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Program Bantuan RuTiLahu</h1>
+            <p>Membantu keluarga kurang mampu di desa meningkatkan kualitas hidup dengan memperbaiki kondisi rumah mereka.</p>
+            <a href="#contact" class="btn">Daftar Sekarang</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Tentang Program</h2>
+            <p>Program Bantuan RuTiLahu (Rumah Tinggal Layak Huni) bertujuan untuk membantu keluarga kurang mampu di desa meningkatkan kualitas hidup mereka dengan memperbaiki kondisi rumah mereka. Program ini fokus pada perbaikan atap, lantai, dan dinding rumah, serta memberikan bantuan kepada keluarga yang terkena bencana.</p>
+            <p>Dengan program ini, diharapkan keluarga kurang mampu di desa dapat memiliki rumah yang layak huni dan meningkatkan kualitas hidup mereka.</p>
+        </div>
+    </section>
+
+    <!-- Target Section -->
+    <section id="target" class="target">
+        <div class="container">
+            <h2 class="section-title">Sasaran Program</h2>
+            <div class="target-grid">
+                <div class="target-card">
+                    <h3>Keluarga Kurang Mampu</h3>
+                    <p>Keluarga kurang mampu di desa yang memiliki rumah dengan kondisi tidak layak huni. Program ini akan membantu mereka untuk memperbaiki kondisi rumah sehingga lebih nyaman dan aman untuk ditinggali.</p>
+                </div>
+                <div class="target-card">
+                    <h3>Korban Bencana</h3>
+                    <p>Keluarga yang terkena bencana dan membutuhkan bantuan untuk memperbaiki rumah mereka. Kami memberikan prioritas kepada keluarga yang rumahnya rusak akibat bencana alam.</p>
+                </div>
             </div>
-        </footer>
-    </div>
+        </div>
+    </section>
 
-    <!-- jQuery -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0/js/adminlte.min.js"></script>
+    <!-- Help Section -->
+    <section id="help" class="help">
+        <div class="container">
+            <h2 class="section-title">Bentuk Bantuan</h2>
+            <div class="help-items">
+                <div class="help-item">
+                    <h3>Perbaikan Atap</h3>
+                    <p>Perbaikan atap rumah yang bocor atau rusak dengan material yang berkualitas untuk melindungi dari cuaca ekstrim.</p>
+                </div>
+                <div class="help-item">
+                    <h3>Perbaikan Lantai</h3>
+                    <p>Perbaikan lantai rumah yang rusak atau tidak rata untuk meningkatkan kenyamanan dan keamanan penghuni.</p>
+                </div>
+                <div class="help-item">
+                    <h3>Perbaikan Dinding</h3>
+                    <p>Perbaikan dinding rumah yang retak atau rusak untuk memperkuat struktur rumah.</p>
+                </div>
+                <div class="help-item">
+                    <h3>Material & Tenaga Kerja</h3>
+                    <p>Penyediaan material dan tenaga kerja untuk memperbaiki rumah sesuai dengan kebutuhan keluarga.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="process">
+        <div class="container">
+            <h2 class="section-title">Proses Seleksi</h2>
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Pendaftaran</h3>
+                        <p>Keluarga yang ingin mendapatkan bantuan harus memenuhi kriteria yang ditentukan oleh desa dan mendaftarkan diri melalui perangkat desa.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Seleksi</h3>
+                        <p>Keluarga yang memenuhi kriteria akan diseleksi berdasarkan kebutuhan dan prioritas oleh tim dari desa.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Penyaluran Bantuan</h3>
+                        <p>Keluarga yang terpilih akan mendapatkan bantuan perbaikan rumah sesuai dengan kebutuhan mereka.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits">
+        <div class="container">
+            <h2 class="section-title">Manfaat Program</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3>Kualitas Hidup Lebih Baik</h3>
+                    <p>Meningkatkan kualitas hidup keluarga kurang mampu di desa dengan memberikan rumah yang layak huni.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Rumah yang Aman dan Nyaman</h3>
+                    <p>Meningkatkan keamanan dan kenyamanan rumah keluarga kurang mampu sehingga mereka bisa hidup lebih tenang.</p>
+                </div>
+                <div class="benefit-card">
+                    <h3>Pemulihan Pasca Bencana</h3>
+                    <p>Membantu keluarga yang terkena bencana untuk memperbaiki rumah mereka dan kembali ke kehidupan normal.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Implementation Section -->
+    <section id="implementation" class="implementation">
+        <div class="container">
+            <h2 class="section-title">Implementasi Program</h2>
+            <p>Program ini akan diimplementasikan oleh desa dengan bantuan tenaga kerja lokal dan material yang tersedia di desa. Desa akan memantau dan mengevaluasi program untuk memastikan bahwa bantuan yang diberikan efektif dan efisien.</p>
+            <p>Kami juga melibatkan masyarakat dalam proses pelaksanaan program untuk menciptakan rasa memiliki dan keberlanjutan program.</p>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Siap Mengajukan Permohonan Bantuan?</h2>
+            <p>Jika Anda atau keluarga Anda memenuhi kriteria, segera ajukan permohonan bantuan melalui perangkat desa setempat.</p>
+            <a href="#contact" class="btn">Hubungi Kami</a>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Kontak Kami</h2>
+            <div class="text-center">
+                <p>Untuk informasi lebih lanjut tentang Program Bantuan RuTiLahu, silakan hubungi:</p>
+                <p><strong>Kantor Desa setempat</strong></p>
+                <p>Atau melalui email: <strong>rutilahu@desa.id</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">RuTi<span>Lahu</span></div>
+            <div class="footer-links">
+                <a href="#about">Tentang</a>
+                <a href="#target">Sasaran</a>
+                <a href="#help">Bantuan</a>
+                <a href="#process">Proses</a>
+                <a href="#contact">Kontak</a>
+            </div>
+            <p class="copyright">&copy; 2023 Program Bantuan RuTiLahu. Semua hak dilindungi.</p>
+        </div>
+    </footer>
 </body>
 
 </html>

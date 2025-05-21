@@ -192,6 +192,8 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Dokumen -->
                                 <div class="border-bottom pb-2 mt-5 mb-3 flex justify-content-between">
                                     <h5 class="text-bold">
                                         File Dokumen

@@ -54,6 +54,35 @@
                                                         </select>
                                                     </div>
                                                 </div>
+                                                <!-- Nama Ruang -->
+                                                <div class="form-group mb-4">
+                                                    <label for="jenis_ruangan" class="font-weight-bold">Jenis Ruangan</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light">
+                                                                <i class="fas fa-door-open text-primary"></i>
+                                                            </span>
+                                                        </div>
+                                                        <select class="form-control" id="jenis_ruangan" name="jenis_ruangan" required>
+                                                            <option value="" disabled selected>Pilih Jenis Ruangan</option>
+                                                            <option value="ruang_kelas">Ruang Kelas</option>
+                                                            <option value="laboratorium">Laboratorium</option>
+                                                            <option value="ruang_seminar">Ruang Seminar</option>
+                                                            <option value="ruang_sidang">Ruang Sidang</option>
+                                                            <option value="ruang_dosen">Ruang Dosen</option>
+                                                            <option value="ruang_kaprodi">Ruang Kaprodi</option>
+                                                            <option value="perpustakaan">Perpustakaan</option>
+                                                            <option value="ruang_baca">Ruang Baca</option>
+                                                            <option value="ruang_multimedia">Ruang Multimedia</option>
+                                                            <option value="ruang_ukm">Ruang UKM</option>
+                                                            <option value="kantin">Kantin</option>
+                                                            <option value="toilet">Toilet</option>
+                                                            <option value="gudang">Gudang</option>
+                                                            <option value="mushola">Mushola</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
                                                 <!-- Kode Ruang -->
                                                 <div class="form-group mb-4">
                                                     <label for="kode_ruang" class="font-weight-bold">Kode Ruang</label>

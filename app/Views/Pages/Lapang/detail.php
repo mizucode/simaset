@@ -185,7 +185,110 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="border-bottom pb-2 mt-5 mb-3 flex justify-content-between">
+                                    <h5 class="text-bold">
+                                        File Dokumen
+                                    </h5>
+                                    <a href="/admin/prasarana/lapang?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
 
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="bg-light">
+                                            <tr class="text-center">
+                                                <th width="5%">No</th>
+                                                <th width="80%">Nama Dokumen</th>
+                                                <th width="30%">Link download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (!empty($dokumenAsetLapang)): ?>
+                                                <?php $no = 1; ?>
+                                                <?php foreach ($dokumenAsetLapang as $barang): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++ ?></td>
+                                                        <td><?= htmlspecialchars($barang['nama_dokumen'] ?? '-') ?></td>
+                                                        <td class="text-center">
+                                                            <a href="/admin/prasarana/lapang?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-success" title="Download" download>
+                                                                <i class="fas fa-download"></i> Download
+                                                            </a>
+                                                            <a href="/admin/prasarana/lapang?delete-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-danger" title="Hapus"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3" class="text-center">Tidak ada data dokumen</td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="border-bottom pb-2 my-5 flex justify-content-between">
+                                    <h5 class="text-bold">
+                                        Dokumen Gambar
+                                    </h5>
+                                    <a href="/admin/prasarana/lapang?tambah-gambar=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="row mb-4">
+                                    <?php if (!empty($dokumenGambar)): ?>
+                                        <?php $no = 1; ?>
+                                        <?php foreach ($dokumenGambar as $barang): ?>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card h-100 shadow-sm">
+                                                    <div class="card-img-top splash-art-container position-relative" style="height: 200px; overflow: hidden;">
+                                                        <?php if ($barang['path_dokumen'] && in_array(pathinfo($barang['path_dokumen'], PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
+                                                            <img src="/admin/prasarana/lapang?preview-gambar=<?= htmlspecialchars($barang['id']) ?>"
+                                                                alt="<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Lapang') ?>"
+                                                                class="img-fluid h-100 w-100"
+                                                                style="object-fit: cover;"
+                                                                loading="lazy">
+
+                                                        <?php else: ?>
+                                                            <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
+                                                                Tidak ada preview
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="card-body d-flex flex-column">
+                                                        <h6 class="card-title text-center mb-3"><?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Lapang') ?></h6>
+                                                        <div class="mt-auto text-center">
+                                                            <a href="/admin/prasarana/lapang?delete-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-danger" title="Hapus"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </a>
+                                                            <a href="/admin/prasarana/lapang?preview-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
+                                                                class="btn btn-sm btn-primary" title="Lihat">
+                                                                <i class="fas fa-eye"></i> Lihat
+                                                            </a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="col-12">
+                                            <div class="alert alert-info text-center" role="alert">
+                                                Tidak ada data dokumen
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
                     </div>
