@@ -378,6 +378,7 @@ class TanahController
             'tanahData' => $tanahData,
         ]);
     }
+
     public function downloadDokumen($id)
     {
         global $conn;

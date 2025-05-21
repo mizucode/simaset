@@ -17,7 +17,7 @@
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3 class="card-title text-lg">
-                                        Data Aset Gedung
+                                        Data Aset Bangunan
                                     </h3>
                                     <a href="/admin/prasarana/gedung/tambah" class="btn btn-warning btn-sm ml-auto">
                                         <div class="text-dark">
@@ -33,8 +33,8 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
-                                                <th width="15%">Kode Gedung</th>
-                                                <th>Nama Gedung</th>
+                                                <th width="15%">Kode Bangunan</th>
+                                                <th>Nama Bangunan</th>
                                                 <th width="20%">Aksi</th>
                                             </tr>
                                         </thead>

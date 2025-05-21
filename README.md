@@ -47,8 +47,18 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ## 📌 Rencana Selanjutnya
 
-- Pembuatan dan integrasi **Menu Penempatan Barang**
-- Pembuatan survey semesteran **Menu Laporan**
+### Prasarana
+
+- Tambahkan dokumen dan dokumentasi di semuah menu sarana dan prasarana.
+- Gedung di rename jadi bangunan.
+- Pada table ruangan tambahkan filed jenis ruangan.
+
+### Sarana
+
+- Jumlah pada barang bergerak hapus saja.
+- Seluruh table brang beri [biaya pembelian, tangggal pembelian, dan dokumen serta dokumentasi].
+- View barang bergerak dibuat persub jenis barang.
+- Kondisi barang tambahkan hilang dan pemusnagan.
 
 ---
 

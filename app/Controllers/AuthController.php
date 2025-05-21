@@ -45,9 +45,9 @@ class AuthController
         global $conn;
 
         // Untuk menambahkan admin baru
-        $username = 'admin';
+        $username = 'yogi';
         $plain_password = 'akuatmin';
-        $email = 'admin@example.com';
+        $email = 'admigiugiuun@example.com';
 
         // Pastikan pakai password_hash
         $hashed_password = password_hash($plain_password, PASSWORD_DEFAULT);
