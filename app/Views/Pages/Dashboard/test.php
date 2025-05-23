@@ -4,541 +4,459 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Program Bantuan RuTiLahu - Perbaikan Rumah Untuk Layak Huni</title>
+    <title>Stiker Barang A4 (3 per Halaman - Ukuran Disesuaikan)</title>
+    <!-- Google Fonts: Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="style.css"> Jika Anda punya file CSS terpisah -->
     <style>
-        /* CSS Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        /* Global Styles */
+        /* General Body and Page Setup */
         body {
-            line-height: 1.6;
+            font-family: 'Roboto', 'Arial', sans-serif;
+            /* Fallback ke Arial */
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f6f8;
+            /* Warna latar lebih lembut */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
             color: #333;
-            background-color: #f9f9f9;
+            /* Warna teks default */
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+        .a4-page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto 20px auto;
+            padding: 5mm;
+            /* Padding dalam halaman A4 */
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            /* Bayangan lebih halus */
+            box-sizing: border-box;
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            /* Distribusi ruang horizontal */
+            align-items: flex-start;
+            align-content: flex-start;
+            /* Penting untuk baris flex saat wrap */
+            gap: 10mm 5mm;
+            /* Jarak antar stiker (baris kolom) */
         }
 
-        section {
-            padding: 60px 0;
+        .sticker-item {
+            /* Tidak perlu margin tambahan di sini jika sudah menggunakan 'gap' pada parent */
+            page-break-inside: avoid;
+            /* Hindari stiker terpotong saat print */
         }
 
-        h1,
-        h2,
-        h3 {
-            margin-bottom: 20px;
-            color: #2c3e50;
+        /* Styling untuk .info-box dan elemen di dalamnya */
+        .info-box {
+            width: 220px;
+            /* Sesuaikan dengan perhitungan agar 3 muat di A4 */
+            height: 350px;
+            /* Sesuaikan tinggi stiker */
+            box-sizing: border-box;
+            overflow: hidden;
+            background-color: #ffffff;
+            /* Pastikan stiker putih jika ada shadow */
+            border-radius: 10px;
+            /* Sudut lebih rounded */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            /* Bayangan halus pada stiker */
         }
 
-        p {
-            margin-bottom: 15px;
-        }
-
-        ul {
-            margin-bottom: 20px;
-            padding-left: 20px;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .btn:hover {
-            background: #2980b9;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-            padding: 20px 0;
-            position: fixed;
+        .info-box-content {
             width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            border: 2px solid #04294d;
+            /* Border sedikit lebih tipis */
+            border-radius: 10px;
+            /* Sinkronkan dengan .info-box */
+            box-sizing: border-box;
+            padding: 12px;
+            /* Padding internal seragam */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
-        .header-container {
+        /* Header Section: Logo and Favicon */
+        .header-section {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding-bottom: 10px;
+            /* Jarak ke bawah */
+            border-bottom: 1px solid #e0e0e0;
+            /* Garis pemisah halus */
+            margin-bottom: 10px;
+            /* Jarak setelah garis */
+            flex: 0 0 auto;
         }
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .logo span {
-            color: #f1c40f;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #f1c40f;
-        }
-
-        /* Hero Section */
-        .hero {
-            background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            color: white;
-            position: relative;
-            margin-top: 60px;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            color: white;
-        }
-
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 30px;
-        }
-
-        /* About Section */
-        .about {
-            background: white;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-            position: relative;
-        }
-
-        .section-title::after {
-            content: '';
+        .logo-container img,
+        .favicon-container img {
             display: block;
-            width: 80px;
-            height: 4px;
-            background: #3498db;
-            margin: 15px auto;
+            max-width: 100%;
+            height: auto;
+            /* Untuk responsivitas gambar */
         }
 
-        /* Target Section */
-        .target {
-            background: #f1f5f9;
+        .favicon-container img {
+            margin-right: 3px;
         }
 
-        .target-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .target-card {
-            background: white;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .target-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .target-card h3 {
-            color: #3498db;
-        }
-
-        /* Help Section */
-        .help-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .help-item {
-            background: #f8f9fa;
-            padding: 20px;
-            border-left: 4px solid #3498db;
-        }
-
-        /* Process Section */
-        .process-steps {
+        /* Item Details Section */
+        .item-details {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .step {
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-        }
-
-        .step-number {
-            background: #3498db;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        /* Benefits Section */
-        .benefits {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white;
-        }
-
-        .benefits h2,
-        .benefits h3 {
-            color: white;
-        }
-
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .benefit-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 5px;
-            backdrop-filter: blur(5px);
-        }
-
-        /* Implementation Section */
-        .implementation {
-            background: white;
-        }
-
-        /* CTA Section */
-        .cta {
-            background: #f1c40f;
             text-align: center;
-            padding: 80px 0;
+            flex: 0 0 auto;
+            /* Tidak tumbuh, tidak menyusut, ukuran otomatis */
+            margin-bottom: 10px;
+            /* Jarak ke QR code */
+            padding: 5px 0;
         }
 
-        .cta h2 {
+        .info-box-number.item-name {
+            font-size: 1.1rem;
+            /* Sedikit lebih besar */
+            font-weight: 700;
+            /* Lebih tebal (bold) */
+            margin-bottom: 5px;
             color: #2c3e50;
+            /* Warna nama item lebih lembut */
+            word-break: break-word;
+            line-height: 1.3;
         }
 
-        .cta .btn {
-            background: #2c3e50;
-            font-size: 18px;
-            padding: 15px 30px;
+        .item-reg {
+            font-size: 0.85rem;
+            color: #555e68;
+            /* Warna abu-abu lebih modern */
         }
 
-        .cta .btn:hover {
-            background: #34495e;
-        }
-
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 40px 0 20px;
+        /* QR Code Section */
+        .qr-code-section {
             text-align: center;
-        }
-
-        .footer-logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .footer-logo span {
-            color: #f1c40f;
-        }
-
-        .footer-links {
+            flex: 1 1 auto;
+            /* Biarkan mengisi sisa ruang */
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 20px;
+            /* Pusatkan QR secara vertikal */
+            align-items: center;
+            /* Pusatkan QR secara horizontal */
+            margin-top: auto;
+            /* Dorong ke bawah jika ada sisa ruang */
         }
 
-        .footer-links a {
-            color: white;
-            text-decoration: none;
+        /* Container untuk QR code yang dihasilkan qrcode.js */
+        .qr-code-container {
+            width: 130px;
+            /* Sesuaikan dengan opsi width/height di qrcode.js */
+            height: 130px;
+            margin: 0 auto;
+            /* Pusatkan jika ada ruang ekstra */
+            display: flex;
+            /* Untuk memusatkan canvas jika ukurannya beda */
+            justify-content: center;
+            align-items: center;
         }
 
-        .footer-links a:hover {
-            color: #f1c40f;
+        .qr-code-container img,
+        .qr-code-container canvas {
+            /* qrcode.js menghasilkan img atau canvas, pastikan ukurannya pas */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
         }
 
-        .copyright {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #bdc3c7;
+
+        .scan-me-text {
+            margin-top: 10px;
+            /* Jarak dari QR code */
+            font-weight: 500;
+            /* Medium weight */
+            font-size: 0.9rem;
+            color: #04294d;
+            text-transform: uppercase;
+            /* Kapital untuk penekanan */
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
+        /* Print Instructions (non-printable area) */
+        .print-instructions {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e9f5ff;
+            /* Warna info biru muda */
+            border: 1px solid #b8d6eb;
+            border-radius: 8px;
+            color: #31708f;
+            /* Warna teks untuk info */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .print-instructions h3 {
+            margin-top: 0;
+            color: #23527c;
+        }
+
+        .print-instructions ol {
+            margin-left: 20px;
+            padding-left: 0;
+            /* Reset padding default */
+        }
+
+        .print-instructions li {
+            margin-bottom: 5px;
+        }
+
+
+        /* Print Specific Styles */
+        @media print {
+            body {
+                padding: 0;
+                margin: 0;
+                background-color: white;
+                color: #000;
+                /* Pastikan teks hitam saat print */
             }
 
-            nav ul {
-                margin-top: 20px;
+            .a4-page {
+                width: 100%;
+                min-height: initial;
+                /* Biarkan konten menentukan tinggi */
+                height: auto;
+                margin: 0;
+                padding: 0;
+                box-shadow: none;
+                gap: 10mm 5mm;
+                /* Pastikan gap diterapkan saat print */
+                align-content: flex-start;
             }
 
-            nav ul li {
-                margin: 0 10px;
+            .sticker-item {
+                /* page-break-inside: avoid; sudah di atas */
             }
 
-            .hero h1 {
-                font-size: 36px;
+            .info-box {
+                box-shadow: none;
+                /* Hilangkan bayangan stiker saat print */
             }
 
-            .hero p {
-                font-size: 18px;
+            .info-box-content {
+                border: 2px solid #000000;
+                /* Border hitam solid untuk print */
             }
 
-            section {
-                padding: 40px 0;
+            .scan-me-text,
+            .item-name,
+            .item-reg {
+                color: #000000 !important;
+                /* Pastikan semua teks penting hitam */
             }
+
+            .header-section {
+                border-bottom-color: #ccc;
+                /* Garis pemisah lebih terang untuk print jika perlu */
+            }
+
+
+            .print-instructions {
+                display: none;
+            }
+        }
+
+        /* Pengaturan margin halaman untuk print */
+        @page {
+            size: A4 portrait;
+            margin: 5mm;
+            /* Margin printer, bisa disesuaikan */
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">RuTi<span>Lahu</span></div>
-            <nav>
+    <div class="a4-page">
+        <?php
+        // Dummy data for testing if $saranaData is not available
+        if (!isset($saranaData) || empty($saranaData)) {
+            $saranaData = [
+                ['id' => '001', 'nama_detail_barang' => 'Laptop Lenovo ThinkPad X1 Carbon Gen 9 Ruang Rapat Lt.3 No.Inv/Aset: LPTP/2023/001', 'no_registrasi' => 'ASSET-2023-001'],
+                ['id' => '002', 'nama_detail_barang' => 'Proyektor Epson EB-S400 Aula Utama No.Inv/Aset: PROJ/2022/005', 'no_registrasi' => 'ASSET-2022-005'],
+                ['id' => '003', 'nama_detail_barang' => 'Printer HP LaserJet Pro M404dn Ruang Admin Lt.1', 'no_registrasi' => 'ASSET-2023-017'],
+                ['id' => '004', 'nama_detail_barang' => 'Meja Kerja Staff Kayu Jati Solid Ukuran Besar Sekali Panjang', 'no_registrasi' => 'FURN-2021-102'],
+                ['id' => '005', 'nama_detail_barang' => 'Kursi Ergonomis Manager', 'no_registrasi' => 'FURN-2021-103'],
+                ['id' => '006', 'nama_detail_barang' => 'AC Split 1PK Panasonic', 'no_registrasi' => 'ELEK-2023-050'],
+            ];
+        }
+        ?>
+
+        <?php foreach ($saranaData as $detailData): ?>
+            <div class="sticker-item">
+                <div class="info-box">
+                    <div class="info-box-content">
+                        <div class="header-section">
+                            <div class="logo-container">
+                                <!-- Pastikan path logo benar -->
+                                <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
+                            </div>
+                            <div class="favicon-container">
+                                <!-- Pastikan path favicon benar -->
+                                <img src="/img/favicon.png" width="35" alt="Favicon">
+                            </div>
+                        </div>
+
+                        <div class="item-details">
+                            <span class="info-box-number item-name"><?= htmlspecialchars($detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia') ?></span>
+                            <?php
+                            $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
+                            ?>
+                            <span class="item-reg">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
+                        </div>
+
+                        <div class="qr-code-section">
+                            <?php
+                            $qrCodeData = htmlspecialchars($nomorRegistrasi);
+                            $canvasId = "qrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
+                            ?>
+                            <div id="<?= $canvasId ?>" class="qr-code-container" data-qr-content="<?= $qrCodeData ?>">
+                                <!-- QR Code akan digenerate oleh JavaScript di sini -->
+                            </div>
+                            <span class="scan-me-text">SCAN DI SINI</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="print-instructions">
+        <h3>Petunjuk Mencetak Stiker</h3>
+        <ol>
+            <li>Gunakan browser **Chrome** atau **Firefox** untuk hasil terbaik.</li>
+            <li>Tekan **Ctrl+P** (atau Cmd+P di Mac) untuk membuka dialog print.</li>
+            <li>Set **Destinasi** ke printer Anda.</li>
+            <li>Set **Layout** ke "Portrait".</li>
+            <li>Set **Ukuran Kertas** ke "A4".</li>
+            <li>Set **Margin**:
                 <ul>
-                    <li><a href="#about">Tentang Program</a></li>
-                    <li><a href="#target">Sasaran</a></li>
-                    <li><a href="#help">Bantuan</a></li>
-                    <li><a href="#process">Proses</a></li>
-                    <li><a href="#contact">Kontak</a></li>
-                    <li><a href="login.php">Login</a></li>
+                    <li>Disarankan: "Minimum" atau "Minimal".</li>
+                    <li>Atau: "Default" jika printer Anda memiliki margin bawaan yang kecil.</li>
+                    <li>Jika printer mendukung: "None" untuk cetak tanpa batas (borderless).</li>
                 </ul>
-            </nav>
-        </div>
-    </header>
+            </li>
+            <li>Set **Skala** ke "Default" atau "100%". (Ukuran stiker sudah disesuaikan).</li>
+            <li>Pastikan opsi **"Grafis latar belakang"** (Background graphics) **DICENTANG**.</li>
+            <li>Cetak pada kertas stiker A4.</li>
+        </ol>
+        <p><em><strong>Catatan:</strong> Setiap stiker berukuran sekitar 65mm x 90mm (setelah konversi dari px dan memperhitungkan padding halaman A4 dan gap antar stiker). Tiga stiker akan pas berjajar horizontal pada kertas A4.</em></p>
+    </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Program Bantuan RuTiLahu</h1>
-            <p>Membantu keluarga kurang mampu di desa meningkatkan kualitas hidup dengan memperbaiki kondisi rumah mereka.</p>
-            <a href="#contact" class="btn">Daftar Sekarang</a>
-        </div>
-    </section>
+    <!-- Library untuk generate QR Code -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Tentang Program</h2>
-            <p>Program Bantuan RuTiLahu (Rumah Tinggal Layak Huni) bertujuan untuk membantu keluarga kurang mampu di desa meningkatkan kualitas hidup mereka dengan memperbaiki kondisi rumah mereka. Program ini fokus pada perbaikan atap, lantai, dan dinding rumah, serta memberikan bantuan kepada keluarga yang terkena bencana.</p>
-            <p>Dengan program ini, diharapkan keluarga kurang mampu di desa dapat memiliki rumah yang layak huni dan meningkatkan kualitas hidup mereka.</p>
-        </div>
-    </section>
+    <!-- jQuery (jika masih dibutuhkan untuk script lain, Ekko Lightbox butuh ini) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Ekko Lightbox (jika digunakan di halaman lain, tidak relevan langsung untuk stiker) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <!-- html2canvas (jika digunakan, biasanya untuk download satu elemen, bukan untuk print massal) -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script> -->
 
-    <!-- Target Section -->
-    <section id="target" class="target">
-        <div class="container">
-            <h2 class="section-title">Sasaran Program</h2>
-            <div class="target-grid">
-                <div class="target-card">
-                    <h3>Keluarga Kurang Mampu</h3>
-                    <p>Keluarga kurang mampu di desa yang memiliki rumah dengan kondisi tidak layak huni. Program ini akan membantu mereka untuk memperbaiki kondisi rumah sehingga lebih nyaman dan aman untuk ditinggali.</p>
-                </div>
-                <div class="target-card">
-                    <h3>Korban Bencana</h3>
-                    <p>Keluarga yang terkena bencana dan membutuhkan bantuan untuk memperbaiki rumah mereka. Kami memberikan prioritas kepada keluarga yang rumahnya rusak akibat bencana alam.</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Help Section -->
-    <section id="help" class="help">
-        <div class="container">
-            <h2 class="section-title">Bentuk Bantuan</h2>
-            <div class="help-items">
-                <div class="help-item">
-                    <h3>Perbaikan Atap</h3>
-                    <p>Perbaikan atap rumah yang bocor atau rusak dengan material yang berkualitas untuk melindungi dari cuaca ekstrim.</p>
-                </div>
-                <div class="help-item">
-                    <h3>Perbaikan Lantai</h3>
-                    <p>Perbaikan lantai rumah yang rusak atau tidak rata untuk meningkatkan kenyamanan dan keamanan penghuni.</p>
-                </div>
-                <div class="help-item">
-                    <h3>Perbaikan Dinding</h3>
-                    <p>Perbaikan dinding rumah yang retak atau rusak untuk memperkuat struktur rumah.</p>
-                </div>
-                <div class="help-item">
-                    <h3>Material & Tenaga Kerja</h3>
-                    <p>Penyediaan material dan tenaga kerja untuk memperbaiki rumah sesuai dengan kebutuhan keluarga.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const qrContainers = document.querySelectorAll('.qr-code-container');
 
-    <!-- Process Section -->
-    <section id="process" class="process">
-        <div class="container">
-            <h2 class="section-title">Proses Seleksi</h2>
-            <div class="process-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Pendaftaran</h3>
-                        <p>Keluarga yang ingin mendapatkan bantuan harus memenuhi kriteria yang ditentukan oleh desa dan mendaftarkan diri melalui perangkat desa.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Seleksi</h3>
-                        <p>Keluarga yang memenuhi kriteria akan diseleksi berdasarkan kebutuhan dan prioritas oleh tim dari desa.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Penyaluran Bantuan</h3>
-                        <p>Keluarga yang terpilih akan mendapatkan bantuan perbaikan rumah sesuai dengan kebutuhan mereka.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            qrContainers.forEach(function(container) {
+                const content = container.getAttribute('data-qr-content');
+                const containerId = container.id;
 
-    <!-- Benefits Section -->
-    <section class="benefits">
-        <div class="container">
-            <h2 class="section-title">Manfaat Program</h2>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <h3>Kualitas Hidup Lebih Baik</h3>
-                    <p>Meningkatkan kualitas hidup keluarga kurang mampu di desa dengan memberikan rumah yang layak huni.</p>
-                </div>
-                <div class="benefit-card">
-                    <h3>Rumah yang Aman dan Nyaman</h3>
-                    <p>Meningkatkan keamanan dan kenyamanan rumah keluarga kurang mampu sehingga mereka bisa hidup lebih tenang.</p>
-                </div>
-                <div class="benefit-card">
-                    <h3>Pemulihan Pasca Bencana</h3>
-                    <p>Membantu keluarga yang terkena bencana untuk memperbaiki rumah mereka dan kembali ke kehidupan normal.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+                if (content && containerId) {
+                    try {
+                        new QRCode(containerId, {
+                            text: content,
+                            width: 120, // Ukuran rendering internal QR Code, sesuaikan dengan .qr-code-container
+                            height: 120,
+                            colorDark: "#000000", // Hitam untuk kontras maksimal saat scan
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    } catch (e) {
+                        console.error("Error generating QR Code for container ID: " + containerId, e);
+                        container.innerHTML = "Error QR"; // Pesan error jika gagal
+                    }
+                } else {
+                    console.warn("QR Code container missing ID or data-qr-content:", container);
+                    if (container) container.innerHTML = "Data QR Hilang";
+                }
+            });
+        });
 
-    <!-- Implementation Section -->
-    <section id="implementation" class="implementation">
-        <div class="container">
-            <h2 class="section-title">Implementasi Program</h2>
-            <p>Program ini akan diimplementasikan oleh desa dengan bantuan tenaga kerja lokal dan material yang tersedia di desa. Desa akan memantau dan mengevaluasi program untuk memastikan bahwa bantuan yang diberikan efektif dan efisien.</p>
-            <p>Kami juga melibatkan masyarakat dalam proses pelaksanaan program untuk menciptakan rasa memiliki dan keberlanjutan program.</p>
-        </div>
-    </section>
+        // Script berikut mungkin berasal dari halaman lain atau untuk fungsionalitas
+        // yang tidak secara langsung berhubungan dengan tampilan/print stiker massal ini.
+        // Anda bisa menghapusnya jika tidak relevan untuk halaman ini.
+        /*
+        $(document).ready(function() {
+            // Inisialisasi lightbox untuk gambar dokumentasi
+            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+                event.preventDefault();
+                $(this).ekkoLightbox();
+            });
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="container">
-            <h2>Siap Mengajukan Permohonan Bantuan?</h2>
-            <p>Jika Anda atau keluarga Anda memenuhi kriteria, segera ajukan permohonan bantuan melalui perangkat desa setempat.</p>
-            <a href="#contact" class="btn">Hubungi Kami</a>
-        </div>
-    </section>
+            // Tangkap event klik tombol delete
+            $('button[data-target="#deleteModal"]').on('click', function() {
+                var id = $(this).data('id');
+                var deleteUrl = '/admin/sarana/bergerak?delete=' + id;
+                $('#deleteButton').attr('href', deleteUrl);
+            });
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Kontak Kami</h2>
-            <div class="text-center">
-                <p>Untuk informasi lebih lanjut tentang Program Bantuan RuTiLahu, silakan hubungi:</p>
-                <p><strong>Kantor Desa setempat</strong></p>
-                <p>Atau melalui email: <strong>rutilahu@desa.id</strong></p>
-            </div>
-        </div>
-    </section>
+            // Bagian ini sepertinya untuk satu QR code tunggal di halaman detail, bukan untuk loop stiker.
+            // var noRegistrasi = "<? //= htmlspecialchars($detailData['no_registrasi'] ?? '') 
+                                    ?>"; // $detailData tidak akan ada di scope ini
+            // if (noRegistrasi && document.getElementById('qrPreview')) {
+            //     QRCode.toCanvas(document.getElementById('qrPreview'), noRegistrasi, {
+            //         width: 240,
+            //         margin: 1,
+            //         color: {
+            //             dark: '#000000',
+            //             light: '#f9fafa'
+            //         }
+            //     });
+            // }
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-logo">RuTi<span>Lahu</span></div>
-            <div class="footer-links">
-                <a href="#about">Tentang</a>
-                <a href="#target">Sasaran</a>
-                <a href="#help">Bantuan</a>
-                <a href="#process">Proses</a>
-                <a href="#contact">Kontak</a>
-            </div>
-            <p class="copyright">&copy; 2023 Program Bantuan RuTiLahu. Semua hak dilindungi.</p>
-        </div>
-    </footer>
+            // Ini juga untuk satu elemen spesifik 'exportArea', tidak cocok untuk multiple stiker.
+            // Jika ingin download, mungkin perlu mekanisme per stiker atau download semua sebagai PDF.
+            // const exportAreaButton = document.getElementById("downloadQR");
+            // if (exportAreaButton) {
+            //    exportAreaButton.addEventListener("click", function() {
+            //        const target = document.getElementById("exportArea"); // 'exportArea' harus unik per stiker jika mau individual download
+            //        if(target) {
+            //            html2canvas(target, {
+            //                scale: 2,
+            //                useCORS: true,
+            //                logging: true,
+            //                allowTaint: true
+            //            }).then(canvas => {
+            //                const link = document.createElement("a");
+            //                link.download = "nama_file_stiker.png"; // Perlu nama file dinamis
+            //                link.href = canvas.toDataURL("image/png");
+            //                link.click();
+            //            });
+            //        }
+            //    });
+            // }
+        });
+        */
+    </script>
 </body>
 
 </html>

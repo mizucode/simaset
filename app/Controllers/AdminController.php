@@ -14,6 +14,10 @@ class AdminController
     }
     public function devView()
     {
-        $this->renderView('test');
+        global $conn;
+        $saranaData = SaranaBergerak::getAllData($conn);
+        $this->renderView('test', [
+            'saranaData' => $saranaData,
+        ]);
     }
 }

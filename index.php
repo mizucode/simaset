@@ -177,6 +177,7 @@ class Router
             'edit' => 'update',
             'tambah' => 'create',
             'tambah-dokumen' => 'dokumen',
+            'delete' => 'delete',
             'delete-dokumen' => 'deleteDokumen',
             'delete-gambar' => 'deleteDokumentasi',
             'tambah-gambar' => 'dokumenGambar',

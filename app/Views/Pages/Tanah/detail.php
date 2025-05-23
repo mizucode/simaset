@@ -135,7 +135,7 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
-                                                <th width="80%">Nama Dokumen</th>
+                                                <th width="70%">Nama Dokumen</th>
                                                 <th width="30%">Link download</th>
                                             </tr>
                                         </thead>

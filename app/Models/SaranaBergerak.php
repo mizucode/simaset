@@ -52,10 +52,10 @@ class SaranaBergerak
         $spesifikasi,
         $no_polisi,
         $sumber,
-        $jumlah,
-        $satuan,
         $lokasi,
-        $keterangan
+        $keterangan,
+        $biaya_pembelian,
+        $tanggal_pembelian,
     ) {
         $fields = [
             'kategori_barang_id' => $kategori_barang_id,
@@ -67,10 +67,10 @@ class SaranaBergerak
             'spesifikasi' => $spesifikasi,
             'no_polisi' => $no_polisi,
             'sumber' => $sumber,
-            'jumlah' => $jumlah,
-            'satuan' => $satuan,
             'lokasi' => $lokasi,
-            'keterangan' => $keterangan
+            'keterangan' => $keterangan,
+            'biaya_pembelian' => $biaya_pembelian,
+            'tanggal_pembelian' => $tanggal_pembelian,
         ];
 
         $columns = implode(', ', array_keys($fields));
@@ -98,10 +98,10 @@ class SaranaBergerak
         $spesifikasi,
         $no_polisi,
         $sumber,
-        $jumlah,
-        $satuan,
         $lokasi,
-        $keterangan
+        $keterangan,
+        $biaya_pembelian,
+        $tanggal_pembelian,
     ) {
         $fields = [
             'kategori_barang_id' => $kategori_barang_id,
@@ -113,10 +113,10 @@ class SaranaBergerak
             'spesifikasi' => $spesifikasi,
             'no_polisi' => $no_polisi,
             'sumber' => $sumber,
-            'jumlah' => $jumlah,
-            'satuan' => $satuan,
             'lokasi' => $lokasi,
-            'keterangan' => $keterangan
+            'keterangan' => $keterangan,
+            'biaya_pembelian' => $biaya_pembelian,
+            'tanggal_pembelian' => $tanggal_pembelian,
         ];
 
         $setClause = implode(', ', array_map(function ($key) {
@@ -162,5 +162,14 @@ class SaranaBergerak
         $stmt->bindParam(':kondisi_id', $kondisi_id);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function isRegistrationNumberUnique($conn, $registrationNumber)
+    {
+        $sql = "SELECT COUNT(*) FROM sarana_bergerak WHERE no_registrasi = :no_registrasi";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':no_registrasi', $registrationNumber);
+        $stmt->execute();
+        return $stmt->fetchColumn() == 0;
     }
 }

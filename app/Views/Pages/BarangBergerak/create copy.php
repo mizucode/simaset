@@ -42,14 +42,14 @@
 
                                                 <!-- Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="barang_input" class="font-weight-bold text-dark mb-2">Jenis Barang</label>
-                                                    <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
+                                                    <label for="barang_input" class="font-weight-bold">Jenis Barang</label>
+                                                    <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text border-0 bg-light">
+                                                            <span class="input-group-text bg-light">
                                                                 <i class="fas fa-boxes text-primary"></i>
                                                             </span>
                                                         </div>
-                                                        <select class="form-control rounded border-0 select2-custom" id="barang_input" name="barang_id" required>
+                                                        <select class="form-control" id="barang_input" name="barang_id" required>
                                                             <option value="" disabled selected>Pilih atau ketik jenis barang</option>
                                                             <?php foreach ($barangList as $barang): ?>
                                                                 <option value="<?= htmlspecialchars($barang['id']) ?>">
@@ -58,7 +58,6 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
-                                                    <small class="form-text text-muted mt-1">Pilih barang dari daftar atau ketik untuk mencari</small>
                                                 </div>
 
                                                 <!-- Nama Detail Barang -->
@@ -242,49 +241,11 @@
         $(document).ready(function() {
             $('#barang_input').select2({
                 placeholder: "Pilih atau ketik jenis barang",
-                allowClear: false,
-
-                minimumResultsForSearch: 1,
-
+                allowClear: true,
+                width: '100%' // agar penuh
             });
         });
     </script>
-    <style>
-        /* Custom Select2 styling */
-        .select2-custom-wrapper .select2-selection {
-            border: none !important;
-            background: transparent !important;
-            height: auto !important;
-            padding: 0 !important;
-        }
-
-        .select2-custom-wrapper .select2-selection__rendered {
-            padding-left: 10 !important;
-            line-height: inherit !important;
-        }
-
-        .select2-custom-wrapper .select2-selection__arrow {
-            height: 100% !important;
-        }
-
-        /* Adjust dropdown to match your design */
-        .select2-dropdown {
-            border: 1px solid #ddd !important;
-
-        }
-
-        /* Remove outline when focused */
-        .select2-custom-wrapper .select2-selection--single:focus {
-            outline: none !important;
-        }
-
-        /* Match the height with your other form elements */
-        .select2-custom-wrapper .select2-selection--single {
-            height: 38px !important;
-            display: flex !important;
-            align-items: center !important;
-        }
-    </style>
 
 </body>
 
