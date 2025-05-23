@@ -306,11 +306,11 @@
                     <div class="info-box-content">
                         <div class="header-section">
                             <div class="logo-container">
-                                <!-- Pastikan path logo benar -->
+                                <!-- Path Logo Lembaga -->
                                 <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
                             </div>
                             <div class="favicon-container">
-                                <!-- Pastikan path favicon benar -->
+                                <!-- Path Logo Kampus -->
                                 <img src="/img/favicon.png" width="35" alt="Favicon">
                             </div>
                         </div>
