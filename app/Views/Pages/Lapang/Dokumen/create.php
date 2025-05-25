@@ -28,30 +28,30 @@
                                 <h3 class="text-lg">Tambah Dokumen Lapang</h3>
                             </div>
 
-                            <form action="/admin/prasarana/lapang?tambah-dokumen=<?= $lapangData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
+                            <form action="/admin/prasarana/lapang?tambah-dokumen=<?= $dokumenData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 mb-5">
                                             <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN LAPANG</h5>
 
                                             <!-- Aset Lapang -->
-                                            <div class="form-group mb-4">
+                                            <div class="form-group mb-4 hidden">
                                                 <label for="aset_lapang_id" class="font-weight-bold">Pilih Aset Lapang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt text-primary"></i></span>
                                                     </div>
                                                     <input type="text" class="form-control" id="aset_lapang_id" name="aset_lapang_id"
-                                                        value="<?= htmlspecialchars($lapangData['id']) ?>" readonly>
+                                                        value="<?= htmlspecialchars($dokumenData['id']) ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-4">
-                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen</label>
+                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen Lapang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
+                                                    <input type="text" placeholder="Contoh: Sertifikat Lapang" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
                                                 </div>
                                             </div>
                                             <!-- Upload Dokumen -->
@@ -70,7 +70,7 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/lapang?detail=<?= htmlspecialchars($lapangData['id']) ?>" class="btn btn-secondary">
+                                    <a href="/admin/prasarana/lapang?detail=<?= htmlspecialchars($dokumenData['id']) ?>" class="btn btn-secondary">
                                         <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                                     </a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">

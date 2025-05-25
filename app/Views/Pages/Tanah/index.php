@@ -56,9 +56,10 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
+                                                <th width="15%">Kode Aset</th>
                                                 <th width="15%">Nama Aset</th>
                                                 <th width="12%">Nomor Sertifikat</th>
-                                                <th width="8%">Aksi</th>
+                                                <th width="6%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -67,6 +68,7 @@
                                                 <?php foreach ($tanahData as $td) : ?>
                                                     <tr>
                                                         <td class="text-center"><?= $counter++; ?></td>
+                                                        <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
 

@@ -507,6 +507,7 @@ class TanahController
                 }
             } catch (PDOException $e) {
                 $_SESSION['error'] = 'Error database: ' . $e->getMessage();
+                header('Location: /admin/prasarana/tanah?detail=' . $tanahDataId);
             }
         }
 

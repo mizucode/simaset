@@ -33,9 +33,7 @@
                             </div>
 
                             <div class="card-body">
-                                <div class="row mb-4">
-
-
+                                <div class="row mb-2">
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-info"><i class="fas fa-building"></i></span>
@@ -118,7 +116,7 @@
                                                 <th width="5%">No</th>
                                                 <th width="30%">Nama Ruang</th>
                                                 <th width="10%">Kapasitas</th>
-                                                <th width="10%">Letak Lantai</th>
+                                                <th width="15%">Letak Lantai</th>
                                                 <th width="10%">Status</th>
                                                 <th width="30%">Keterangan</th>
                                             </tr>
@@ -151,7 +149,7 @@
                                                 <?php endforeach; ?>
                                             <?php else: ?>
                                                 <tr>
-                                                    <td colspan="5" class="text-center">Tidak ada data ruangan pada gedung ini</td>
+                                                    <td colspan="6" class="text-center">Tidak ada data ruangan pada gedung ini</td>
                                                 </tr>
                                             <?php endif; ?>
                                         </tbody>
@@ -210,7 +208,7 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
-                                                <th width="80%">Nama Dokumen</th>
+                                                <th width="70%">Nama Dokumen</th>
                                                 <th width="30%">Link download</th>
                                             </tr>
                                         </thead>

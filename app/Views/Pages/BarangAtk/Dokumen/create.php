@@ -2,7 +2,6 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 
     <div class="wrapper">
@@ -15,7 +14,6 @@
                 <div class="row justify-content-center ">
                     <div class="col-12 ">
 
-
                         <?php if (!empty($error)) : ?>
                             <div class="alert alert-danger alert-dismissible fade show mb-4">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -27,58 +25,60 @@
 
                         <div class="card card-navy">
                             <div class="card-header text-white">
-                                <h3 class="text-lg">Tambah Dokumentasi Tanah</h3>
+                                <h3 class="text-lg">Tambah Dokumen ATK</h3>
                             </div>
 
-                            <form action="/admin/prasarana/tanah?tambah-gambar=<?= $tanahData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
+                            <form action="/admin/sarana/atk?tambah-dokumen=<?= $dokumenData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 mb-5">
-                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMENTASI TANAH</h5>
+                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN ATK</h5>
 
-                                            <!-- Aset Tanah -->
-                                            <div class="form-group mb-4 hidden">
-                                                <label for="aset_tanah_id" class="font-weight-bold">Pilih Aset Tanah</label>
+                                            <!-- Aset ATK -->
+                                            <div class="form-group mb-4">
+                                                <label for="aset_atk_id" class="font-weight-bold">Pilih Aset ATK</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt text-primary"></i></span>
+                                                        <span class="input-group-text bg-light"><i class="fas fa-box-open text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="aset_tanah_id" name="aset_tanah_id"
-                                                        value="<?= htmlspecialchars($tanahData['id']) ?>" readonly>
+                                                    <input type="text" class="form-control" id="aset_atk_id" name="aset_atk_id"
+                                                        value="<?= htmlspecialchars($dokumenData['id']) ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-4">
-                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumentasi / Foto</label>
+                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" placeholder="Contoh: Foto Tanah Bagian Depan" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
+                                                    <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
                                                 </div>
                                             </div>
                                             <!-- Upload Dokumen -->
                                             <div class="form-group mb-4">
-                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumentasi / Foto Tanah</label>
+                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumen ATK</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-upload text-primary"></i></span>
                                                     </div>
-                                                    <input type="file" class="form-control" id="path_dokumen" name="path_dokumen"
-                                                        accept="image/jpeg, image/png, image/jpg, image/png" required>
+                                                    <div class="custom-file">
+                                                        <input type="file" class="custom-file-input" id="path_dokumen" name="path_dokumen" required>
+                                                        <label class="custom-file-label" for="path_dokumen">Pilih file dokumen</label>
+                                                    </div>
                                                 </div>
-                                                <small class="form-text text-muted">Format file: JPG, PNG (maks. 5MB)</small>
+                                                <small class="form-text text-muted">Format file: PDF, JPG, PNG, DOC, DOCX (maks. 5MB)</small>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/tanah?detail=<?= htmlspecialchars($tanahData['id']) ?>" class="btn btn-secondary">
-                                        <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
+                                    <a href="/admin/sarana/atk?detail=<?= htmlspecialchars($dokumenData['id']) ?>" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-alt-circle-left mr-2"></i> Kembali
                                     </a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
-                                        <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
+                                        Simpan Data Dokumen ATK
                                     </button>
                                 </div>
                             </form>
@@ -93,38 +93,27 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const namaAsetInput = document.getElementById('nama_aset');
-            const kodeAsetInput = document.getElementById('kode_aset');
-
-            namaAsetInput.addEventListener('input', function() {
-                let namaAset = namaAsetInput.value.trim();
-
-                if (namaAset.length > 0) {
-                    // Ambil huruf pertama dari setiap kata
-                    let singkatan = namaAset
-                        .split(' ')
-                        .filter(kata => kata.length > 0)
-                        .map(kata => kata.charAt(0).toUpperCase())
-                        .join('');
-
-                    // Gabungkan dengan awalan TNH-
-                    let kodeAset = `TNH-${singkatan}`;
-                    kodeAsetInput.value = kodeAset;
-                } else {
-                    // Kosongkan jika nama aset kosong
-                    kodeAsetInput.value = '';
-                }
-            });
+        // Update file input label
+        document.getElementById('path_dokumen').addEventListener('change', function(e) {
+            var fileName = e.target.files[0]?.name || 'Pilih File Dokumen';
+            var label = e.target.nextElementSibling;
+            label.innerText = fileName;
         });
-    </script>
 
-    <script>
-        document.getElementById('file_sertifikat').addEventListener('change', function(e) {
-            var fileName = e.target.files[0]?.name || 'Pilih File Sertifikat';
-            var nextSibling = e.target.nextElementSibling;
-            nextSibling.innerText = fileName;
+        // Form validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const fileInput = document.getElementById('path_dokumen');
+            if (fileInput.files.length > 0) {
+                const fileSize = fileInput.files[0].size / 1024 / 1024; // in MB
+                if (fileSize > 5) {
+                    e.preventDefault();
+                    alert('Ukuran file terlalu besar. Maksimal 5MB');
+                    return false;
+                }
+            }
+            return true;
         });
     </script>
 

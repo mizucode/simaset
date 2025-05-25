@@ -149,6 +149,26 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group mb-4">
+                                                    <label for="biaya_pembelian" class="font-weight-bold">Biaya Pembelian</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-car text-primary"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" value="<?= isset($sarana) ? htmlspecialchars($sarana['biaya_pembelian'] ?? '') : ''; ?>" id="biaya_pembelian" name="biaya_pembelian" placeholder="Contoh: 100000000 tanpa titik">
+
+                                                    </div>
+                                                </div>
+                                                <div class=" form-group mb-4">
+                                                    <label for="tanggal_pembelian" class="font-weight-bold">Tanggal Pembelian</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="far fa-calendar-alt text-primary"></i></span>
+                                                        </div>
+                                                        <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian" value="<?= isset($sarana) ? htmlspecialchars($sarana['tanggal_pembelian'] ?? '') : ''; ?>" required>
+
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <!-- Data Tambahan -->

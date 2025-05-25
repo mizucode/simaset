@@ -26,17 +26,17 @@
 
                         <div class="card card-navy">
                             <div class="card-header text-white">
-                                <h3 class="text-lg">Tambah Dokumentasi Ruang</h3>
+                                <h3 class="text-lg">Tambah Dokumentasi / Foto Ruang</h3>
                             </div>
 
                             <form action="/admin/prasarana/ruang?tambah-gambar=<?= $ruangData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 mb-5">
-                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN RUANG</h5>
+                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMENTASI / FOTO RUANG</h5>
 
                                             <!-- Aset Ruang -->
-                                            <div class="form-group mb-4">
+                                            <div class="form-group mb-4 hidden">
                                                 <label for="aset_ruang_id" class="font-weight-bold">Pilih Aset Ruang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -47,17 +47,17 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mb-4">
-                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen</label>
+                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumentasi / Foto Ruang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
+                                                    <input type="text" placeholder="Contoh: Foto Bagian Depan Ruangan" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
                                                 </div>
                                             </div>
                                             <!-- Upload Dokumen -->
                                             <div class="form-group mb-4">
-                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumen Ruang</label>
+                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumentasi / Foto Ruang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-upload text-primary"></i></span>

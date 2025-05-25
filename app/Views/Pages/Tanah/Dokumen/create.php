@@ -37,7 +37,7 @@
                                             <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN TANAH</h5>
 
                                             <!-- Aset Tanah -->
-                                            <div class="form-group mb-4">
+                                            <div class="form-group mb-4 hidden">
                                                 <label for="aset_tanah_id" class="font-weight-bold">Pilih Aset Tanah</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -53,7 +53,7 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
+                                                    <input type="text" placeholder="Sertifikat Tanah" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
                                                 </div>
                                             </div>
                                             <!-- Upload Dokumen -->

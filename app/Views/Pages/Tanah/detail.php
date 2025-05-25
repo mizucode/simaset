@@ -7,7 +7,7 @@
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-4 px-4">
+        <div class="content-wrapper bg-white mb-5 pt-3 px-4">
 
             <div class="container-fluid">
                 <div class="row justify-content-center">
@@ -35,7 +35,7 @@
 
 
                             <div class="card-body">
-                                <div class="row mb-4">
+                                <div class="row mb-2">
                                     <div class="col-md-6">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-danger"><i class="fas fa-id-card"></i></span>
@@ -56,7 +56,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row mb-4">
+                                <div class="row mb-2">
                                     <div class="col-md-6">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-secondary"><i class="fas fa-calendar-alt"></i></span>
@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="border-bottom pb-2 mt-5 mb-3 flex justify-content-between">
                                     <h5 class="text-bold">
-                                        File Dokumen
+                                        Dokumen Gambar
                                     </h5>
                                     <a href="/admin/prasarana/tanah?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
                                         <div class="text-dark">

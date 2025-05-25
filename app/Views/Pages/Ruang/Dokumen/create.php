@@ -35,7 +35,7 @@
                                             <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN RUANG</h5>
 
                                             <!-- Aset Ruang -->
-                                            <div class="form-group mb-4">
+                                            <div class="form-group mb-4 hidden">
                                                 <label for="aset_ruang_id" class="font-weight-bold">Pilih Aset Ruang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
@@ -46,12 +46,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group mb-4">
-                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen</label>
+                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen Ruang</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
+                                                    <input type="text" placeholder="Contoh: Sertifikat Labolatorium" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
                                                 </div>
                                             </div>
                                             <!-- Upload Dokumen -->

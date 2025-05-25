@@ -69,16 +69,7 @@
                                                     </div>
                                                 </div>
                                                 <!-- No Registrasi -->
-                                                <div class="form-group mb-4">
-                                                    <label for="no_registrasi" class="font-weight-bold">Nomor Registrasi</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="no_registrasi" name="no_registrasi"
-                                                            placeholder="Contoh: REG-ATK-001" required>
-                                                    </div>
-                                                </div>
+
                                             </div>
 
                                             <!-- Data Spesifikasi -->
@@ -145,6 +136,24 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="form-group mb-4">
+                                                    <label for="biaya_pembelian" class="font-weight-bold">Biaya Pembelian</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-car text-primary"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian" placeholder="Contoh: 100000000 tanpa titik">
+                                                    </div>
+                                                </div>
+                                                <div class=" form-group mb-4">
+                                                    <label for="tanggal_pembelian" class="font-weight-bold">Tanggal Pembelian</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="far fa-calendar-alt text-primary"></i></span>
+                                                        </div>
+                                                        <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian" required>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <!-- Data Tambahan -->
@@ -208,26 +217,7 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Generate nomor registrasi otomatis
-            const barangSelect = document.getElementById('barang_id');
-            const noRegInput = document.getElementById('no_registrasi');
 
-            function generateNoRegistrasi() {
-                const barangId = barangSelect.value;
-
-                if (barangId) {
-                    const timestamp = new Date().getTime().toString().slice(-4);
-                    noRegInput.value = `REG-ATK-${barangId}-${timestamp}`;
-                }
-            }
-
-            barangSelect.addEventListener('change ', generateNoRegistrasi);
-
-            generateNoRegistrasi();
-        });
-    </script>
 </body>
 
 </html>

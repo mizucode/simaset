@@ -32,7 +32,7 @@
                             </div>
 
                             <div class="card-body">
-                                <div class="row mb-4">
+                                <div class="row mb-2">
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
@@ -55,15 +55,15 @@
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-success"><i class="fas fa-building"></i></span>
                                             <div class="info-box-content">
-                                                <span class="info-box-text">Letak Ruang</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_ruang'] ?? 'Belum terdata ruang') ?></span>
+                                                <span class="info-box-text">Letak Gedung</span>
+                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_gedung'] ?? 'Belum terdata ruang') ?></span>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                <div class="row mb-4">
+                                <div class="row mb-2">
                                     <div class="col-md-4">
                                         <div class="info-box bg-light">
                                             <span class="info-box-icon bg-primary"><i class="fas fa-ruler-combined"></i></span>
@@ -228,7 +228,7 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
-                                                <th width="80%">Nama Dokumen</th>
+                                                <th width="60%">Nama Dokumen</th>
                                                 <th width="30%">Link download</th>
                                             </tr>
                                         </thead>

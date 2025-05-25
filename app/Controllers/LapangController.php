@@ -194,6 +194,7 @@ class LapangController
 
         $this->renderView('/Dokumen/create', [
             'dokumenData' => $dokumenData,
+            'dokumenDataId' => $dokumenDataId
         ]);
     }
 
@@ -308,6 +309,7 @@ class LapangController
 
         $this->renderView('/Dokumen/createFoto', [
             'lapangData' => $lapangData,
+            'lapangDataId' => $lapangDataId,
         ]);
     }
 
