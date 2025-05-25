@@ -24,7 +24,7 @@ class DokumenSaranaBergerak
 
     public static function deleteGambar($conn, $id)
     {
-        $query = "DELETE FROM dokumentasi_bergerak WHERE id = :id";
+        $query = "DELETE FROM dokumentasi_sarana_bergerak WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
         return $stmt->execute();
@@ -81,7 +81,7 @@ class DokumenSaranaBergerak
         $columns = implode(', ', array_keys($fields));
         $placeholders = ':' . implode(', :', array_keys($fields));
 
-        $query = "INSERT INTO dokumentasi_bergerak ($columns) VALUES ($placeholders)";
+        $query = "INSERT INTO dokumentasi_sarana_bergerak ($columns) VALUES ($placeholders)";
         $stmt = $conn->prepare($query);
 
         foreach ($fields as $key => $value) {
@@ -93,7 +93,7 @@ class DokumenSaranaBergerak
 
     public static function getAllDataGambar($conn)
     {
-        $query = "SELECT * FROM dokumentasi_bergerak";
+        $query = "SELECT * FROM dokumentasi_sarana_bergerak";
         $stmt = $conn->prepare($query);
         try {
             $stmt->execute();
@@ -104,7 +104,7 @@ class DokumenSaranaBergerak
     }
     public static function getDokumenGambarById($conn, $id)
     {
-        $query = "SELECT * FROM dokumentasi_bergerak WHERE id = :id";
+        $query = "SELECT * FROM dokumentasi_sarana_bergerak WHERE id = :id";
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();

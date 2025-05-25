@@ -6,7 +6,7 @@
     <div class="wrapper">
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
-
+        <?php include './app/Views/Components/css.php'; ?>
 
         <div class="content-wrapper bg-white mb-5 pt-3 px-4">
             <div class="container-fluid">
@@ -20,10 +20,10 @@
                                         Detail Barang Bergerak
                                     </h3>
                                     <div class="text-right">
-                                        <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= $detailData['id']; ?>">
+                                        <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= htmlspecialchars($detailData['id'] ?? ''); ?>">
                                             <i class="fas fa-trash mr-1"></i> Hapus
                                         </button>
-                                        <a href="/admin/sarana/bergerak?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
+                                        <a href="/admin/sarana/bergerak?edit=<?= htmlspecialchars($detailData['id'] ?? ''); ?>" class="btn btn-warning btn-sm mr-2">
                                             <i class="fas fa-edit mr-1"></i> Edit
                                         </a>
                                         <a href="/admin/sarana/bergerak" class="btn btn-secondary btn-sm">
@@ -36,56 +36,52 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
-
-                                        <!-- Profile Image -->
                                         <div class="">
-                                            <div class="">
-                                                <div class="text-center d-flex flex-column align-items-center">
-                                                    <div class="info-box bg-light" id="exportArea" style="width: 280px; height: 450px;">
-                                                        <div class="info-box-content border-2 border-[#04294d] border-4 rounded" style="width: 100%; height: 100%; display: flex; flex-direction: column;">
-                                                            <div class="d-flex justify-content-between align-items-center pt-3" style="flex: 0 0 auto;">
-                                                                <div class="d-flex align-items-center">
-                                                                    <img src="/img/logo.png" width="80" alt="">
+                                            <div class="text-center d-flex flex-column align-items-center">
+                                                <?php
+                                                $namaBarang = $detailData['nama_detail_barang'] ?? 'Barang Tidak Bernama';
+                                                $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
+                                                $qrCanvasId = "qrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
+                                                ?>
+                                                <div>
+                                                    <div class="stk-card" id="qrCardToExport">
+                                                        <div class="stk-content">
+                                                            <div class="stk-header">
+                                                                <div class="stk-logo-wrapper">
+                                                                    <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
                                                                 </div>
-                                                                <div class="d-flex align-items-center">
-                                                                    <img src="/img/favicon.png" width="40" alt="" class="me-1">
+                                                                <div class="stk-favicon-wrapper">
+                                                                    <img src="/img/favicon.png" width="35" alt="Favicon">
                                                                 </div>
                                                             </div>
 
-                                                            <div class="d-flex flex-column justify-content-center align-items-center pt-2" style="flex: 0 0 auto;">
-                                                                <span class="info-box-number h5"><?= htmlspecialchars($detailData['nama_detail_barang'] ?? '-') ?></span>
-                                                                <span class="">REG: <?= htmlspecialchars($detailData['no_registrasi'] ?? '-') ?></span>
+                                                            <div class="stk-item-info">
+                                                                <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
+                                                                <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
                                                             </div>
 
-                                                            <!-- QR Code section - centered and larger -->
-                                                            <div class="text-center mt-2" style="flex: 1 1 auto; display: flex; justify-content: center; align-items: center;">
-                                                                <!-- Large QR Code Preview -->
-                                                                <canvas id="qrPreview" width="200" height="200" class="d-block mx-auto"></canvas>
+                                                            <div class="stk-qr-area">
+                                                                <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>">
+                                                                    <!-- QR Code akan digenerate oleh JavaScript di sini -->
+                                                                </div>
+                                                                <span class="stk-scan-text text-navy pt-2">
+                                                                    <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
+                                                                </span>
                                                             </div>
-
-                                                            <!-- Scan Me section with better styling -->
-
                                                         </div>
                                                     </div>
-                                                    <button id="downloadQR" class="btn btn-sm btn-success mt-2 mb-5">
-                                                        <i class="fas fa-download mr-1"></i> Download QR Code
-                                                    </button>
                                                 </div>
+
+                                                <button id="downloadQR" class="btn btn-sm btn-success mt-4 mb-5">
+                                                    <i class="fas fa-download mr-1"></i> Download QR Card
+                                                </button>
                                             </div>
-                                            <!-- /.card-body -->
                                         </div>
-                                        <!-- /.card -->
-
-                                        <!-- About Me Box -->
-
-                                        <!-- /.card -->
                                     </div>
                                     <!-- /.col -->
                                     <div class="col-md-9">
                                         <div class="card">
-
                                             <div class="card-body">
-
                                                 <div class="border-bottom pb-2 mb-3">
                                                     <h5 class="text-bold">
                                                         Informasi Tambahan
@@ -105,23 +101,28 @@
                                                         <span class="info-box-text"><?= htmlspecialchars($detailData['merk'] ?? '-') ?></span>
                                                     </div>
                                                 </div>
-
                                                 <div class="info-box bg-light">
                                                     <span class="info-box-icon bg-orange"><i class="fas fa-car"></i></span>
                                                     <div class="info-box-content">
                                                         <span class="info-box-number">Nomor Polisi</span>
-                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['no_polisi'] ?? '0') ?></span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['no_polisi'] ?? '-') ?></span>
                                                     </div>
                                                 </div>
+                                                <?php
+                                                $kondisi = $detailData['kondisi'] ?? 'Baik';
+                                                $kondisiBadge = 'info'; // Default
+                                                if ($kondisi === 'Baik') $kondisiBadge = 'success';
+                                                elseif ($kondisi === 'Rusak Ringan') $kondisiBadge = 'warning';
+                                                elseif ($kondisi === 'Rusak Berat') $kondisiBadge = 'danger';
+                                                elseif ($kondisi === 'Hilang') $kondisiBadge = 'dark';
+                                                ?>
                                                 <div class="info-box bg-light">
-                                                    <span class="info-box-icon bg-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'green' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : ($detailData['kondisi'] === 'Rusak Berat' ? 'danger' : ($detailData['kondisi'] === 'Hilang' ? 'dark' : 'info'))) ?>">
-                                                        <i class="fas fa-clipboard-check"></i>
-                                                    </span>
+                                                    <span class="info-box-icon bg-<?= $kondisiBadge ?>"><i class="fas fa-clipboard-check"></i></span>
                                                     <div class="info-box-content">
                                                         <span class="info-box-number">Kondisi</span>
                                                         <span class="info-box-text">
-                                                            <span class="badge badge-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'success' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : ($detailData['kondisi'] === 'Rusak Berat' ? 'danger' : ($detailData['kondisi'] === 'Hilang' ? 'dark' : 'info'))) ?>">
-                                                                <?= htmlspecialchars($detailData['kondisi'] ?? 'Baik') ?>
+                                                            <span class="badge badge-<?= $kondisiBadge ?>">
+                                                                <?= htmlspecialchars($kondisi) ?>
                                                             </span>
                                                         </span>
                                                     </div>
@@ -131,11 +132,10 @@
                                                     <div class="info-box-content">
                                                         <span class="info-box-number">Biaya Pembelian</span>
                                                         <span class="info-box-text text-wrap text-justify">
-                                                            <?= isset($detailData['biaya_pembelian']) ? 'Rp. ' . number_format($detailData['biaya_pembelian'], 0, ',', '.') : '-' ?>
+                                                            <?= isset($detailData['biaya_pembelian']) ? 'Rp. ' . number_format((float)$detailData['biaya_pembelian'], 0, ',', '.') : '-' ?>
                                                         </span>
                                                     </div>
                                                 </div>
-
                                                 <div class="info-box bg-light">
                                                     <span class="info-box-icon bg-navy"><i class="fas fa-calendar-alt"></i></span>
                                                     <div class="info-box-content">
@@ -143,8 +143,12 @@
                                                         <span class="info-box-text text-wrap text-justify">
                                                             <?php
                                                             if (!empty($detailData['tanggal_pembelian'])) {
-                                                                $tanggal = date('d-m-Y', strtotime($detailData['tanggal_pembelian']));
-                                                                echo htmlspecialchars($tanggal);
+                                                                try {
+                                                                    $tanggal = new DateTime($detailData['tanggal_pembelian']);
+                                                                    echo htmlspecialchars($tanggal->format('d-m-Y'));
+                                                                } catch (Exception $e) {
+                                                                    echo htmlspecialchars($detailData['tanggal_pembelian']) . ' (format tidak valid)';
+                                                                }
                                                             } else {
                                                                 echo '-';
                                                             }
@@ -152,7 +156,6 @@
                                                         </span>
                                                     </div>
                                                 </div>
-
                                                 <div class="info-box bg-light">
                                                     <span class="info-box-icon bg-primary"><i class="fas fa-database"></i></span>
                                                     <div class="info-box-content">
@@ -183,28 +186,26 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- /.card -->
                                     </div>
-                                    <!-- /.col -->
                                 </div>
-                                <div class="border-bottom pb-2 mt-5 mb-3 flex justify-content-between">
-                                    <h5 class="text-bold">
+
+                                <div class="border-bottom pb-2 mt-5 mb-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="text-bold mb-0">
                                         File Dokumen
                                     </h5>
-                                    <a href="/admin/sarana/bergerak?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                    <a href="/admin/sarana/bergerak?tambah-dokumen=<?= htmlspecialchars($detailData['id'] ?? '') ?>" class="btn btn-warning btn-sm">
                                         <div class="text-dark">
                                             <i class="fas fa-plus mr-1"></i> Tambah Data
                                         </div>
                                     </a>
                                 </div>
-
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover">
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
                                                 <th width="70%">Nama Dokumen</th>
-                                                <th width="30%">Link download</th>
+                                                <th width="30%">Tindakan</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -215,15 +216,14 @@
                                                         <td class="text-center"><?= $no++ ?></td>
                                                         <td><?= htmlspecialchars($barang['nama_dokumen'] ?? '-') ?></td>
                                                         <td class="text-center">
-                                                            <a href="/admin/sarana/bergerak?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
-                                                                class="btn btn-sm btn-success" title="Download" download>
+                                                            <a href="/admin/sarana/bergerak?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '') ?>"
+                                                                class="btn btn-sm btn-success" title="Download">
                                                                 <i class="fas fa-download"></i> Download
                                                             </a>
-                                                            <a href="/admin/sarana/bergerak?delete-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
-                                                                class="btn btn-sm btn-danger" title="Hapus"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                            <button type="button" class="btn btn-sm btn-danger" title="Hapus"
+                                                                onclick="confirmDeleteDokumen('<?= htmlspecialchars($barang['id'] ?? '') ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
                                                                 <i class="fas fa-trash"></i> Hapus
-                                                            </a>
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -236,12 +236,11 @@
                                     </table>
                                 </div>
 
-                                <!-- Dokumentasi Gambar Section -->
-                                <div class="border-bottom pb-2 my-5 flex justify-content-between">
-                                    <h5 class="text-bold">
+                                <div class="border-bottom pb-2 my-5 d-flex justify-content-between align-items-center">
+                                    <h5 class="text-bold mb-0">
                                         Dokumen Gambar
                                     </h5>
-                                    <a href="/admin/sarana/bergerak?tambah-gambar=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
+                                    <a href="/admin/sarana/bergerak?tambah-gambar=<?= htmlspecialchars($detailData['id'] ?? '') ?>" class="btn btn-warning btn-sm">
                                         <div class="text-dark">
                                             <i class="fas fa-plus mr-1"></i> Tambah Data
                                         </div>
@@ -249,37 +248,42 @@
                                 </div>
                                 <div class="row mb-4">
                                     <?php if (!empty($dokumenGambar)): ?>
-                                        <?php $no = 1; ?>
-                                        <?php foreach ($dokumenGambar as $barang): ?>
+                                        <?php foreach ($dokumenGambar as $gambar): ?>
                                             <div class="col-md-4 mb-3">
                                                 <div class="card h-100 shadow-sm">
-                                                    <div class="card-img-top splash-art-container position-relative" style="height: 200px; overflow: hidden;">
-                                                        <?php if ($barang['path_dokumen'] && in_array(pathinfo($barang['path_dokumen'], PATHINFO_EXTENSION), ['jpg', 'jpeg', 'png', 'gif', 'webp'])): ?>
-                                                            <img src="/admin/sarana/bergerak?preview-gambar=<?= htmlspecialchars($barang['id']) ?>"
-                                                                alt="<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Bergerak') ?>"
-                                                                class="img-fluid h-100 w-100"
-                                                                style="object-fit: cover;"
-                                                                loading="lazy">
-
+                                                    <div class="card-img-top position-relative" style="height: 200px; overflow: hidden;">
+                                                        <?php
+                                                        $pathGambar = $gambar['path_dokumen'] ?? null;
+                                                        $idGambar = htmlspecialchars($gambar['id'] ?? '');
+                                                        $namaDokumenGambar = htmlspecialchars($gambar['nama_dokumen'] ?? 'Dokumen Gambar');
+                                                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                                                        $extension = $pathGambar ? strtolower(pathinfo($pathGambar, PATHINFO_EXTENSION)) : '';
+                                                        ?>
+                                                        <?php if ($pathGambar && in_array($extension, $allowedExtensions)): ?>
+                                                            <a href="/admin/sarana/bergerak?preview-gambar=<?= $idGambar ?>" data-toggle="lightbox" data-title="<?= $namaDokumenGambar ?>" data-gallery="gallery-images">
+                                                                <img src="/admin/sarana/bergerak?preview-gambar=<?= $idGambar ?>"
+                                                                    alt="<?= $namaDokumenGambar ?>"
+                                                                    class="img-fluid h-100 w-100"
+                                                                    style="object-fit: cover;"
+                                                                    loading="lazy">
+                                                            </a>
                                                         <?php else: ?>
                                                             <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
-                                                                Tidak ada preview
+                                                                Preview Tidak Tersedia
                                                             </div>
                                                         <?php endif; ?>
                                                     </div>
                                                     <div class="card-body d-flex flex-column">
-                                                        <h6 class="card-title text-center mb-3"><?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Bergerak') ?></h6>
+                                                        <h6 class="card-title text-center mb-3 text-truncate" title="<?= $namaDokumenGambar ?>"><?= $namaDokumenGambar ?></h6>
                                                         <div class="mt-auto text-center">
-                                                            <a href="/admin/sarana/bergerak?delete-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
-                                                                class="btn btn-sm btn-danger" title="Hapus"
-                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                                                            <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
+                                                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
                                                                 <i class="fas fa-trash"></i> Hapus
-                                                            </a>
-                                                            <a href="/admin/sarana/bergerak?preview-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>"
-                                                                class="btn btn-sm btn-primary" title="Lihat">
+                                                            </button>
+                                                            <a href="/admin/sarana/bergerak?preview-gambar=<?= $idGambar ?>"
+                                                                class="btn btn-sm btn-primary" title="Lihat" target="_blank">
                                                                 <i class="fas fa-eye"></i> Lihat
                                                             </a>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -288,46 +292,39 @@
                                     <?php else: ?>
                                         <div class="col-12">
                                             <div class="alert alert-info text-center" role="alert">
-                                                Tidak ada data dokumen
+                                                Tidak ada dokumen gambar.
                                             </div>
                                         </div>
                                     <?php endif; ?>
                                 </div>
-
-
-
                             </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
-
-
+        <!-- Modal Konfirmasi Hapus Barang Utama -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus Barang</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah Anda yakin ingin menghapus barang ini? Tindakan ini tidak dapat dibatalkan.</p>
+                        <p>Apakah Anda yakin ingin menghapus barang <strong id="itemNameModal"></strong>? Tindakan ini tidak dapat dibatalkan dan akan menghapus semua dokumen terkait.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-
-                        <a href="/admin/sarana/bergerak?delete=<?= htmlspecialchars($detailData['id'] ?? '-') ?>" class="btn btn-danger">Hapus</a>
+                        <a href="#" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>
         </div>
+
         <?php include './app/Views/Components/footer.php'; ?>
     </div>
 
@@ -335,54 +332,118 @@
 
     <!-- Ekstensi untuk lightbox gambar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <!-- JsBarcode (jika diperlukan di bagian lain) -->
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-    <!-- Library untuk generate QR Code -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4/dist/html2canvas.min.js"></script>
+    <!-- Library untuk generate QR Code (davidshimjs) -->
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+    <!-- Library untuk konversi HTML ke Canvas (untuk download) -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 
     <script>
+        // Fungsi konfirmasi hapus untuk dokumen dan gambar (agar tidak redirect langsung)
+        function confirmDelete(url, itemName, type) {
+            if (confirm(`Apakah Anda yakin ingin menghapus ${type} "${itemName}"? Tindakan ini tidak dapat dibatalkan.`)) {
+                window.location.href = url;
+            }
+        }
+
+        function confirmDeleteDokumen(dokumenId, saranaId) {
+            // Mungkin Anda ingin menambahkan nama dokumen ke pesan konfirmasi
+            // Untuk itu, Anda perlu mengambilnya atau melewatkannya ke fungsi ini
+            if (confirm(`Apakah Anda yakin ingin menghapus dokumen ini? Tindakan ini tidak dapat dibatalkan.`)) {
+                window.location.href = `/admin/sarana/bergerak?delete-dokumen=${dokumenId}&sarana_id=${saranaId}`;
+            }
+        }
+
+        function confirmDeleteGambar(gambarId, saranaId) {
+            if (confirm(`Apakah Anda yakin ingin menghapus gambar ini? Tindakan ini tidak dapat dibatalkan.`)) {
+                window.location.href = `/admin/sarana/bergerak?delete-gambar=${gambarId}&sarana_id=${saranaId}`;
+            }
+        }
+
+
         $(document).ready(function() {
             // Inisialisasi lightbox untuk gambar dokumentasi
             $(document).on('click', '[data-toggle="lightbox"]', function(event) {
                 event.preventDefault();
-                $(this).ekkoLightbox();
-            });
-
-            // Tangkap event klik tombol delete
-            $('button[data-target="#deleteModal"]').on('click', function() {
-                var id = $(this).data('id');
-                var deleteUrl = '/admin/sarana/bergerak?delete=' + id;
-
-                // Set URL hapus ke tombol Hapus di modal
-                $('#deleteButton').attr('href', deleteUrl);
-            });
-
-            var noRegistrasi = "<?= htmlspecialchars($detailData['no_registrasi'] ?? '') ?>";
-            if (noRegistrasi) {
-                QRCode.toCanvas(document.getElementById('qrPreview'), noRegistrasi, {
-                    width: 240,
-                    margin: 1,
-                    color: {
-                        dark: '#000000',
-                        light: '#f9fafa'
-                    }
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
                 });
+            });
+
+            // Modal konfirmasi hapus barang utama
+            $('#deleteModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget); // Tombol yang memicu modal
+                var itemId = button.data('id'); // Ekstrak info dari atribut data-*
+                var itemName = "<?= htmlspecialchars($detailData['nama_detail_barang'] ?? 'Barang Ini') ?>"; // Ambil nama barang dari PHP
+
+                var modal = $(this);
+                modal.find('#itemNameModal').text(itemName); // Isi nama barang di modal
+                var deleteUrl = '/admin/sarana/bergerak?delete=' + itemId;
+                modal.find('#confirmDeleteButton').attr('href', deleteUrl);
+            });
+
+
+            // 1. Generate QR Code pada elemen yang ditentukan
+            const qrContainer = document.getElementById('<?= $qrCanvasId ?>');
+            if (qrContainer) {
+                const qrContent = qrContainer.getAttribute('data-qr-content');
+                if (qrContent) {
+                    try {
+                        new QRCode(qrContainer, {
+                            text: qrContent,
+                            width: 150, // Sesuaikan ukuran agar pas di dalam stk-qr-area
+                            height: 150, // Sesuaikan ukuran
+                            colorDark: "#000000",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    } catch (e) {
+                        console.error("Error generating QR Code for container ID: <?= $qrCanvasId ?>", e);
+                        qrContainer.innerHTML = "<small>Error QR</small>";
+                    }
+                } else {
+                    console.warn("QR Code container <?= $qrCanvasId ?> missing data-qr-content.");
+                    qrContainer.innerHTML = "<small>Data QR Kosong</small>";
+                }
+            } else {
+                console.warn("QR Code container element with ID '<?= $qrCanvasId ?>' not found.");
             }
 
-            document.getElementById("downloadQR").addEventListener("click", function() {
-                const target = document.getElementById("exportArea");
-                html2canvas(target, {
-                    scale: 2,
-                    useCORS: true,
-                    logging: true,
-                    allowTaint: true
-                }).then(canvas => {
-                    const link = document.createElement("a");
-                    link.download = "<?= htmlspecialchars($detailData['nama_detail_barang'] ?? '-') ?>.png";
-                    link.href = canvas.toDataURL("image/png");
-                    link.click();
+            // 2. Fungsi Download QR Card (elemen stk-card)
+            const downloadButton = document.getElementById("downloadQR");
+            if (downloadButton) {
+                downloadButton.addEventListener("click", function() {
+                    const targetElement = document.getElementById("qrCardToExport");
+                    const namaBarang = "<?= htmlspecialchars($namaBarang, ENT_QUOTES, 'UTF-8') ?>";
+                    const nomorReg = "<?= htmlspecialchars($nomorRegistrasi, ENT_QUOTES, 'UTF-8') ?>";
+                    const fileName = `QR-${namaBarang.replace(/[^a-zA-Z0-9_.-]/g, '_')}-${nomorReg}.png`;
+
+                    if (!targetElement) {
+                        console.error("Target element for QR download ('qrCardToExport') not found!");
+                        alert("Tidak dapat menemukan elemen kartu QR untuk diunduh.");
+                        return;
+                    }
+
+                    html2canvas(targetElement, {
+                        scale: 3, // Tingkatkan skala untuk kualitas lebih baik
+                        useCORS: true, // Penting jika ada gambar dari domain lain (logo)
+                        logging: false, // Set true untuk debug html2canvas
+                        backgroundColor: null // Biarkan transparan jika background card sudah diatur
+                    }).then(canvas => {
+                        const link = document.createElement("a");
+                        link.download = fileName;
+                        link.href = canvas.toDataURL("image/png");
+                        link.click();
+                    }).catch(err => {
+                        console.error("Error during html2canvas operation:", err);
+                        alert("Gagal membuat gambar kartu QR. Cek console untuk detail.");
+                    });
                 });
-            });
+            } else {
+                console.warn("Download button with ID 'downloadQR' not found.");
+            }
         });
     </script>
 </body>

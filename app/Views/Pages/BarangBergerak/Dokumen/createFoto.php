@@ -27,14 +27,14 @@
 
                         <div class="card card-navy">
                             <div class="card-header text-white">
-                                <h3 class="text-lg">Tambah Dokumentasi Gedung</h3>
+                                <h3 class="text-lg">Tambah Dokumentasi Barang Bergerak</h3>
                             </div>
 
-                            <form action="/admin/prasarana/gedung?tambah-gambar=<?= $gedungData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
+                            <form action="/admin/sarana/bergerak?tambah-gambar=<?= $bergerakData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 mb-5">
-                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN GEDUNG</h5>
+                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMENTASI BARANG BERGERAK</h5>
 
                                             <!-- Aset Gedung -->
                                             <div class="form-group mb-4">
@@ -43,8 +43,8 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt text-primary"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" id="aset_gedung_id" name="aset_gedung_id"
-                                                        value="<?= htmlspecialchars($gedungData['id']) ?>" readonly>
+                                                    <input type="text" class="form-control" id="aset_bergerak_id" name="aset_bergerak_id"
+                                                        value="<?= htmlspecialchars($bergerakData['id']) ?>" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group mb-4">
@@ -58,7 +58,7 @@
                                             </div>
                                             <!-- Upload Dokumen -->
                                             <div class="form-group mb-4">
-                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumen Gedung</label>
+                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumentasi Barang Bergerak</label>
                                                 <div class="input-group">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text bg-light"><i class="fas fa-file-upload text-primary"></i></span>
@@ -73,12 +73,12 @@
                                 </div>
 
                                 <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/gedung?detail=<?= htmlspecialchars($gedungData['id']) ?>" class="btn btn-secondary">
+                                    <a href="/admin/sarana/bergerak?detail=<?= htmlspecialchars($bergerakData['id']) ?>" class="btn btn-secondary">
                                         <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                                     </a>
                                     <button type="submit" class="btn btn-primary" id="submitBtn">
                                         <i class="fas fa-save mr-2"></i>
-                                        <?= isset($gedung) ? 'Update Data Gedung' : 'Simpan Data Gedung' ?>
+                                        <?= isset($bergerak) ? 'Update Data Gedung' : 'Simpan Data Gedung' ?>
                                     </button>
                                 </div>
                             </form>

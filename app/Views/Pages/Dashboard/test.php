@@ -9,198 +9,189 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="style.css"> Jika Anda punya file CSS terpisah -->
+    <!-- Font Awesome (diperlukan untuk ikon fas fa-qrcode dan fa-print) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     <style>
         /* General Body and Page Setup */
         body {
             font-family: 'Roboto', 'Arial', sans-serif;
-            /* Fallback ke Arial */
             margin: 0;
             padding: 20px;
             background-color: #f4f6f8;
-            /* Warna latar lebih lembut */
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             color: #333;
-            /* Warna teks default */
         }
+
+        .print-button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .print-action-button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            background-color: #007bff;
+            /* Warna biru yang umum */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .print-action-button:hover {
+            background-color: #0056b3;
+            /* Warna biru lebih gelap saat hover */
+        }
+
+        .print-action-button i {
+            margin-right: 8px;
+        }
+
 
         .a4-page {
             width: 210mm;
             min-height: 297mm;
             margin: 0 auto 20px auto;
             padding: 5mm;
-            /* Padding dalam halaman A4 */
             background-color: white;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            /* Bayangan lebih halus */
             box-sizing: border-box;
-
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-around;
-            /* Distribusi ruang horizontal */
             align-items: flex-start;
             align-content: flex-start;
-            /* Penting untuk baris flex saat wrap */
             gap: 10mm 5mm;
-            /* Jarak antar stiker (baris kolom) */
         }
 
         .sticker-item {
-            /* Tidak perlu margin tambahan di sini jika sudah menggunakan 'gap' pada parent */
             page-break-inside: avoid;
-            /* Hindari stiker terpotong saat print */
         }
 
-        /* Styling untuk .info-box dan elemen di dalamnya */
-        .info-box {
+        /* === KODE CARD BARU CSS START === */
+        .stk-card {
             width: 220px;
-            /* Sesuaikan dengan perhitungan agar 3 muat di A4 */
             height: 350px;
-            /* Sesuaikan tinggi stiker */
             box-sizing: border-box;
             overflow: hidden;
             background-color: #ffffff;
-            /* Pastikan stiker putih jika ada shadow */
             border-radius: 10px;
-            /* Sudut lebih rounded */
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            /* Bayangan halus pada stiker */
+            page-break-inside: avoid;
         }
 
-        .info-box-content {
+        .stk-content {
             width: 100%;
             height: 100%;
             border: 2px solid #04294d;
-            /* Border sedikit lebih tipis */
             border-radius: 10px;
-            /* Sinkronkan dengan .info-box */
             box-sizing: border-box;
             padding: 12px;
-            /* Padding internal seragam */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        /* Header Section: Logo and Favicon */
-        .header-section {
+        .stk-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding-bottom: 10px;
-            /* Jarak ke bawah */
             border-bottom: 1px solid #e0e0e0;
-            /* Garis pemisah halus */
             margin-bottom: 10px;
-            /* Jarak setelah garis */
             flex: 0 0 auto;
         }
 
-        .logo-container img,
-        .favicon-container img {
+        .stk-logo-wrapper img,
+        .stk-favicon-wrapper img {
             display: block;
             max-width: 100%;
             height: auto;
-            /* Untuk responsivitas gambar */
         }
 
-        .favicon-container img {
+        .stk-favicon-wrapper img {
             margin-right: 3px;
         }
 
-        /* Item Details Section */
-        .item-details {
+        .stk-item-info {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
             flex: 0 0 auto;
-            /* Tidak tumbuh, tidak menyusut, ukuran otomatis */
             margin-bottom: 10px;
-            /* Jarak ke QR code */
             padding: 5px 0;
         }
 
-        .info-box-number.item-name {
+        .stk-item-name {
             font-size: 1.1rem;
-            /* Sedikit lebih besar */
             font-weight: 700;
-            /* Lebih tebal (bold) */
             margin-bottom: 5px;
             color: #2c3e50;
-            /* Warna nama item lebih lembut */
             word-break: break-word;
             line-height: 1.3;
         }
 
-        .item-reg {
+        .stk-item-reg-number {
             font-size: 0.85rem;
             color: #555e68;
-            /* Warna abu-abu lebih modern */
         }
 
-        /* QR Code Section */
-        .qr-code-section {
+        .stk-qr-area {
             text-align: center;
             flex: 1 1 auto;
-            /* Biarkan mengisi sisa ruang */
             display: flex;
             flex-direction: column;
             justify-content: center;
-            /* Pusatkan QR secara vertikal */
             align-items: center;
-            /* Pusatkan QR secara horizontal */
             margin-top: auto;
-            /* Dorong ke bawah jika ada sisa ruang */
         }
 
-        /* Container untuk QR code yang dihasilkan qrcode.js */
-        .qr-code-container {
-            width: 130px;
-            /* Sesuaikan dengan opsi width/height di qrcode.js */
-            height: 130px;
+        .stk-qr-image-container {
+            width: 150px;
+            height: 150px;
             margin: 0 auto;
-            /* Pusatkan jika ada ruang ekstra */
             display: flex;
-            /* Untuk memusatkan canvas jika ukurannya beda */
             justify-content: center;
             align-items: center;
         }
 
-        .qr-code-container img,
-        .qr-code-container canvas {
-            /* qrcode.js menghasilkan img atau canvas, pastikan ukurannya pas */
+        .stk-qr-image-container img,
+        .stk-qr-image-container canvas {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
         }
 
-
-        .scan-me-text {
+        .stk-scan-text {
             margin-top: 10px;
-            /* Jarak dari QR code */
             font-weight: 500;
-            /* Medium weight */
             font-size: 0.9rem;
-            color: #04294d;
             text-transform: uppercase;
-            /* Kapital untuk penekanan */
+            font-weight: bold;
         }
+
+        .text-navy {
+            color: #04294d !important;
+        }
+
+        /* === KODE CARD BARU CSS END === */
+
 
         /* Print Instructions (non-printable area) */
         .print-instructions {
             margin-top: 30px;
             padding: 20px;
             background-color: #e9f5ff;
-            /* Warna info biru muda */
             border: 1px solid #b8d6eb;
             border-radius: 8px;
             color: #31708f;
-            /* Warna teks untuk info */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
@@ -212,7 +203,6 @@
         .print-instructions ol {
             margin-left: 20px;
             padding-left: 0;
-            /* Reset padding default */
         }
 
         .print-instructions li {
@@ -227,65 +217,64 @@
                 margin: 0;
                 background-color: white;
                 color: #000;
-                /* Pastikan teks hitam saat print */
+            }
+
+            .print-button-container {
+                /* Sembunyikan tombol cetak saat mencetak */
+                display: none;
             }
 
             .a4-page {
                 width: 100%;
                 min-height: initial;
-                /* Biarkan konten menentukan tinggi */
                 height: auto;
                 margin: 0;
                 padding: 0;
                 box-shadow: none;
                 gap: 10mm 5mm;
-                /* Pastikan gap diterapkan saat print */
                 align-content: flex-start;
             }
 
-            .sticker-item {
-                /* page-break-inside: avoid; sudah di atas */
-            }
-
-            .info-box {
+            .stk-card {
                 box-shadow: none;
-                /* Hilangkan bayangan stiker saat print */
             }
 
-            .info-box-content {
+            .stk-content {
                 border: 2px solid #000000;
-                /* Border hitam solid untuk print */
             }
 
-            .scan-me-text,
-            .item-name,
-            .item-reg {
+            .stk-scan-text,
+            .stk-item-name,
+            .stk-item-reg-number,
+            .text-navy {
                 color: #000000 !important;
-                /* Pastikan semua teks penting hitam */
             }
 
-            .header-section {
+            .stk-header {
                 border-bottom-color: #ccc;
-                /* Garis pemisah lebih terang untuk print jika perlu */
             }
-
 
             .print-instructions {
                 display: none;
             }
         }
 
-        /* Pengaturan margin halaman untuk print */
         @page {
             size: A4 portrait;
             margin: 5mm;
-            /* Margin printer, bisa disesuaikan */
         }
     </style>
 </head>
 
 <body>
-    <div class="a4-page">
+
+    <div class="print-button-container">
+        <button id="printButton" class="print-action-button">
+            <i class="fas fa-print"></i> Cetak Stiker
+        </button>
+    </div>
+
+    <div class="a4-page" id="pageToPrint"> <!-- Beri ID pada halaman A4 jika ingin kontrol lebih spesifik, tapi window.print() akan cetak seluruh halaman -->
         <?php
         // Dummy data for testing if $saranaData is not available
         if (!isset($saranaData) || empty($saranaData)) {
@@ -301,37 +290,35 @@
         ?>
 
         <?php foreach ($saranaData as $detailData): ?>
+            <?php
+            $namaBarang = $detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia';
+            $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
+            $qrCanvasId = "stkQrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
+            ?>
             <div class="sticker-item">
-                <div class="info-box">
-                    <div class="info-box-content">
-                        <div class="header-section">
-                            <div class="logo-container">
-                                <!-- Path Logo Lembaga -->
+                <div class="stk-card" id="qrCardToExport_<?= htmlspecialchars($detailData['id'] ?? uniqid()) ?>">
+                    <div class="stk-content">
+                        <div class="stk-header">
+                            <div class="stk-logo-wrapper">
                                 <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
                             </div>
-                            <div class="favicon-container">
-                                <!-- Path Logo Kampus -->
+                            <div class="stk-favicon-wrapper">
                                 <img src="/img/favicon.png" width="35" alt="Favicon">
                             </div>
                         </div>
 
-                        <div class="item-details">
-                            <span class="info-box-number item-name"><?= htmlspecialchars($detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia') ?></span>
-                            <?php
-                            $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
-                            ?>
-                            <span class="item-reg">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
+                        <div class="stk-item-info">
+                            <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
+                            <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
                         </div>
 
-                        <div class="qr-code-section">
-                            <?php
-                            $qrCodeData = htmlspecialchars($nomorRegistrasi);
-                            $canvasId = "qrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
-                            ?>
-                            <div id="<?= $canvasId ?>" class="qr-code-container" data-qr-content="<?= $qrCodeData ?>">
+                        <div class="stk-qr-area">
+                            <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>">
                                 <!-- QR Code akan digenerate oleh JavaScript di sini -->
                             </div>
-                            <span class="scan-me-text">SCAN DI SINI</span>
+                            <span class="stk-scan-text text-navy pt-2">
+                                <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -343,7 +330,7 @@
         <h3>Petunjuk Mencetak Stiker</h3>
         <ol>
             <li>Gunakan browser **Chrome** atau **Firefox** untuk hasil terbaik.</li>
-            <li>Tekan **Ctrl+P** (atau Cmd+P di Mac) untuk membuka dialog print.</li>
+            <li>Tekan **Ctrl+P** (atau Cmd+P di Mac) atau klik tombol **"Cetak Stiker"** di atas untuk membuka dialog print.</li>
             <li>Set **Destinasi** ke printer Anda.</li>
             <li>Set **Layout** ke "Portrait".</li>
             <li>Set **Ukuran Kertas** ke "A4".</li>
@@ -358,23 +345,16 @@
             <li>Pastikan opsi **"Grafis latar belakang"** (Background graphics) **DICENTANG**.</li>
             <li>Cetak pada kertas stiker A4.</li>
         </ol>
-        <p><em><strong>Catatan:</strong> Setiap stiker berukuran sekitar 65mm x 90mm (setelah konversi dari px dan memperhitungkan padding halaman A4 dan gap antar stiker). Tiga stiker akan pas berjajar horizontal pada kertas A4.</em></p>
+        <p><em><strong>Catatan:</strong> Setiap stiker berukuran sekitar 220px (lebar) x 350px (tinggi). Sesuaikan gap pada `.a4-page` jika perlu agar pas di A4.</em></p>
     </div>
 
-    <!-- Library untuk generate QR Code -->
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
-
-    <!-- jQuery (jika masih dibutuhkan untuk script lain, Ekko Lightbox butuh ini) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Ekko Lightbox (jika digunakan di halaman lain, tidak relevan langsung untuk stiker) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-    <!-- html2canvas (jika digunakan, biasanya untuk download satu elemen, bukan untuk print massal) -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script> -->
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const qrContainers = document.querySelectorAll('.qr-code-container');
+            const qrContainers = document.querySelectorAll('.stk-qr-image-container');
 
             qrContainers.forEach(function(container) {
                 const content = container.getAttribute('data-qr-content');
@@ -384,78 +364,30 @@
                     try {
                         new QRCode(containerId, {
                             text: content,
-                            width: 120, // Ukuran rendering internal QR Code, sesuaikan dengan .qr-code-container
-                            height: 120,
-                            colorDark: "#000000", // Hitam untuk kontras maksimal saat scan
+                            width: 140,
+                            height: 140,
+                            colorDark: "#000000",
                             colorLight: "#ffffff",
                             correctLevel: QRCode.CorrectLevel.H
                         });
                     } catch (e) {
                         console.error("Error generating QR Code for container ID: " + containerId, e);
-                        container.innerHTML = "Error QR"; // Pesan error jika gagal
+                        container.innerHTML = "Error QR";
                     }
                 } else {
                     console.warn("QR Code container missing ID or data-qr-content:", container);
                     if (container) container.innerHTML = "Data QR Hilang";
                 }
             });
+
+            // Fungsi untuk tombol cetak
+            const printButton = document.getElementById('printButton');
+            if (printButton) {
+                printButton.addEventListener('click', function() {
+                    window.print();
+                });
+            }
         });
-
-        // Script berikut mungkin berasal dari halaman lain atau untuk fungsionalitas
-        // yang tidak secara langsung berhubungan dengan tampilan/print stiker massal ini.
-        // Anda bisa menghapusnya jika tidak relevan untuk halaman ini.
-        /*
-        $(document).ready(function() {
-            // Inisialisasi lightbox untuk gambar dokumentasi
-            $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-                event.preventDefault();
-                $(this).ekkoLightbox();
-            });
-
-            // Tangkap event klik tombol delete
-            $('button[data-target="#deleteModal"]').on('click', function() {
-                var id = $(this).data('id');
-                var deleteUrl = '/admin/sarana/bergerak?delete=' + id;
-                $('#deleteButton').attr('href', deleteUrl);
-            });
-
-            // Bagian ini sepertinya untuk satu QR code tunggal di halaman detail, bukan untuk loop stiker.
-            // var noRegistrasi = "<? //= htmlspecialchars($detailData['no_registrasi'] ?? '') 
-                                    ?>"; // $detailData tidak akan ada di scope ini
-            // if (noRegistrasi && document.getElementById('qrPreview')) {
-            //     QRCode.toCanvas(document.getElementById('qrPreview'), noRegistrasi, {
-            //         width: 240,
-            //         margin: 1,
-            //         color: {
-            //             dark: '#000000',
-            //             light: '#f9fafa'
-            //         }
-            //     });
-            // }
-
-            // Ini juga untuk satu elemen spesifik 'exportArea', tidak cocok untuk multiple stiker.
-            // Jika ingin download, mungkin perlu mekanisme per stiker atau download semua sebagai PDF.
-            // const exportAreaButton = document.getElementById("downloadQR");
-            // if (exportAreaButton) {
-            //    exportAreaButton.addEventListener("click", function() {
-            //        const target = document.getElementById("exportArea"); // 'exportArea' harus unik per stiker jika mau individual download
-            //        if(target) {
-            //            html2canvas(target, {
-            //                scale: 2,
-            //                useCORS: true,
-            //                logging: true,
-            //                allowTaint: true
-            //            }).then(canvas => {
-            //                const link = document.createElement("a");
-            //                link.download = "nama_file_stiker.png"; // Perlu nama file dinamis
-            //                link.href = canvas.toDataURL("image/png");
-            //                link.click();
-            //            });
-            //        }
-            //    });
-            // }
-        });
-        */
     </script>
 </body>
 
