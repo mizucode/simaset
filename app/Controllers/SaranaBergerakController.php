@@ -335,12 +335,12 @@ class SaranaBergerakController
         $bergerakDataId = SaranaBergerak::getById($conn, $id)['id'];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $aset_bergerak_id = $_POST['aset_bergerak_id'];
+            $aset_tanah_id = $_POST['aset_bergerak_id'];
             $nama_dokumen = $_POST['nama_dokumen'];
             $path_dokumen = '';
 
             if (!empty($_FILES['path_dokumen']['name'])) {
-                $uploadDir = __DIR__ . '/../../storage/dokumentasi_sarana_begerak/';
+                $uploadDir = __DIR__ . '/../../storage/dokumentasi_sarana_bergerak/';
                 if (!is_dir($uploadDir)) {
                     mkdir($uploadDir, 0777, true);
                 }
@@ -360,7 +360,7 @@ class SaranaBergerakController
                     error_log("File upload failed. Error: " . $_FILES['path_dokumen']['error']);
                     $_SESSION['error'] = 'Gagal mengupload file sertifikat.';
                     $this->renderView('create', [
-                        'bergerakData' => $bergerakData,
+                        'bergerakDataId' => $bergerakDataId,
                     ]);
                     return;
                 }
@@ -369,7 +369,7 @@ class SaranaBergerakController
             try {
                 $success = DokumenSaranaBergerak::storeDokumentasiBergerak(
                     $conn,
-                    $aset_bergerak_id,
+                    $aset_tanah_id,
                     $nama_dokumen,
                     $path_dokumen, // Now this contains the filename if upload was successful
                 );
@@ -474,6 +474,16 @@ class SaranaBergerakController
             'detailData' => $detailData,
             'dokumenSaranaBergerak' => $filteredDokumen,
             'dokumenGambar' => $filteredGambar,
+        ]);
+    }
+
+    // download all qr
+    public function downloadAllQr()
+    {
+        global $conn;
+        $saranaData = SaranaBergerak::getAllData($conn);
+        $this->renderView('downloadAll', [
+            'saranaData' => $saranaData,
         ]);
     }
 }

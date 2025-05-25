@@ -319,7 +319,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <a href="#" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
+                        <a href="/admin/sarana/bergerak?delete=<?= htmlspecialchars($detailData['id'] ?? '') ?>" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>

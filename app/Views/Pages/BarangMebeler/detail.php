@@ -6,6 +6,8 @@
     <div class="wrapper">
         <?php include './app/Views/Components/navbar.php'; ?>
         <?php include './app/Views/Components/aside.php'; ?>
+        <?php include './app/Views/Components/css.php'; // Asumsi file ini ada 
+        ?>
 
         <div class="content-wrapper bg-white mb-5 pt-3 px-4">
             <div class="container-fluid">
@@ -16,13 +18,13 @@
                             <div class="card-header text-white">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h3 class="card-title text-lg">
-                                        Detail Barang Meberlair (Meubel)
+                                        Detail Barang Mebelair
                                     </h3>
                                     <div class="text-right">
-                                        <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= $detailData['id']; ?>">
+                                        <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= htmlspecialchars($detailData['id'] ?? ''); ?>">
                                             <i class="fas fa-trash mr-1"></i> Hapus
                                         </button>
-                                        <a href="/admin/sarana/mebelair?edit=<?= $detailData['id']; ?>" class="btn btn-warning btn-sm mr-2">
+                                        <a href="/admin/sarana/mebelair?edit=<?= htmlspecialchars($detailData['id'] ?? ''); ?>" class="btn btn-warning btn-sm mr-2">
                                             <i class="fas fa-edit mr-1"></i> Edit
                                         </a>
                                         <a href="/admin/sarana/mebelair" class="btn btn-secondary btn-sm">
@@ -33,126 +35,288 @@
                             </div>
 
                             <div class="card-body">
-                                <div class="row mb-4">
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-success"><i class="fas fa-id-card"></i></span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">No Registrasi</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['no_registrasi'] ?? '-') ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-info"><i class="fas fa-couch"></i></span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">Nama Barang</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['nama_detail_barang'] ?? '-') ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-purple"><i class="fas fa-trademark"></i></span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">Merk/Tipe</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['merk'] ?? '-') ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-4">
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-primary"><i class="fas fa-calculator"></i></span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">Jumlah</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['jumlah'] ?? '0') ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-orange">
-                                                <i class="fas fa-tree"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">Bahan</span>
-                                                <span class="info-box-number"><?= htmlspecialchars($detailData['bahan'] ?? '-') ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="info-box bg-light">
-                                            <span class="info-box-icon bg-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'green' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : ($detailData['kondisi'] === 'Rusak Berat' ? 'danger' : ($detailData['kondisi'] === 'Hilang' ? 'dark' : 'info'))) ?>">
-                                                <i class="fas fa-clipboard-check"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span class="info-box-text">Kondisi</span>
-                                                <span class="info-box-number">
-                                                    <span class="badge badge-<?= ($detailData['kondisi'] ?? 'Baik') === 'Baik' ? 'success' : ($detailData['kondisi'] === 'Rusak Ringan' ? 'warning' : ($detailData['kondisi'] === 'Rusak Berat' ? 'danger' : ($detailData['kondisi'] === 'Hilang' ? 'dark' : 'info'))) ?>">
-                                                        <?= htmlspecialchars($detailData['kondisi'] ?? 'Baik') ?>
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="border-bottom pb-2 mb-3 mt-5">
-                                    <h5 class="text-bold">
-                                        Informasi Tambahan
-                                    </h5>
-                                </div>
-
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="bahan">Spesifikasi</label>
-                                            <div class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['spesifikasi'] ?? '') ?>
-                                            </div>
-                                        </div>
+                                    <div class="col-md-3">
+                                        <div class="">
+                                            <div class="text-center d-flex flex-column align-items-center">
+                                                <?php
+                                                // Menggunakan nama_detail_barang jika ada, atau nama_barang sebagai fallback
+                                                $namaBarang = $detailData['nama_detail_barang'] ?? ($detailData['nama_barang'] ?? 'Barang Tidak Bernama');
+                                                $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
+                                                $qrCanvasId = "qrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
+                                                ?>
+                                                <div>
+                                                    <div class="stk-card" id="qrCardToExport">
+                                                        <div class="stk-content">
+                                                            <div class="stk-header">
+                                                                <div class="stk-logo-wrapper">
+                                                                    <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
+                                                                </div>
+                                                                <div class="stk-favicon-wrapper">
+                                                                    <img src="/img/favicon.png" width="35" alt="Favicon">
+                                                                </div>
+                                                            </div>
 
-                                        <div class="form-group">
-                                            <label for="ukuran">Jumlah</label>
-                                            <div class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['jumlah'] ?? '') ?>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="ukuran">Satuan</label>
-                                            <div class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['satuan'] ?? '') ?>
-                                            </div>
-                                        </div>
+                                                            <div class="stk-item-info">
+                                                                <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
+                                                                <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
+                                                            </div>
 
+                                                            <div class="stk-qr-area">
+                                                                <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>">
+                                                                </div>
+                                                                <span class="stk-scan-text text-navy pt-2">
+                                                                    <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-
-                                        <div class="form-group">
-                                            <label for="sumber">Sumber</label>
-                                            <div class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['sumber'] ?? '') ?>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="lokasi">Lokasi</label>
-                                            <div class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['lokasi'] ?? '') ?>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="keterangan">Keterangan</label>
-                                            <div class="form-control-plaintext border rounded p-2 bg-light">
-                                                <?= htmlspecialchars($detailData['keterangan'] ?? '') ?>
+                                                <button id="downloadQR" class="btn btn-sm btn-success mt-4 mb-5">
+                                                    <i class="fas fa-download mr-1"></i> Download QR Card
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-9">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="border-bottom pb-2 mb-3">
+                                                    <h5 class="text-bold">
+                                                        Informasi Tambahan
+                                                    </h5>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-success"><i class="fas fa-id-card"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">No Registrasi</span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['no_registrasi'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-info"><i class="fas fa-couch"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Nama Barang</span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($namaBarang) ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-purple"><i class="fas fa-trademark"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Merk/Tipe</span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['merk'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-primary"><i class="fas fa-calculator"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Jumlah</span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['jumlah'] ?? '0') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-secondary"><i class="fas fa-tag"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Satuan</span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['satuan'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-orange"><i class="fas fa-gem"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Bahan</span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['bahan'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                $kondisi = $detailData['kondisi'] ?? 'Baik';
+                                                $kondisiBadge = 'info'; // Default
+                                                if ($kondisi === 'Baik') $kondisiBadge = 'success';
+                                                elseif ($kondisi === 'Rusak Ringan') $kondisiBadge = 'warning';
+                                                elseif ($kondisi === 'Rusak Berat') $kondisiBadge = 'danger';
+                                                elseif ($kondisi === 'Hilang') $kondisiBadge = 'dark';
+                                                ?>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-<?= $kondisiBadge ?>"><i class="fas fa-clipboard-check"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Kondisi</span>
+                                                        <span class="info-box-text">
+                                                            <span class="badge badge-<?= $kondisiBadge ?>">
+                                                                <?= htmlspecialchars($kondisi) ?>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-warning"><i class="fas fa-cash-register"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Biaya Pembelian</span>
+                                                        <span class="info-box-text text-wrap text-justify">
+                                                            <?= isset($detailData['biaya_pembelian']) ? 'Rp. ' . number_format((float)$detailData['biaya_pembelian'], 0, ',', '.') : '-' ?>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-navy"><i class="fas fa-calendar-alt"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Tanggal Pembelian</span>
+                                                        <span class="info-box-text text-wrap text-justify">
+                                                            <?php
+                                                            if (!empty($detailData['tanggal_pembelian'])) {
+                                                                try {
+                                                                    $tanggal = new DateTime($detailData['tanggal_pembelian']);
+                                                                    echo htmlspecialchars($tanggal->format('d-m-Y'));
+                                                                } catch (Exception $e) {
+                                                                    echo htmlspecialchars($detailData['tanggal_pembelian']) . ' (format tidak valid)';
+                                                                }
+                                                            } else {
+                                                                echo '-';
+                                                            }
+                                                            ?>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-primary"><i class="fas fa-database"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Sumber</span>
+                                                        <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['sumber'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-success"><i class="fas fa-map-marker-alt"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Lokasi</span>
+                                                        <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['lokasi'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-warning"><i class="fas fa-clipboard-list"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Spesifikasi</span>
+                                                        <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['spesifikasi'] ?? '-') ?></span>
+                                                    </div>
+                                                </div>
+                                                <div class="info-box bg-light">
+                                                    <span class="info-box-icon bg-danger"><i class="fas fa-info-circle"></i></span>
+                                                    <div class="info-box-content">
+                                                        <span class="info-box-number">Keterangan</span>
+                                                        <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['keterangan'] ?? 'Tidak ada keterangan') ?></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="border-bottom pb-2 mt-5 mb-3 d-flex justify-content-between align-items-center">
+                                    <h5 class="text-bold mb-0">
+                                        File Dokumen
+                                    </h5>
+                                    <a href="/admin/sarana/mebelair?tambah-dokumen=<?= htmlspecialchars($detailData['id'] ?? '') ?>" class="btn btn-warning btn-sm">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover">
+                                        <thead class="bg-light">
+                                            <tr class="text-center">
+                                                <th width="5%">No</th>
+                                                <th width="70%">Nama Dokumen</th>
+                                                <th width="30%">Tindakan</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php if (!empty($dokumenSaranaMebelair)): ?>
+                                                <?php $no = 1; ?>
+                                                <?php foreach ($dokumenSaranaMebelair as $dokumen): ?>
+                                                    <tr>
+                                                        <td class="text-center"><?= $no++ ?></td>
+                                                        <td><?= htmlspecialchars($dokumen['nama_dokumen'] ?? '-') ?></td>
+                                                        <td class="text-center">
+                                                            <a href="/admin/sarana/mebelair?download-dokumen=<?= htmlspecialchars($dokumen['id'] ?? '') ?>"
+                                                                class="btn btn-sm btn-success" title="Download">
+                                                                <i class="fas fa-download"></i> Download
+                                                            </a>
+                                                            <button type="button" class="btn btn-sm btn-danger" title="Hapus"
+                                                                onclick="confirmDeleteDokumen('<?= htmlspecialchars($dokumen['id'] ?? '') ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', 'mebelair')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
+                                            <?php else: ?>
+                                                <tr>
+                                                    <td colspan="3" class="text-center">Tidak ada data dokumen</td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="border-bottom pb-2 my-5 d-flex justify-content-between align-items-center">
+                                    <h5 class="text-bold mb-0">
+                                        Dokumen Gambar
+                                    </h5>
+                                    <a href="/admin/sarana/mebelair?tambah-gambar=<?= htmlspecialchars($detailData['id'] ?? '') ?>" class="btn btn-warning btn-sm">
+                                        <div class="text-dark">
+                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="row mb-4">
+                                    <?php if (!empty($dokumenGambar)): ?>
+                                        <?php foreach ($dokumenGambar as $gambar): ?>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card h-100 shadow-sm">
+                                                    <div class="card-img-top position-relative" style="height: 200px; overflow: hidden;">
+                                                        <?php
+                                                        $pathGambar = $gambar['path_dokumen'] ?? null;
+                                                        $idGambar = htmlspecialchars($gambar['id'] ?? '');
+                                                        $namaDokumenGambar = htmlspecialchars($gambar['nama_dokumen'] ?? 'Dokumen Gambar');
+                                                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+                                                        $extension = $pathGambar ? strtolower(pathinfo($pathGambar, PATHINFO_EXTENSION)) : '';
+                                                        ?>
+                                                        <?php if ($pathGambar && in_array($extension, $allowedExtensions)): ?>
+                                                            <a href="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>" data-toggle="lightbox" data-title="<?= $namaDokumenGambar ?>" data-gallery="gallery-images">
+                                                                <img src="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>"
+                                                                    alt="<?= $namaDokumenGambar ?>"
+                                                                    class="img-fluid h-100 w-100"
+                                                                    style="object-fit: cover;"
+                                                                    loading="lazy">
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
+                                                                Preview Tidak Tersedia
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="card-body d-flex flex-column">
+                                                        <h6 class="card-title text-center mb-3 text-truncate" title="<?= $namaDokumenGambar ?>"><?= $namaDokumenGambar ?></h6>
+                                                        <div class="mt-auto text-center">
+                                                            <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
+                                                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', 'mebelair')">
+                                                                <i class="fas fa-trash"></i> Hapus
+                                                            </button>
+                                                            <a href="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>"
+                                                                class="btn btn-sm btn-primary" title="Lihat" target="_blank">
+                                                                <i class="fas fa-eye"></i> Lihat
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <div class="col-12">
+                                            <div class="alert alert-info text-center" role="alert">
+                                                Tidak ada dokumen gambar.
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -160,49 +324,138 @@
                 </div>
             </div>
         </div>
+
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus Barang Mebelair</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>Apakah Anda yakin ingin menghapus perabotan ini? Tindakan ini tidak dapat dibatalkan.</p>
+                        <p>Apakah Anda yakin ingin menghapus barang mebelair <strong id="itemNameModal"></strong>? Tindakan ini tidak dapat dibatalkan dan akan menghapus semua dokumen terkait.</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
+                        <a href="/admin/sarana/mebelair?delete=<?= htmlspecialchars($detailData['id'] ?? '') ?>" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>
         </div>
+
         <?php include './app/Views/Components/footer.php'; ?>
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
 
-    <!-- Ekstensi untuk lightbox gambar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
 
     <script>
+        // Fungsi konfirmasi hapus (disesuaikan untuk berbagai jenis sarana jika perlu)
+        function confirmDeleteDokumen(dokumenId, saranaId, saranaType = 'mebelair') { // Tambahkan saranaType
+            if (confirm(`Apakah Anda yakin ingin menghapus dokumen ini? Tindakan ini tidak dapat dibatalkan.`)) {
+                window.location.href = `/admin/sarana/${saranaType}?delete-dokumen=${dokumenId}&sarana_id=${saranaId}`;
+            }
+        }
+
+        function confirmDeleteGambar(gambarId, saranaId, saranaType = 'mebelair') { // Tambahkan saranaType
+            if (confirm(`Apakah Anda yakin ingin menghapus gambar ini? Tindakan ini tidak dapat dibatalkan.`)) {
+                window.location.href = `/admin/sarana/${saranaType}?delete-gambar=${gambarId}&sarana_id=${saranaId}`;
+            }
+        }
+
+
         $(document).ready(function() {
             // Inisialisasi lightbox untuk gambar dokumentasi
             $(document).on('click', '[data-toggle="lightbox"]', function(event) {
                 event.preventDefault();
-                $(this).ekkoLightbox();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
             });
 
-            // Tangkap event klik tombol delete
-            $('button[data-target="#deleteModal"]').on('click', function() {
-                var id = $(this).data('id');
-                var deleteUrl = '/admin/sarana/mebelair?delete=' + id;
+            // Modal konfirmasi hapus barang utama
+            $('#deleteModal').on('show.bs.modal', function(event) {
+                var button = $(event.relatedTarget);
+                var itemId = button.data('id');
+                var itemName = "<?= htmlspecialchars($namaBarang ?? 'Barang Ini') ?>";
 
-                // Set URL hapus ke tombol Hapus di modal
-                $('#deleteButton').attr('href', deleteUrl);
+                var modal = $(this);
+                modal.find('#itemNameModal').text(itemName);
+                var deleteUrl = '/admin/sarana/mebelair?delete=' + itemId; // Sesuaikan URL
+                modal.find('#confirmDeleteButton').attr('href', deleteUrl);
             });
+
+
+            // 1. Generate QR Code pada elemen yang ditentukan
+            const qrContainer = document.getElementById('<?= $qrCanvasId ?>');
+            if (qrContainer) {
+                const qrContent = qrContainer.getAttribute('data-qr-content');
+                if (qrContent && qrContent !== 'REG-TIDAK-ADA' && qrContent !== '-') { // Hanya generate jika ada konten valid
+                    try {
+                        new QRCode(qrContainer, {
+                            text: qrContent,
+                            width: 150,
+                            height: 150,
+                            colorDark: "#000000",
+                            colorLight: "#ffffff",
+                            correctLevel: QRCode.CorrectLevel.H
+                        });
+                    } catch (e) {
+                        console.error("Error generating QR Code for container ID: <?= $qrCanvasId ?>", e);
+                        qrContainer.innerHTML = "<small class='text-danger'>Error QR</small>";
+                    }
+                } else {
+                    console.warn("QR Code container <?= $qrCanvasId ?> missing valid data-qr-content or content is placeholder.");
+                    qrContainer.innerHTML = "<small class='text-muted'>Data QR Kosong</small>";
+                }
+            } else {
+                console.warn("QR Code container element with ID '<?= $qrCanvasId ?>' not found.");
+            }
+
+            // 2. Fungsi Download QR Card (elemen stk-card)
+            const downloadButton = document.getElementById("downloadQR");
+            if (downloadButton) {
+                downloadButton.addEventListener("click", function() {
+                    const targetElement = document.getElementById("qrCardToExport");
+                    const namaBarangText = "<?= htmlspecialchars($namaBarang, ENT_QUOTES, 'UTF-8') ?>";
+                    const nomorRegText = "<?= htmlspecialchars($nomorRegistrasi, ENT_QUOTES, 'UTF-8') ?>";
+                    const fileName = `QR-${namaBarangText.replace(/[^a-zA-Z0-9_.-]/g, '_')}-${nomorRegText}.png`;
+
+                    if (!targetElement) {
+                        console.error("Target element for QR download ('qrCardToExport') not found!");
+                        alert("Tidak dapat menemukan elemen kartu QR untuk diunduh.");
+                        return;
+                    }
+                    if (!document.getElementById('<?= $qrCanvasId ?>').querySelector('img')) {
+                        alert("QR Code belum ter-generate atau tidak valid. Tidak dapat mengunduh.");
+                        return;
+                    }
+
+                    html2canvas(targetElement, {
+                        scale: 3,
+                        useCORS: true,
+                        logging: false,
+                        backgroundColor: null
+                    }).then(canvas => {
+                        const link = document.createElement("a");
+                        link.download = fileName;
+                        link.href = canvas.toDataURL("image/png");
+                        link.click();
+                    }).catch(err => {
+                        console.error("Error during html2canvas operation:", err);
+                        alert("Gagal membuat gambar kartu QR. Cek console untuk detail.");
+                    });
+                });
+            } else {
+                console.warn("Download button with ID 'downloadQR' not found.");
+            }
         });
     </script>
 </body>

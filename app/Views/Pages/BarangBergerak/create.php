@@ -71,8 +71,7 @@
                                                         <input type="text" class="form-control" id="nama_detail_barang" name="nama_detail_barang" placeholder="Contoh: Mobil Toyota Avanza" required>
                                                     </div>
                                                 </div>
-                                                <!-- No Registrasi -->
-                                                <!-- No Registrasi -->
+
 
                                             </div>
 
@@ -91,11 +90,6 @@
                                                         <input type="text" class="form-control" id="merk" name="merk" placeholder="Contoh: Toyota">
                                                     </div>
                                                 </div>
-                                                <!-- Spesifikasi -->
-                                                <div class="form-group mb-4">
-                                                    <label for="spesifikasi" class="font-weight-bold">Spesifikasi</label>
-                                                    <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3" placeholder="Masukkan spesifikasi lengkap"></textarea>
-                                                </div>
                                                 <!-- No Polisi -->
                                                 <div class="form-group mb-4">
                                                     <label for="no_polisi" class="font-weight-bold">Nomor Polisi</label>
@@ -106,6 +100,12 @@
                                                         <input type="text" class="form-control" id="no_polisi" name="no_polisi" placeholder="Contoh: B 1234 ABC">
                                                     </div>
                                                 </div>
+                                                <!-- Spesifikasi -->
+                                                <div class="form-group mb-4">
+                                                    <label for="spesifikasi" class="font-weight-bold">Spesifikasi</label>
+                                                    <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3" placeholder="Masukkan spesifikasi lengkap"></textarea>
+                                                </div>
+
                                             </div>
 
                                             <!-- Data Kondisi dan Kuantitas -->
@@ -228,14 +228,7 @@
 
     <?php include './app/Views/Components/script.php'; ?>
 
-    <!-- Select2 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- jQuery (required by Select2) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <!-- Select2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <!-- Initialize Select2 -->
     <script>
@@ -250,7 +243,6 @@
         });
     </script>
     <style>
-        /* Custom Select2 styling */
         .select2-custom-wrapper .select2-selection {
             border: none !important;
             background: transparent !important;

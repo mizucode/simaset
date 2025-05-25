@@ -46,7 +46,9 @@ class SaranaMebelair
         $satuan,
         $lokasi,
         $bahan,
-        $keterangan
+        $keterangan,
+        $biaya_pembelian,
+        $tanggal_pembelian,
     ) {
         $fields = [
             'kategori_barang_id' => $kategori_barang_id,
@@ -61,7 +63,9 @@ class SaranaMebelair
             'satuan' => $satuan,
             'lokasi' => $lokasi,
             'bahan' => $bahan,
-            'keterangan' => $keterangan
+            'keterangan' => $keterangan,
+            'biaya_pembelian' => $biaya_pembelian,
+            'tanggal_pembelian' => $tanggal_pembelian,
         ];
 
         $columns = implode(', ', array_keys($fields));
@@ -101,7 +105,10 @@ class SaranaMebelair
         $satuan,
         $lokasi,
         $bahan,
-        $keterangan
+        $keterangan,
+        $biaya_pembelian,
+        $tanggal_pembelian
+
     ) {
         $query = "UPDATE sarana_mebelair SET
             kategori_barang_id = :kategori_barang_id,
@@ -117,6 +124,8 @@ class SaranaMebelair
             satuan = :satuan,
             bahan = :bahan,
             keterangan = :keterangan,
+            biaya_pembelian = :biaya_pembelian,
+            tanggal_pembelian = :tanggal_pembelian,
             updated_at = CURRENT_TIMESTAMP
         WHERE id = :id";
 
@@ -135,6 +144,8 @@ class SaranaMebelair
             $stmt->bindParam(':lokasi', $lokasi);
             $stmt->bindParam(':bahan', $bahan);
             $stmt->bindParam(':keterangan', $keterangan);
+            $stmt->bindParam(':biaya_pembelian', $biaya_pembelian);
+            $stmt->bindParam(':tanggal_pembelian', $tanggal_pembelian);
             $stmt->bindParam(':id', $id);
             return $stmt->execute();
         } catch (PDOException $e) {

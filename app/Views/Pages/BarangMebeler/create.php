@@ -40,23 +40,25 @@
                                                 </h5>
                                                 <!-- Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="barang_id" class="font-weight-bold">Jenis Barang</label>
-                                                    <div class="input-group">
+                                                    <label for="barang_input" class="font-weight-bold text-dark mb-2">Jenis Barang</label>
+                                                    <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-boxes text-primary"></i></span>
+                                                            <span class="input-group-text border-0 bg-light">
+                                                                <i class="fas fa-boxes text-primary"></i>
+                                                            </span>
                                                         </div>
-                                                        <select class="form-control" id="barang_id" name="barang_id" required>
-                                                            <option value="" disabled selected>Pilih Jenis Barang</option>
+                                                        <select class="form-control rounded border-0 select2-custom" id="barang_input" name="barang_id" required>
+                                                            <option value="" disabled selected>Pilih atau ketik jenis barang</option>
                                                             <?php foreach ($barangList as $barang): ?>
-                                                                <?php if ($barang['kategori_id'] == 2): ?>
-                                                                    <option value="<?= htmlspecialchars($barang['id']) ?>">
-                                                                        <?= htmlspecialchars($barang['nama_barang']) ?>
-                                                                    </option>
-                                                                <?php endif; ?>
+                                                                <option value="<?= htmlspecialchars($barang['id']) ?>">
+                                                                    <?= htmlspecialchars($barang['nama_barang']) ?>
+                                                                </option>
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
+                                                    <small class="form-text text-muted mt-1">Pilih barang dari daftar atau ketik untuk mencari</small>
                                                 </div>
+
                                                 <!-- Nama Detail Barang -->
                                                 <div class="form-group mb-4">
                                                     <label for="nama_detail_barang" class="font-weight-bold">Nama Detail Barang</label>
@@ -66,17 +68,6 @@
                                                         </div>
                                                         <input type="text" class="form-control" id="nama_detail_barang" name="nama_detail_barang"
                                                             placeholder="Contoh: Meja Rapat Kayu Jati" required>
-                                                    </div>
-                                                </div>
-                                                <!-- No Registrasi -->
-                                                <div class="form-group mb-4">
-                                                    <label for="no_registrasi" class="font-weight-bold">Nomor Registrasi</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="no_registrasi" name="no_registrasi"
-                                                            placeholder="Contoh: REG-MBL-001" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -131,7 +122,7 @@
                                             <!-- Data Kondisi dan Kuantitas -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    KONDISI & KUANTITAS
+                                                    KONDISI, KUANTITAS, DAN TANGGAL
                                                 </h5>
                                                 <!-- Kondisi Barang -->
                                                 <div class="form-group mb-4">
@@ -184,6 +175,24 @@
                                                                 <option value="Pasang">Pasang</option>
                                                             </select>
                                                         </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-4">
+                                                    <label for="biaya_pembelian" class="font-weight-bold">Biaya Pembelian</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="fas fa-car text-primary"></i></span>
+                                                        </div>
+                                                        <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian" placeholder="Contoh: 100000000 tanpa titik">
+                                                    </div>
+                                                </div>
+                                                <div class=" form-group mb-4">
+                                                    <label for="tanggal_pembelian" class="font-weight-bold">Tanggal Pembelian</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text bg-light"><i class="far fa-calendar-alt text-primary"></i></span>
+                                                        </div>
+                                                        <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian" required>
                                                     </div>
                                                 </div>
                                             </div>
@@ -249,6 +258,52 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
+    <script>
+        $(document).ready(function() {
+            $('#barang_input').select2({
+                placeholder: "Pilih atau ketik jenis barang",
+                allowClear: false,
+
+                minimumResultsForSearch: 1,
+
+            });
+        });
+    </script>
+    <style>
+        .select2-custom-wrapper .select2-selection {
+            border: none !important;
+            background: transparent !important;
+            height: auto !important;
+            padding: 0 !important;
+        }
+
+        .select2-custom-wrapper .select2-selection__rendered {
+            padding-left: 10 !important;
+            line-height: inherit !important;
+        }
+
+        .select2-custom-wrapper .select2-selection__arrow {
+            height: 100% !important;
+        }
+
+        /* Adjust dropdown to match your design */
+        .select2-dropdown {
+            border: 1px solid #ddd !important;
+
+        }
+
+        /* Remove outline when focused */
+        .select2-custom-wrapper .select2-selection--single:focus {
+            outline: none !important;
+        }
+
+        /* Match the height with your other form elements */
+        .select2-custom-wrapper .select2-selection--single {
+            height: 38px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+    </style>
 
 </body>
 
