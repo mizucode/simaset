@@ -103,30 +103,7 @@
                 </li>
 
                 <!-- BARANG -->
-                <li class="nav-header">BARANG</li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-box me-2"></i>
-                        <p>
-                            Barang
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/barang/daftar-barang" class="nav-link">
-                                <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Daftar Barang</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/barang/jenis-barang" class="nav-link">
-                                <i class="far fa-circle nav-icon me-2"></i>
-                                <p>Jenis Barang</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+
 
                 <!-- TRANSAKSI -->
                 <li class="nav-header">TRANSAKSI</li>
@@ -189,6 +166,30 @@
                     </ul>
                 </li>
 
+                <li class="nav-header">MASTER BARANG</li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-box me-2"></i>
+                        <p>
+                            Pengaturan Barang
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/barang/daftar-barang" class="nav-link">
+                                <i class="far fa-circle nav-icon me-2"></i>
+                                <p>Daftar Barang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/barang/jenis-barang" class="nav-link">
+                                <i class="far fa-circle nav-icon me-2"></i>
+                                <p>Jenis Barang</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
 
                 <!-- LAPORAN -->

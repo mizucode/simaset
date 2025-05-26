@@ -44,6 +44,9 @@ class Router
         '/admin/sarana/bergerak' => ['controller' => 'SaranaBergerakController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
         '/admin/sarana/bergerak/download-qr' => ['controller' => 'SaranaBergerakController', 'method' => 'downloadAllQr', 'auth' => true],
+        '/admin/sarana/atk/download-qr' => ['controller' => 'SaranaATKController', 'method' => 'downloadAllQr', 'auth' => true],
+        '/admin/sarana/mebelair/download-qr' => ['controller' => 'SaranaMebelairController', 'method' => 'downloadAllQr', 'auth' => true],
+        '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true],
 
         // Sarana - Mebelair
         '/admin/sarana/mebelair' => ['controller' => 'SaranaMebelairController', 'method' => 'index', 'auth' => true],

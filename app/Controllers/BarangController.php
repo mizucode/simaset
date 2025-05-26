@@ -83,8 +83,12 @@ class BarangController
         $barangATK = SaranaATK::getAllData($conn);
         $barangElektronik = SaranaElektronik::getAllData($conn);
 
-
         $allBarang = array_merge($barangElektronik, $barangBergerak, $barangATK, $barangMebelair);
+
+        // Urutkan array berdasarkan nama_kategori
+        usort($allBarang, function ($a, $b) {
+            return strcmp($a['nama_kategori'] ?? '', $b['nama_kategori'] ?? '');
+        });
 
         $this->renderView('indexDaftarBarang', [
             'allBarang' => $allBarang

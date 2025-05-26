@@ -14,7 +14,7 @@
                         <?php if (!empty($error)) : ?>
                             <div class="alert alert-danger alert-dismissible fade show mb-4">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true">×</span>
                                 </button>
                                 <?= htmlspecialchars($error); ?>
                             </div>
@@ -23,7 +23,7 @@
                         <?php if (isset($_SESSION['update'])) : ?>
                             <div class="alert alert-success alert-dismissible fade show mb-4">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true">×</span>
                                 </button>
                                 <?= htmlspecialchars($_SESSION['update']); ?>
                             </div>
@@ -37,7 +37,7 @@
                                 </h3>
                             </div>
 
-                            <form action="/admin/sarana/bergerak?edit=<?= $sarana['id'] ?>" method="POST" enctype="multipart/form-data">
+                            <form action="/admin/sarana/bergerak?edit=<?= htmlspecialchars($sarana['id']) ?>" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="id" value="<?= htmlspecialchars($sarana['id']) ?>">
                                 <input type="hidden" name="kategori_barang_id" value="1" id="kategori_barang_id">
                                 <div class="card-body">
@@ -48,16 +48,19 @@
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     IDENTITAS SARANA BERGERAK
                                                 </h5>
-                                                <!-- Kategori Barang -->
+
                                                 <!-- Barang -->
-                                                <div class="form-group mb-4 hidden">
-                                                    <label for="barang_id" class="font-weight-bold">Jenis Barang</label>
-                                                    <div class="input-group">
+                                                <div class="form-group mb-4 hidden"> <!-- Hapus class 'hidden' jika sebelumnya ada -->
+                                                    <label for="barang_id" class="font-weight-bold text-dark mb-2">Jenis Barang</label>
+                                                    <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-boxes text-primary"></i></span>
+                                                            <span class="input-group-text border-0 bg-light">
+                                                                <i class="fas fa-boxes text-primary"></i>
+                                                            </span>
                                                         </div>
-                                                        <select class="form-control" id="barang_id" name="barang_id" required>
-                                                            <option value="" disabled>Pilih Jenis Barang</option>
+                                                        <select class="form-control rounded border-0 select2-custom" id="barang_id" name="barang_id" required>
+                                                            <!-- Opsi placeholder bisa ditambahkan jika diperlukan, namun karena ini form edit, value akan langsung terpilih -->
+                                                            <!-- <option value="" disabled>Pilih atau ketik jenis barang</option> -->
                                                             <?php foreach ($barangList as $barang): ?>
                                                                 <option value="<?= htmlspecialchars($barang['id']) ?>" <?= ($sarana['barang_id'] == $barang['id']) ? 'selected' : '' ?>>
                                                                     <?= htmlspecialchars($barang['nama_barang']) ?>
@@ -65,7 +68,9 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
+                                                    <small class="form-text text-muted mt-1">Pilih barang dari daftar atau ketik untuk mencari</small>
                                                 </div>
+
                                                 <!-- Nama Detail Barang -->
                                                 <div class="form-group mb-4">
                                                     <label for="nama_detail_barang" class="font-weight-bold">Nama Detail Barang</label>
@@ -97,12 +102,6 @@
                                                             placeholder="Contoh: Toyota">
                                                     </div>
                                                 </div>
-                                                <!-- Spesifikasi -->
-                                                <div class="form-group mb-4">
-                                                    <label for="spesifikasi" class="font-weight-bold">Spesifikasi</label>
-                                                    <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3"
-                                                        placeholder="Masukkan spesifikasi lengkap"><?= htmlspecialchars($sarana['spesifikasi']) ?></textarea>
-                                                </div>
                                                 <!-- No Polisi -->
                                                 <div class="form-group mb-4">
                                                     <label for="no_polisi" class="font-weight-bold">Nomor Polisi</label>
@@ -115,12 +114,18 @@
                                                             placeholder="Contoh: B 1234 ABC">
                                                     </div>
                                                 </div>
+                                                <!-- Spesifikasi -->
+                                                <div class="form-group mb-4">
+                                                    <label for="spesifikasi" class="font-weight-bold">Spesifikasi</label>
+                                                    <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3"
+                                                        placeholder="Masukkan spesifikasi lengkap"><?= htmlspecialchars($sarana['spesifikasi']) ?></textarea>
+                                                </div>
                                             </div>
 
                                             <!-- Data Kondisi dan Kuantitas -->
                                             <div class="col-12 mb-5">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    INFORMASI KONDISI
+                                                    INFORMASI KONDISI DAN TANGGAL
                                                 </h5>
                                                 <!-- Kondisi Barang -->
                                                 <div class="form-group mb-4">
@@ -159,21 +164,21 @@
                                                     <label for="biaya_pembelian" class="font-weight-bold">Biaya Pembelian</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-car text-primary"></i></span>
+                                                            <span class="input-group-text bg-light"><i class="fas fa-money-bill-wave text-primary"></i></span> <!-- Ikon disesuaikan -->
                                                         </div>
                                                         <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian"
                                                             value="<?= htmlspecialchars($sarana['biaya_pembelian']) ?>"
                                                             placeholder="Contoh: 100000000 tanpa titik">
                                                     </div>
                                                 </div>
-                                                <div class="form-group mb-4 hidden">
+                                                <div class="form-group mb-4 <?php echo (isset($sarana['tanggal_pembelian']) && !empty($sarana['tanggal_pembelian'])) ? '' : 'hidden'; ?>"> <!-- Tetap hidden jika memang disembunyikan atau tampilkan jika ada nilainya -->
                                                     <label for="tanggal_pembelian" class="font-weight-bold">Tanggal Pembelian</label>
                                                     <div class="input-group">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="far fa-calendar-alt text-primary"></i></span>
                                                         </div>
                                                         <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian"
-                                                            value="<?= htmlspecialchars($sarana['tanggal_pembelian']) ?>" required>
+                                                            value="<?= htmlspecialchars($sarana['tanggal_pembelian']) ?>"> <!-- required dihilangkan jika bisa kosong -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -183,32 +188,37 @@
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     INFORMASI TAMBAHAN
                                                 </h5>
-                                                <!-- Keterangan -->
+
+                                                <!-- Lokasi Penempatan Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="lokasi" class="font-weight-bold">Lokasi Penempatan Barang</label>
-                                                    <div class="input-group">
+                                                    <label for="lokasi" class="font-weight-bold text-dark mb-2">Lokasi Penempatan Barang</label>
+                                                    <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
+                                                            <span class="input-group-text border-0 bg-light">
+                                                                <i class="fas fa-map-marker-alt text-primary"></i> <!-- Ganti ikon -->
+                                                            </span>
                                                         </div>
-                                                        <select class="form-control" id="lokasi" name="lokasi" required>
-                                                            <option value="" disabled>Pilih Lokasi Barang</option>
+                                                        <select class="form-control rounded border-0 select2-custom" id="lokasi" name="lokasi" required>
+                                                            <!-- <option value="" disabled>Pilih atau ketik lokasi barang</option> -->
                                                             <optgroup label="Lapang">
-                                                                <?php foreach ($lapangData as $lokasi) : ?>
-                                                                    <option value="<?= $lokasi['nama_lapang']; ?>" <?= ($sarana['lokasi'] == $lokasi['nama_lapang']) ? 'selected' : '' ?>>
-                                                                        <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
+                                                                <?php foreach ($lapangData as $lokasi_item) : ?>
+                                                                    <option value="<?= htmlspecialchars($lokasi_item['nama_lapang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_lapang']) ? 'selected' : '' ?>>
+                                                                        <?= htmlspecialchars($lokasi_item['kode_lapang']); ?> - <?= htmlspecialchars($lokasi_item['nama_lapang']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
                                                             <optgroup label="Ruang">
-                                                                <?php foreach ($ruangData as $lokasi) : ?>
-                                                                    <option value="<?= $lokasi['nama_ruang']; ?>" <?= ($sarana['lokasi'] == $lokasi['nama_ruang']) ? 'selected' : '' ?>>
-                                                                        <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
+                                                                <?php foreach ($ruangData as $lokasi_item) : ?>
+                                                                    <option value="<?= htmlspecialchars($lokasi_item['nama_ruang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_ruang']) ? 'selected' : '' ?>>
+                                                                        <?= htmlspecialchars($lokasi_item['kode_ruang']); ?> - <?= htmlspecialchars($lokasi_item['nama_ruang']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
                                                         </select>
                                                     </div>
+                                                    <small class="form-text text-muted mt-1">Pilih lokasi dari daftar atau ketik untuk mencari</small>
                                                 </div>
+
                                                 <div class="form-group mb-4">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
                                                     <textarea class="form-control" id="keterangan" name="keterangan" rows="2"
@@ -218,7 +228,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="card-footer text-right text-white">
+                                    <div class="card-footer text-right text-white"> <!-- Latar belakang card-footer di view tambah adalah putih, disamakan -->
                                         <a href="/admin/sarana/bergerak" class="btn btn-secondary">
                                             <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                                         </a>
@@ -238,6 +248,63 @@
     </div>
 
     <?php include './app/Views/Components/script.php'; ?>
+
+    <!-- Initialize Select2 -->
+    <script>
+        $(document).ready(function() {
+            // Inisialisasi Select2 untuk Jenis Barang
+            $('#barang_id').select2({ // ID disesuaikan dengan id select jenis barang di form edit
+                placeholder: "Pilih atau ketik jenis barang",
+                allowClear: false,
+                minimumResultsForSearch: 1,
+            });
+
+            // Inisialisasi Select2 untuk Lokasi Penempatan Barang
+            $('#lokasi').select2({
+                placeholder: "Pilih atau ketik lokasi barang",
+                allowClear: false,
+                minimumResultsForSearch: 1,
+            });
+
+            // Logika untuk format biaya pembelian jika diperlukan
+            // (Sama seperti di form tambah jika ada)
+        });
+    </script>
+    <style>
+        .select2-custom-wrapper .select2-selection {
+            border: none !important;
+            background: transparent !important;
+            height: auto !important;
+            padding: 0 !important;
+        }
+
+        .select2-custom-wrapper .select2-selection__rendered {
+            padding-left: 10px !important;
+            line-height: inherit !important;
+        }
+
+        .select2-custom-wrapper .select2-selection__arrow {
+            height: 100% !important;
+        }
+
+        .select2-dropdown {
+            border: 1px solid #ddd !important;
+        }
+
+        .select2-custom-wrapper .select2-selection--single:focus {
+            outline: none !important;
+        }
+
+        .select2-custom-wrapper .select2-selection--single {
+            height: 38px !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        /* Jika card-footer di form tambah tidak berwarna, maka hilangkan text-white */
+        /* .card-footer { background-color: #f8f9fa; border-top: 1px solid #dee2e6; } */
+        /* Contoh jika ingin footer abu-abu terang */
+    </style>
 
 </body>
 

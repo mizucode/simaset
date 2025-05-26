@@ -14,7 +14,7 @@
                         <?php if (!empty($error)) : ?>
                             <div class="alert alert-danger alert-dismissible fade show mb-4">
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                                    <span aria-hidden="true">×</span>
                                 </button>
                                 <?= htmlspecialchars($error); ?>
                             </div>
@@ -173,32 +173,36 @@
                                                     INFORMASI TAMBAHAN
                                                 </h5>
                                                 <!-- Keterangan -->
+                                                <!-- Lokasi Penempatan Barang -->
                                                 <div class="form-group mb-4">
-                                                    <label for="lokasi " class="font-weight-bold">Lokasi Penempatan Barang</label>
-                                                    <div class="input-group">
+                                                    <label for="lokasi" class="font-weight-bold text-dark mb-2">Lokasi Penempatan Barang</label>
+                                                    <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
                                                         <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-laptop text-primary"></i></span>
+                                                            <span class="input-group-text border-0 bg-light">
+                                                                <i class="fas fa-map-marker-alt text-primary"></i> <!-- Ganti ikon -->
+                                                            </span>
                                                         </div>
-                                                        <select class="form-control" id="lokasi" name="lokasi" required>
-                                                            <option value="" disabled selected>Pilih Lokasi Barang</option>
-
+                                                        <select class="form-control rounded border-0 select2-custom" id="lokasi" name="lokasi" required>
+                                                            <option value="" disabled selected>Pilih atau ketik lokasi barang</option>
                                                             <optgroup label="Lapang">
-                                                                <?php foreach ($lapangData as $lokasi) : ?>
-                                                                    <option value="<?= $lokasi['nama_lapang']; ?>">
-                                                                        <?= $lokasi['kode_lapang']; ?> - <?= $lokasi['nama_lapang']; ?>
+                                                                <?php foreach ($lapangData as $lokasi_item) : ?> <!-- Ubah nama variabel agar tidak konflik -->
+                                                                    <option value="<?= htmlspecialchars($lokasi_item['nama_lapang']); ?>">
+                                                                        <?= htmlspecialchars($lokasi_item['kode_lapang']); ?> - <?= htmlspecialchars($lokasi_item['nama_lapang']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
                                                             <optgroup label="Ruang">
-                                                                <?php foreach ($ruangData as $lokasi) : ?>
-                                                                    <option value="<?= $lokasi['nama_ruang']; ?>">
-                                                                        <?= $lokasi['kode_ruang']; ?> - <?= $lokasi['nama_ruang']; ?>
+                                                                <?php foreach ($ruangData as $lokasi_item) : ?> <!-- Ubah nama variabel agar tidak konflik -->
+                                                                    <option value="<?= htmlspecialchars($lokasi_item['nama_ruang']); ?>">
+                                                                        <?= htmlspecialchars($lokasi_item['kode_ruang']); ?> - <?= htmlspecialchars($lokasi_item['nama_ruang']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
                                                             </optgroup>
                                                         </select>
                                                     </div>
+                                                    <small class="form-text text-muted mt-1">Pilih lokasi dari daftar atau ketik untuk mencari</small>
                                                 </div>
+
                                                 <div class="form-group mb-4">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
                                                     <textarea class="form-control" id="keterangan" name="keterangan" rows="2" placeholder="Tambahkan keterangan jika diperlukan"></textarea>
@@ -236,9 +240,14 @@
             $('#barang_input').select2({
                 placeholder: "Pilih atau ketik jenis barang",
                 allowClear: false,
-
                 minimumResultsForSearch: 1,
+            });
 
+            // Inisialisasi Select2 untuk Lokasi Penempatan Barang
+            $('#lokasi').select2({
+                placeholder: "Pilih atau ketik lokasi barang",
+                allowClear: false, // Sesuaikan jika ingin bisa di-clear
+                minimumResultsForSearch: 1,
             });
         });
     </script>
@@ -251,7 +260,8 @@
         }
 
         .select2-custom-wrapper .select2-selection__rendered {
-            padding-left: 10 !important;
+            padding-left: 10px !important;
+            /* Tambah padding kiri agar teks tidak terlalu mepet ikon */
             line-height: inherit !important;
         }
 
@@ -273,6 +283,7 @@
         /* Match the height with your other form elements */
         .select2-custom-wrapper .select2-selection--single {
             height: 38px !important;
+            /* Sesuaikan dengan tinggi input lain jika perlu */
             display: flex !important;
             align-items: center !important;
         }

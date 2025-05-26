@@ -39,11 +39,11 @@
                                     <h3 class="card-title text-lg">
                                         Data Sarana Bergerak
                                     </h3>
-                                    <div>
-                                        <a href="/admin/sarana/mebelair/tambah" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-plus mr-1"></i> Tambah Data
-                                        </a>
-                                    </div>
+                                    <a href="/admin/sarana/mebelair/download-qr" class="btn btn-success btn-sm ml-auto">
+                                        <div class="">
+                                            <i class="fas fa-save mr-1"></i> Download QR Code
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
 

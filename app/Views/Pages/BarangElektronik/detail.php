@@ -337,7 +337,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                         <!-- URL Hapus diatur oleh JavaScript, pastikan JS di bawah juga diubah -->
-                        <a href="#" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
+                        <a href="/admin/sarana/elektronik?delete=<?= htmlspecialchars($detailData['id'] ?? '') ?>" id="confirmDeleteButton" class="btn btn-danger">Hapus</a>
                     </div>
                 </div>
             </div>

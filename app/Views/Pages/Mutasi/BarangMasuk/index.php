@@ -17,83 +17,71 @@
                                     <h3 class="card-title text-lg">
                                         Data Penerimaan Barang
                                     </h3>
-                                    <a href="/admin/transaksi/mutasi/barang-masuk/tambah" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-plus mr-1"></i>Tambah Data
-                                    </a>
+
                                 </div>
                             </div>
 
                             <div class="card-body">
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Cari data penerimaan...">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                        <div class="small-box bg-danger">
+                                            <div class="inner" style="padding-bottom: 20px;">
+                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang Bergerak</h3>
+                                                <p class="w-50">Digunakan Untuk Menambahkan Barang Bergerak</p>
                                             </div>
+                                            <div class="icon">
+                                                <i class="fas fa-truck-moving fa-2x"></i>
+                                            </div>
+                                            <a href="/admin/sarana/bergerak/tambah" class="small-box-footer">
+                                                Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
+                                            </a>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 text-right">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-outline-secondary">
-                                                <i class="fas fa-filter"></i> Filter
-                                            </button>
-                                            <button type="button" class="btn btn-outline-success" id="btnExportExcel">
-                                                <i class="fas fa-file-excel"></i> Export Excel
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="table-responsive">
-                                    <table class="table table-bordered table-hover">
-                                        <thead class="bg-light">
-                                            <tr class="text-center">
-                                                <th width="5%">No</th>
-                                                <th width="10%">Tanggal Terima</th>
-                                                <th width="15%">Sumber Barang</th>
-                                                <th width="20%">Nama Barang</th>
-                                                <th width="10%">Jumlah</th>
-                                                <th width="10%">Kondisi</th>
-                                                <th width="10%">No. Nota</th>
-                                                <th width="10%">Keterangan</th>
-                                                <th width="10%">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $no = 1;
-                                            foreach ($mutasiBM as $data):
-                                            ?>
-                                                <tr>
-                                                    <td class="text-center"><?= $no++ ?></td>
-                                                    <td><?= date('d M Y', strtotime($data['tanggal_penerimaan'])) ?></td>
-                                                    <td><?= htmlspecialchars($data['sumber_barang']) ?></td>
-                                                    <td><?= htmlspecialchars($data['nama_barang']) ?></td>
-                                                    <td class="text-center"><?= htmlspecialchars($data['jumlah']) ?></td>
-                                                    <td class="text-center">
-                                                        <span class="badge <?= $data['kondisi'] == 'Baik' ? 'badge-success' : 'badge-danger' ?>">
-                                                            <?= htmlspecialchars($data['kondisi']) ?>
-                                                        </span>
-                                                    </td>
-                                                    <td><?= htmlspecialchars($data['nomor_nota']) ?></td>
-                                                    <td><?= htmlspecialchars($data['keterangan']) ?></td>
-                                                    <td class="text-center">
-                                                        <div class="btn-group btn-group-sm">
-                                                            <a href="/admin/transaksi/mutasi/barang-masuk?edit=<?= htmlspecialchars($data['id']) ?>" class="btn btn-warning" title="Edit">
-                                                                <i class="fas fa-edit"></i>
-                                                            </a>
-                                                            <a href="/admin/transaksi/mutasi/barang-masuk?delete=<?= htmlspecialchars($data['id']) ?>" class="btn btn-danger" title="Hapus" onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                        <div class="small-box bg-warning">
+                                            <div class="inner" style="padding-bottom: 20px;">
+                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang Mebelair</h3>
+                                                <p class="w-50">Digunakan Untuk Menambahkan Barang Mebelair</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-couch fa-2x"></i>
+                                            </div>
+                                            <a href="/admin/sarana/mebelair/tambah" class="small-box-footer">
+                                                Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                        <div class="small-box bg-info">
+                                            <div class="inner" style="padding-bottom: 20px;">
+                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang Elektronik</h3>
+                                                <p class="w-50">Digunakan Untuk Menambahkan Barang Elektronik</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-laptop fa-2x"></i>
+                                            </div>
+                                            <a href="/admin/sarana/elektronik/tambah" class="small-box-footer">
+                                                Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                        <div class="small-box bg-success">
+                                            <div class="inner" style="padding-bottom: 20px;">
+                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang ATK</h3>
+                                                <p class="w-50">Digunakan Untuk Menambahkan Alat tulis Kantor</p>
+                                            </div>
+                                            <div class="icon">
+                                                <i class="fas fa-pencil-alt fa-2x"></i>
+                                            </div>
+                                            <a href="/admin/sarana/atk/tambah" class="small-box-footer">
+                                                Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

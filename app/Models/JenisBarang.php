@@ -12,7 +12,8 @@ class JenisBarang
     {
         $query = "SELECT b.*, kb.nama_kategori 
               FROM barang b
-              LEFT JOIN kategori_barang kb ON b.kategori_id = kb.id";
+              LEFT JOIN kategori_barang kb ON b.kategori_id = kb.id
+              ORDER BY kb.nama_kategori ASC";
 
         try {
             $stmt = $conn->query($query);

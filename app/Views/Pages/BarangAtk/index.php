@@ -39,9 +39,9 @@
                                     <h3 class="card-title text-lg">
                                         Data Barang ATK
                                     </h3>
-                                    <a href="/admin/sarana/atk/tambah" class="btn btn-warning btn-sm ml-auto">
-                                        <div class="text-dark">
-                                            <i class="fas fa-plus mr-1"></i> Tambah Data
+                                    <a href="/admin/sarana/atk/download-qr" class="btn btn-success btn-sm ml-auto">
+                                        <div class="">
+                                            <i class="fas fa-save mr-1"></i> Download QR Code
                                         </div>
                                     </a>
                                 </div>
@@ -53,9 +53,10 @@
                                         <thead class="bg-light">
                                             <tr class="text-center">
                                                 <th width="5%">No</th>
-                                                <th>No Registrasi</th>
+                                                <th width="20%">No Registrasi</th>
                                                 <th>Nama Barang</th>
-                                                <th width="12%">Aksi</th>
+                                                <th>Jenis</th>
+                                                <th width="15%">Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -66,6 +67,7 @@
                                                         <td class="text-center"><?= $counter++; ?></td>
                                                         <td class="text-center"><?= htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></td>
                                                         <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-'); ?></td>
+                                                        <td><?= htmlspecialchars($barang['barang'] ?? '-'); ?></td>
                                                         <td class="text-center">
                                                             <a href="/admin/sarana/atk?detail=<?= $barang['id']; ?>" class="btn btn-sm btn-info" title="Detail">
                                                                 <i class="fas fa-eye"></i> Detail

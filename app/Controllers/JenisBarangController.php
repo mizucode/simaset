@@ -99,7 +99,7 @@ class JenisBarangController
 
 
 
-    private function delete()
+    public function delete()
     {
         if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
             global $conn;
