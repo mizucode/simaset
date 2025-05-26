@@ -42,8 +42,11 @@ class Router
 
         // Sarana - Bergerak
         '/admin/sarana/bergerak' => ['controller' => 'SaranaBergerakController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/bergerak/pindah' => ['controller' => 'SaranaBergerakPindahController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
         '/admin/sarana/bergerak/download-qr' => ['controller' => 'SaranaBergerakController', 'method' => 'downloadAllQr', 'auth' => true],
+        '/admin/sarana/bergerak/kondisi' => ['controller' => 'SaranaBergerakKondisiController', 'method' => 'index', 'auth' => true],
+
         '/admin/sarana/atk/download-qr' => ['controller' => 'SaranaATKController', 'method' => 'downloadAllQr', 'auth' => true],
         '/admin/sarana/mebelair/download-qr' => ['controller' => 'SaranaMebelairController', 'method' => 'downloadAllQr', 'auth' => true],
         '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true],
@@ -51,14 +54,23 @@ class Router
         // Sarana - Mebelair
         '/admin/sarana/mebelair' => ['controller' => 'SaranaMebelairController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/mebelair/tambah' => ['controller' => 'SaranaMebelairController', 'method' => 'create', 'auth' => true],
+        '/admin/sarana/mebelair/pindah' => ['controller' => 'SaranaMebelairPindahController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/mebelair/kondisi' => ['controller' => 'SaranaMebelairKondisiController', 'method' => 'index', 'auth' => true],
+
 
         // Sarana - ATK
         '/admin/sarana/atk' => ['controller' => 'SaranaATKController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/atk/tambah' => ['controller' => 'SaranaATKController', 'method' => 'create', 'auth' => true],
+        '/admin/sarana/atk/pindah' => ['controller' => 'SaranaATKPindahController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/atk/kondisi' => ['controller' => 'SaranaATKKondisiController', 'method' => 'index', 'auth' => true],
+
 
         // Sarana - Elektronik
         '/admin/sarana/elektronik' => ['controller' => 'SaranaElektronikController', 'method' => 'index', 'auth' => true],
         '/admin/sarana/elektronik/tambah' => ['controller' => 'SaranaElektronikController', 'method' => 'create', 'auth' => true],
+        '/admin/sarana/elektronik/pindah' => ['controller' => 'SaranaElektronikPindahController', 'method' => 'index', 'auth' => true],
+        '/admin/sarana/elektronik/kondisi' => ['controller' => 'SaranaElektronikKondisiController', 'method' => 'index', 'auth' => true],
+
 
         // Barang routes
 
@@ -170,6 +182,14 @@ class Router
             '/admin/survey/semesteran/data-inventaris',
             '/admin/transaksi/mutasi/barang-keluar',
             '/admin/transaksi/mutasi/barang-masuk',
+            '/admin/sarana/bergerak/pindah',
+            '/admin/sarana/mebelair/pindah',
+            '/admin/sarana/atk/pindah',
+            '/admin/sarana/atk/kondisi',
+            '/admin/sarana/mebelair/kondisi',
+            '/admin/sarana/bergerak/kondisi',
+            '/admin/sarana/elektronik/kondisi',
+            '/admin/sarana/elektronik/pindah'
         ];
 
         return in_array($this->uri, $allowedUris) && !empty($_GET);

@@ -22,15 +22,79 @@
                             </div>
 
                             <div class="card-body">
+                                <style>
+                                    .custom-dashboard-card .small-box {
+                                        border-radius: 0.375rem;
+                                        /* Sedikit lebih rounded */
+                                        box-shadow: 0 0 1px rgba(0, 0, 0, .125), 0 1px 3px rgba(0, 0, 0, .2);
+                                        transition: all 0.3s ease-in-out;
+                                        height: 100%;
+                                        /* Penting untuk equal height */
+                                        display: flex;
+                                        flex-direction: column;
+                                    }
+
+                                    .custom-dashboard-card .small-box:hover {
+                                        transform: translateY(-4px);
+                                        box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+                                    }
+
+                                    .custom-dashboard-card .small-box .inner {
+                                        padding: 15px;
+                                        /* Padding yang konsisten */
+                                        flex-grow: 1;
+                                        /* Membuat konten inner mengisi ruang yang tersedia */
+                                    }
+
+                                    .custom-dashboard-card .small-box .inner h3 {
+                                        font-size: 1.5rem;
+                                        /* Sedikit disesuaikan untuk keseimbangan */
+                                        margin-bottom: 0.5rem;
+                                        /* Jarak ke paragraf */
+                                        font-weight: 600;
+                                        /* Lebih tebal jika belum */
+                                        color: inherit;
+                                        /* Memastikan warna teks kontras dengan background */
+                                    }
+
+                                    .custom-dashboard-card .small-box .inner p {
+                                        font-size: 0.875rem;
+                                        /* Ukuran deskripsi yang lebih kecil */
+                                        line-height: 1.5;
+                                        /* Keterbacaan baris */
+                                        margin-bottom: 0;
+                                        /* Hapus margin bawah jika footer langsung di bawah */
+                                    }
+
+                                    /* .custom-dashboard-card .small-box .icon { */
+                                    /* Styling ikon default AdminLTE biasanya sudah cukup baik. */
+                                    /* Jika Anda ingin override: */
+                                    /* opacity: 0.7; */
+                                    /* transition: all .3s linear; */
+                                    /* } */
+
+                                    /* .custom-dashboard-card .small-box:hover .icon { */
+                                    /* font-size: 95px;  Contoh efek hover pada ikon jika diperlukan */
+                                    /* opacity: 0.5; */
+                                    /* } */
+
+                                    .custom-dashboard-card .small-box .small-box-footer {
+                                        padding: 10px 0;
+                                        /* Sedikit padding vertikal */
+                                        margin-top: auto;
+                                        /* Mendorong footer ke bagian bawah card */
+                                    }
+                                </style>
+
                                 <div class="row">
-                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4 custom-dashboard-card">
                                         <div class="small-box bg-danger">
-                                            <div class="inner" style="padding-bottom: 20px;">
-                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang Bergerak</h3>
-                                                <p class="w-50">Digunakan Untuk Menambahkan Barang Bergerak</p>
+                                            <div class="inner">
+                                                <h3>Barang Bergerak</h3>
+                                                <p>Tambah Barang Bergerak</p>
                                             </div>
                                             <div class="icon">
-                                                <i class="fas fa-truck-moving fa-2x"></i>
+                                                <i class="fas fa-truck-moving fa-3x"></i>
                                             </div>
                                             <a href="/admin/sarana/bergerak/tambah" class="small-box-footer">
                                                 Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
@@ -38,14 +102,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4 custom-dashboard-card">
                                         <div class="small-box bg-warning">
-                                            <div class="inner" style="padding-bottom: 20px;">
-                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang Mebelair</h3>
-                                                <p class="w-50">Digunakan Untuk Menambahkan Barang Mebelair</p>
+                                            <div class="inner">
+                                                <h3>Barang Mebelair</h3>
+                                                <p>Tambah Barang Mebelair</p>
                                             </div>
                                             <div class="icon">
-                                                <i class="fas fa-couch fa-2x"></i>
+                                                <i class="fas fa-couch fa-3x"></i>
                                             </div>
                                             <a href="/admin/sarana/mebelair/tambah" class="small-box-footer">
                                                 Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
@@ -53,14 +117,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4 custom-dashboard-card">
                                         <div class="small-box bg-info">
-                                            <div class="inner" style="padding-bottom: 20px;">
-                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang Elektronik</h3>
-                                                <p class="w-50">Digunakan Untuk Menambahkan Barang Elektronik</p>
+                                            <div class="inner">
+                                                <h3>Barang Elektronik</h3>
+                                                <p>Tambah Barang Elektronik</p>
                                             </div>
                                             <div class="icon">
-                                                <i class="fas fa-laptop fa-2x"></i>
+                                                <i class="fas fa-laptop fa-3x"></i>
                                             </div>
                                             <a href="/admin/sarana/elektronik/tambah" class="small-box-footer">
                                                 Tambahkan Data <i class="fas fa-arrow-circle-right"></i>
@@ -68,14 +132,14 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                    <div class="col-12 col-sm-6 col-md-3 mb-4 custom-dashboard-card">
                                         <div class="small-box bg-success">
-                                            <div class="inner" style="padding-bottom: 20px;">
-                                                <h3 style="font-size: 1.6rem; margin-bottom: 5px;">Barang ATK</h3>
-                                                <p class="w-50">Digunakan Untuk Menambahkan Alat tulis Kantor</p>
+                                            <div class="inner">
+                                                <h3>Barang ATK</h3>
+                                                <p>Tambah Alat Tulis Kantor</p>
                                             </div>
                                             <div class="icon">
-                                                <i class="fas fa-pencil-alt fa-2x"></i>
+                                                <i class="fas fa-pencil-alt fa-3x"></i>
                                             </div>
                                             <a href="/admin/sarana/atk/tambah" class="small-box-footer">
                                                 Tambahkan Data <i class="fas fa-arrow-circle-right"></i>

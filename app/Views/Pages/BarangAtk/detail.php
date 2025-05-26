@@ -108,25 +108,15 @@
                                                         <span class="info-box-text"><?= htmlspecialchars($detailData['jumlah'] ?? '1') ?> <?= htmlspecialchars($detailData['satuan'] ?? 'Unit') ?></span>
                                                     </div>
                                                 </div>
-                                                <?php
-                                                $kondisi = $detailData['kondisi'] ?? 'Baik';
-                                                $kondisiBadge = 'info'; // Default
-                                                if ($kondisi === 'Baik') $kondisiBadge = 'success';
-                                                elseif ($kondisi === 'Rusak Ringan') $kondisiBadge = 'warning';
-                                                elseif ($kondisi === 'Rusak Berat') $kondisiBadge = 'danger';
-                                                elseif ($kondisi === 'Hilang') $kondisiBadge = 'dark';
-                                                ?>
                                                 <div class="info-box bg-light">
-                                                    <span class="info-box-icon bg-<?= $kondisiBadge ?>"><i class="fas fa-clipboard-check"></i></span>
+                                                    <span class="info-box-icon bg-success"><i class="fas fa-clipboard-check"></i></span>
                                                     <div class="info-box-content">
                                                         <span class="info-box-number">Kondisi</span>
-                                                        <span class="info-box-text">
-                                                            <span class="badge badge-<?= $kondisiBadge ?>">
-                                                                <?= htmlspecialchars($kondisi) ?>
-                                                            </span>
-                                                        </span>
+                                                        <span class="info-box-text"><?= htmlspecialchars($detailData['nama_kondisi'] ?? '-') ?></span>
                                                     </div>
                                                 </div>
+
+
                                                 <div class="info-box bg-light">
                                                     <span class="info-box-icon bg-warning"><i class="fas fa-cash-register"></i></span>
                                                     <div class="info-box-content">

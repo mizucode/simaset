@@ -82,28 +82,17 @@
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text bg-light"><i class="fas fa-tag text-primary"></i></span>
                                                         </div>
-                                                        <input type="text" class="form-control" id="nama_detail_barang" name="nama_detail_barang"
+                                                        <input type="text" class="form-control" id="nama_detail_barang" name="nama_detail_barang" readonly
                                                             placeholder="Contoh: Meja Rapat Kayu Jati" required
                                                             value="<?= htmlspecialchars($sarana['nama_detail_barang'] ?? '') ?>">
                                                     </div>
                                                 </div>
                                                 <!-- No Registrasi -->
-                                                <div class="form-group mb-4 hidden">
-                                                    <label for="no_registrasi" class="font-weight-bold">Nomor Registrasi</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-hashtag text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="no_registrasi" name="no_registrasi"
-                                                            placeholder="Contoh: REG-MBL-001" readonly <!-- Dibuat readonly karena di-generate JS -->
-                                                        value="<?= htmlspecialchars($sarana['no_registrasi'] ?? '') ?>">
-                                                    </div>
-                                                    <small class="form-text text-muted mt-1">Nomor registrasi akan terisi otomatis berdasarkan Jenis Barang.</small>
-                                                </div>
+
                                             </div>
 
                                             <!-- Data Spesifikasi -->
-                                            <div class="col-12 mb-5">
+                                            <div class="col-12 mb-5 hidden">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     SPESIFIKASI
                                                 </h5>
@@ -150,7 +139,7 @@
                                             </div>
 
                                             <!-- Data Kondisi dan Kuantitas -->
-                                            <div class="col-12 mb-5">
+                                            <div class="col-12 mb-5 hidden">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
                                                     KONDISI & KUANTITAS
                                                 </h5>
@@ -215,14 +204,14 @@
                                             <!-- Data Tambahan -->
                                             <div class="col-12">
                                                 <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    INFORMASI TAMBAHAN
+                                                    LOKASI PEMINDAHAN
                                                 </h5>
                                                 <div class="form-group mb-4">
                                                     <label for="lokasi" class="font-weight-bold text-dark mb-2">Lokasi Penempatan Barang</label>
                                                     <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
                                                         <div class="input-group-prepend">
                                                             <span class="input-group-text border-0 bg-light">
-                                                                <i class="fas fa-map-marker-alt text-primary"></i>
+                                                                <i class="fas fa-map-marker-alt text-primary"></i> <!-- Ikon Lokasi -->
                                                             </span>
                                                         </div>
                                                         <select class="form-control rounded border-0 select2-custom" id="lokasi" name="lokasi" required>
@@ -232,7 +221,7 @@
                                                             <optgroup label="Lapang">
                                                                 <?php foreach ($lapangData as $itemLokasi) : ?>
                                                                     <option value="<?= htmlspecialchars($itemLokasi['nama_lapang']); ?>"
-                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $itemLokasi['nama_lapang'] ? 'selected' : '') ?>>
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $itemLokasi['nama_lapang']) ? 'selected' : '' ?>>
                                                                         <?= htmlspecialchars($itemLokasi['kode_lapang']); ?> - <?= htmlspecialchars($itemLokasi['nama_lapang']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
@@ -240,7 +229,7 @@
                                                             <optgroup label="Ruang">
                                                                 <?php foreach ($ruangData as $itemLokasi) : ?>
                                                                     <option value="<?= htmlspecialchars($itemLokasi['nama_ruang']); ?>"
-                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $itemLokasi['nama_ruang'] ? 'selected' : '') ?>>
+                                                                        <?= (isset($sarana['lokasi']) && $sarana['lokasi'] == $itemLokasi['nama_ruang']) ? 'selected' : '' ?>>
                                                                         <?= htmlspecialchars($itemLokasi['kode_ruang']); ?> - <?= htmlspecialchars($itemLokasi['nama_ruang']); ?>
                                                                     </option>
                                                                 <?php endforeach; ?>
@@ -249,9 +238,8 @@
                                                     </div>
                                                     <small class="form-text text-muted mt-1">Pilih lokasi dari daftar atau ketik untuk mencari</small>
                                                 </div>
-                                                <!-- Keterangan - -->
                                                 <!-- Keterangan -->
-                                                <div class="form-group mb-4">
+                                                <div class="form-group mb-4 hidden">
                                                     <label for="keterangan" class="font-weight-bold">Keterangan</label>
                                                     <textarea class="form-control" id="keterangan" name="keterangan" rows="2"
                                                         placeholder="Tambahkan keterangan jika diperlukan"><?= htmlspecialchars($sarana['keterangan'] ?? '') ?></textarea>
