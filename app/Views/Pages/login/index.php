@@ -1,268 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
-    <title>SIMASET | UM Kuningan</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css" />
-    <link rel="stylesheet" href="css/flaticon.css" />
-    <link rel="stylesheet" href="css/themify-icons.css" />
-    <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css" />
-    <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="icon" href="img/favicon.png" type="image/png" />
+  <title>SIMASET | UM Kuningan</title>
 
-    <!-- main css -->
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/info.css" />
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN via Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'custom-blue': '#002F6C',
+            'custom-blue-darker': '#001F4C',
+          },
+          fontFamily: {
+            'poppins': ['Poppins', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .floating-alert {
+      z-index: 1000;
+    }
+  </style>
 </head>
 
-<body>
-    <!--================ Start Header Menu Area =================-->
-    <header class="header_area">
-        <div class="main_menu">
-            <div class="search_input" id="search_input_box">
-                <div class="container">
-                    <form class="d-flex justify-content-between" method="" action="">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="search_input"
-                            placeholder="Cari Disini.." />
-                        <button type="submit" class="btn"></button>
-                        <span
-                            class="ti-close"
-                            id="close_search"
-                            title="Close Search"></span>
-                    </form>
-                </div>
-            </div>
+<body class="text-gray-800 font-poppins">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-md">
+    <div class="container mx-auto px-4 lg:px-32 lg:py-2">
+      <div class="flex justify-between items-center h-16">
+        <!-- Logo -->
+        <a href="index.html" class="flex-shrink-0">
+          <img src="img/logo.png" alt="Logo" class="h-8 md:h-10">
+        </a>
 
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="index.html"><img logo src="img/logo/sim.svg" alt="" /></a>
-
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="icon-bar"></span> <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div
-                        class="collapse navbar-collapse offset"
-                        id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="index.html">Beranda</a>
-                            </li>
-                            <!-- <li class="nav-item">
-                  <a class="nav-link" href="about-us.html">Profil</a>
-                </li> -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Informasi</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">FAQ</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link search" id="search">
-                                    <i class="ti-search"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-1 lg:space-x-4">
+          <a href="#beranda" class="px-3 py-2 rounded-md text-md font-medium text-yellow-400">Beranda</a>
+          <a href="#informasi" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-custom-blue">Informasi</a>
+          <a href="#" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-custom-blue">FAQ</a>
+          <button id="search_desktop_button" class="p-2 text-gray-500 hover:text-custom-blue">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
 
-
-    </header>
-    <!--================ End Header Menu Area =================-->
-
-    <div class="section_gap registration_area">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-7">
-                    <div class="row clock_sec clockdiv" id="clockdiv">
-                        <div class="col-lg-12">
-                            <span class="mobile-break"></span>
-                            <h1 class="mb-3">Selamat Datang Di SIMASET</h1>
-                            <h6 class="si-text si-text__heading-6 si-text--bold m-0">Anda tetap dapat masuk dengan nama pengguna &amp; kata sandi
-                                yang sama</h6><br>
-                            Platform SIM hadir untuk mempermudah dalam pelaporan sesuai program kerja unit masing-masing.
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-4 offset-lg-1">
-                    <div class="register_form">
-                        <h3>Masuk Ke Akun</h3>
-                        <p>Sistem Aset dan Inventori</p>
-
-                        <!-- Tampilkan Pesan Error -->
-                        <?php if (isset($_SESSION['error'])): ?>
-                            <p style="color: red;"><?= $_SESSION['error'];
-                                                    unset($_SESSION['error']); ?></p>
-                        <?php endif; ?>
-
-                        <!-- Debugging Information -->
-                        <?php if (isset($_SESSION['debug'])): ?>
-                            <div style="background:#f8f9fa;padding:15px;margin-bottom:20px;border:1px solid #ddd;font-family:monospace;">
-                                <h4 style="margin-top:0;">Debug Information:</h4>
-                                <pre><?= htmlspecialchars(print_r($_SESSION['debug'], true)) ?></pre>
-                            </div>
-                            <?php unset($_SESSION['debug']); ?>
-                        <?php endif; ?>
-
-                        <form class="form_area" action="/login" method="POST">
-                            <div class="row">
-                                <div class="col-lg-12 form_group">
-                                    <input name="username" placeholder="Nama Pengguna" required="" type="text" value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>">
-                                    <input name="password" placeholder="Kata Sandi" required="" type="password">
-                                </div>
-
-                                <div class="col-lg-12 text-center">
-                                    <button type="submit" class="primary-btn">Masuk</button>
-                                </div>
-
-                                <div class="col-lg-12 text-center mt-3">
-                                    <a href="#" class="btn btn-link">Panduan Penggunaan Aplikasi SIM</a>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Mobile menu button -->
+        <button class="md:hidden p-2 rounded-md text-gray-700 hover:text-custom-blue focus:outline-none" id="mobile-menu-button">
+          <i class="fas fa-bars text-xl" id="menu-icon"></i>
+        </button>
+      </div>
     </div>
 
-    <section class="about_area section_gap">
-        <div class="container">
-            <div class="row h_blog_item">
-                <div class="col-lg-6">
-                    <div class="h_blog_img">
-                        <img class="img-fluid" src="img/about-edit.png" alt="">
-                    </div>
+    <!-- Mobile Menu -->
+    <div class="md:hidden h-0 overflow-hidden transition-all duration-300 ease-in-out" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-50 text-custom-blue">Beranda</a>
+        <a href="#informasi" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-custom-blue">Informasi</a>
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-custom-blue">FAQ</a>
+        <button id="search_mobile_button" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-custom-blue">
+          <i class="fas fa-search mr-2"></i>Cari
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="py-16 md:py-20 lg:py-32 bg-custom-blue">
+      <div class="container mx-auto px-4 lg:px-32 lg:py-2">
+        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+          <!-- Left Content -->
+          <div class="w-full lg:w-7/12 space-y-4 text-center lg:text-left">
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">Selamat Datang Di SIMASET</h1>
+            <h2 class="text-lg font-semibold text-gray-200">
+              Anda tetap dapat masuk dengan nama pengguna & kata sandi yang sama
+            </h2>
+            <p class="text-gray-300 leading-relaxed">
+              Platform SIMASET hadir sebagai solusi digital dalam pengelolaan aset Universitas Muhammadiyah Kuningan secara efektif, efisien, dan transparan.
+            </p>
+          </div>
+
+          <!-- Right Content - Login Form -->
+          <div class="w-full lg:w-4/12">
+            <div class="bg-white p-6 sm:p-8 lg:py-16 rounded-sm shadow-xl">
+              <h3 class="text-2xl font-bold text-custom-blue text-center mb-2">Masuk Ke Akun</h3>
+              <p class="text-gray-600 text-center mb-6">Sistem Aset dan Inventori</p>
+
+              <?php if (isset($_SESSION['error'])): ?>
+                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded">
+                  <?= $_SESSION['error'];
+                  unset($_SESSION['error']); ?>
                 </div>
-                <div class="col-lg-6">
-                    <div class="h_blog_text">
-                        <div class="h_blog_text_inner left right">
-                            <h4>Sistem Informasi Manajemen (SIM)</h4>
-                            <p>
-                                Platform aplikasi yang dapat membantu proses ....
-                            </p>
-                            <p>
-                            <ul>
-                                <li>..</li>
-                                <li>..</li>
-                                <li>..</li>
-                                <li>..</li>
-                            </ul>
-                            </p>
-                            <a class="primary-btn" href="#">
-                                Info Selengkapnya <i class="ti-arrow-right ml-1"></i>
-                            </a>
-                        </div>
-                    </div>
+              <?php endif; ?>
+
+              <form class="space-y-4" action="/login" method="POST">
+                <div>
+                  <input
+                    name="username"
+                    placeholder="Nama Pengguna"
+                    required
+                    type="text"
+                    value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue">
                 </div>
+                <div>
+                  <input
+                    name="password"
+                    placeholder="Kata Sandi"
+                    required
+                    type="password"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue">
+                </div>
+
+                <button
+                  type="submit"
+                  class="w-full bg-custom-blue hover:bg-custom-blue-darker text-white font-medium py-3 px-6 rounded-md transition duration-300">
+                  Masuk
+                </button>
+
+                <div class="text-center">
+                  <a href="#" class="text-custom-blue hover:text-custom-blue-darker text-sm font-medium hover:underline">
+                    Panduan Penggunaan Aplikasi SIM
+                  </a>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </section>
 
+    <!-- Information Section -->
 
-    <!-- Floating Notification -->
-    <div id="notification" class="floating-alert alert alert-success " role="alert">
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#002347] py-8 text-white">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
-            <!-- icon info -->
-            <i class="fa fa-info-circle" aria-hidden="true"></i>
-            <strong>Info!</strong> Pengisian sampai dengan 12 Februari 2025, Review 14 Februari - Revisi 15 Februari 2025.
-
-            <!-- button -->
-            <a href="https://example.com" class="btn btn-link" target="_blank">Selengkapnya<i class="ti-arrow-right ml-1"></i></a>
+          <a href="https://www.umkuningan.ac.id">
+            <img src="img/logo footer.png" alt="UM Kuningan" class="h-10">
+          </a>
         </div>
-        <br>
-
-        <!-- close -->
-        <button class="close-alert" onclick="closeNotification()">&times;</button>
-
+        <div class="text-center md:text-left">
+          <p class="text-sm ">
+            Copyright ©<script>
+              document.write(new Date().getFullYear());
+            </script> Universitas Muhammadiyah Kuningan
+            <br class="sm:hidden">
+            <span class="hidden sm:inline">|</span>
+            Lembaga Pembangunan, Pengembangan Teknologi dan Sistem Informasi
+          </p>
+        </div>
+        <div class="flex gap-4">
+          <a href="#" class=" hover:text-custom-blue"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class=" hover:text-custom-blue"><i class="fab fa-instagram"></i></a>
+          <a href="#" class=" hover:text-custom-blue"><i class="fab fa-twitter"></i></a>
+          <a href="#" class=" hover:text-custom-blue"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
     </div>
+  </footer>
 
-    <script>
-        function closeNotification() {
-            document.getElementById("notification").style.display = "none";
-        }
-    </script>
+  <!-- Notification -->
+  <div id="notification" class="fixed bottom-5 right-5 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg max-w-xs hidden">
+    <div class="flex items-start gap-3">
+      <i class="fas fa-info-circle mt-1 text-green-500"></i>
+      <div>
+        <p class="font-bold">Info Penting!</p>
+        <p class="text-sm">Pengisian sampai dengan 12 Februari 2025.</p>
+      </div>
+      <button onclick="closeNotification()" class="ml-4 text-green-500 hover:text-green-700">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
 
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
 
-    <!--================ Start footer Area  =================-->
-    <footer class="footer-area">
-        <div class="container">
+    mobileMenuButton.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('h-0');
+      menuIcon.classList.toggle('fa-bars');
+      menuIcon.classList.toggle('fa-times');
+      mobileMenu.classList.toggle('py-2');
+    });
 
-            <div class="row footer-bottom d-flex justify-content-between mt-0">
-                <a href="https://www.umkuningan.ac.id">
-                    <img src="img/logo footer.png" alt="Situs Resmi" class="icon-footer-logo">
-                </a>
-                <p class="col-lg-8 col-sm-12 footer-text m-0 text-black">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright ©<script>
-                        document.write(new Date().getFullYear());
-                    </script> Universitas Muhammadiyah Kuningan | Lembaga Pembangunan, Pengembangan Teknologi dan Sistem Informasi
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-                <div class="col-lg-4 col-sm-12 footer-social">
-                    <a href="https://www.facebook.com/umkuningan"><i class="ti-facebook"></i></a>
-                    <a href="https://www.instagram.com/umkuningan"><i class="ti-instagram"></i></a>
-                    <a href="https://www.x.com/umkuningan/">
-                        <img src="img/x-twitter.png" alt="Twitter" class="icon-x-twitter">
-                    </a>
-                    <a href="https://www.youtube.com/@umkuningan"><i class="ti-youtube"></i></a>
-                </div>
+    // Notification
+    function closeNotification() {
+      document.getElementById('notification').classList.add('hidden');
+    }
 
-            </div>
-        </div>
-    </footer>
-
-    <!--================ End footer Area  =================-->
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
-    <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
-    <script src="js/owl-carousel-thumb.min.js"></script>
-    <script src="js/jquery.ajaxchimp.min.js"></script>
-    <script src="js/mail-script.js"></script>
-    <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-    <script src="js/gmaps.min.js"></script>
-    <script src="js/theme.js"></script>
-    <script src="js/info.js"></script>
-
-    <script>
-        document.querySelector('.refresh_captcha').addEventListener('click', function() {
-            const captchaImage = document.querySelector('.captcha_image');
-            captchaImage.src = 'captcha.php?' + Date.now(); // Pakai timestamp untuk hindari cache
-        });
-    </script>
-
-
+    setTimeout(() => {
+      document.getElementById('notification').classList.remove('hidden');
+    }, 1500);
+  </script>
 </body>
 
 </html>

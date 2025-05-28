@@ -30,19 +30,6 @@ body {
   font-weight: 400;
   color: #7b838a; }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-  font-family: "Rubik", sans-serif;
-  font-weight: 500;
-  color: #083385; }
-  
-  h6 {
-  font-family: "Rubik", sans-serif;
-  font-weight: 500;
-  color: #fff; }
 
 .list {
   list-style: none;
@@ -1937,13 +1924,6 @@ h5 {
 h6 {
   font-size: 14px; }
 
-.typography h1,
-.typography h2,
-.typography h3,
-.typography h4,
-.typography h5,
-.typography h6 {
-  color: #777777; }
 
 .button-area .border-top-generic {
   padding: 70px 15px;

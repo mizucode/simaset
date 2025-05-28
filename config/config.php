@@ -27,3 +27,4 @@ require_once __DIR__ . '/../app/Controllers/SaranaATKKondisiController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaMebelairKondisiController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaElektronikKondisiController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaBergerakKondisiController.php';
+require_once __DIR__ . '/../app/Controllers/LaporanController.php';
