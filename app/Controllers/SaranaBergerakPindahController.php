@@ -12,7 +12,7 @@ class SaranaBergerakPindahController
 
 
 
-    public function update($id)
+  public function update($id)
     {
         global $conn;
         $sarana = SaranaBergerak::getById($conn, $id);

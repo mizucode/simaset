@@ -2,393 +2,425 @@
 <html lang="id">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stiker Barang A4 (3 per Halaman - Ukuran Disesuaikan)</title>
-    <!-- Google Fonts: Roboto -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome (diperlukan untuk ikon fas fa-qrcode dan fa-print) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stiker Barang A4 (3 per Halaman - Ukuran Disesuaikan)</title>
+  <!-- Google Fonts: Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome (diperlukan untuk ikon fas fa-qrcode dan fa-print) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <style>
-        /* General Body and Page Setup */
-        body {
-            font-family: 'Roboto', 'Arial', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f6f8;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            color: #333;
-        }
+  <style>
+    /* General Body and Page Setup */
+    body {
+      font-family: 'Roboto', 'Arial', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f6f8;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      color: #333;
+    }
 
-        .print-button-container {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    .print-button-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        .print-action-button {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-            background-color: #007bff;
-            /* Warna biru yang umum */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    .print-action-button {
+      padding: 12px 25px;
+      font-size: 1.1rem;
+      background-color: #007bff;
+      /* Warna biru yang umum */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .print-action-button:hover {
-            background-color: #0056b3;
-            /* Warna biru lebih gelap saat hover */
-        }
+    .print-action-button:hover {
+      background-color: #0056b3;
+      /* Warna biru lebih gelap saat hover */
+    }
 
-        .print-action-button i {
-            margin-right: 8px;
-        }
-
-
-        .a4-page {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto 20px auto;
-            padding: 5mm;
-            background-color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            align-items: flex-start;
-            align-content: flex-start;
-            gap: 10mm 5mm;
-        }
-
-        .sticker-item {
-            page-break-inside: avoid;
-        }
-
-        /* === KODE CARD BARU CSS START === */
-        .stk-card {
-            width: 220px;
-            height: 350px;
-            box-sizing: border-box;
-            overflow: hidden;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            page-break-inside: avoid;
-        }
-
-        .stk-content {
-            width: 100%;
-            height: 100%;
-            border: 2px solid #04294d;
-            border-radius: 10px;
-            box-sizing: border-box;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .stk-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 10px;
-            flex: 0 0 auto;
-        }
-
-        .stk-logo-wrapper img,
-        .stk-favicon-wrapper img {
-            display: block;
-            max-width: 100%;
-            height: auto;
-        }
-
-        .stk-favicon-wrapper img {
-            margin-right: 3px;
-        }
-
-        .stk-item-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            flex: 0 0 auto;
-            margin-bottom: 10px;
-            padding: 5px 0;
-        }
-
-        .stk-item-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: #2c3e50;
-            word-break: break-word;
-            line-height: 1.3;
-        }
-
-        .stk-item-reg-number {
-            font-size: 0.85rem;
-            color: #555e68;
-        }
-
-        .stk-qr-area {
-            text-align: center;
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            margin-top: auto;
-        }
-
-        .stk-qr-image-container {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .stk-qr-image-container img,
-        .stk-qr-image-container canvas {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .stk-scan-text {
-            margin-top: 10px;
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-
-        .text-navy {
-            color: #04294d !important;
-        }
-
-        /* === KODE CARD BARU CSS END === */
+    .print-action-button i {
+      margin-right: 8px;
+    }
 
 
-        /* Print Instructions (non-printable area) */
-        .print-instructions {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e9f5ff;
-            border: 1px solid #b8d6eb;
-            border-radius: 8px;
-            color: #31708f;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
+    .a4-page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto 20px auto;
+      padding: 5mm;
+      background-color: white;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: flex-start;
+      align-content: flex-start;
+      gap: 10mm 5mm;
+      /* Sesuaikan gap ini jika perlu */
+    }
 
-        .print-instructions h3 {
-            margin-top: 0;
-            color: #23527c;
-        }
+    .sticker-item {
+      page-break-inside: avoid;
+    }
 
-        .print-instructions ol {
-            margin-left: 20px;
-            padding-left: 0;
-        }
+    /* === KODE CARD BARU CSS START === */
+    .stk-card {
+      width: 220px;
+      /* Sekitar 58.2mm - Cek agar 3 muat + gap di 210mm */
+      height: 350px;
+      /* Sekitar 92.6mm */
+      box-sizing: border-box;
+      overflow: hidden;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      page-break-inside: avoid;
+    }
 
-        .print-instructions li {
-            margin-bottom: 5px;
-        }
+    .stk-content {
+      width: 100%;
+      height: 100%;
+      border: 2px solid #04294d;
+      border-radius: 10px;
+      box-sizing: border-box;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .stk-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 10px;
+      flex: 0 0 auto;
+    }
+
+    .stk-logo-wrapper img,
+    .stk-favicon-wrapper img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .stk-favicon-wrapper img {
+      margin-right: 3px;
+    }
+
+    .stk-item-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex: 0 0 auto;
+      margin-bottom: 10px;
+      padding: 5px 0;
+    }
+
+    .stk-item-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      color: #2c3e50;
+      word-break: break-word;
+      line-height: 1.3;
+      /* Batasi tinggi dan tampilkan elipsis jika terlalu panjang */
+      max-height: calc(1.3em * 3);
+      /* Sekitar 3 baris */
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+    }
+
+    .stk-item-reg-number {
+      font-size: 0.85rem;
+      color: #555e68;
+    }
+
+    .stk-qr-area {
+      text-align: center;
+      flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: auto;
+      /* Dorong ke bawah */
+    }
+
+    .stk-qr-image-container {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto;
+      /* Pusatkan QR */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .stk-qr-image-container img,
+    .stk-qr-image-container canvas {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .stk-scan-text {
+      margin-top: 10px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .text-navy {
+      color: #04294d !important;
+    }
+
+    /* === KODE CARD BARU CSS END === */
 
 
-        /* Print Specific Styles */
-        @media print {
-            body {
-                padding: 0;
-                margin: 0;
-                background-color: white;
-                color: #000;
-            }
+    /* Print Instructions (non-printable area) */
+    .print-instructions {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #e9f5ff;
+      border: 1px solid #b8d6eb;
+      border-radius: 8px;
+      color: #31708f;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
 
-            .print-button-container {
-                /* Sembunyikan tombol cetak saat mencetak */
-                display: none;
-            }
+    .print-instructions h3 {
+      margin-top: 0;
+      color: #23527c;
+    }
 
-            .a4-page {
-                width: 100%;
-                min-height: initial;
-                height: auto;
-                margin: 0;
-                padding: 0;
-                box-shadow: none;
-                gap: 10mm 5mm;
-                align-content: flex-start;
-            }
+    .print-instructions ol {
+      margin-left: 20px;
+      padding-left: 0;
+    }
 
-            .stk-card {
-                box-shadow: none;
-            }
+    .print-instructions li {
+      margin-bottom: 5px;
+    }
 
-            .stk-content {
-                border: 2px solid #000000;
-            }
 
-            .stk-scan-text,
-            .stk-item-name,
-            .stk-item-reg-number,
-            .text-navy {
-                color: #000000 !important;
-            }
+    /* Print Specific Styles */
+    @media print {
+      body {
+        padding: 0;
+        margin: 0;
+        background-color: white;
+        color: #000;
+        -webkit-print-color-adjust: exact !important;
+        /* Chrome, Safari, Edge */
+        color-adjust: exact !important;
+        /* Firefox */
+      }
 
-            .stk-header {
-                border-bottom-color: #ccc;
-            }
+      .print-button-container {
+        display: none;
+      }
 
-            .print-instructions {
-                display: none;
-            }
-        }
+      .a4-page {
+        width: 100%;
+        min-height: initial;
+        height: auto;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        gap: 10mm 5mm;
+        /* Pastikan gap konsisten atau sesuaikan jika perlu */
+        align-content: flex-start;
+      }
 
-        @page {
-            size: A4 portrait;
-            margin: 5mm;
-        }
-    </style>
+      .stk-card {
+        box-shadow: none;
+      }
+
+      .stk-content {
+        border: 2px solid #000000 !important;
+      }
+
+      .stk-scan-text,
+      .stk-item-name,
+      .stk-item-reg-number,
+      .text-navy {
+        color: #000000 !important;
+      }
+
+      .stk-header {
+        border-bottom-color: #adadad !important;
+        /* Sedikit lebih gelap untuk print */
+      }
+
+      .print-instructions {
+        display: none;
+      }
+    }
+
+    @page {
+      size: A4 portrait;
+      margin: 5mm;
+      /* Sesuaikan margin ini dengan printer Anda */
+    }
+  </style>
 </head>
 
 <body>
 
-    <div class="print-button-container">
-        <button id="printButton" class="print-action-button">
-            <i class="fas fa-print"></i> Cetak Stiker
-        </button>
-    </div>
+  <div class="print-button-container">
+    <button id="printButton" class="print-action-button">
+      <i class="fas fa-print"></i> Cetak Stiker
+    </button>
+  </div>
 
-    <div class="a4-page" id="pageToPrint"> <!-- Beri ID pada halaman A4 jika ingin kontrol lebih spesifik, tapi window.print() akan cetak seluruh halaman -->
-        <?php
-        // Dummy data for testing if $saranaData is not available
-        if (!isset($saranaData) || empty($saranaData)) {
-            $saranaData = [
-                ['id' => '001', 'nama_detail_barang' => 'Laptop Lenovo ThinkPad X1 Carbon Gen 9 Ruang Rapat Lt.3 No.Inv/Aset: LPTP/2023/001', 'no_registrasi' => 'ASSET-2023-001'],
-                ['id' => '002', 'nama_detail_barang' => 'Proyektor Epson EB-S400 Aula Utama No.Inv/Aset: PROJ/2022/005', 'no_registrasi' => 'ASSET-2022-005'],
-                ['id' => '003', 'nama_detail_barang' => 'Printer HP LaserJet Pro M404dn Ruang Admin Lt.1', 'no_registrasi' => 'ASSET-2023-017'],
-                ['id' => '004', 'nama_detail_barang' => 'Meja Kerja Staff Kayu Jati Solid Ukuran Besar Sekali Panjang', 'no_registrasi' => 'FURN-2021-102'],
-                ['id' => '005', 'nama_detail_barang' => 'Kursi Ergonomis Manager', 'no_registrasi' => 'FURN-2021-103'],
-                ['id' => '006', 'nama_detail_barang' => 'AC Split 1PK Panasonic', 'no_registrasi' => 'ELEK-2023-050'],
-            ];
-        }
-        ?>
+  <div class="a4-page" id="pageToPrint">
+    <?php
 
-        <?php foreach ($saranaData as $detailData): ?>
-            <?php
-            $namaBarang = $detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia';
-            $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
-            $qrCanvasId = "stkQrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
-            ?>
-            <div class="sticker-item">
-                <div class="stk-card" id="qrCardToExport_<?= htmlspecialchars($detailData['id'] ?? uniqid()) ?>">
-                    <div class="stk-content">
-                        <div class="stk-header">
-                            <div class="stk-logo-wrapper">
-                                <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
-                            </div>
-                            <div class="stk-favicon-wrapper">
-                                <img src="/img/favicon.png" width="35" alt="Favicon">
-                            </div>
-                        </div>
+    if (!isset($saranaData) || empty($saranaData)) {
+      $saranaData = [
+        ['id' => '001', 'nama_detail_barang' => 'Laptop Lenovo ThinkPad X1 Carbon Gen 9 Ruang Rapat Lt.3 No.Inv/Aset: LPTP/2023/001', 'no_registrasi' => 'ASSET-2023-001'],
+        ['id' => '002', 'nama_detail_barang' => 'Proyektor Epson EB-S400 Aula Utama No.Inv/Aset: PROJ/2022/005', 'no_registrasi' => 'ASSET-2022-005'],
+        ['id' => '003', 'nama_detail_barang' => 'Printer HP LaserJet Pro M404dn Ruang Admin Lt.1', 'no_registrasi' => 'ASSET-2023-017'],
+        ['id' => '004', 'nama_detail_barang' => 'Meja Kerja Staff Kayu Jati Solid Ukuran Besar Sekali Panjang', 'no_registrasi' => 'FURN-2021-102'],
+        ['id' => '005', 'nama_detail_barang' => 'Kursi Ergonomis Manager', 'no_registrasi' => 'FURN-2021-103'],
+        ['id' => '006', 'nama_detail_barang' => 'AC Split 1PK Panasonic', 'no_registrasi' => 'ELEK-2023-050'],
+      ];
+    }
+    ?>
 
-                        <div class="stk-item-info">
-                            <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
-                            <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
-                        </div>
+    <?php foreach ($saranaData as $detailData): ?>
+      <?php
+      $itemId = htmlspecialchars($detailData['id'] ?? uniqid());
+      $namaBarang = $detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia';
+      $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
+      $qrContainerId = "stkQrCanvas_" . $itemId;
+      $qrContentForJs = "";
+      if (!empty($detailData['id'])) {
+        $qrPath = "/admin/sarana/elektronik?edit=" . urlencode($detailData['id']);
+        $qrContentForJs = rtrim($BaseUrlQr, '/') . $qrPath;
+      } else {
+        $qrContentForJs = $nomorRegistrasi;
+      }
 
-                        <div class="stk-qr-area">
-                            <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>">
-                                <!-- QR Code akan digenerate oleh JavaScript di sini -->
-                            </div>
-                            <span class="stk-scan-text text-navy pt-2">
-                                <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
-                            </span>
-                        </div>
-                    </div>
-                </div>
+      ?>
+      <div class="sticker-item">
+        <div class="stk-card" id="qrCardToExport_<?= $itemId ?>">
+          <div class="stk-content">
+            <div class="stk-header">
+              <div class="stk-logo-wrapper">
+                <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
+              </div>
+              <div class="stk-favicon-wrapper">
+                <img src="/img/favicon.png" width="35" alt="Favicon">
+              </div>
             </div>
-        <?php endforeach; ?>
-    </div>
 
-    <div class="print-instructions">
-        <h3>Petunjuk Mencetak Stiker</h3>
-        <ol>
-            <li>Gunakan browser **Chrome** atau **Firefox** untuk hasil terbaik.</li>
-            <li>Tekan **Ctrl+P** (atau Cmd+P di Mac) atau klik tombol **"Cetak Stiker"** di atas untuk membuka dialog print.</li>
-            <li>Set **Destinasi** ke printer Anda.</li>
-            <li>Set **Layout** ke "Portrait".</li>
-            <li>Set **Ukuran Kertas** ke "A4".</li>
-            <li>Set **Margin**:
-                <ul>
-                    <li>Disarankan: "Minimum" atau "Minimal".</li>
-                    <li>Atau: "Default" jika printer Anda memiliki margin bawaan yang kecil.</li>
-                    <li>Jika printer mendukung: "None" untuk cetak tanpa batas (borderless).</li>
-                </ul>
-            </li>
-            <li>Set **Skala** ke "Default" atau "100%". (Ukuran stiker sudah disesuaikan).</li>
-            <li>Pastikan opsi **"Grafis latar belakang"** (Background graphics) **DICENTANG**.</li>
-            <li>Cetak pada kertas stiker A4.</li>
-        </ol>
-        <p><em><strong>Catatan:</strong> Setiap stiker berukuran sekitar 220px (lebar) x 350px (tinggi). Sesuaikan gap pada `.a4-page` jika perlu agar pas di A4.</em></p>
-    </div>
+            <div class="stk-item-info">
+              <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
+              <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
+            </div>
 
-    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+            <div class="stk-qr-area">
+              <div id="<?= $qrContainerId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($qrContentForJs) ?>">
+              </div>
+              <span class="stk-scan-text text-navy pt-2">
+                <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
+  </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const qrContainers = document.querySelectorAll('.stk-qr-image-container');
+  <div class="print-instructions">
+    <h3>Petunjuk Mencetak Stiker</h3>
+    <ol>
+      <li>Gunakan browser **Chrome** atau **Firefox** untuk hasil terbaik.</li>
+      <li>Tekan **Ctrl+P** (atau Cmd+P di Mac) atau klik tombol **"Cetak Stiker"** di atas untuk membuka dialog print.</li>
+      <li>Set **Destinasi** ke printer Anda.</li>
+      <li>Set **Layout** ke "Portrait".</li>
+      <li>Set **Ukuran Kertas** ke "A4".</li>
+      <li>Set **Margin**:
+        <ul>
+          <li>Disarankan: "Minimum" atau "Minimal".</li>
+          <li>Atau: "Default" jika printer Anda memiliki margin bawaan yang kecil.</li>
+          <li>Jika printer mendukung: "None" untuk cetak tanpa batas (borderless).</li>
+        </ul>
+      </li>
+      <li>Set **Skala** ke "Default" atau "100%". (Ukuran stiker sudah disesuaikan).</li>
+      <li>Pastikan opsi **"Grafis latar belakang"** (Background graphics) **DICENTANG**. Jika tidak, border dan warna mungkin tidak tercetak.</li>
+      <li>Cetak pada kertas stiker A4.</li>
+    </ol>
+    <p><em><strong>Catatan:</strong> Setiap stiker berukuran sekitar 220px (lebar) x 350px (tinggi). Ukuran aktual dalam mm: lebar ~58mm, tinggi ~92mm. Pastikan 3 stiker dengan gap 5mm (total 15mm) muat dalam lebar A4 (210mm - 10mm margin = 200mm). 58*3 + 5*2 = 174 + 10 = 184mm. Ini seharusnya muat.</em></p>
+  </div>
 
-            qrContainers.forEach(function(container) {
-                const content = container.getAttribute('data-qr-content');
-                const containerId = container.id;
+  <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
 
-                if (content && containerId) {
-                    try {
-                        new QRCode(containerId, {
-                            text: content,
-                            width: 140,
-                            height: 140,
-                            colorDark: "#000000",
-                            colorLight: "#ffffff",
-                            correctLevel: QRCode.CorrectLevel.H
-                        });
-                    } catch (e) {
-                        console.error("Error generating QR Code for container ID: " + containerId, e);
-                        container.innerHTML = "Error QR";
-                    }
-                } else {
-                    console.warn("QR Code container missing ID or data-qr-content:", container);
-                    if (container) container.innerHTML = "Data QR Hilang";
-                }
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const qrContainers = document.querySelectorAll('.stk-qr-image-container');
+      <?= htmlspecialchars($BaseUrlQr ?? '', ENT_QUOTES, 'UTF-8'); ?>
+
+      qrContainers.forEach(function(container) {
+        const qrContent = container.getAttribute('data-qr-content');
+        const containerId = container.id;
+
+        if (qrContent) {
+          try {
+            new QRCode(container, {
+              text: qrContent,
+              width: 140,
+              height: 140,
+              colorDark: "#000000",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.H
             });
 
-            // Fungsi untuk tombol cetak
-            const printButton = document.getElementById('printButton');
-            if (printButton) {
-                printButton.addEventListener('click', function() {
-                    window.print();
-                });
-            }
+          } catch (e) {
+            console.error("Error generating QR Code for container ID:", containerId, "with content:", qrContent, e);
+            container.innerHTML = "<small style='color:red; font-size:10px;'>Error QR</small>";
+          }
+        } else {
+          console.warn("Atribut 'data-qr-content' kosong atau tidak ditemukan untuk kontainer:", containerId);
+          container.innerHTML = "<small style='color:orange; font-size:10px;'>Konten QR Kosong</small>";
+        }
+      });
+
+      const printButton = document.getElementById('printButton');
+      if (printButton) {
+        printButton.addEventListener('click', function() {
+          window.print();
         });
-    </script>
+      }
+
+
+
+    });
+  </script>
+
 </body>
 
 </html>

@@ -176,6 +176,42 @@
         </li>
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-people-arrows me-2"></i> <!-- Icon utama untuk menu -->
+            <p>
+              Peminjaman Barang
+              <i class="fas fa-angle-left right"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="/admin/sarana/bergerak/pinjam" class="nav-link">
+                <i class="fas fa-truck nav-icon me-2"></i> <!-- Icon untuk barang bergerak -->
+                <p>Bergerak</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/sarana/mebelair/pinjam" class="nav-link">
+                <i class="fas fa-couch nav-icon me-2"></i> <!-- Icon untuk mebelair -->
+                <p>Mebelair</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/sarana/atk/pinjam" class="nav-link">
+                <i class="fas fa-pen-nib nav-icon me-2"></i> <!-- Icon yang lebih representatif untuk ATK -->
+                <p>Alat Tulis Kantor</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/sarana/elektronik/pinjam" class="nav-link">
+                <i class="fas fa-tv nav-icon me-2"></i> <!-- Icon yang lebih jelas untuk elektronik -->
+                <p>Elektronik</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
             <i class="nav-icon fas fa-truck-loading me-2"></i> <!-- atau fas fa-people-arrows -->
             <p>
               Pemindahan Barang
@@ -209,6 +245,7 @@
             </li>
           </ul>
         </li>
+
         <li class="nav-header">MASTER BARANG</li>
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">

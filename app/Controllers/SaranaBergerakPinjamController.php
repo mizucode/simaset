@@ -1,23 +1,18 @@
 <?php
 
-require_once __DIR__ . '/../Models/SaranaElektronik.php';
-require_once __DIR__ . '/../Models/DokumenSaranaElektronik.php';
-require_once __DIR__ . '/../Models/KategoriBarang.php';
-require_once __DIR__ . '/../Models/Barang.php';
-require_once __DIR__ . '/../Models/KondisiBarang.php';
-require_once __DIR__ . '/../Models/Lapang.php';
-require_once __DIR__ . '/../Models/Ruang.php';
+require_once __DIR__ . '/../Models/DokumenSaranaBergerak.php';
+require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class SaranaElektronikPindahController {
+class SaranaBergerakPinjamController {
   private function renderView(string $view, $data = []) {
     extract($data);
-    require_once __DIR__ . "/../Views/Pages/Pindah/SaranaElektronik/{$view}.php";
+    require_once __DIR__ . "/../Views/Pages/Pinjam/SaranaBergerak/{$view}.php";
   }
 
 
   public function update($id) {
     global $conn;
-    $sarana = SaranaElektronik::getById($conn, $id);
+    $sarana = SaranaBergerak::getById($conn, $id);
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn);
     $kondisiList = KondisiBarang::getAllData($conn);
@@ -25,8 +20,8 @@ class SaranaElektronikPindahController {
     $ruangData = Ruang::getAllData($conn);
 
     if (!$sarana) {
-      $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan.';
-      header('Location: /admin/sarana/elektronik');
+      $_SESSION['error'] = 'Data sarana bergerak tidak ditemukan.';
+      header('Location: /admin/sarana/bergerak');
       exit();
     }
 
@@ -37,16 +32,19 @@ class SaranaElektronikPindahController {
       $nama_detail_barang = $_POST['nama_detail_barang'];
       $merk = $_POST['merk'] ?? null;
       $spesifikasi = $_POST['spesifikasi'] ?? null;
-      $tipe = $_POST['tipe'] ?? null;
-      $jumlah = $_POST['jumlah'] ?? $sarana['jumlah'];
-      $satuan = $_POST['satuan'] ?? $sarana['satuan'];
+      $no_polisi = $_POST['no_polisi'] ?? null;
+      $sumber = $_POST['sumber'] ?? null;
       $lokasi = $_POST['lokasi'];
+      $keterangan = $_POST['keterangan'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
-      $keterangan = $_POST['keterangan'] ?? null;
+      $status = $_POST['status'] ?? $sarana['status'] ?? null;
+      $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
+      $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
+      $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
 
       try {
-        $success = SaranaElektronik::updateData(
+        $success = SaranaBergerak::updateData(
           $conn,
           $id,
           $kategori_barang_id,
@@ -56,20 +54,25 @@ class SaranaElektronikPindahController {
           $nama_detail_barang,
           $merk,
           $spesifikasi,
-          $tipe,
-          $jumlah,
-          $satuan,
+          $no_polisi,
+          $sumber,
           $lokasi,
+          $keterangan,
           $biaya_pembelian,
           $tanggal_pembelian,
-          $keterangan
+          $status,
+          $nama_peminjam,
+          $identitas_peminjam,
+          $no_hp_peminjam
         );
 
-        $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
+        $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
         $_SESSION['update'] = $message;
 
-        header('Location: /admin/sarana/elektronik?detail=' . $id);
-        exit();
+        if ($success) {
+          header('Location: /admin/sarana/bergerak/pinjam');
+          exit();
+        }
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
       }
@@ -87,9 +90,11 @@ class SaranaElektronikPindahController {
 
 
 
+
   public function index() {
     global $conn;
-    $saranaData = SaranaElektronik::getAllData($conn);
+    $saranaData = SaranaBergerak::getAllStatus($conn);
+
 
     $this->renderView('index', [
       'saranaData' => $saranaData,

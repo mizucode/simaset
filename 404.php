@@ -1,175 +1,310 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" style="scroll-behavior: smooth;">
 
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <link rel="icon" href="/img/favicon.png" type="image/png" />
-    <title>SIMASET | UM Kuningan</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="/css/bootstrap.css" />
-    <link rel="stylesheet" href="/css/flaticon.css" />
-    <link rel="stylesheet" href="/css/themify-icons.css" />
-    <link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css" />
-    <link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="Sistem Informasi Manajemen Aset Universitas Muhammadiyah Kuningan">
+  <link rel="icon" href="img/favicon.png" type="image/png" />
+  <title>Informasi Aset | SIMASET | UM Kuningan</title>
 
-    <!-- main css -->
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="stylesheet" href="/css/info.css" />
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#002F6C',
+            'primary-dark': '#001F4C',
+            'secondary': '#F8B739',
+            'accent': '#00A0E3',
+          },
+          fontFamily: {
+            'poppins': ['Poppins', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+            'header': '0 2px 10px rgba(0, 0, 0, 0.05)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .table-responsive {
+      min-height: 300px;
+    }
+
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: white;
+    }
+
+    .pagination .active {
+      background-color: #002F6C;
+      color: white;
+    }
+
+    .hover-underline-animation {
+      position: relative;
+    }
+
+    .hover-underline-animation::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: #002F6C;
+      transition: width 0.3s ease;
+    }
+
+    .hover-underline-animation:hover::after {
+      width: 100%;
+    }
+  </style>
 </head>
 
-<body>
-    <!--================ Start Header Menu Area =================-->
-    <header class="header_area">
-        <div class="main_menu">
-            <div class="search_input" id="search_input_box">
-                <div class="container">
-                    <form class="d-flex justify-content-between" method="" action="">
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="search_input"
-                            placeholder="Cari Disini.." />
-                        <button type="submit" class="btn"></button>
-                        <span
-                            class="ti-close"
-                            id="close_search"
-                            title="Close Search"></span>
-                    </form>
-                </div>
+<body class="text-gray-700 font-poppins bg-gray-50">
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white shadow-header">
+    <div class="container mx-auto px-4 lg:px-8 xl:px-16">
+      <div class="flex justify-between items-center h-16 lg:h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center space-x-2">
+          <img src="img/logo.png" alt="UM Kuningan" class="h-8 md:h-10">
+        </a>
+
+        <!-- Desktop Menu -->
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-6">
+          <a href="/" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Beranda</a>
+          <a href="/informasi" class="px-3 py-2 text-sm font-medium text-primary border-b-2 border-primary">Informasi</a>
+          <a href="#" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">FAQ</a>
+          <a href="#" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Kontak</a>
+
+          <div class="relative ml-4">
+            <button id="search_desktop_button" class="p-2 text-gray-500 hover:text-primary transition-colors">
+              <i class="fas fa-search"></i>
+            </button>
+            <div id="search_desktop_dropdown" class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg z-20 hidden">
+              <div class="p-3">
+                <input type="text" placeholder="Cari aset..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+              </div>
             </div>
+          </div>
+        </nav>
 
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="index.html"><img logo src="/img/logo/sim.svg" alt="" /></a>
-
-                    <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-toggle="collapse"
-                        data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="icon-bar"></span> <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div
-                        class="collapse navbar-collapse offset"
-                        id="navbarSupportedContent">
-                        <ul class="nav navbar-nav menu_nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="index.html">Beranda</a>
-                            </li>
-                            <!-- <li class="nav-item">
-                  <a class="nav-link" href="about-us.html">Profil</a>
-                </li> -->
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Informasi</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">FAQ</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#" class="nav-link search" id="search">
-                                    <i class="ti-search"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-
-    </header>
-    <!--================ End Header Menu Area =================-->
-
-    <div class="section_gap registration_area">
-        <div class="container">
-            <div class="row justify-content-center align-items-center">
-                <div class="col-lg-8 text-center">
-                    <div class="clock_sec clockdiv">
-                        <span class="mobile-break"></span>
-                        <h1 class="mb-3">Maaf ya, sepertinya url yang kamu cari tidak ada T_T</h1>
-                        <div class="mt-3">
-                            <a href="/" class="btn btn-primary">Kembali ke halaman utama</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Mobile menu button -->
+        <button class="md:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition-colors" id="mobile-menu-button">
+          <i class="fas fa-bars text-xl" id="menu-icon"></i>
+        </button>
+      </div>
     </div>
 
+    <!-- Mobile Menu -->
+    <div class="md:hidden max-h-0 overflow-hidden transition-all duration-300 ease-in-out" id="mobile-menu">
+      <div class="px-4 pt-2 pb-4 space-y-2 bg-gray-50">
+        <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Beranda</a>
+        <a href="informasi_aset.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-50 text-primary">Informasi</a>
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">FAQ</a>
+        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Kontak</a>
 
-
-
-
-
-    <!-- Floating Notification -->
-
-
-    <script>
-        function closeNotification() {
-            document.getElementById("notification").style.display = "none";
-        }
-    </script>
-
-
-    <!--================ Start footer Area  =================-->
-    <footer class="footer-area">
-        <div class="container">
-
-            <div class="row footer-bottom d-flex justify-content-between mt-0">
-                <a href="https://www.umkuningan.ac.id">
-                    <img src="img/logo footer.png" alt="Situs Resmi" class="icon-footer-logo">
-                </a>
-                <p class="col-lg-8 col-sm-12 footer-text m-0 text-black">
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright ©<script>
-                        document.write(new Date().getFullYear());
-                    </script> Universitas Muhammadiyah Kuningan | Lembaga Pembangunan, Pengembangan Teknologi dan Sistem Informasi
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                </p>
-                <div class="col-lg-4 col-sm-12 footer-social">
-                    <a href="https://www.facebook.com/umkuningan"><i class="ti-facebook"></i></a>
-                    <a href="https://www.instagram.com/umkuningan"><i class="ti-instagram"></i></a>
-                    <a href="https://www.x.com/umkuningan/">
-                        <img src="img/x-twitter.png" alt="Twitter" class="icon-x-twitter">
-                    </a>
-                    <a href="https://www.youtube.com/@umkuningan"><i class="ti-youtube"></i></a>
-                </div>
-
-            </div>
+        <div class="relative mt-2">
+          <input type="text" placeholder="Cari aset..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
         </div>
-    </footer>
+      </div>
+    </div>
+  </header>
 
-    <!--================ End footer Area  =================-->
+  <!-- Breadcrumb -->
 
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="/js/jquery-3.2.1.min.js"></script>
-    <script src="/js/popper.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/vendors/nice-select/js/jquery.nice-select.min.js"></script>
-    <script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
-    <script src="/js/owl-carousel-thumb.min.js"></script>
-    <script src="/js/jquery.ajaxchimp.min.js"></script>
-    <script src="/js/mail-script.js"></script>
-    <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
-    <script src="/js/gmaps.min.js"></script>
-    <script src="/js/theme.js"></script>
-    <script src="/js/info.js"></script>
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-primary to-primary-dark text-white py-12">
+      <div class="container mx-auto px-4 lg:px-8 xl:px-16 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">Halaman Tidak Ditemukan</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">Temukan informasi lengkap tentang aset yang tersedia di Universitas Muhammadiyah Kuningan</p>
+      </div>
+    </section>
 
+    <!-- Information Section -->
+    <section class="py-12 bg-white">
+      <div class="container mx-auto px-4 lg:px-8 xl:px-16">
+        <!-- Filter Section -->
+
+
+        <!-- Table Section -->
+        <div class="bg-white rounded-lg shadow-card overflow-hidden">
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#002347] text-white pt-12 pb-6">
+    <div class="container mx-auto px-4 lg:px-8 xl:px-16">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <h4 class="text-lg font-semibold mb-4">SIMASET</h4>
+          <p class="text-sm text-gray-300 mb-4">
+            Sistem Informasi Manajemen Aset Universitas Muhammadiyah Kuningan
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors">
+              <i class="fab fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Tautan Cepat</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-sm text-gray-300 hover:text-white transition-colors">Beranda</a></li>
+            <li><a href="#" class="text-sm text-gray-300 hover:text-white transition-colors">Informasi Aset</a></li>
+            <li><a href="#" class="text-sm text-gray-300 hover:text-white transition-colors">Peminjaman</a></li>
+            <li><a href="#" class="text-sm text-gray-300 hover:text-white transition-colors">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Kontak</h4>
+          <ul class="space-y-2">
+            <li class="flex items-start">
+              <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-300"></i>
+              <span class="text-sm text-gray-300">Jl. Moertasim Soepomo No.28, Kuningan, Jawa Barat</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-phone-alt mr-3 text-gray-300"></i>
+              <span class="text-sm text-gray-300">(0232) 874085</span>
+            </li>
+            <li class="flex items-center">
+              <i class="fas fa-envelope mr-3 text-gray-300"></i>
+              <span class="text-sm text-gray-300">simaset@umkuningan.ac.id</span>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Jam Operasional</h4>
+          <ul class="space-y-2 text-sm text-gray-300">
+            <li class="flex justify-between">
+              <span>Senin - Jumat</span>
+              <span>08:00 - 16:00</span>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <a href="https://www.umkuningan.ac.id">
+            <img src="img/logo-footer.png" alt="UM Kuningan" class="h-8">
+          </a>
+        </div>
+        <div class="text-center md:text-right">
+          <p class="text-xs text-gray-400">
+            Copyright ©<script>
+              document.write(new Date().getFullYear());
+            </script> Universitas Muhammadiyah Kuningan
+            <br class="sm:hidden">
+            <span class="hidden sm:inline">|</span> Lembaga Pembangunan, Pengembangan Teknologi dan Sistem Informasi
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top Button -->
+  <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary-dark">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    mobileMenuButton.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('max-h-0');
+      mobileMenu.classList.toggle('max-h-screen');
+      mobileMenu.classList.toggle('py-4');
+      menuIcon.classList.toggle('fa-bars');
+      menuIcon.classList.toggle('fa-times');
+    });
+
+    // Search Dropdown Toggle
+    const searchDesktopButton = document.getElementById('search_desktop_button');
+    const searchDesktopDropdown = document.getElementById('search_desktop_dropdown');
+
+    searchDesktopButton.addEventListener('click', () => {
+      searchDesktopDropdown.classList.toggle('hidden');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!searchDesktopButton.contains(e.target) && !searchDesktopDropdown.contains(e.target)) {
+        searchDesktopDropdown.classList.add('hidden');
+      }
+    });
+
+    // Back to Top Button
+    const backToTopButton = document.getElementById('back-to-top');
+
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.remove('opacity-0', 'invisible');
+        backToTopButton.classList.add('opacity-100', 'visible');
+      } else {
+        backToTopButton.classList.add('opacity-0', 'invisible');
+        backToTopButton.classList.remove('opacity-100', 'visible');
+      }
+    });
+
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Add hover effect to table rows
+    const tableRows = document.querySelectorAll('tbody tr');
+    tableRows.forEach(row => {
+      row.addEventListener('mouseenter', () => {
+        row.classList.add('bg-gray-50');
+      });
+      row.addEventListener('mouseleave', () => {
+        row.classList.remove('bg-gray-50');
+      });
+    });
+  </script>
 </body>
 
 </html>

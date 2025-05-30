@@ -1,188 +1,168 @@
-<!DOCTYPE html>
-<html lang="en">
-<?php require_once './app/Views/Components/head.php'; ?>
+<?php include './app/Views/Components/head.php'; ?>
 
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
-        <?php require_once './app/Views/Components/navbar.php'; ?>
-        <?php require_once './app/Views/Components/aside.php'; ?>
+  <div class="wrapper">
 
-        <!-- Modal Konfirmasi Hapus -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Apakah Anda yakin ingin menghapus data ini?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
-                    </div>
+    <?php include './app/Views/Components/navbar.php'; ?>
+    <?php include './app/Views/Components/aside.php'; ?>
+
+    <div class="content-wrapper bg-white py-4 mb-5 px-3">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <?php include './app/Views/Components/helper.php'; ?>
+
+            <?php if (!empty($errorMessage)) : ?>
+              <div class="alert alert-danger">
+                <?php echo htmlspecialchars($errorMessage); ?>
+              </div>
+            <?php endif; ?>
+
+            <div class="card shadow-md">
+              <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
+                <h3 class="h4 mb-0">Data Aset Tanah</h3>
+                <a href="/admin/prasarana/tanah/tambah" class="btn btn-warning btn-sm ml-auto">
+                  <div class="text-dark">
+                    <i class="fas fa-plus mr-1"></i> Tambah Data
+                  </div>
+                </a>
+              </div>
+
+              <div class="card-body p-3">
+                <div class="table-responsive">
+                  <table id="tanahTable" class="table table-bordered table-hover w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th width="5%">No</th>
+                        <th width="25%">Kode Aset</th>
+                        <th width="35%">Nama Aset</th>
+                        <th width="20%">Nomor Sertifikat</th>
+                        <th width="15%">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php if (!empty($tanahData)) : ?>
+                        <?php $counter = 1; ?>
+                        <?php foreach ($tanahData as $td) : ?>
+                          <tr class="align-middle">
+                            <td class="text-center"><?= $counter++; ?></td>
+                            <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
+                            <td class="text-center"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
+                            <td class="text-center">
+                              <div class="d-flex justify-content-center gap-2">
+                                <a href="/admin/prasarana/tanah?detail=<?= $td['id']; ?>" class="btn btn-info btn-sm">
+                                  <i class="fas fa-eye mr-1"></i> Detail
+                                </a>
+
+                              </div>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else : ?>
+                        <tr>
+                          <td colspan="5" class="text-center">Data tidak ditemukan</td>
+                        </tr>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
                 </div>
-            </div>
-        </div>
-
-        <div class="content-wrapper bg-white mb-5 pt-3 px-4">
-            <div class="container-fluid">
-                <div class="row justify-content-center">
-                    <div class="col-12">
-                        <?php include './app/Views/Components/helper.php'; ?>
-                        <div class="card card-navy">
-                            <div class="card-header text-white">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <h3 class="card-title text-lg">
-                                        Data Aset Tanah
-                                    </h3>
-                                    <a href="/admin/prasarana/tanah/tambah" class="btn btn-warning btn-sm ml-auto">
-                                        <div class="text-dark">
-                                            <i class="fas fa-plus mr-1"></i> Tambah Data
-                                        </div>
-                                    </a>
-
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-
-
-                                <div class="table-responsive">
-                                    <table id="tanahTable" class="table table-bordered table-hover">
-                                        <thead class="bg-light">
-                                            <tr class="text-center">
-                                                <th width="5%">No</th>
-                                                <th width="15%">Kode Aset</th>
-                                                <th width="15%">Nama Aset</th>
-                                                <th width="12%">Nomor Sertifikat</th>
-                                                <th width="6%">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php if (!empty($tanahData)) : ?>
-                                                <?php $counter = 1; ?>
-                                                <?php foreach ($tanahData as $td) : ?>
-                                                    <tr>
-                                                        <td class="text-center"><?= $counter++; ?></td>
-                                                        <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
-                                                        <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
-                                                        <td class="text-center"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
-
-                                                        <td class="text-center">
-                                                            <a href="/admin/prasarana/tanah?detail=<?= $td['id']; ?>" class="btn btn-sm btn-info" title="Detail">
-                                                                <i class="fas fa-eye"></i> Detail
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                <?php endforeach; ?>
-                                            <?php else : ?>
-                                                <tr>
-                                                    <td colspan="9" class="text-center">Data tidak ditemukan</td>
-                                                </tr>
-                                            <?php endif; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="row mt-3">
-                                    <div class="col-md-6">
-                                        <div class="dataTables_info">
-                                            Menampilkan <?= count($tanahData) ?> data
-                                        </div>
-                                    </div>
-                                    <!-- Pagination bisa ditambahkan jika diperlukan -->
-                                </div>
-                            </div>
+                <!-- Informasi jumlah data dari view lama (opsional, karena DataTable sudah punya info) -->
+                <!-- <div class="row mt-3">
+                    <div class="col-md-6">
+                        <div class="dataTables_info">
+                            Menampilkan <?= !empty($tanahData) ? count($tanahData) : 0 ?> data
                         </div>
                     </div>
-                </div>
+                </div> -->
+              </div>
             </div>
+          </div>
         </div>
-
-        <?php require_once './app/Views/Components/footer.php'; ?>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script>
-        // Fungsi Export Excel
-        document.getElementById('btnExportExcel').addEventListener('click', function() {
-            const table = document.getElementById('tanahTable');
-            const workbook = XLSX.utils.table_to_book(table);
-            XLSX.writeFile(workbook, 'Data_Aset_Tanah.xlsx');
-        });
+    <?php include './app/Views/Components/footer.php'; // Pastikan nama file footer benar 
+    ?>
+  </div>
 
-        // Fungsi Pencarian
-        document.getElementById('searchButton').addEventListener('click', function() {
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#tanahTable tbody tr');
+  <?php include './app/Views/Components/script.php'; ?>
 
-            rows.forEach(row => {
-                const rowText = row.textContent.toLowerCase();
-                row.style.display = rowText.includes(searchText) ? '' : 'none';
-            });
-        });
+  <script>
+    $(function() {
+      // Inisialisasi DataTable
+      $("#tanahTable").DataTable({
+        "responsive": true,
+        "lengthChange": true,
+        "autoWidth": false,
+        "paging": true,
+        "info": true,
+        "searching": true,
+        language: {
+          "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
+          "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "infoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+          "infoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "lengthMenu": "Tampilkan _MENU_ entri",
+          "loadingRecords": "Sedang memuat...",
+          "processing": "Sedang memproses...",
+          "search": "Cari:",
+          "zeroRecords": "Tidak ditemukan data yang sesuai",
+          "paginate": {
+            "first": "Pertama",
+            "last": "Terakhir",
+            "next": "Selanjutnya",
+            "previous": "Sebelumnya"
+          },
+          "aria": {
+            "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
+            "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
+          },
+          // ... (sisa konfigurasi bahasa lainnya jika diperlukan, bisa disalin dari template Anda)
+          "searchPlaceholder": "kata kunci pencarian",
+          "thousands": "."
+        },
+        "buttons": [{
+            extend: 'copy',
+            title: 'Data Aset Tanah',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            } // Kolom yang diexport (tanpa Aksi)
+          },
+          {
+            extend: 'csv',
+            title: 'Data Aset Tanah',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          },
+          {
+            extend: 'excel',
+            title: 'Data Aset Tanah',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          },
+          {
+            extend: 'pdf',
+            title: 'Data Aset Tanah',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          },
+          {
+            extend: 'print',
+            title: 'Data Aset Tanah',
+            exportOptions: {
+              columns: [0, 1, 2, 3]
+            }
+          },
+          'colvis'
+        ]
+      }).buttons().container().appendTo('#tanahTable_wrapper .col-md-6:eq(0)');
+    });
+  </script>
 
-        // Fungsi untuk modal delete (diambil dari template lama)
-        $(document).ready(function() {
-            $(document).on('click', '.delete-btn', function() {
-                var id = $(this).data('id');
-                var deleteUrl = '/admin/prasarana/tanah?delete=' + id;
-                $('#deleteButton').attr('href', deleteUrl);
-                $('#deleteModal').modal('show');
-            });
-
-            $('#deleteButton').click(function(e) {
-                e.preventDefault();
-                var deleteUrl = $(this).attr('href');
-
-                $.ajax({
-                    url: deleteUrl,
-                    type: 'GET',
-                    data: {
-                        <?php if (isset($_SESSION['csrf_token'])): ?>
-                            _token: '<?= $_SESSION['csrf_token'] ?>'
-                        <?php endif; ?>
-                    },
-                    success: function(response) {
-                        $('#deleteModal').modal('hide');
-                        if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: response.message || 'Data berhasil dihapus',
-                            }).then(() => {
-                                window.location.reload();
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: response.message || 'Terjadi kesalahan',
-                            });
-                        }
-                    },
-                    error: function(xhr) {
-                        $('#deleteModal').modal('hide');
-                        let errorMsg = 'Terjadi kesalahan saat menghubungi server';
-                        if (xhr.responseJSON && xhr.responseJSON.message) {
-                            errorMsg = xhr.responseJSON.message;
-                        }
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Error',
-                            text: errorMsg,
-                        });
-                    }
-                });
-            });
-        });
-    </script>
-
-    <?php require_once './app/Views/Components/script.php'; ?>
 </body>
 
 </html>

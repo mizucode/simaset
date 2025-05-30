@@ -1,215 +1,373 @@
-<!DOCTYPE html>
-<html lang="id">
+<?php include './app/Views/Components/head.php'; ?>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>InventaSyst - Solusi Manajemen Aset Anda</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <!-- Custom CSS (Opsional) -->
-  <style>
-    .hero-section {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YXNzZXQlMjBtYW5hZ2VtZW50fGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60') no-repeat center center;
-      background-size: cover;
-      color: white;
-      padding: 100px 0;
-    }
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+  <div class="wrapper">
 
-    .section-title {
-      margin-bottom: 50px;
-      font-weight: 700;
-    }
 
-    .feature-icon {
-      font-size: 3rem;
-      color: var(--bs-primary);
-    }
+    <?php include './app/Views/Components/navbar.php'; ?>
+    <?php include './app/Views/Components/aside.php'; ?>
 
-    .card-feature {
-      transition: transform 0.3s ease-in-out;
-    }
+    <div class="content-wrapper bg-white py-4 mb-5 px-3">
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-12">
+            <?php include './app/Views/Components/helper.php'; ?>
 
-    .card-feature:hover {
-      transform: translateY(-10px);
-    }
 
-    .cta-section {
-      background-color: #f8f9fa;
-      /* Light grey background */
-    }
-  </style>
-</head>
+            <?php if (!empty($errorMessage)) : ?>
+              <div class="alert alert-danger">
+                <?php echo htmlspecialchars($errorMessage); ?>
+              </div>
+            <?php endif; ?>
 
-<body>
+            <div class="card shadow-md">
+              <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
+                <h3 class="h4 mb-0">Daftar Jenis Barang</h3>
+                <a href="/admin/barang/jenis-barang/tambah" class="btn btn-warning btn-sm ml-auto">
+                  <div class="text-dark">
+                    <i class="fas fa-plus mr-1"></i> Tambah Data
+                  </div>
+                </a>
+              </div>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#">
-        <i class="bi bi-box-seam-fill me-2"></i>InventaSyst
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Beranda</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#fitur">Fitur</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#manfaat">Manfaat</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#kontak">Kontak</a>
-          </li>
-          <li class="nav-item">
-            <a class="btn btn-primary ms-lg-2 mt-2 mt-lg-0" href="#">Daftar / Masuk</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <header class="hero-section text-center">
-    <div class="container">
-      <h1 class="display-4 fw-bold">Kelola Aset Bisnis Anda dengan Mudah & Efisien</h1>
-      <p class="lead my-4">
-        InventaSyst adalah solusi manajemen inventaris aset modern yang membantu Anda melacak, memantau, dan mengoptimalkan seluruh aset berharga perusahaan.
-      </p>
-      <a href="#" class="btn btn-primary btn-lg me-2">Mulai Uji Coba Gratis</a>
-      <a href="#fitur" class="btn btn-outline-light btn-lg">Pelajari Lebih Lanjut</a>
-    </div>
-  </header>
-
-  <!-- Fitur Section -->
-  <section id="fitur" class="py-5">
-    <div class="container">
-      <h2 class="text-center section-title">Fitur Unggulan InventaSyst</h2>
-      <div class="row g-4">
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 text-center p-4 card-feature shadow-sm">
-            <div class="feature-icon mb-3"><i class="bi bi-hdd-stack-fill"></i></div>
-            <h5 class="card-title">Pelacakan Aset Real-time</h5>
-            <p class="card-text">Ketahui lokasi dan status setiap aset Anda secara akurat dan terkini.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 text-center p-4 card-feature shadow-sm">
-            <div class="feature-icon mb-3"><i class="bi bi-tools"></i></div>
-            <h5 class="card-title">Manajemen Pemeliharaan</h5>
-            <p class="card-text">Jadwalkan dan lacak aktivitas pemeliharaan untuk menjaga aset tetap optimal.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 text-center p-4 card-feature shadow-sm">
-            <div class="feature-icon mb-3"><i class="bi bi-bar-chart-line-fill"></i></div>
-            <h5 class="card-title">Laporan Komprehensif</h5>
-            <p class="card-text">Dapatkan wawasan mendalam melalui laporan yang dapat disesuaikan.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 text-center p-4 card-feature shadow-sm">
-            <div class="feature-icon mb-3"><i class="bi bi-shield-lock-fill"></i></div>
-            <h5 class="card-title">Keamanan Data Terjamin</h5>
-            <p class="card-text">Data aset Anda aman dengan sistem enkripsi dan backup rutin.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 text-center p-4 card-feature shadow-sm">
-            <div class="feature-icon mb-3"><i class="bi bi-qr-code-scan"></i></div>
-            <h5 class="card-title">Scan QR & Barcode</h5>
-            <p class="card-text">Identifikasi dan perbarui data aset dengan cepat menggunakan pemindaian.</p>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100 text-center p-4 card-feature shadow-sm">
-            <div class="feature-icon mb-3"><i class="bi bi-cloud-arrow-up-fill"></i></div>
-            <h5 class="card-title">Berbasis Cloud</h5>
-            <p class="card-text">Akses data inventaris Anda kapan saja, di mana saja, dari perangkat apa pun.</p>
+              <div class="card-body p-3">
+                <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-sm table-hover w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th width="5%">No</th>
+                        <th width="15%">Kode Barang</th>
+                        <th width="30%">Nama Barang</th>
+                        <th width="20%">Kategori</th>
+                        <th width="15%">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php if (!empty($jenisBarangData)) : ?>
+                        <?php $counter = 1; ?>
+                        <?php foreach ($jenisBarangData as $barang) : ?>
+                          <tr class="align-middle">
+                            <td class="text-center"><?= $counter++; ?></td>
+                            <td class="text-center"><?= htmlspecialchars($barang['kode_barang'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($barang['nama_barang'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td>
+                            <td class="text-center">
+                              <div class="d-flex justify-content-center gap-2">
+                                <button onclick="window.location.href='/admin/barang/jenis-barang?edit=<?= $barang['id']; ?>'" class="btn btn-warning btn-sm">
+                                  <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                                <button type="button" data-id="<?= $barang['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm">
+                                  <i class="fas fa-trash-alt mr-1"></i> Hapus
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else : ?>
+                        <tr>
+                          <td colspan="5" class="text-center">Data tidak ditemukan</td>
+                        </tr>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- Manfaat Section -->
-  <section id="manfaat" class="py-5 bg-light">
-    <div class="container">
-      <h2 class="text-center section-title">Mengapa Memilih InventaSyst?</h2>
-      <div class="row align-items-center">
-        <div class="col-lg-6">
-          <img src="https://images.unsplash.com/photo-1542744095-291d1f67b221?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJ1c2luZXNzJTIwbWVldGluZ3xlbnwwfHwwfHx8MA&auto=format&fit=crop&w=800&q=60" alt="Manfaat InventaSyst" class="img-fluid rounded shadow">
-        </div>
-        <div class="col-lg-6 mt-4 mt-lg-0">
-          <ul class="list-unstyled">
-            <li class="mb-3 d-flex align-items-start">
-              <i class="bi bi-check-circle-fill text-success fs-4 me-2"></i>
-              <div>
-                <h5 class="fw-semibold">Optimalkan Penggunaan Aset</h5>
-                <p>Maksimalkan nilai aset dan kurangi pemborosan dengan pemantauan yang lebih baik.</p>
-              </div>
-            </li>
-            <li class="mb-3 d-flex align-items-start">
-              <i class="bi bi-check-circle-fill text-success fs-4 me-2"></i>
-              <div>
-                <h5 class="fw-semibold">Kurangi Kehilangan Aset</h5>
-                <p>Minimalkan risiko kehilangan atau pencurian aset dengan pelacakan yang akurat.</p>
-              </div>
-            </li>
-            <li class="mb-3 d-flex align-items-start">
-              <i class="bi bi-check-circle-fill text-success fs-4 me-2"></i>
-              <div>
-                <h5 class="fw-semibold">Tingkatkan Efisiensi Operasional</h5>
-                <p>Hemat waktu dan sumber daya dengan proses manajemen aset yang terotomatisasi.</p>
-              </div>
-            </li>
-            <li class="d-flex align-items-start">
-              <i class="bi bi-check-circle-fill text-success fs-4 me-2"></i>
-              <div>
-                <h5 class="fw-semibold">Pengambilan Keputusan Lebih Baik</h5>
-                <p>Gunakan data akurat untuk membuat keputusan strategis terkait aset Anda.</p>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+    <?php include './app/Views/Components/foooter.php'; ?>
+  </div>
 
-  <!-- Call to Action Section -->
-  <section id="kontak" class="cta-section py-5 text-center">
-    <div class="container">
-      <h2 class="section-title">Siap Mengoptimalkan Manajemen Aset Anda?</h2>
-      <p class="lead mb-4">
-        Bergabunglah dengan ratusan bisnis yang telah mempercayakan InventaSyst untuk mengelola aset mereka.
-      </p>
-      <a href="#" class="btn btn-success btn-lg">Hubungi Tim Sales Kami</a>
-      <a href="#" class="btn btn-outline-dark btn-lg ms-2">Lihat Demo</a>
-    </div>
-  </section>
+  <?php include './app/Views/Components/script.php'; ?>
 
-  <!-- Footer -->
-  <footer class="bg-dark text-white text-center py-4">
-    <div class="container">
-      <p class="mb-0">© <script>
-          document.write(new Date().getFullYear())
-        </script> InventaSyst. Hak Cipta Dilindungi.</p>
-      <p class="mb-0">
-        <a href="#" class="text-white text-decoration-none">Kebijakan Privasi</a> |
-        <a href="#" class="text-white text-decoration-none">Syarat & Ketentuan</a>
-      </p>
-    </div>
-  </footer>
+  <script>
+    $(function() {
 
-  <!-- Bootstrap JS Bundle (Popper.js included) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+      $("#example1").DataTable({
+        "responsive": true,
+        "lengthChange": true,
+        "autoWidth": false,
+        "stripe": true,
+        "paging": false,
+        "info": true,
+        "searching": true,
+        language: {
+          "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
+          "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "infoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+          "infoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "lengthMenu": "Tampilkan _MENU_ entri",
+          "loadingRecords": "Sedang memuat...",
+          "processing": "Sedang memproses...",
+          "search": "Cari:",
+          "zeroRecords": "Tidak ditemukan data yang sesuai",
+          "paginate": {
+            "first": "Pertama",
+            "last": "Terakhir",
+            "next": "Selanjutnya",
+            "previous": "Sebelumnya"
+          },
+          "aria": {
+            "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
+            "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
+          },
+          "autoFill": {
+            "fill": "Isi semua sel dengan <i>%d<\/i>",
+            "fillHorizontal": "Isi sel secara horizontal",
+            "fillVertical": "Isi sel secara vertikal",
+            "cancel": "Batal",
+            "info": "Info"
+          },
+          "buttons": {
+            "collection": "Kumpulan <span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'\/>",
+            "colvis": "Visibilitas Kolom",
+            "colvisRestore": "Kembalikan visibilitas",
+            "copy": "Salin",
+            "copySuccess": {
+              "_": "%d baris disalin ke papan klip",
+              "1": "satu baris disalin ke papan klip"
+            },
+            "copyTitle": "Salin ke Papan klip",
+            "csv": "CSV",
+            "excel": "Excel",
+            "pageLength": {
+              "-1": "Tampilkan semua baris",
+              "_": "Tampilkan %d baris",
+              "1": "Tampilkan satu baris"
+            },
+            "pdf": "PDF",
+            "print": "Cetak",
+            "copyKeys": "Tekan ctrl atau u2318 + C untuk menyalin tabel ke papan klip.<br \/><br \/>Untuk membatalkan, klik pesan ini atau tekan esc.",
+            "createState": "Tambahkan Data",
+            "removeAllStates": "Hapus Semua Data",
+            "removeState": "Hapus Data",
+            "renameState": "Rubah Nama",
+            "savedStates": "SImpan Data",
+            "stateRestore": "Publihkan Data",
+            "updateState": "Perbaharui data"
+          },
+          "searchBuilder": {
+            "add": "Tambah Kondisi",
+            "button": {
+              "0": "Cari Builder",
+              "_": "Cari Builder (%d)"
+            },
+            "clearAll": "Bersihkan Semua",
+            "condition": "Kondisi",
+            "data": "Data",
+            "deleteTitle": "Hapus filter",
+            "leftTitle": "Ke Kiri",
+            "logicAnd": "Dan",
+            "logicOr": "Atau",
+            "rightTitle": "Ke Kanan",
+            "title": {
+              "0": "Cari Builder",
+              "_": "Cari Builder (%d)"
+            },
+            "value": "Nilai",
+            "conditions": {
+              "date": {
+                "after": "Setelah",
+                "before": "Sebelum",
+                "between": "Diantara",
+                "empty": "Kosong",
+                "equals": "Sama dengan",
+                "not": "Tidak sama",
+                "notBetween": "Tidak diantara",
+                "notEmpty": "Tidak kosong"
+              },
+              "number": {
+                "empty": "Kosong",
+                "equals": "Sama dengan",
+                "gt": "Lebih besar dari",
+                "gte": "Lebih besar atau sama dengan",
+                "lt": "Lebih kecil dari",
+                "lte": "Lebih kecil atau sama dengan",
+                "not": "Tidak sama",
+                "notEmpty": "Tidak kosong",
+                "between": "Di antara",
+                "notBetween": "Tidak di antara"
+              },
+              "string": {
+                "contains": "Berisi",
+                "empty": "Kosong",
+                "endsWith": "Diakhiri dengan",
+                "not": "Tidak sama",
+                "notEmpty": "Tidak kosong",
+                "startsWith": "Diawali dengan",
+                "equals": "Sama dengan",
+                "notContains": "Tidak Berisi",
+                "notStartsWith": "Tidak diawali Dengan",
+                "notEndsWith": "Tidak diakhiri Dengan"
+              },
+              "array": {
+                "equals": "Sama dengan",
+                "empty": "Kosong",
+                "contains": "Berisi",
+                "not": "Tidak",
+                "notEmpty": "Tidak kosong",
+                "without": "Tanpa"
+              }
+            }
+          },
+          "searchPanes": {
+            "count": "{total}",
+            "countFiltered": "{shown} ({total})",
+            "collapse": {
+              "0": "Panel Pencarian",
+              "_": "Panel Pencarian (%d)"
+            },
+            "emptyPanes": "Tidak Ada Panel Pencarian",
+            "loadMessage": "Memuat Panel Pencarian",
+            "clearMessage": "Bersihkan",
+            "title": "Saringan Aktif - %d",
+            "showMessage": "Tampilkan",
+            "collapseMessage": "Ciutkan"
+          },
+          "infoThousands": ",",
+          "datetime": {
+            "previous": "Sebelumnya",
+            "next": "Selanjutnya",
+            "hours": "Jam",
+            "minutes": "Menit",
+            "seconds": "Detik",
+            "unknown": "-",
+            "amPm": [
+              "am",
+              "pm"
+            ],
+            "weekdays": [
+              "Min",
+              "Sen",
+              "Sel",
+              "Rab",
+              "Kam",
+              "Jum",
+              "Sab"
+            ],
+            "months": [
+              "Januari",
+              "Februari",
+              "Maret",
+              "April",
+              "Mei",
+              "Juni",
+              "Juli",
+              "Agustus",
+              "September",
+              "Oktober",
+              "November",
+              "Desember"
+            ]
+          },
+          "editor": {
+            "close": "Tutup",
+            "create": {
+              "button": "Tambah",
+              "submit": "Tambah",
+              "title": "Tambah inputan baru"
+            },
+            "remove": {
+              "button": "Hapus",
+              "submit": "Hapus",
+              "confirm": {
+                "_": "Apakah Anda yakin untuk menghapus %d baris?",
+                "1": "Apakah Anda yakin untuk menghapus 1 baris?"
+              },
+              "title": "Hapus inputan"
+            },
+            "multi": {
+              "title": "Beberapa Nilai",
+              "info": "Item yang dipilih berisi nilai yang berbeda untuk input ini. Untuk mengedit dan mengatur semua item untuk input ini ke nilai yang sama, klik atau tekan di sini, jika tidak maka akan mempertahankan nilai masing-masing.",
+              "restore": "Batalkan Perubahan",
+              "noMulti": "Masukan ini dapat diubah satu per satu, tetapi bukan bagian dari grup."
+            },
+            "edit": {
+              "title": "Edit inputan",
+              "submit": "Edit",
+              "button": "Edit"
+            },
+            "error": {
+              "system": "Terjadi kesalahan pada system. (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Informasi Selebihnya<\/a>)."
+            }
+          },
+          "stateRestore": {
+            "creationModal": {
+              "button": "Buat",
+              "columns": {
+                "search": "Pencarian Kolom",
+                "visible": "Visibilitas Kolom"
+              },
+              "name": "Nama:",
+              "order": "Penyortiran",
+              "search": "Pencarian",
+              "select": "Pemilihan",
+              "title": "Buat State Baru",
+              "toggleLabel": "Termasuk:",
+              "paging": "Nomor Halaman",
+              "scroller": "Posisi Skrol",
+              "searchBuilder": "Cari Builder"
+            },
+            "emptyError": "Nama tidak boleh kosong.",
+            "removeConfirm": "Apakah Anda yakin ingin menghapus %s?",
+            "removeJoiner": "dan",
+            "removeSubmit": "Hapus",
+            "renameButton": "Ganti Nama",
+            "renameLabel": "Nama Baru untuk %s:",
+            "duplicateError": "Nama State ini sudah ada.",
+            "emptyStates": "Tidak ada State yang disimpan.",
+            "removeError": "Gagal menghapus State.",
+            "removeTitle": "Penghapusan State",
+            "renameTitle": "Ganti nama State"
+          },
+          "decimal": ",",
+          "searchPlaceholder": "kata kunci pencarian",
+          "select": {
+            "cells": {
+              "1": "1 sel dipilih",
+              "_": "%d sel dipilih"
+            },
+            "columns": {
+              "1": "1 kolom dirpilih",
+              "_": "%d kolom dipilih"
+            },
+            "rows": {
+              "1": "1 baris dipilih",
+              "_": "%d baris dipilih"
+            }
+          },
+          "thousands": "."
+        },
+        "buttons": [{
+            extend: 'copy',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'csv',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'excel',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'pdf',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'print',
+            title: 'Data Jenis Barang'
+          },
+          'colvis'
+        ]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+  </script>
+
+
 </body>
 
 </html>

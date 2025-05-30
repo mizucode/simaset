@@ -507,6 +507,8 @@ class SaranaMebelairController
     {
         global $conn;
         $detailData = SaranaMebelair::getById($conn, $id);
+        $BaseUrlQr = BaseUrlQr::BaseUrlQr();
+
 
         if (!$detailData) {
             $_SESSION['error'] = 'Data sarana mebelair tidak ditemukan.';
@@ -514,9 +516,7 @@ class SaranaMebelairController
             exit();
         }
 
-        // Mengambil dokumen dan gambar terkait Sarana Mebelair
-        // Asumsi DokumenSaranaMebelair::getAllData() mengambil dokumen non-gambar
-        // dan DokumenSaranaMebelair::getAllDataGambar() mengambil dokumen gambar
+      
         $dokumenAsetMebelair = DokumenSaranaMebelair::getAllData($conn, $id);
         $dokumenGambarMebelair = DokumenSaranaMebelair::getAllDataGambar($conn, $id);
 
@@ -527,33 +527,28 @@ class SaranaMebelairController
             $dokumenGambarMebelair = [];
         }
 
-        // Tidak perlu filter manual lagi jika method model sudah menerima $id aset
-        // $filteredDokumen = array_filter($dokumenAsetMebelair, function ($dokumen) use ($detailData) {
-        //     return $dokumen['aset_mebelair_id'] == $detailData['id'];
-        // });
-        // $filteredGambar = array_filter($dokumenGambarMebelair, function ($dokumen) use ($detailData) {
-        //     return $dokumen['aset_mebelair_id'] == $detailData['id'];
-        // });
-
-        // Panggil method delete terkait jika ada parameter di URL
-        $this->delete(); // Untuk menghapus Sarana Mebelair itu sendiri
-        $this->deleteDokumen(); // Untuk menghapus dokumen terkait
-        $this->deleteDokumentasi(); // Untuk menghapus gambar terkait
-
+       
+        $this->delete(); 
+        $this->deleteDokumen(); 
+        $this->deleteDokumentasi();
         $this->renderView('detail', [
             'detailData' => $detailData,
-            'dokumenSaranaMebelair' => $dokumenAsetMebelair, // Data dokumen
-            'dokumenGambar' => $dokumenGambarMebelair,     // Data gambar
+            'dokumenSaranaMebelair' => $dokumenAsetMebelair,
+            'dokumenGambar' => $dokumenGambarMebelair,     
+            'BaseUrlQr' => $BaseUrlQr
         ]);
     }
 
-    // download all qr (diadaptasi dari template)
+   
     public function downloadAllQr()
     {
         global $conn;
-        $saranaData = SaranaMebelair::getAllData($conn); // Mengambil semua data Mebelair
-        $this->renderView('downloadAll', [ // View ini mungkin perlu disesuaikan juga
+        $saranaData = SaranaMebelair::getAllData($conn); 
+        $BaseUrlQr = BaseUrlQr::BaseUrlQr();
+
+        $this->renderView('downloadAll', [ 
             'saranaData' => $saranaData,
+            'BaseUrlQr' => $BaseUrlQr
         ]);
     }
 }

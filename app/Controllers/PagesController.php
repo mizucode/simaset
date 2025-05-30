@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../Models/User.php';
+require_once __DIR__ . '/../Models/KondisiBarang.php';
 
-
-class AdminController {
+class PagesController {
   private function renderView(string $view, $data = []) {
     extract($data);
-    require_once __DIR__ . "/../Views/Pages/Dashboard/{$view}.php";
+    require_once __DIR__ . "/../Views/Pages/login/{$view}.php";
   }
 
   public function index() {
@@ -55,11 +55,12 @@ class AdminController {
   }
 
 
-  public function devView() {
+  public function informasi() {
     global $conn;
-    $saranaData = SaranaBergerak::getAllData($conn);
-    $this->renderView('test', [
-      'saranaData' => $saranaData,
+    $SaranaBergerak = SaranaBergerak::getAllStatus($conn);
+
+    $this->renderView('informasi', [
+      'saranaBergerak' =>    $SaranaBergerak
     ]);
   }
 }

@@ -21,7 +21,7 @@ class SaranaBergerakKondisiController
         $kondisiList = KondisiBarang::getAllData($conn);
         $lapangData = Lapang::getAllData($conn);
         $ruangData = Ruang::getAllData($conn);
-
+  
         if (!$sarana) {
             $_SESSION['error'] = 'Data sarana bergerak tidak ditemukan.';
             header('Location: /admin/sarana/bergerak/kondisi');
