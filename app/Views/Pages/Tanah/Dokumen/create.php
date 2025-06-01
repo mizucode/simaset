@@ -5,127 +5,104 @@
 
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 
-    <div class="wrapper">
+  <div class="wrapper">
 
-        <?php include './app/Views/Components/navbar.php'; ?>
-        <?php include './app/Views/Components/aside.php'; ?>
+    <?php include './app/Views/Components/navbar.php'; ?>
+    <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
-            <div class="container-fluid ">
-                <div class="row justify-content-center ">
-                    <div class="col-12 ">
+    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+      <div class="container-fluid ">
+        <div class="row justify-content-center ">
+          <div class="col-12 ">
 
 
-                        <?php if (!empty($error)) : ?>
-                            <div class="alert alert-danger alert-dismissible fade show mb-4">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <?= htmlspecialchars($error); ?>
-                            </div>
-                        <?php endif; ?>
+            <?php if (!empty($error)) : ?>
+              <div class="alert alert-danger alert-dismissible fade show mb-4">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <?= htmlspecialchars($error); ?>
+              </div>
+            <?php endif; ?>
 
-                        <div class="card card-navy">
-                            <div class="card-header text-white">
-                                <h3 class="text-lg">Tambah Dokumen Tanah</h3>
-                            </div>
+            <div class="card bg-">
+              <div class="card-header bg-navy mb-3">
+                <h1 class="text-xl font-weight-bold">
+                  Tambah Dokumen Tanah
+                </h1>
+              </div>
 
-                            <form action="/admin/prasarana/tanah?tambah-dokumen=<?= $tanahData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12 mb-5">
-                                            <h5 class="border-bottom pb-2 mb-3 text-bold">DATA DOKUMEN TANAH</h5>
+              <form action="/admin/prasarana/tanah?tambah-dokumen=<?= $tanahData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12 border-bottom">
+                      <div class="border-bottom pb-2 mb-3">
+                        <h5 class="text-bold fs-4 text-navy">
+                          DATA DOKUMEN TANAH
+                        </h5>
+                        <span class="form-text">Silahkan isi data dokumen tanah dengan lengkap.</span>
+                      </div>
 
-                                            <!-- Aset Tanah -->
-                                            <div class="form-group mb-4 hidden">
-                                                <label for="aset_tanah_id" class="font-weight-bold">Pilih Aset Tanah</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt text-primary"></i></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" id="aset_tanah_id" name="aset_tanah_id"
-                                                        value="<?= htmlspecialchars($tanahData['id']) ?>" readonly>
-                                                </div>
-                                            </div>
-                                            <div class="form-group mb-4">
-                                                <label for="nama_dokumen" class="font-weight-bold">Nama Dokumen</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-light"><i class="fas fa-file-alt text-primary"></i></span>
-                                                    </div>
-                                                    <input type="text" placeholder="Sertifikat Tanah" class="form-control" id="nama_dokumen" name="nama_dokumen" value="">
-                                                </div>
-                                            </div>
-                                            <!-- Upload Dokumen -->
-                                            <div class="form-group mb-4">
-                                                <label for="path_dokumen" class="font-weight-bold">Upload Dokumen Tanah</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text bg-light"><i class="fas fa-file-upload text-primary"></i></span>
-                                                    </div>
-                                                    <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
-                                                </div>
-                                                <small class="form-text text-muted">Format file: PDF, JPG, PNG (maks. 5MB)</small>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-footer text-right text-white">
-                                    <a href="/admin/prasarana/tanah?detail=<?= htmlspecialchars($tanahData['id']) ?>" class="btn btn-secondary">
-                                        <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
-                                    </a>
-                                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                                        <i class="fas fa-save mr-2"></i>
-                                        <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
-                                    </button>
-                                </div>
-                            </form>
+                      <!-- Aset Tanah -->
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class=" form-group">
+                          <label for="aset_tanah_id" class="fw-bold">Pilih Aset Tanah</label>
+                          <div class="input-group">
+                            <input type="text" class="form-control" id="aset_tanah_id" name="aset_tanah_id" value="<?= htmlspecialchars($tanahData['id']) ?>" readonly>
+                          </div>
                         </div>
-
+                      </div>
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="nama_dokumen" class="fw-bold">Nama Dokumen <span class="text-danger">*</span></label>
+                          <div class="input-group">
+                            <input type="text" placeholder="Sertifikat Tanah" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
+                          </div>
+                          <span class="form-text">Masukkan nama dokumen.</span>
+                        </div>
+                      </div>
+                      <!-- Upload Dokumen -->
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="path_dokumen" class="fw-bold">Upload Dokumen Tanah <span class="text-danger">*</span></label>
+                          <div class="input-group">
+                            <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
+                          </div>
+                          <span class="form-text">Format file: PDF, JPG, PNG (maks. 5MB).</span>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
-        </div>
 
-        <?php include './app/Views/Components/footer.php'; ?>
+                <div class="card-footer text-right">
+                  <a href="/admin/prasarana/tanah?detail=<?= htmlspecialchars($tanahData['id']) ?>" class="btn btn-secondary">
+                    <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                  </a>
+                  <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fas fa-save mr-2"></i>
+                    Simpan Data Dokumen
+                  </button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
 
-    <?php include './app/Views/Components/script.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const namaAsetInput = document.getElementById('nama_aset');
-            const kodeAsetInput = document.getElementById('kode_aset');
+    <?php include './app/Views/Components/footer.php'; ?>
+  </div>
 
-            namaAsetInput.addEventListener('input', function() {
-                let namaAset = namaAsetInput.value.trim();
-
-                if (namaAset.length > 0) {
-                    // Ambil huruf pertama dari setiap kata
-                    let singkatan = namaAset
-                        .split(' ')
-                        .filter(kata => kata.length > 0)
-                        .map(kata => kata.charAt(0).toUpperCase())
-                        .join('');
-
-                    // Gabungkan dengan awalan TNH-
-                    let kodeAset = `TNH-${singkatan}`;
-                    kodeAsetInput.value = kodeAset;
-                } else {
-                    // Kosongkan jika nama aset kosong
-                    kodeAsetInput.value = '';
-                }
-            });
-        });
-    </script>
-
-    <script>
-        document.getElementById('file_sertifikat').addEventListener('change', function(e) {
-            var fileName = e.target.files[0]?.name || 'Pilih File Sertifikat';
-            var nextSibling = e.target.nextElementSibling;
-            nextSibling.innerText = fileName;
-        });
-    </script>
+  <?php include './app/Views/Components/script.php'; ?>
+  <script>
+    document.getElementById('file_sertifikat').addEventListener('change', function(e) {
+      var fileName = e.target.files[0]?.name || 'Pilih File Sertifikat';
+      var nextSibling = e.target.nextElementSibling;
+      nextSibling.innerText = fileName;
+    });
+  </script>
 
 </body>
 

@@ -33,6 +33,39 @@ class SaranaBergerak {
       return "Query gagal: " . $e->getMessage();
     }
   }
+  public static function getAllStatusTersedia($conn) {
+    $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+              FROM sarana_bergerak sb
+              JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
+              JOIN barang b ON sb.barang_id = b.id
+              JOIN kondisi_barang kond ON sb.kondisi_barang_id = kond.id
+              WHERE sb.status = 'Tersedia'";
+
+    $stmt = $conn->prepare($query);
+    try {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return "Query gagal: " . $e->getMessage();
+    }
+  }
+
+  public static function getAllStatusExDipinjam($conn) {
+    $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+              FROM sarana_bergerak sb
+              JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
+              JOIN barang b ON sb.barang_id = b.id
+              JOIN kondisi_barang kond ON sb.kondisi_barang_id = kond.id
+              WHERE sb.status != 'Dipinjam'";
+
+    $stmt = $conn->prepare($query);
+    try {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return "Query gagal: " . $e->getMessage();
+    }
+  }
 
 
   public static function getById($conn, $id) {
@@ -70,7 +103,10 @@ class SaranaBergerak {
     $keterangan,
     $biaya_pembelian,
     $tanggal_pembelian,
-    $status // Tambahkan parameter status
+    $status = 'Tersedia', // Default status untuk data baru
+    $nama_peminjam = null,
+    $identitas_peminjam = null,
+    $no_hp_peminjam = null
   ) {
     $fields = [
       'kategori_barang_id' => $kategori_barang_id,
@@ -87,6 +123,9 @@ class SaranaBergerak {
       'biaya_pembelian' => $biaya_pembelian,
       'tanggal_pembelian' => $tanggal_pembelian,
       'status' => $status, // Tambahkan status ke array fields
+      'nama_peminjam' => $nama_peminjam,
+      'identitas_peminjam' => $identitas_peminjam,
+      'no_hp_peminjam' => $no_hp_peminjam,
     ];
 
     $columns = implode(', ', array_keys($fields));

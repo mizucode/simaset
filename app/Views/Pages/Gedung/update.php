@@ -152,12 +152,25 @@
                       </div>
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
+                        <!-- Unit Kepemilikan -->
                         <div class="form-group">
                           <label for="unit_kepemilikan" class="fw-bold">Unit Kepemilikan <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" id="unit_kepemilikan" name="unit_kepemilikan"
-                            value="<?= isset($gedung) ? htmlspecialchars($gedung['unit_kepemilikan']) : '' ?>"
-                            placeholder="Contoh: Fakultas Teknik" required>
-                          <span class="form-text">Pilih unit atau fakultas yang memiliki atau bertanggung jawab atas gedung.</span>
+                          <select class="form-control" name="unit_kepemilikan" id="unit_kepemilikan" required>
+                            <option value="" disabled <?= !isset($gedung['unit_kepemilikan']) || empty($gedung['unit_kepemilikan']) ? 'selected' : '' ?>>Pilih Unit Kepemilikan</option>
+                            <?php
+                            $unitKepemilikanOptions = [
+                              "Fakultas Pendidikan, Sosial, dan Teknologi",
+                              "Fakultas Farmasi, Kesehatan, dan Sains",
+                              "Universitas (Umum)"
+                              // Tambahkan opsi lain jika perlu di sini
+                            ];
+                            foreach ($unitKepemilikanOptions as $option) : ?>
+                              <option value="<?= htmlspecialchars($option) ?>" <?= (isset($gedung['unit_kepemilikan']) && $gedung['unit_kepemilikan'] == $option) ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($option) ?>
+                              </option>
+                            <?php endforeach; ?>
+                          </select>
+                          <span class="form-text">Pilih unit atau fakultas yang memiliki atau bertanggung jawab atas bangunan.</span>
                         </div>
                       </div>
 

@@ -57,7 +57,9 @@ class PagesController {
 
   public function informasi() {
     global $conn;
-    $SaranaBergerak = SaranaBergerak::getAllStatus($conn);
+    $SaranaBergerak = SaranaBergerak::getAllStatusTersedia($conn);
+    $SaranaBergerak = SaranaMebelair::getAllStatusTersedia($conn);
+    $SaranaBergerak = SaranaMebelair::getAllStatusTersedia($conn);
 
     $this->renderView('informasi', [
       'saranaBergerak' =>    $SaranaBergerak

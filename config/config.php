@@ -31,4 +31,6 @@ require_once __DIR__ . '/../app/Controllers/SaranaBergerakKondisiController.php'
 require_once __DIR__ . '/../app/Controllers/LaporanController.php';
 require_once __DIR__ . '/../app/Controllers/PagesController.php';
 require_once __DIR__ . '/../app/Controllers/SaranaBergerakPinjamController.php';
-
+require_once __DIR__ . '/../app/Controllers/SaranaMebelairPinjamController.php';
+require_once __DIR__ . '/../app/Controllers/SaranaATKPinjamController.php';
+require_once __DIR__ . '/../app/Controllers/SaranaElektronikPinjamController.php';

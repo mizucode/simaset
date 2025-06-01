@@ -7,55 +7,32 @@
     <?php require_once './app/Views/Components/navbar.php'; ?>
     <?php require_once './app/Views/Components/aside.php'; ?>
 
-    <!-- Modal Konfirmasi Hapus -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Apakah Anda yakin ingin menghapus data peminjaman sarana elektronik ini?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-            <a id="deleteButton" href="#" class="btn btn-danger">Hapus</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-wrapper bg-white py-4 mb-5 px-3">
+    <div class="content-wrapper bg-white mb-5 pt-3 px-4">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
             <?php include './app/Views/Components/helper.php'; ?>
+            <?php if (!empty($errorMessage)) : ?>
+              <div class="alert alert-danger">
+                <?php echo htmlspecialchars($errorMessage); ?>
+              </div>
+            <?php endif; ?>
             <div class="card shadow-md">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                <h3 class="h4 mb-0">Data Peminjaman Sarana Elektronik</h3>
-                <a href="/admin/sarana/elektronik/pinjam/tambah" class="btn btn-warning btn-sm ml-auto">
-                  <div class="text-dark">
-                    <i class="fas fa-plus mr-1"></i> Tambah Data Peminjaman
-                  </div>
-                </a>
+                <h3 class="h4 mb-0">Daftar Sarana ATK Tersedia untuk Dipinjam</h3>
               </div>
 
               <div class="card-body p-3">
                 <div class="table-responsive">
-                  <table id="saranaTable" class="table table-bordered table-hover">
-                    <thead class="bg-light">
+                  <table id="saranaTable" class="table table-bordered w-100">
+                    <thead class="bg-gray-100">
                       <tr class="text-center">
                         <th width="5%">No</th>
                         <th width="15%">No Registrasi</th>
                         <th width="15%">Nama Barang</th>
-                        <th width="15%">Nama Peminjam</th>
-                        <th width="15%">Nik/Nidn</th>
-                        <th width="15%">No Hp</th>
+                        <th width="15%">Jenis</th>
                         <th width="15%">Lokasi Saat Ini</th>
-                        <th width="10%">Status</th>
+                        <th width="10%">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -66,21 +43,19 @@
                             <td class="text-center"><?= $counter++; ?></td>
                             <td class="text-center"><?= htmlspecialchars($sarana['no_registrasi'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['nama_detail_barang'] ?? '-'); ?></td>
-                            <td><?= htmlspecialchars($sarana['nama_peminjam'] ?? '-'); ?></td>
-                            <td class="text-center"><?= htmlspecialchars($sarana['identitas_peminjam'] ?? '-'); ?></td>
-                            <td class="text-center"><?= htmlspecialchars($sarana['no_hp_peminjam'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($sarana['barang'] ?? '-'); ?></td>
                             <td class=""><?= htmlspecialchars($sarana['lokasi'] ?? '-'); ?></td>
                             <td class="text-center">
-                              <span class="badge bg-success"><?= htmlspecialchars($sarana['status'] ?? '-'); ?></span>
-
+                              <?php $idSarana = $sarana['id_sarana_atk'] ?? $sarana['id'] ?? null; ?>
+                              <?php if ($idSarana) : ?>
+                                <a href="/admin/sarana/atk/pinjam?edit=<?= htmlspecialchars($idSarana); ?>" class="btn btn-sm btn-success"><i class="fas fa-handshake mr-1"></i>Pinjam</a>
+                              <?php else : ?>
+                                -
+                              <?php endif; ?>
                             </td>
 
                           </tr>
                         <?php endforeach; ?>
-                      <?php else : ?>
-                        <tr>
-                          <td colspan="8" class="text-center">Data tidak ditemukan</td>
-                        </tr>
                       <?php endif; ?>
                     </tbody>
                   </table>
@@ -91,9 +66,8 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <?php require_once './app/Views/Components/footer.php'; ?>
+    <?php require_once './app/Views/Components/footer.php'; ?>
   </div>
 
 
@@ -109,9 +83,9 @@
         "info": true,
         "searching": true,
         "columnDefs": [{
-          "targets": [7], // Target kolom Status (indeks 7)
-          "searchable": false,
-          "orderable": false
+          "targets": [0, 5], // Target kolom No (0) dan Aksi (5)
+          "searchable": false, // Nonaktifkan pencarian
+          "orderable": false // Nonaktifkan pengurutan
         }],
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
@@ -138,37 +112,30 @@
         },
         "buttons": [{
             extend: 'copy',
-            title: 'Data Peminjaman Sarana Elektronik',
+            title: 'Daftar Sarana ATK Tersedia untuk Dipinjam',
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6] // Kolom yang akan diekspor
+              columns: [0, 1, 2, 3, 4] // No, No Registrasi, Nama Barang, Jenis, Lokasi
             }
           },
           {
             extend: 'csv',
-            title: 'Data Peminjaman Sarana Elektronik',
+            title: 'Daftar Sarana ATK Tersedia untuk Dipinjam',
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6]
+              columns: [0, 1, 2, 3, 4]
             }
           },
           {
             extend: 'excel',
-            title: 'Data Peminjaman Sarana Elektronik',
+            title: 'Daftar Sarana ATK Tersedia untuk Dipinjam',
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6]
+              columns: [0, 1, 2, 3, 4]
             }
           },
           {
             extend: 'pdf',
-            title: 'Data Peminjaman Sarana Elektronik',
+            title: 'Daftar Sarana ATK Tersedia untuk Dipinjam',
             exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6]
-            }
-          },
-          {
-            extend: 'print',
-            title: 'Data Peminjaman Sarana Elektronik',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4, 5, 6]
+              columns: [0, 1, 2, 3, 4]
             }
           },
           'colvis'

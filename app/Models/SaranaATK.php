@@ -1,109 +1,168 @@
 <?php
 
-class SaranaATK
-{
-    /**
-     * Mendapatkan semua data barang ATK dengan join ke tabel terkait
-     * 
-     * @param PDO $conn Koneksi database
-     * @return array|string Array data atau pesan error
-     */
-    public static function getAllData($conn)
-    {
-        $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+class SaranaATK {
+  /**
+   * Mendapatkan semua data barang ATK dengan join ke tabel terkait
+   * 
+   * @param PDO $conn Koneksi database
+   * @return array|string Array data atau pesan error
+   */
+  public static function getAllData($conn) {
+    $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_atk sa
                   JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
                   JOIN barang b ON sa.barang_id = b.id
                   JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id";
 
-        try {
-            $stmt = $conn->query($query);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("Error in SaranaATK::getAllData - " . $e->getMessage());
-            return [];
-        }
+    try {
+      $stmt = $conn->query($query);
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      error_log("Error in SaranaATK::getAllData - " . $e->getMessage());
+      return [];
     }
+  }
 
-    /**
-     * Menyimpan data baru barang ATK
-     * 
-     * @param PDO $conn Koneksi database
-     * @param array $data Data barang ATK
-     * @return bool|string True jika berhasil, pesan error jika gagal
-     */
-    public static function storeData(
-        $conn,
-        $kategori_barang_id,
-        $barang_id,
-        $kondisi_barang_id,
-        $no_registrasi,
-        $nama_detail_barang,
-        $merk,
-        $spesifikasi,
-        $jumlah,
-        $satuan,
-        $lokasi,
-        $biaya_pembelian,
-        $tanggal_pembelian,
-        $keterangan
-    ) {
-        $fields = [
-            'kategori_barang_id' => $kategori_barang_id,
-            'barang_id' => $barang_id,
-            'kondisi_barang_id' => $kondisi_barang_id,
-            'no_registrasi' => $no_registrasi,
-            'nama_detail_barang' => $nama_detail_barang,
-            'merk' => $merk,
-            'spesifikasi' => $spesifikasi,
-            'jumlah' => $jumlah,
-            'satuan' => $satuan,
-            'lokasi' => $lokasi,
-            'biaya_pembelian' => $biaya_pembelian,
-            'tanggal_pembelian' => $tanggal_pembelian,
-            'keterangan' => $keterangan
-        ];
+  public static function getAllStatus($conn) {
+    $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+              FROM sarana_atk sa
+              JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+              JOIN barang b ON sa.barang_id = b.id
+              JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
+              WHERE sa.status = 'Dipinjam'";
 
-        $columns = implode(', ', array_keys($fields));
-        $placeholders = ':' . implode(', :', array_keys($fields));
-
-        $query = "INSERT INTO sarana_atk ($columns) VALUES ($placeholders)";
-
-        try {
-            $stmt = $conn->prepare($query);
-            return $stmt->execute($fields);
-        } catch (PDOException $e) {
-            error_log("Error in SaranaATK::storeData - " . $e->getMessage());
-            return false;
-        }
+    $stmt = $conn->prepare($query);
+    try {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return "Query gagal: " . $e->getMessage();
     }
+  }
+  public static function getAllStatusTersedia($conn) {
+    $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+              FROM sarana_atk sa
+              JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+              JOIN barang b ON sa.barang_id = b.id
+              JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
+              WHERE sa.status = 'Tersedia'";
 
-    /**
-     * Memperbarui data barang ATK
-     * 
-     * @param PDO $conn Koneksi database
-     * @param int $id ID barang ATK
-     * @param array $data Data yang akan diupdate
-     * @return bool|string True jika berhasil, pesan error jika gagal
-     */
-    public static function updateData(
-        $conn,
-        $id,
-        $kategori_barang_id,
-        $barang_id,
-        $kondisi_barang_id,
-        $no_registrasi,
-        $nama_detail_barang,
-        $merk,
-        $spesifikasi,
-        $jumlah,
-        $satuan,
-        $lokasi,
-        $biaya_pembelian,
-        $tanggal_pembelian,
-        $keterangan
-    ) {
-        $query = "UPDATE sarana_atk SET
+    $stmt = $conn->prepare($query);
+    try {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return "Query gagal: " . $e->getMessage();
+    }
+  }
+
+  public static function getAllStatusExDipinjam($conn) {
+    $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+              FROM sarana_atk sa
+              JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+              JOIN barang b ON sa.barang_id = b.id
+              JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
+              WHERE sa.status != 'Dipinjam'";
+
+    $stmt = $conn->prepare($query);
+    try {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return "Query gagal: " . $e->getMessage();
+    }
+  }
+  /**
+   * Menyimpan data baru barang ATK
+   * 
+   * @param PDO $conn Koneksi database
+   * @param array $data Data barang ATK
+   * @return bool|string True jika berhasil, pesan error jika gagal
+   */
+  public static function storeData(
+    $conn,
+    $kategori_barang_id,
+    $barang_id,
+    $kondisi_barang_id,
+    $no_registrasi,
+    $nama_detail_barang,
+    $merk,
+    $spesifikasi,
+    $jumlah,
+    $satuan,
+    $lokasi,
+    $biaya_pembelian,
+    $tanggal_pembelian,
+    $keterangan,
+    $status = 'Tersedia', // Default status untuk data baru
+    $nama_peminjam = null,
+    $identitas_peminjam = null,
+    $no_hp_peminjam = null
+  ) {
+    $fields = [
+      'kategori_barang_id' => $kategori_barang_id,
+      'barang_id' => $barang_id,
+      'kondisi_barang_id' => $kondisi_barang_id,
+      'no_registrasi' => $no_registrasi,
+      'nama_detail_barang' => $nama_detail_barang,
+      'merk' => $merk,
+      'spesifikasi' => $spesifikasi,
+      'jumlah' => $jumlah,
+      'satuan' => $satuan,
+      'lokasi' => $lokasi,
+      'biaya_pembelian' => $biaya_pembelian,
+      'tanggal_pembelian' => $tanggal_pembelian,
+      'keterangan' => $keterangan,
+      'status' => $status,
+      'nama_peminjam' => $nama_peminjam,
+      'identitas_peminjam' => $identitas_peminjam,
+      'no_hp_peminjam' => $no_hp_peminjam
+    ];
+
+    $columns = implode(', ', array_keys($fields));
+    $placeholders = ':' . implode(', :', array_keys($fields));
+
+    $query = "INSERT INTO sarana_atk ($columns) VALUES ($placeholders)";
+
+    try {
+      $stmt = $conn->prepare($query);
+      return $stmt->execute($fields);
+    } catch (PDOException $e) {
+      error_log("Error in SaranaATK::storeData - " . $e->getMessage());
+      return false;
+    }
+  }
+
+  /**
+   * Memperbarui data barang ATK
+   * 
+   * @param PDO $conn Koneksi database
+   * @param int $id ID barang ATK
+   * @param array $data Data yang akan diupdate
+   * @return bool|string True jika berhasil, pesan error jika gagal
+   */
+  public static function updateData(
+    $conn,
+    $id,
+    $kategori_barang_id,
+    $barang_id,
+    $kondisi_barang_id,
+    $no_registrasi,
+    $nama_detail_barang,
+    $merk,
+    $spesifikasi,
+    $jumlah,
+    $satuan,
+    $lokasi,
+    $biaya_pembelian,
+    $tanggal_pembelian,
+    $keterangan,
+    $status, // Tambahkan parameter status
+    $nama_peminjam,
+    $identitas_peminjam,
+    $no_hp_peminjam
+  ) {
+    $query = "UPDATE sarana_atk SET
             kategori_barang_id = :kategori_barang_id,
             barang_id = :barang_id,
             kondisi_barang_id = :kondisi_barang_id,
@@ -116,58 +175,64 @@ class SaranaATK
             lokasi = :lokasi,
             keterangan = :keterangan,
             biaya_pembelian = :biaya_pembelian,
+            status = :status,
             tanggal_pembelian = :tanggal_pembelian,
+            nama_peminjam = :nama_peminjam,
+            identitas_peminjam = :identitas_peminjam,
+            no_hp_peminjam = :no_hp_peminjam,
             updated_at = CURRENT_TIMESTAMP
         WHERE id = :id";
 
-        try {
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':kategori_barang_id', $kategori_barang_id);
-            $stmt->bindParam(':barang_id', $barang_id);
-            $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id);
-            $stmt->bindParam(':no_registrasi', $no_registrasi);
-            $stmt->bindParam(':nama_detail_barang', $nama_detail_barang);
-            $stmt->bindParam(':merk', $merk);
-            $stmt->bindParam(':spesifikasi', $spesifikasi);
-            $stmt->bindParam(':jumlah', $jumlah);
-            $stmt->bindParam(':satuan', $satuan);
-            $stmt->bindParam(':keterangan', $keterangan);
-            $stmt->bindParam(':lokasi', $lokasi);
-            $stmt->bindParam(':biaya_pembelian', $biaya_pembelian);
-            $stmt->bindParam(':tanggal_pembelian', $tanggal_pembelian);
-            $stmt->bindParam(':id', $id);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log("Error in SaranaATK::updateData - " . $e->getMessage());
-            return false;
-        }
+    try {
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':kategori_barang_id', $kategori_barang_id);
+      $stmt->bindParam(':barang_id', $barang_id);
+      $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id);
+      $stmt->bindParam(':no_registrasi', $no_registrasi);
+      $stmt->bindParam(':nama_detail_barang', $nama_detail_barang);
+      $stmt->bindParam(':merk', $merk);
+      $stmt->bindParam(':spesifikasi', $spesifikasi);
+      $stmt->bindParam(':jumlah', $jumlah);
+      $stmt->bindParam(':satuan', $satuan);
+      $stmt->bindParam(':keterangan', $keterangan);
+      $stmt->bindParam(':lokasi', $lokasi);
+      $stmt->bindParam(':biaya_pembelian', $biaya_pembelian);
+      $stmt->bindParam(':status', $status);
+      $stmt->bindParam(':tanggal_pembelian', $tanggal_pembelian);
+      $stmt->bindParam(':nama_peminjam', $nama_peminjam);
+      $stmt->bindParam(':identitas_peminjam', $identitas_peminjam);
+      $stmt->bindParam(':no_hp_peminjam', $no_hp_peminjam);
+      $stmt->bindParam(':id', $id);
+      return $stmt->execute();
+    } catch (PDOException $e) {
+      error_log("Error in SaranaATK::updateData - " . $e->getMessage());
+      return false;
     }
+  }
 
-    /**
-     * Menghapus data barang ATK
-     * 
-     * @param PDO $conn Koneksi database
-     * @param int $id ID barang ATK
-     * @return bool|string True jika berhasil, pesan error jika gagal
-     */
-    public static function deleteData($conn, $id)
-    {
-        $query = "DELETE FROM sarana_atk WHERE id = :id";
-        $stmt = $conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
+  /**
+   * Menghapus data barang ATK
+   * 
+   * @param PDO $conn Koneksi database
+   * @param int $id ID barang ATK
+   * @return bool|string True jika berhasil, pesan error jika gagal
+   */
+  public static function deleteData($conn, $id) {
+    $query = "DELETE FROM sarana_atk WHERE id = :id";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':id', $id);
+    return $stmt->execute();
+  }
 
-    /**
-     * Mendapatkan data barang ATK berdasarkan ID
-     * 
-     * @param PDO $conn Koneksi database
-     * @param int $id ID barang ATK
-     * @return array|false Array data atau false jika tidak ditemukan
-     */
-    public static function getById($conn, $id)
-    {
-        $query = "SELECT sa.*, 
+  /**
+   * Mendapatkan data barang ATK berdasarkan ID
+   * 
+   * @param PDO $conn Koneksi database
+   * @param int $id ID barang ATK
+   * @return array|false Array data atau false jika tidak ditemukan
+   */
+  public static function getById($conn, $id) {
+    $query = "SELECT sa.*, 
                  kb.nama_kategori, 
                  b.nama_barang, 
                  kond.nama_kondisi
@@ -177,14 +242,14 @@ class SaranaATK
                  LEFT JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
                  WHERE sa.id = :id";
 
-        try {
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("Error in SaranaATK::getById - " . $e->getMessage());
-            return false;
-        }
+    try {
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+      $stmt->execute();
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      error_log("Error in SaranaATK::getById - " . $e->getMessage());
+      return false;
     }
+  }
 }

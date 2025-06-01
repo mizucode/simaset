@@ -64,7 +64,7 @@
 
                       <div class=" py-4 px-4 mb-4 border rounded-md">
                         <div class="">
-                          <label for="no_registrasi" class="fw-normal ">Nomor Registrasi</label>
+                          <label for="no_registrasi" class="fw-normal ">Nomor Registrasi <span class="text-danger">*</span></label>
                           <input type="text" readonly class="form-control" id="no_registrasi" name="no_registrasi"
                             value="<?= htmlspecialchars($sarana['no_registrasi']) ?>"
                             required>
@@ -73,7 +73,7 @@
 
                       <div class=" py-4 px-4 mb-4 border rounded-md">
                         <div class="">
-                          <label for="nama_detail_barang" class="fw-normal ">Nama Barang</label>
+                          <label for="nama_detail_barang" class="fw-normal ">Nama Barang <span class="text-danger">*</span></label>
                           <input type="text" readonly class="form-control" id="nama_detail_barang" name="nama_detail_barang"
                             value="<?= htmlspecialchars($sarana['nama_detail_barang']) ?>"
                             required>
@@ -92,7 +92,7 @@
 
                       <div class=" py-4 px-4 mb-4 border rounded-md">
                         <div class="">
-                          <label for="nama_peminjam" class="fw-normal ">Nama Peminjam</label>
+                          <label for="nama_peminjam" class="fw-normal ">Nama Peminjam <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="nama_peminjam" name="nama_peminjam"
                             placeholder="Contoh: Muhammad Febrianoor" required>
                           <span class="form-text">
@@ -103,7 +103,7 @@
                       </div>
                       <div class=" py-4 px-4 mb-4 border rounded-md">
                         <div class="">
-                          <label for="identitas_peminjam" class="fw-normal ">Nomor Identitas</label>
+                          <label for="identitas_peminjam" class="fw-normal ">Nomor Identitas <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="identitas_peminjam" name="identitas_peminjam"
                             placeholder="Contoh: 211222047" required>
                           <span class="form-text">
@@ -114,7 +114,7 @@
                       </div>
                       <div class=" py-4 px-4 mb-4 border rounded-md">
                         <div class="">
-                          <label for="no_hp_peminjam" class="fw-normal ">Nomor HP Peminjam</label>
+                          <label for="no_hp_peminjam" class="fw-normal ">Nomor HP Peminjam <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="no_hp_peminjam" name="no_hp_peminjam"
                             placeholder="Contoh: 081234567890" required>
                           <span class="form-text">
@@ -138,7 +138,7 @@
 
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
-                        <label for="lokasi" class="fw-normal">Lokasi Penempatan Barang</label>
+                        <label for="lokasi" class="fw-normal">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
                         <select class="form-select" id="lokasi" name="lokasi" required>
                           <optgroup label="Lapang">
                             <?php foreach ($lapangData as $lokasi_item) : ?>
@@ -162,12 +162,12 @@
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div>
-                          <label for="status" class="fw-normal">Status</label>
+                          <label for="status" class="fw-normal">Status <span class="text-danger">*</span></label>
                           <select class="form-select" name="status" aria-label="Default select example" required>
-                            <option value="" disabled selected>Pilih Status</option>
-                            <option value="Terpakai">Terpakai</option>
-                            <option value="Dipinjam">Dipinjam</option>
-                            <option value="Tersedia">Tersedia</option>
+                            <option value="" disabled <?= !isset($sarana['status']) ? 'selected' : '' ?>>Pilih Status</option>
+                            <option value="Terpakai" <?= (isset($sarana['status']) && $sarana['status'] == 'Terpakai') ? 'selected' : '' ?>>Terpakai</option>
+                            <option value="Dipinjam" <?= (isset($sarana['status']) && $sarana['status'] == 'Dipinjam') ? 'selected' : '' ?>>Dipinjam</option>
+                            <option value="Tersedia" <?= (isset($sarana['status']) && $sarana['status'] == 'Tersedia') ? 'selected' : '' ?>>Tersedia</option>
                           </select>
                           <span class="form-text">
                             Pilih ke status dipinjamkan jika barang tersebut dipinjam.
@@ -188,7 +188,7 @@
                   </div>
 
                   <div class="card-footer text-right">
-                    <a href="/admin/sarana/bergerak/pindah" class="btn btn-secondary">
+                    <a href="/admin/sarana/bergerak/pinjam/tambah" class="btn btn-secondary">
                       <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">

@@ -140,8 +140,8 @@
                           <label for="unit_kepemilikan" class="fw-bold">Unit Kepemilikan <span class="text-danger">*</span></label>
                           <select class="form-control" name="unit_kepemilikan" id="unit_kepemilikan" required>
                             <option value="" disabled selected>Pilih Unit Kepemilikan</option>
-                            <option value="FPST">Fakultas Pendidikan, Sosial, dan Teknologi</option>
-                            <option value="FKKS">Fakultas Farmasi, Kesehatan, dan Sains</option>
+                            <option value="Fakultas Pendidikan, Sosial, dan Teknologi">Fakultas Pendidikan, Sosial, dan Teknologi</option>
+                            <option value="Fakultas Farmasi, Kesehatan, dan Sains">Fakultas Farmasi, Kesehatan, dan Sains</option>
                             <option value="Universitas">Universitas (Umum)</option>
                             <!-- Tambahkan opsi lain jika perlu -->
                           </select>

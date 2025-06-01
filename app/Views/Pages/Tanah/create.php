@@ -33,14 +33,10 @@
             <div class="card bg-">
               <div class="card-header bg-navy mb-3">
                 <h1 class="text-xl font-weight-bold">
-                  <?= isset($tanah) ? 'EDIT DATA TANAH' : 'FORMULIR TAMBAH DATA TANAH' ?>
+                  FORMULIR TAMBAH DATA TANAH
                 </h1>
               </div>
-
-              <form action="<?= isset($tanah) ? '/admin/prasarana/tanah?edit=' . htmlspecialchars($tanah['id']) : '/admin/prasarana/tanah/tambah' ?>" method="POST" enctype="multipart/form-data">
-                <?php if (isset($tanah)) : ?>
-                  <input type="hidden" name="id" value="<?= htmlspecialchars($tanah['id']) ?>">
-                <?php endif; ?>
+              <form action="/admin/prasarana/tanah/tambah" method="POST" enctype="multipart/form-data">
 
                 <div class="card-body">
                   <div class="row">
@@ -56,9 +52,7 @@
                         <div class="form-group">
                           <label for="kode_aset" class="fw-bold">Kode Aset Tanah <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="kode_aset" name="kode_aset"
-                            placeholder="Contoh: PRS-TNH-001"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['kode_aset']) : '' ?>"
-                            <?= isset($tanah) && !empty($tanah['kode_aset']) ? 'readonly' : '' ?>
+                            placeholder="Contoh: PRS-TNH-001" value=""
                             required>
                           <span class="form-text">
                             Masukan PRS-TNH-{nomor}
@@ -70,8 +64,7 @@
                         <div class="form-group">
                           <label for="nama_aset" class="fw-bold">Nama Aset Tanah <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="nama_aset" name="nama_aset"
-                            placeholder="Contoh: Tanah Kampus Dua"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['nama_aset']) : '' ?>"
+                            placeholder="Contoh: Tanah Kampus Dua" value=""
                             required>
                           <span class="form-text">
                             Masukkan nama lengkap aset tanah.
@@ -83,8 +76,7 @@
                         <div class="form-group">
                           <label for="luas" class="fw-bold">Luas Tanah (m²) <span class="text-danger">*</span></label>
                           <input type="number" class="form-control" id="luas" name="luas"
-                            placeholder="Contoh: 21"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['luas']) : '' ?>"
+                            placeholder="Contoh: 21" value=""
                             required>
                           <span class="form-text">
                             Masukkan luas tanah dalam satuan meter persegi .
@@ -97,7 +89,7 @@
                           <label for="lokasi" class="fw-bold">Lokasi Tanah <span class="text-danger">*</span></label>
                           <textarea class="form-control" id="lokasi" name="lokasi" rows="2"
                             placeholder="Contoh: Jl. Raya Cigugur, Kuningan, Kec. Kuningan, Kabupaten Kuningan, Jawa Barat 45511"
-                            required><?= isset($tanah) ? htmlspecialchars($tanah['lokasi']) : '' ?></textarea>
+                            required></textarea>
                           <span class="form-text">
                             Masukkan alamat lengkap lokasi tanah.
                           </span>
@@ -108,8 +100,7 @@
                         <div class="form-group">
                           <label for="nomor_sertifikat" class="fw-bold">Nomor Sertifikat <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="nomor_sertifikat" name="nomor_sertifikat"
-                            placeholder="Contoh: 12.34.56.78.9.01234"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['nomor_sertifikat']) : '' ?>"
+                            placeholder="Contoh: 12.34.56.78.9.01234" value=""
                             required>
                           <span class="form-text">
                             Masukkan nomor sertifikat tanah yang valid.
@@ -121,10 +112,10 @@
                         <div class="form-group">
                           <label for="jenis_aset_id" class="fw-bold">Jenis Aset Tanah <span class="text-danger">*</span></label>
                           <select class="form-control" id="jenis_aset_id" name="jenis_aset_id" required>
-                            <option value="" disabled <?= !isset($tanah['jenis_aset_id']) ? 'selected' : '' ?>>Pilih jenis aset tanah</option>
+                            <option value="" disabled selected>Pilih jenis aset tanah</option>
                             <?php if (isset($jenisAsetId) && is_array($jenisAsetId)) : ?>
                               <?php foreach ($jenisAsetId as $ja_id) : ?>
-                                <option value="<?= htmlspecialchars($ja_id['id']) ?>" <?= (isset($tanah) && $tanah['jenis_aset_id'] == $ja_id['id']) ? 'selected' : '' ?>>
+                                <option value="<?= htmlspecialchars($ja_id['id']) ?>">
                                   <?= htmlspecialchars($ja_id['jenis_aset']) ?>
                                 </option>
                               <?php endforeach; ?>
@@ -140,8 +131,7 @@
                         <div class="form-group">
                           <label for="tgl_pajak" class="fw-bold">Tanggal Pajak <span class="text-danger">*</span></label>
                           <input type="date" class="form-control" id="tgl_pajak" name="tgl_pajak"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['tgl_pajak']) : '' ?>"
-                            required>
+                            value="" required>
                           <span class="form-text">
                             Masukkan tanggal pajak tanah.
                           </span>
@@ -161,8 +151,7 @@
                         <div class="form-group">
                           <label for="fungsi" class="fw-bold">Fungsi Tanah <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="fungsi" name="fungsi"
-                            placeholder="Digunakan untuk lahan kampus dua."
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['fungsi']) : '' ?>"
+                            placeholder="Digunakan untuk lahan kampus dua." value=""
                             required>
                           <span class="form-text">
                             Jelaskan fungsi utama dari tanah ini.
@@ -174,8 +163,7 @@
                         <div class="form-group">
                           <label for="keterangan" class="fw-bold">Keterangan <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="keterangan" name="keterangan"
-                            placeholder="Masukan keterangan"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['keterangan']) : '' ?>"
+                            placeholder="Masukan keterangan" value=""
                             required>
                           <span class="form-text">
                             Tambahkan keterangan tambahan jika diperlukan.
@@ -186,12 +174,12 @@
                   </div>
 
                   <div class="card-footer text-right">
-                    <a href="<?= isset($tanah) && isset($tanah['id']) ? ('/admin/prasarana/tanah?detail=' . htmlspecialchars($tanah['id'])) : '/admin/prasarana/tanah' ?>" class="btn btn-secondary">
+                    <a href="/admin/prasarana/tanah" class="btn btn-secondary">
                       <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">
                       <i class="fas fa-save mr-2"></i>
-                      <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
+                      Simpan Data Tanah
                     </button>
                   </div>
               </form>

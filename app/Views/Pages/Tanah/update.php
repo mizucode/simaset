@@ -37,7 +37,7 @@
                 </h1>
               </div>
 
-              <form action="<?= isset($tanah) ? '/admin/prasarana/tanah?edit=' . htmlspecialchars($tanah['id']) : '/admin/prasarana/tanah/tambah' ?>" method="POST" enctype="multipart/form-data">
+              <form action="/admin/prasarana/tanah?edit=<?= htmlspecialchars($tanah['id']) ?>" method="POST" enctype="multipart/form-data">
                 <?php if (isset($tanah)) : ?>
                   <input type="hidden" name="id" value="<?= htmlspecialchars($tanah['id']) ?>">
                 <?php endif; ?>
@@ -57,8 +57,8 @@
                           <label for="kode_aset" class="fw-bold">Kode Aset Tanah <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="kode_aset" name="kode_aset"
                             placeholder="Contoh: PRS-TNH-001"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['kode_aset']) : '' ?>"
-                            <?= isset($tanah) && !empty($tanah['kode_aset']) ?: '' ?>
+                            value="<?= isset($tanah['kode_aset']) ? htmlspecialchars($tanah['kode_aset']) : '' ?>"
+                            <?= (isset($tanah['kode_aset']) && !empty($tanah['kode_aset'])) ? 'readonly' : '' ?>
                             required>
                           <span class="form-text">
                             Masukan PRS-TNH-{nomor}
@@ -175,7 +175,8 @@
                           <label for="keterangan" class="fw-bold">Keterangan <span class="text-danger">*</span></label>
                           <input type="text" class="form-control" id="keterangan" name="keterangan"
                             placeholder="Masukan keterangan"
-                            value="<?= isset($tanah) ? htmlspecialchars($tanah['keterangan']) : '' ?>">
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['keterangan']) : '' ?>"
+                            required>
                           <span class="form-text">
                             Tambahkan keterangan tambahan jika diperlukan.
                           </span>

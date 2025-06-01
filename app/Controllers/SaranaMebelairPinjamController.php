@@ -1,18 +1,18 @@
 <?php
 
-require_once __DIR__ . '/../Models/DokumenSaranaBergerak.php';
+require_once __DIR__ . '/../Models/SaranaMebelair.php'; // Changed model
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class SaranaBergerakPinjamController {
+class SaranaMebelairPinjamController { // Renamed class
   private function renderView(string $view, $data = []) {
     extract($data);
-    require_once __DIR__ . "/../Views/Pages/Pinjam/SaranaBergerak/{$view}.php";
+    require_once __DIR__ . "/../Views/Pages/Pinjam/SaranaMebelair/{$view}.php"; // Changed view path
   }
 
 
   public function update($id) {
     global $conn;
-    $sarana = SaranaBergerak::getById($conn, $id);
+    $sarana = SaranaMebelair::getById($conn, $id); // Changed model
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn);
     $kondisiList = KondisiBarang::getAllData($conn);
@@ -20,8 +20,8 @@ class SaranaBergerakPinjamController {
     $ruangData = Ruang::getAllData($conn);
 
     if (!$sarana) {
-      $_SESSION['error'] = 'Data sarana bergerak tidak ditemukan.';
-      header('Location: /admin/sarana/bergerak');
+      $_SESSION['error'] = 'Data sarana mebelair tidak ditemukan.'; // Changed message and redirect
+      header('Location: /admin/sarana/mebelair');
       exit();
     }
 
@@ -31,8 +31,7 @@ class SaranaBergerakPinjamController {
       $kondisi_barang_id = $_POST['kondisi_barang_id'];
       $nama_detail_barang = $_POST['nama_detail_barang'];
       $merk = $_POST['merk'] ?? null;
-      $spesifikasi = $_POST['spesifikasi'] ?? null;
-      $no_polisi = $_POST['no_polisi'] ?? null;
+      $spesifikasi = $_POST['spesifikasi'] ?? null; // no_polisi removed
       $sumber = $_POST['sumber'] ?? null;
       $lokasi = $_POST['lokasi'];
       $keterangan = $_POST['keterangan'] ?? null;
@@ -44,7 +43,7 @@ class SaranaBergerakPinjamController {
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
 
       try {
-        $success = SaranaBergerak::updateData(
+        $success = SaranaMebelair::updateData( // Changed model and removed no_polisi
           $conn,
           $id,
           $kategori_barang_id,
@@ -54,7 +53,6 @@ class SaranaBergerakPinjamController {
           $nama_detail_barang,
           $merk,
           $spesifikasi,
-          $no_polisi,
           $sumber,
           $lokasi,
           $keterangan,
@@ -66,11 +64,11 @@ class SaranaBergerakPinjamController {
           $no_hp_peminjam
         );
 
-        $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
+        $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.'; // Changed message
         $_SESSION['update'] = $message;
 
         if ($success) {
-          header('Location: /admin/sarana/bergerak/pinjam');
+          header('Location: /admin/sarana/mebelair/pinjam'); // Changed redirect
           exit();
         }
       } catch (PDOException $e) {
@@ -93,7 +91,7 @@ class SaranaBergerakPinjamController {
 
   public function index() {
     global $conn;
-    $saranaData = SaranaBergerak::getAllStatus($conn);
+    $saranaData = SaranaMebelair::getAllStatus($conn); // Changed model
 
 
     $this->renderView('index', [
@@ -103,7 +101,7 @@ class SaranaBergerakPinjamController {
 
   public function indexPeminjaman() {
     global $conn;
-    $saranaData = SaranaBergerak::getAllStatusExDipinjam($conn);
+    $saranaData = SaranaMebelair::getAllStatusExDipinjam($conn); // Changed model
     $this->renderView('indexPeminjaman', [
       'saranaData' => $saranaData,
     ]);
