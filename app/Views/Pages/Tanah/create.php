@@ -3,224 +3,209 @@
 <?php include './app/Views/Components/head.php'; ?>
 
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+  <div class="wrapper">
+    <?php include './app/Views/Components/navbar.php'; ?>
+    <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="wrapper">
-
-        <?php include './app/Views/Components/navbar.php'; ?>
-        <?php include './app/Views/Components/aside.php'; ?>
-
-        <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
-            <div class="container-fluid ">
-                <div class="row justify-content-center ">
-                    <div class="col-12 ">
-
-                        <?php if (!empty($error)) : ?>
-                            <div class="alert alert-danger alert-dismissible fade show mb-4">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                <?= htmlspecialchars($error); ?>
-                            </div>
-                        <?php endif; ?>
-
-                        <div class="card card-navy">
-                            <div class="card-header text-white">
-                                <h3 class="text-lg">
-                                    <?= isset($tanah) ? 'Edit Data Tanah' : 'Formulir Tambah Data Tanah' ?>
-                                </h3>
-                            </div>
-
-                            <form action="<?= isset($tanah) ? '/admin/prasarana/tanah?edit=' . htmlspecialchars($tanah['id']) : '/admin/prasarana/tanah/tambah' ?>" method="POST" enctype="multipart/form-data">
-                                <?php if (isset($tanah)) : ?>
-                                    <input type="hidden" name="id" value="<?= htmlspecialchars($tanah['id']) ?>">
-                                <?php else : ?>
-                                <?php endif; ?>
-
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="col-12 mb-5">
-                                                <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    IDENTITAS TANAH
-                                                </h5>
-                                                <div class="form-group mb-4">
-                                                    <label for="kode_aset" class="font-weight-bold">Kode Aset Tanah</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-barcode text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="kode_aset" name="kode_aset"
-                                                            placeholder="Contoh: T001"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['kode_aset']) : '' ?>"
-                                                            <?= isset($tanah) && !empty($tanah['kode_aset']) ? 'readonly' : '' ?>
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="nama_aset" class="font-weight-bold">Nama Aset Tanah</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-landmark text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="nama_aset" name="nama_aset"
-                                                            placeholder="Contoh: Tanah Kampus Satu"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['nama_aset']) : '' ?>"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="luas" class="font-weight-bold">Luas Tanah (m²)</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-ruler-combined text-primary"></i></span>
-                                                        </div>
-                                                        <input type="number" class="form-control" id="luas" name="luas"
-                                                            placeholder="Masukkan luas tanah dalam meter persegi"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['luas']) : '' ?>"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="lokasi" class="font-weight-bold">Lokasi Tanah</label>
-                                                    <textarea class="form-control" id="lokasi" name="lokasi" rows="2"
-                                                        placeholder="Contoh: Jalan raya cigugur no. 14"
-                                                        required><?= isset($tanah) ? htmlspecialchars($tanah['lokasi']) : '' ?></textarea>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="nomor_sertifikat" class="font-weight-bold">Nomor Sertifikat</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-certificate text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="nomor_sertifikat" name="nomor_sertifikat"
-                                                            placeholder="Masukan nomor sertifikat"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['nomor_sertifikat']) : '' ?>"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="jenis_aset_id" class="font-weight-bold">Jenis Aset Tanah</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-tags text-primary"></i></span>
-                                                        </div>
-                                                        <select class="form-control" id="jenis_aset_id" name="jenis_aset_id" required>
-                                                            <option value="" disabled <?= !isset($tanah['jenis_aset_id']) ? 'selected' : '' ?>>Pilih jenis aset tanah</option>
-                                                            <?php if (isset($jenisAsetId) && is_array($jenisAsetId)) : ?>
-                                                                <?php foreach ($jenisAsetId as $ja_id) : ?>
-                                                                    <option value="<?= htmlspecialchars($ja_id['id']) ?>" <?= (isset($tanah) && $tanah['jenis_aset_id'] == $ja_id['id']) ? 'selected' : '' ?>>
-                                                                        <?= htmlspecialchars($ja_id['jenis_aset']) ?>
-                                                                    </option>
-                                                                <?php endforeach; ?>
-                                                            <?php endif; ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="tgl_pajak" class="font-weight-bold">Tanggal Pajak</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-calendar-alt text-primary"></i></span>
-                                                        </div>
-                                                        <input type="date" class="form-control" id="tgl_pajak" name="tgl_pajak"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['tgl_pajak']) : '' ?>"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 ">
-                                                <h5 class="border-bottom pb-2 mb-3 text-bold">
-                                                    FUNGSI DAN KETERANGAN
-                                                </h5>
-                                                <div class="form-group mb-4">
-                                                    <label for="fungsi" class="font-weight-bold">Fungsi tanah</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-cogs text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="fungsi" name="fungsi"
-                                                            placeholder="Masukan fungsi tanah"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['fungsi']) : '' ?>"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-4">
-                                                    <label for="keterangan" class="font-weight-bold">Keterangan</label>
-                                                    <div class="input-group">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text bg-light"><i class="fas fa-info-circle text-primary"></i></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" id="keterangan" name="keterangan"
-                                                            placeholder="Masukan keterangan"
-                                                            value="<?= isset($tanah) ? htmlspecialchars($tanah['keterangan']) : '' ?>"
-                                                            required>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card-footer text-right">
-                                    <a href="<?= isset($tanah) && isset($tanah['id']) ? ('/admin/prasarana/tanah?detail=' . htmlspecialchars($tanah['id'])) : '/admin/prasarana/tanah' ?>" class="btn btn-secondary">
-                                        <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
-                                    </a>
-                                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                                        <i class="fas fa-save mr-2"></i>
-                                        <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <?php include './app/Views/Components/footer.php'; ?>
-    </div>
-
-    <?php include './app/Views/Components/script.php'; ?>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const namaAsetInput = document.getElementById('nama_aset');
-            const kodeAsetInput = document.getElementById('kode_aset');
-
-            <?php if (!isset($tanah)) : ?>
-                namaAsetInput.addEventListener('input', function() {
-                    let namaAset = namaAsetInput.value.trim();
-                    if (namaAset.length > 0) {
-                        let singkatan = namaAset
-                            .split(' ')
-                            .filter(kata => kata.length > 0)
-                            .map(kata => kata.charAt(0).toUpperCase())
-                            .join('');
-                        let kodeAset = `TNH-${singkatan}`; // Anda bisa sesuaikan prefix jika perlu
-                        kodeAsetInput.value = kodeAset;
-                    } else {
-                        kodeAsetInput.value = '';
-                    }
-                });
-            <?php else : ?>
-                if (kodeAsetInput.value.trim() !== '') {
-                    // kodeAsetInput.setAttribute('readonly', 'readonly'); // Dihapus agar tetap bisa diedit manual jika diperlukan, namun tidak diubah oleh nama_aset
-                }
+    <div class="content-wrapper mb-5 pt-3 px-4 ">
+      <div class="container-fluid ">
+        <div class="row justify-content-center ">
+          <div class="col-12 ">
+            <?php if (!empty($error)) : ?>
+              <div class="alert alert-danger alert-dismissible fade show mb-4">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <?= htmlspecialchars($error); ?>
+              </div>
             <?php endif; ?>
 
-            const fileSertifikatInput = document.getElementById('file_sertifikat');
-            if (fileSertifikatInput) {
-                fileSertifikatInput.addEventListener('change', function(e) {
-                    var fileName = e.target.files[0]?.name || 'Pilih File Sertifikat...';
-                    var nextSibling = e.target.nextElementSibling;
-                    if (nextSibling && nextSibling.classList.contains('custom-file-label')) {
-                        nextSibling.innerText = fileName;
-                    }
-                });
-            }
-        });
-    </script>
+            <?php if (isset($_SESSION['update'])) : ?>
+              <div class="alert alert-success alert-dismissible fade show mb-4">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <?= htmlspecialchars($_SESSION['update']); ?>
+              </div>
+              <?php unset($_SESSION['update']); ?>
+            <?php endif; ?>
+
+            <div class="card bg-">
+              <div class="card-header bg-navy mb-3">
+                <h1 class="text-xl font-weight-bold">
+                  <?= isset($tanah) ? 'EDIT DATA TANAH' : 'FORMULIR TAMBAH DATA TANAH' ?>
+                </h1>
+              </div>
+
+              <form action="<?= isset($tanah) ? '/admin/prasarana/tanah?edit=' . htmlspecialchars($tanah['id']) : '/admin/prasarana/tanah/tambah' ?>" method="POST" enctype="multipart/form-data">
+                <?php if (isset($tanah)) : ?>
+                  <input type="hidden" name="id" value="<?= htmlspecialchars($tanah['id']) ?>">
+                <?php endif; ?>
+
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12 border-bottom">
+                      <div class="border-bottom pb-2 mb-3">
+                        <h5 class="text-bold fs-4 text-navy">
+                          IDENTITAS TANAH
+                        </h5>
+                        <span class="form-text">Silahkan isi data identitas tanah dengan lengkap.</span>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="kode_aset" class="fw-bold">Kode Aset Tanah <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="kode_aset" name="kode_aset"
+                            placeholder="Contoh: PRS-TNH-001"
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['kode_aset']) : '' ?>"
+                            <?= isset($tanah) && !empty($tanah['kode_aset']) ? 'readonly' : '' ?>
+                            required>
+                          <span class="form-text">
+                            Masukan PRS-TNH-{nomor}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="nama_aset" class="fw-bold">Nama Aset Tanah <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="nama_aset" name="nama_aset"
+                            placeholder="Contoh: Tanah Kampus Dua"
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['nama_aset']) : '' ?>"
+                            required>
+                          <span class="form-text">
+                            Masukkan nama lengkap aset tanah.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="luas" class="fw-bold">Luas Tanah (m²) <span class="text-danger">*</span></label>
+                          <input type="number" class="form-control" id="luas" name="luas"
+                            placeholder="Contoh: 21"
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['luas']) : '' ?>"
+                            required>
+                          <span class="form-text">
+                            Masukkan luas tanah dalam satuan meter persegi .
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="lokasi" class="fw-bold">Lokasi Tanah <span class="text-danger">*</span></label>
+                          <textarea class="form-control" id="lokasi" name="lokasi" rows="2"
+                            placeholder="Contoh: Jl. Raya Cigugur, Kuningan, Kec. Kuningan, Kabupaten Kuningan, Jawa Barat 45511"
+                            required><?= isset($tanah) ? htmlspecialchars($tanah['lokasi']) : '' ?></textarea>
+                          <span class="form-text">
+                            Masukkan alamat lengkap lokasi tanah.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="nomor_sertifikat" class="fw-bold">Nomor Sertifikat <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="nomor_sertifikat" name="nomor_sertifikat"
+                            placeholder="Contoh: 12.34.56.78.9.01234"
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['nomor_sertifikat']) : '' ?>"
+                            required>
+                          <span class="form-text">
+                            Masukkan nomor sertifikat tanah yang valid.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="jenis_aset_id" class="fw-bold">Jenis Aset Tanah <span class="text-danger">*</span></label>
+                          <select class="form-control" id="jenis_aset_id" name="jenis_aset_id" required>
+                            <option value="" disabled <?= !isset($tanah['jenis_aset_id']) ? 'selected' : '' ?>>Pilih jenis aset tanah</option>
+                            <?php if (isset($jenisAsetId) && is_array($jenisAsetId)) : ?>
+                              <?php foreach ($jenisAsetId as $ja_id) : ?>
+                                <option value="<?= htmlspecialchars($ja_id['id']) ?>" <?= (isset($tanah) && $tanah['jenis_aset_id'] == $ja_id['id']) ? 'selected' : '' ?>>
+                                  <?= htmlspecialchars($ja_id['jenis_aset']) ?>
+                                </option>
+                              <?php endforeach; ?>
+                            <?php endif; ?>
+                          </select>
+                          <span class="form-text">
+                            Pilih jenis aset tanah dari daftar yang tersedia.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="tgl_pajak" class="fw-bold">Tanggal Pajak <span class="text-danger">*</span></label>
+                          <input type="date" class="form-control" id="tgl_pajak" name="tgl_pajak"
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['tgl_pajak']) : '' ?>"
+                            required>
+                          <span class="form-text">
+                            Masukkan tanggal pajak tanah.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-12 mt-4">
+                      <div class="border-bottom pb-2 mb-3">
+                        <h5 class="text-bold fs-4 text-navy">
+                          FUNGSI DAN KETERANGAN
+                        </h5>
+                        <span class="form-text">Isi data fungsi dan keterangan tanah.</span>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="fungsi" class="fw-bold">Fungsi Tanah <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="fungsi" name="fungsi"
+                            placeholder="Digunakan untuk lahan kampus dua."
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['fungsi']) : '' ?>"
+                            required>
+                          <span class="form-text">
+                            Jelaskan fungsi utama dari tanah ini.
+                          </span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="keterangan" class="fw-bold">Keterangan <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="keterangan" name="keterangan"
+                            placeholder="Masukan keterangan"
+                            value="<?= isset($tanah) ? htmlspecialchars($tanah['keterangan']) : '' ?>"
+                            required>
+                          <span class="form-text">
+                            Tambahkan keterangan tambahan jika diperlukan.
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card-footer text-right">
+                    <a href="<?= isset($tanah) && isset($tanah['id']) ? ('/admin/prasarana/tanah?detail=' . htmlspecialchars($tanah['id'])) : '/admin/prasarana/tanah' ?>" class="btn btn-secondary">
+                      <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                      <i class="fas fa-save mr-2"></i>
+                      <?= isset($tanah) ? 'Update Data Tanah' : 'Simpan Data Tanah' ?>
+                    </button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <?php include './app/Views/Components/footer.php'; ?>
+  </div>
+
+  <?php include './app/Views/Components/script.php'; ?>
+
 
 </body>
 

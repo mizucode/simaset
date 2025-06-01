@@ -401,7 +401,7 @@
           const qrBaseUrl = "<?= $BaseUrlQr; ?>";
 
           // Path yang diinginkan setelah base URL
-          const qrPath = `/admin/sarana/bergerak?detail=${itemId}`;
+          const qrPath = `/admin/sarana/bergerak?edit=${itemId}`;
 
           // Gabungkan untuk mendapatkan konten QR final
           const finalQrText = qrBaseUrl + qrPath;

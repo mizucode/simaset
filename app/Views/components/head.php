@@ -108,6 +108,11 @@
       position: relative;
     }
 
+    /* Membuat baris yang berisi kontrol length dan filter sejajar secara vertikal di tengah */
+    .dataTables_wrapper>.row:first-child {
+      align-items: center;
+    }
+
     /* Style untuk bagian filter dan length */
     .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper .dataTables_filter {
@@ -125,8 +130,8 @@
       border: 1px solid #ced4da !important;
       border-radius: 4px !important;
       padding: 6px 12px !important;
-      margin-left: 5px !important;
-      margin-top: 5px;
+      /* margin-left: 5px !important; /* Sudah diatur oleh gap pada label */
+      /* margin-top: 5px; /* Penjajaran vertikal diatur oleh align-items pada .row dan label */
       width: 250px !important;
       height: 34px !important;
     }
@@ -135,26 +140,28 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      gap: 5px;
+      /* Jarak konsisten antara label "Cari:" dan input */
     }
 
     /* Style untuk length menu */
     .dataTables_length {
       float: left !important;
-      padding-top: 5px;
+      /* padding-top: 0; /* Pastikan tidak ada padding atas tambahan */
     }
 
     .dataTables_length label {
       display: flex;
       align-items: center;
       margin-bottom: 0;
+      /* Pastikan label dan select sejajar dan rapi */
+      gap: 5px;
+      /* Jarak antara label "Tampilkan", select, dan label "entri" */
     }
 
     .dataTables_length select {
       border: 1px solid #ced4da !important;
       border-radius: 4px !important;
-      padding: 4px 8px !important;
-      margin: 0 5px !important;
-
       height: 34px !important;
       width: auto !important;
     }

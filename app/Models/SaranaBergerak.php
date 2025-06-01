@@ -70,6 +70,7 @@ class SaranaBergerak {
     $keterangan,
     $biaya_pembelian,
     $tanggal_pembelian,
+    $status // Tambahkan parameter status
   ) {
     $fields = [
       'kategori_barang_id' => $kategori_barang_id,
@@ -85,6 +86,7 @@ class SaranaBergerak {
       'keterangan' => $keterangan,
       'biaya_pembelian' => $biaya_pembelian,
       'tanggal_pembelian' => $tanggal_pembelian,
+      'status' => $status, // Tambahkan status ke array fields
     ];
 
     $columns = implode(', ', array_keys($fields));

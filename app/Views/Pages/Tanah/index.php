@@ -30,7 +30,7 @@
 
               <div class="card-body p-3">
                 <div class="table-responsive">
-                  <table id="tanahTable" class="table table-bordered table-hover w-100">
+                  <table id="tanahTable" class="table table-bordered w-100">
                     <thead class="bg-gray-100">
                       <tr class="text-center align-middle">
                         <th width="5%">No</th>
@@ -54,7 +54,6 @@
                                 <a href="/admin/prasarana/tanah?detail=<?= $td['id']; ?>" class="btn btn-info btn-sm">
                                   <i class="fas fa-eye mr-1"></i> Detail
                                 </a>
-
                               </div>
                             </td>
                           </tr>
@@ -67,14 +66,6 @@
                     </tbody>
                   </table>
                 </div>
-                <!-- Informasi jumlah data dari view lama (opsional, karena DataTable sudah punya info) -->
-                <!-- <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="dataTables_info">
-                            Menampilkan <?= !empty($tanahData) ? count($tanahData) : 0 ?> data
-                        </div>
-                    </div>
-                </div> -->
               </div>
             </div>
           </div>
@@ -82,15 +73,13 @@
       </div>
     </div>
 
-    <?php include './app/Views/Components/footer.php'; // Pastikan nama file footer benar 
-    ?>
+    <?php include './app/Views/Components/footer.php'; ?>
   </div>
 
   <?php include './app/Views/Components/script.php'; ?>
 
   <script>
     $(function() {
-      // Inisialisasi DataTable
       $("#tanahTable").DataTable({
         "responsive": true,
         "lengthChange": true,
@@ -98,6 +87,11 @@
         "paging": true,
         "info": true,
         "searching": true,
+        "columnDefs": [{
+          "targets": [4], // Target kolom No (0) dan Aksi (4)
+          "searchable": false, // Nonaktifkan pencarian
+          "orderable": false // Nonaktifkan pengurutan
+        }],
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -118,7 +112,6 @@
             "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
             "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
           },
-          // ... (sisa konfigurasi bahasa lainnya jika diperlukan, bisa disalin dari template Anda)
           "searchPlaceholder": "kata kunci pencarian",
           "thousands": "."
         },
@@ -126,8 +119,8 @@
             extend: 'copy',
             title: 'Data Aset Tanah',
             exportOptions: {
-              columns: [0, 1, 2, 3]
-            } // Kolom yang diexport (tanpa Aksi)
+              columns: [0, 1, 2, 3] // Hanya ekspor kolom 0-3 (termasuk No)
+            }
           },
           {
             extend: 'csv',
