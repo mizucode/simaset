@@ -23704,3 +23704,432 @@ Stack trace:
 #1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
 #2 {main}
   thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:27:14 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:27:14 UTC] PHP Stack trace:
+[02-Jun-2025 04:27:14 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:27:14 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:27:14 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:27:14 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:27:15 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:27:15 UTC] PHP Stack trace:
+[02-Jun-2025 04:27:15 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:27:15 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:27:15 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:27:15 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:27:20 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:27:20 UTC] PHP Stack trace:
+[02-Jun-2025 04:27:20 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:27:20 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:27:20 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:27:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:33:50 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:33:50 UTC] PHP Stack trace:
+[02-Jun-2025 04:33:50 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:33:50 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:33:50 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:33:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:29 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:29 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:29 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:29 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:29 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:29 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:29 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:29 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:29 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:29 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:29 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:29 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:36 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:36 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:36 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:36 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:36 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:36 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:38 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:38 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:38 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:38 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:38 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:38 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:40 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:40 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:40 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:40 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:40 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:40 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:42 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:42 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:42 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:42 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:42 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:42 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:50 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:35:50 UTC] PHP Stack trace:
+[02-Jun-2025 04:35:50 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:35:50 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:35:50 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:35:50 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:36:26 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:36:26 UTC] PHP Stack trace:
+[02-Jun-2025 04:36:26 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:36:26 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:36:26 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:36:26 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:37:48 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:37:48 UTC] PHP Stack trace:
+[02-Jun-2025 04:37:48 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:37:48 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:37:48 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:37:48 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:37:57 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:37:57 UTC] PHP Stack trace:
+[02-Jun-2025 04:37:57 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:37:57 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:37:57 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:37:57 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:39:27 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:39:27 UTC] PHP Stack trace:
+[02-Jun-2025 04:39:27 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:39:27 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:39:27 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:39:27 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:07 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:07 UTC] PHP Stack trace:
+[02-Jun-2025 04:43:07 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:43:08 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:43:08 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:43:08 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:08 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:08 UTC] PHP Stack trace:
+[02-Jun-2025 04:43:08 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:43:08 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:43:08 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:43:08 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:10 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:10 UTC] PHP Stack trace:
+[02-Jun-2025 04:43:10 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:43:10 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:43:10 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:43:10 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:12 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:43:12 UTC] PHP Stack trace:
+[02-Jun-2025 04:43:12 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:43:12 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:43:12 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:43:12 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:44:22 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:44:22 UTC] PHP Stack trace:
+[02-Jun-2025 04:44:22 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:44:22 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:44:22 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:44:22 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:44:23 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:44:23 UTC] PHP Stack trace:
+[02-Jun-2025 04:44:23 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:44:23 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:44:23 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:44:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:44:25 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:44:25 UTC] PHP Stack trace:
+[02-Jun-2025 04:44:25 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:44:25 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:44:25 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:44:25 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:13 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:13 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:13 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:13 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:13 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:13 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:15 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:15 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:15 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:15 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:15 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:15 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:20 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:20 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:20 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:20 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:20 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:20 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:24 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:24 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:24 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:24 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:24 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:43 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:43 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:43 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:43 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:43 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:43 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:46 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:46 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:46 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:46 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:46 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:46 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:51 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:45:51 UTC] PHP Stack trace:
+[02-Jun-2025 04:45:51 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:45:51 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:45:51 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:45:51 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:46:10 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:46:10 UTC] PHP Stack trace:
+[02-Jun-2025 04:46:10 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:46:10 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:46:10 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:46:10 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:46:14 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:46:14 UTC] PHP Stack trace:
+[02-Jun-2025 04:46:14 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:46:14 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:46:14 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:46:14 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:47:27 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:47:27 UTC] PHP Stack trace:
+[02-Jun-2025 04:47:27 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:47:27 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:47:27 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:47:27 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:47:28 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:47:28 UTC] PHP Stack trace:
+[02-Jun-2025 04:47:28 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:47:28 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:47:28 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:47:28 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:30 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:30 UTC] PHP Stack trace:
+[02-Jun-2025 04:48:30 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:48:30 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:48:30 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:48:30 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:30 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:30 UTC] PHP Stack trace:
+[02-Jun-2025 04:48:30 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:48:30 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:48:30 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:48:30 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:43 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:43 UTC] PHP Stack trace:
+[02-Jun-2025 04:48:43 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:48:43 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:48:43 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:48:43 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:43 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:48:43 UTC] PHP Stack trace:
+[02-Jun-2025 04:48:43 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:48:43 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:48:43 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:48:43 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:54:23 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:54:23 UTC] PHP Stack trace:
+[02-Jun-2025 04:54:23 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:54:23 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:54:23 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:54:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:54:23 UTC] PHP Warning:  require(D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php): Failed to open stream: No such file or directory in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
+[02-Jun-2025 04:54:23 UTC] PHP Stack trace:
+[02-Jun-2025 04:54:23 UTC] PHP   1. {main}() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:0
+[02-Jun-2025 04:54:23 UTC] PHP   2. Router->route() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php:77
+[02-Jun-2025 04:54:23 UTC] PHP   3. Router->notFound() D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:158
+[02-Jun-2025 04:54:23 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config/404.php' (include_path='.;C:\php\pear') in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php:254
+Stack trace:
+#0 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php(158): Router->notFound()
+#1 D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\index.php(77): Router->route()
+#2 {main}
+  thrown in D:\01 Kerja\Website\APLIKASI INVENTORI\simaset\config\route.php on line 254
