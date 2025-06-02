@@ -55,6 +55,15 @@
                       </div>
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
+                        <!-- Kode Ruang -->
+                        <div class="form-group">
+                          <label for="kode_ruang" class="fw-bold">Kode Ruang <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Contoh: R-GEDUNA-RKA" value="<?= isset($ruang['kode_ruang']) ? htmlspecialchars($ruang['kode_ruang']) : '' ?>" required>
+                          <span class="form-text">Masukkan kode unik untuk ruang.</span>
+                        </div>
+                      </div>
+
+                      <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Gedung -->
                         <div class="form-group">
                           <label for="gedung_id" class="fw-bold">Gedung <span class="text-danger">*</span></label>
@@ -95,14 +104,7 @@
                         </div>
                       </div>
 
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <!-- Kode Ruang -->
-                        <div class="form-group">
-                          <label for="kode_ruang" class="fw-bold">Kode Ruang <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Contoh: R-GEDUNA-RKA" value="<?= isset($ruang['kode_ruang']) ? htmlspecialchars($ruang['kode_ruang']) : '' ?>" required>
-                          <span class="form-text">Masukkan kode unik untuk ruang.</span>
-                        </div>
-                      </div>
+
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Nama Ruang -->

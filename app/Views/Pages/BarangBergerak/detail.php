@@ -18,7 +18,6 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title text-lg">
                     Detail Barang Bergerak
-                    <?= $BaseUrlQr ?>
 
                   </h3>
                   <div class="text-right">
@@ -90,6 +89,13 @@
                           </h5>
                         </div>
                         <div class="info-box bg-light">
+                          <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">No Registrasi</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['no_registrasi'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
                           <span class="info-box-icon bg-info"><i class="fas fa-box-open"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Nama Barang</span>
@@ -114,7 +120,7 @@
                           <span class="info-box-icon bg-success"><i class="fas fa-clipboard-check"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Kondisi</span>
-                            <span class="info-box-text"><?= htmlspecialchars($detailData['nama_kondisi'] ?? '-') ?></span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['kondisi'] ?? '-') ?></span>
                           </div>
                         </div>
                         <div class="info-box bg-light">
@@ -266,14 +272,15 @@
                           <div class="card-body d-flex flex-column">
                             <h6 class="card-title text-center mb-3 text-truncate" title="<?= $namaDokumenGambar ?>"><?= $namaDokumenGambar ?></h6>
                             <div class="mt-auto text-center">
-                              <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
-                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
-                                <i class="fas fa-trash"></i> Hapus
-                              </button>
                               <a href="/admin/sarana/bergerak?preview-gambar=<?= $idGambar ?>"
                                 class="btn btn-sm btn-primary" title="Lihat" target="_blank">
                                 <i class="fas fa-eye"></i> Lihat
                               </a>
+                              <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
+                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
+                                <i class="fas fa-trash"></i> Hapus
+                              </button>
+
                             </div>
                           </div>
                         </div>

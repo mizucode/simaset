@@ -40,21 +40,7 @@
                         <span class="form-text">Silahkan perbarui data identitas lapang dengan lengkap.</span>
                       </div>
 
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <!-- Jenis Aset -->
-                        <div class="form-group">
-                          <label for="jenis_aset_id" class="fw-bold">Jenis Aset <span class="text-danger">*</span></label>
-                          <select class="form-control" id="jenis_aset_id" name="jenis_aset_id" required>
-                            <option value="" disabled>Pilih Jenis Aset</option>
-                            <?php foreach ($jenisAsetList as $jenisAset): ?>
-                              <option value="<?= $jenisAset['id'] ?>" <?= $jenisAset['id'] == $lapang['jenis_aset_id'] ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($jenisAset['jenis_aset']) ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
-                          <span class="form-text">Pilih klasifikasi jenis aset untuk lapang ini.</span>
-                        </div>
-                      </div>
+
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Kode Lapang -->
@@ -145,6 +131,21 @@
                           INFORMASI TAMBAHAN
                         </h5>
                         <span class="form-text">Isi fungsi utama dan keterangan tambahan jika ada.</span>
+                      </div>
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <!-- Jenis Aset -->
+                        <div class="form-group">
+                          <label for="jenis_aset_id" class="fw-bold">Jenis Aset <span class="text-danger">*</span></label>
+                          <select class="form-control" id="jenis_aset_id" name="jenis_aset_id" required>
+                            <option value="" disabled>Pilih Jenis Aset</option>
+                            <?php foreach ($jenisAsetList as $jenisAset): ?>
+                              <option value="<?= $jenisAset['id'] ?>" <?= $jenisAset['id'] == $lapang['jenis_aset_id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($jenisAset['jenis_aset']) ?>
+                              </option>
+                            <?php endforeach; ?>
+                          </select>
+                          <span class="form-text">Pilih klasifikasi jenis aset untuk lapang ini.</span>
+                        </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Fungsi -->

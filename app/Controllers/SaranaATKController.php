@@ -115,6 +115,11 @@ class SaranaATKController {
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $keterangan = $_POST['keterangan'] ?? null;
+      // Ambil status dan detail peminjam dari POST atau data sarana yang ada
+      $status = $_POST['status'] ?? $sarana['status'] ?? 'Tersedia';
+      $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
+      $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
+      $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
 
 
       try {
@@ -134,7 +139,10 @@ class SaranaATKController {
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan,
-
+          $status,
+          $nama_peminjam,
+          $identitas_peminjam,
+          $no_hp_peminjam
         );
 
         $message = $success ? 'Data sarana ATK berhasil diperbarui.' : 'Gagal memperbarui data sarana ATK.';

@@ -88,10 +88,24 @@
                           </h5>
                         </div>
                         <div class="info-box bg-light">
+                          <span class="info-box-icon bg-success"><i class="fas fa-id-card"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">No Registrasi</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['no_registrasi'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
                           <span class="info-box-icon bg-info"><i class="fas fa-box-open"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Nama Barang</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['nama_detail_barang'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
+                          <span class="info-box-icon bg-success"><i class="fas fa-id-card"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">Jenis Barang</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['nama_barang'] ?? '-') ?></span>
                           </div>
                         </div>
                         <div class="info-box bg-light">

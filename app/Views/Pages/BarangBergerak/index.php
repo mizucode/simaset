@@ -17,11 +17,7 @@
                 <h3 class="h4 mb-0">
                   Data Sarana Bergerak
                 </h3>
-                <!-- <a href="/admin/sarana/bergerak/tambah" class="btn btn-warning btn-sm ml-auto">
-                                        <div class="text-dark">
-                                            <i class="fas fa-plus mr-1"></i> Tambah Data
-                                        </div>
-                                    </a> -->
+
                 <a href="/admin/sarana/bergerak/download-qr" class="btn btn-success btn-sm ml-auto">
                   <div class="">
                     <i class="fas fa-save mr-1"></i> Download QR Code

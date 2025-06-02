@@ -98,7 +98,14 @@
                           <span class="info-box-icon bg-info"><i class="fas fa-couch"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Nama Barang</span>
-                            <span class="info-box-text"><?= htmlspecialchars($namaBarang) ?></span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['nama_detail_barang'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
+                          <span class="info-box-icon bg-info"><i class="fas fa-tags"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">Jenis Barang</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['nama_barang'] ?? '-') ?></span>
                           </div>
                         </div>
                         <div class="info-box bg-light">
@@ -286,14 +293,15 @@
                           <div class="card-body d-flex flex-column">
                             <h6 class="card-title text-center mb-3 text-truncate" title="<?= $namaDokumenGambar ?>"><?= $namaDokumenGambar ?></h6>
                             <div class="mt-auto text-center">
-                              <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
-                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', 'mebelair')">
-                                <i class="fas fa-trash"></i> Hapus
-                              </button>
                               <a href="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>"
                                 class="btn btn-sm btn-primary" title="Lihat" target="_blank">
                                 <i class="fas fa-eye"></i> Lihat
                               </a>
+                              <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
+                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', 'mebelair')">
+                                <i class="fas fa-trash"></i> Hapus
+                              </button>
+
                             </div>
                           </div>
                         </div>

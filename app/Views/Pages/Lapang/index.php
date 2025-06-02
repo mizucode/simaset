@@ -23,55 +23,48 @@
                   </div>
                 </a>
               </div>
-            </div>
-
-            <div class="card-body p-3">
-              <div class="table-responsive">
-                <table id="lapangTable" class="table table-bordered w-100">
-                  <thead class="bg-gray-100">
-                    <tr class="text-center align-middle">
-                      <th width="5%">No</th>
-                      <th width="15%">Kode Lapang</th>
-                      <th width="60%">Nama Lapang</th>
-                      <th width="15%">Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php if (!empty($lapangData)) : ?>
-                      <?php $counter = 1; ?>
-                      <?php foreach ($lapangData as $lapang) : ?>
-                        <tr class="align-middle">
-                          <td class="text-center"><?= $counter++; ?></td>
-                          <td class="text-center"><?= htmlspecialchars($lapang['kode_lapang'] ?? '-'); ?></td>
-                          <td><?= htmlspecialchars($lapang['nama_lapang'] ?? '-'); ?></td>
-                          <td class="text-center">
-                            <div class="d-flex justify-content-center gap-2">
-                              <a href="/admin/prasarana/lapang?detail=<?= $lapang['id']; ?>" class="btn btn-info btn-sm">
-                                <i class="fas fa-eye mr-1"></i> Detail
-                              </a>
-                            </div>
-                          </td>
-                        </tr>
-                      <?php endforeach; ?>
-                    <?php else : ?>
-                      <tr>
-                        <td colspan="4" class="text-center">Data tidak ditemukan</td>
+              <div class="card-body p-3">
+                <div class="table-responsive">
+                  <table id="lapangTable" class="table table-bordered w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th width="5%">No</th>
+                        <th width="15%">Kode Lapang</th>
+                        <th width="60%">Nama Lapang</th>
+                        <th width="15%">Aksi</th>
                       </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      <?php if (!empty($lapangData)) : ?>
+                        <?php $counter = 1; ?>
+                        <?php foreach ($lapangData as $lapang) : ?>
+                          <tr class="align-middle">
+                            <td class="text-center"><?= $counter++; ?></td>
+                            <td class="text-center"><?= htmlspecialchars($lapang['kode_lapang'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($lapang['nama_lapang'] ?? '-'); ?></td>
+                            <td class="text-center">
+                              <div class="d-flex justify-content-center gap-2">
+                                <a href="/admin/prasarana/lapang?detail=<?= $lapang['id']; ?>" class="btn btn-info btn-sm">
+                                  <i class="fas fa-eye mr-1"></i> Detail
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <?php require_once './app/Views/Components/footer.php'; ?>
+    <?php require_once './app/Views/Components/footer.php'; ?>
   </div>
   <?php require_once './app/Views/Components/script.php'; ?>
-
   <script>
     $(function() {
       $("#lapangTable").DataTable({
