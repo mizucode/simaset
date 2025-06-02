@@ -63,12 +63,10 @@
                                 Pilih atau ketik jenis barang elektronik
                               </option>
                               <?php foreach ($barangList as $barang): ?>
-                                <?php if ($barang['kategori_id'] == 4): ?>
-                                  <option value="<?= htmlspecialchars($barang['id']) ?>"
-                                    <?= isset($sarana['barang_id']) && $sarana['barang_id'] == $barang['id'] ? 'selected' : ''; ?>>
-                                    <?= htmlspecialchars($barang['nama_barang']) ?>
-                                  </option>
-                                <?php endif; ?>
+                                <option value="<?= htmlspecialchars($barang['id']) ?>"
+                                  <?= isset($sarana['barang_id']) && $sarana['barang_id'] == $barang['id'] ? 'selected' : ''; ?>>
+                                  <?= htmlspecialchars($barang['nama_barang']) ?>
+                                </option>
                               <?php endforeach; ?>
                             </select>
                             <span class="form-text">Pilih jenis barang elektronik dari daftar atau ketik untuk mencari.</span>

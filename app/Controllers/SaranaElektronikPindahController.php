@@ -44,6 +44,11 @@ class SaranaElektronikPindahController {
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $keterangan = $_POST['keterangan'] ?? null;
+      // Ambil status dan detail peminjam dari POST atau data sarana yang ada
+      $status = $_POST['status'] ?? $sarana['status'] ?? 'Tersedia';
+      $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
+      $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
+      $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
 
       try {
         $success = SaranaElektronik::updateData(
@@ -62,13 +67,17 @@ class SaranaElektronikPindahController {
           $lokasi,
           $biaya_pembelian,
           $tanggal_pembelian,
-          $keterangan
+          $keterangan,
+          $status,
+          $nama_peminjam,
+          $identitas_peminjam,
+          $no_hp_peminjam
         );
 
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
         $_SESSION['update'] = $message;
 
-        header('Location: /admin/sarana/elektronik?detail=' . $id);
+        header('Location: /admin/sarana/elektronik/pindah');
         exit();
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();

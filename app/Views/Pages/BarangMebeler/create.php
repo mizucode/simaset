@@ -11,22 +11,22 @@
       <div class=" container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
-            <?php if (!empty($error)) : ?>
+            <?php if (!empty($_SESSION['error'])) : ?>
               <div class="alert alert-danger alert-dismissible fade show mb-4">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
-                <?= htmlspecialchars($error); ?>
+                <?= htmlspecialchars($_SESSION['error']); ?>
+                <?php unset($_SESSION['error']); ?>
               </div>
             <?php endif; ?>
-            <!-- Pesan sukses jika ada dari session (misalnya setelah tambah/edit) -->
-            <?php if (!empty($_SESSION['success_message'])) : ?>
+            <?php if (!empty($_SESSION['update'])) : ?>
               <div class="alert alert-success alert-dismissible fade show mb-4">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
-                <?= htmlspecialchars($_SESSION['success_message']); ?>
-                <?php unset($_SESSION['success_message']); ?>
+                <?= htmlspecialchars($_SESSION['update']); ?>
+                <?php unset($_SESSION['update']); ?>
               </div>
             <?php endif; ?>
 

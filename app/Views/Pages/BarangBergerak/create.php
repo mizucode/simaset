@@ -30,7 +30,7 @@
               <form action="/admin/sarana/bergerak/tambah" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="id">
                 <input type="hidden" name="kategori_barang_id" value="1" id="kategori_barang_id">
-                <input type="hidden" name="status" value="Terpakai">
+                <input type="hidden" name="status" value="Tersedia">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">

@@ -103,6 +103,13 @@
                           </div>
                         </div>
                         <div class="info-box bg-light">
+                          <span class="info-box-icon bg-success"><i class="fas fa-car"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">Jenis Barang</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['barang'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
                           <span class="info-box-icon bg-purple"><i class="fas fa-trademark"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Merk</span>

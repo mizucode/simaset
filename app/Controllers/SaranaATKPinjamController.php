@@ -71,6 +71,7 @@ class SaranaATKPinjamController {
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan,
+          $status, // Ditambahkan argumen status
           $nama_peminjam,
           $identitas_peminjam,
           $no_hp_peminjam

@@ -37,13 +37,17 @@ class SaranaMebelairPinjamController { // Renamed class
       $keterangan = $_POST['keterangan'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
+      // Ambil jumlah, satuan, dan bahan dari data sarana yang ada, karena tidak diubah di form pinjam
+      $jumlah = $sarana['jumlah'] ?? 1;
+      $satuan = $sarana['satuan'] ?? 'Unit';
+      $bahan = $sarana['bahan'] ?? null;
       $status = $_POST['status'] ?? $sarana['status'] ?? null;
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
 
       try {
-        $success = SaranaMebelair::updateData( // Changed model and removed no_polisi
+        $success = SaranaMebelair::updateData(
           $conn,
           $id,
           $kategori_barang_id,
@@ -54,7 +58,10 @@ class SaranaMebelairPinjamController { // Renamed class
           $merk,
           $spesifikasi,
           $sumber,
+          $jumlah, // Ditambahkan
+          $satuan, // Ditambahkan
           $lokasi,
+          $bahan,  // Ditambahkan
           $keterangan,
           $biaya_pembelian,
           $tanggal_pembelian,

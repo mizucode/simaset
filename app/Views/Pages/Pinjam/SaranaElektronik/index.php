@@ -77,10 +77,6 @@
 
                           </tr>
                         <?php endforeach; ?>
-                      <?php else : ?>
-                        <tr>
-                          <td colspan="8" class="text-center">Data tidak ditemukan</td>
-                        </tr>
                       <?php endif; ?>
                     </tbody>
                   </table>

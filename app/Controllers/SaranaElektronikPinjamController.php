@@ -60,7 +60,7 @@ class SaranaElektronikPinjamController {
           $kategori_barang_id,
           $barang_id,
           $kondisi_barang_id,
-          $sarana['no_registrasi'], // no_registrasi is not changed
+          $sarana['no_registrasi'],
           $nama_detail_barang,
           $merk,
           $spesifikasi,
@@ -71,6 +71,7 @@ class SaranaElektronikPinjamController {
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan_sarana,
+          $status, // Ditambahkan argumen status yang hilang
           $nama_peminjam,
           $identitas_peminjam,
           $no_hp_peminjam
