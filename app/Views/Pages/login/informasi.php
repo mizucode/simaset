@@ -157,8 +157,8 @@
           <!-- Table Header -->
           <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <div>
-              <h3 class="text-xl font-bold text-gray-800">Daftar Barang Tersedia</h3>
-              <p class="text-gray-600 mt-1">Total <?php echo count($saranaBergerak); ?> aset ditemukan</p>
+              <h3 class="text-xl font-bold text-gray-800">Daftar Barang Dipinjam</h3>
+              <p class="text-gray-600 mt-1">Total <?php echo count($saranaDataPinjam); ?> aset ditemukan</p>
             </div>
             <div class="flex items-center space-x-2">
               <div class="relative">
@@ -202,7 +202,7 @@
                   </th>
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                     <div class="flex items-center">
-                      Kondisi
+                      Status
 
                     </div>
                   </th>
@@ -213,34 +213,31 @@
                     </div>
                   </th>
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                    Keterangan
+                    Nama Peminjam
                   </th>
 
                 </tr>
               </thead>
               <tbody class="bg-white divide-y divide-gray-200">
-                <?php if (!empty($saranaBergerak)): ?>
-                  <?php foreach ($saranaBergerak as $index => $barang): ?>
+                <?php if (!empty($saranaDataPinjam)): ?>
+                  <?php foreach ($saranaDataPinjam as $index => $barang): ?>
                     <tr class="hover:bg-gray-50 transition-colors">
                       <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo $index + 1; ?></td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($barang['nama_detail_barang']); ?></div>
-                        <div class="text-xs text-gray-500">Kode: <?php echo htmlspecialchars($barang['kode_barang'] ?? '-'); ?></div>
+                        <div class="text-xs text-gray-500">Kode: <?php echo htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">Sarana Bergerak</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs"><?php echo htmlspecialchars($barang['kategori'] ?? '-'); ?></span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap">
                         <?php
-                        $kondisi = htmlspecialchars($barang['kondisi']);
-                        $kondisiClass = 'bg-green-100 text-green-800';
-                        if (strpos($kondisi, 'Rusak') !== false) {
-                          $kondisiClass = 'bg-red-100 text-red-800';
-                        } elseif (strpos($kondisi, 'Perbaikan') !== false) {
-                          $kondisiClass = 'bg-yellow-100 text-yellow-800';
-                        }
+                        // On this page, $barang['status'] is expected to be 'Dipinjam'
+                        // due to the controller logic (PagesController@informasi).
+                        $status_text = htmlspecialchars($barang['status'] ?? 'Status Tidak Diketahui');
+                        $status_class = 'bg-yellow-100 text-yellow-800'; // Class for 'Dipinjam'
                         ?>
-                        <span class="px-2 py-1 <?php echo $kondisiClass; ?> rounded-full text-xs"><?php echo $kondisi; ?></span>
+                        <span class="px-2 py-1 <?php echo $status_class; ?> rounded-full text-xs"><?php echo $status_text; ?></span>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                         <div class="flex items-center">
@@ -248,15 +245,15 @@
                           <?php echo htmlspecialchars($barang['lokasi']); ?>
                         </div>
                       </td>
-                      <td class="px-6 py-4 text-sm text-gray-600 max-w-xs">
-                        <?php echo htmlspecialchars($barang['keterangan']); ?>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                        <?php echo htmlspecialchars($barang['nama_peminjam'] ?? '-'); ?>
                       </td>
 
                     </tr>
                   <?php endforeach; ?>
                 <?php else: ?>
                   <tr>
-                    <td colspan="7" class="px-6 py-12 text-center">
+                    <td colspan="6" class="px-6 py-12 text-center">
                       <div class="flex flex-col items-center justify-center text-gray-500">
                         <i class="fas fa-box-open text-4xl mb-4 opacity-50"></i>
                         <p class="text-lg font-medium">Tidak ada data aset yang ditemukan</p>
@@ -273,7 +270,117 @@
           <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between">
             <div class="mb-4 md:mb-0">
               <p class="text-sm text-gray-600">
-                Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">10</span> dari <span class="font-medium"><?php echo count($saranaBergerak); ?></span> hasil
+                Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">10</span> dari <span class="font-medium"><?php echo count($saranaDataPinjam); ?></span> hasil
+              </p>
+            </div>
+
+          </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-card overflow-hidden mt-10">
+          <!-- Table Header -->
+          <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+            <div>
+              <h3 class="text-xl font-bold text-gray-800">Daftar Barang Tersedia</h3>
+              <p class="text-gray-600 mt-1">Total <?php echo count($saranaDataTersedia); ?> aset ditemukan</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <div class="relative">
+                <select class="appearance-none bg-gray-50 border border-gray-300 text-gray-700 py-2 pl-3 pr-8 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-sm">
+                  <option>10 per halaman</option>
+                  <option>25 per halaman</option>
+                  <option>50 per halaman</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+              </div>
+              <button class="bg-primary hover:bg-primary-dark text-white p-2 rounded-md transition-colors">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Content -->
+          <div class="overflow-x-auto table-responsive">
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50 sticky-header">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    <div class="flex items-center">
+                      No
+                    </div>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    <div class="flex items-center">
+                      Nama Barang
+                    </div>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    <div class="flex items-center">
+                      Kategori
+                    </div>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    <div class="flex items-center">
+                      Status
+                    </div>
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    <div class="flex items-center">
+                      Lokasi
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <?php if (!empty($saranaDataTersedia)): ?>
+                  <?php foreach ($saranaDataTersedia as $index => $barang): ?>
+                    <tr class="hover:bg-gray-50 transition-colors">
+                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><?php echo $index + 1; ?></td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($barang['nama_detail_barang']); ?></div>
+                        <div class="text-xs text-gray-500">Kode: <?php echo htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs"><?php echo htmlspecialchars($barang['kategori'] ?? '-'); ?></span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <?php
+                        // On this page, $barang['status'] is expected to be 'Dipinjam'
+                        // due to the controller logic (PagesController@informasi).
+                        $status_text = htmlspecialchars($barang['status'] ?? 'Status Tidak Diketahui');
+                        $status_class = 'bg-yellow-100 text-yellow-800'; // Class for 'Dipinjam'
+                        ?>
+                        <span class="px-2 py-1 <?php echo $status_class; ?> rounded-full text-xs"><?php echo $status_text; ?></span>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                        <div class="flex items-center">
+                          <i class="fas fa-map-marker-alt text-gray-400 mr-2"></i>
+                          <?php echo htmlspecialchars($barang['lokasi']); ?>
+                        </div>
+                      </td>
+                    </tr>
+                  <?php endforeach; ?>
+                <?php else: ?>
+                  <tr>
+                    <td colspan="5" class="px-6 py-12 text-center">
+                      <div class="flex flex-col items-center justify-center text-gray-500">
+                        <i class="fas fa-box-open text-4xl mb-4 opacity-50"></i>
+                        <p class="text-lg font-medium">Tidak ada data aset yang ditemukan</p>
+                        <p class="text-sm mt-1">Coba gunakan filter yang berbeda atau <a href="#" class="text-primary hover:underline">reset filter</a></p>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endif; ?>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Table Footer -->
+          <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex flex-col md:flex-row items-center justify-between">
+            <div class="mb-4 md:mb-0">
+              <p class="text-sm text-gray-600">
+                Menampilkan <span class="font-medium">1</span> sampai <span class="font-medium">10</span> dari <span class="font-medium"><?php echo count($saranaDataTersedia); ?></span> hasil
               </p>
             </div>
 

@@ -53,7 +53,7 @@
                                   <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
                                 </div>
                                 <div class="stk-favicon-wrapper">
-                                  <img src="/img/favicon.png" width="35" alt="Favicon">
+                                  <img src="/img/logo.svg" width="35" alt="Favicon">
                                 </div>
                               </div>
 

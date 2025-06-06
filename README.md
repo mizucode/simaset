@@ -21,7 +21,7 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 - **Menu Sarana Barang Bergerak** sudah berfungsi dengan baik ->
 - **Menu Sarana Barang Mebelair** sudah berfungsi dengan baik ->
 - **Menu Sarana Barang ATK** sudah berfungsi dengan baik ->
-- **Menu Sarana Barang Elektronik** sudah berfungsi dengan baik ->
+- **Menu Sarana Barang Elektronik** sudah berfungsi dengan baik -> CRUD telah direfactor.
 - **Menu Barang Daftar Barang** sudah berfungsi dengan baik ->
 - **Menu Barang Jenis Barang** sudah berfungsi dengan baik ->
 - **Menu Transaksi Barang** sudah berfungsi dengan baik ->
@@ -34,13 +34,12 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 
 ### 🚧 Dalam Proses
 
-- Sedang mengerjakan di **Menu ATK**
+- Tidak ada fitur yang sedang dikerjakan saat ini.
 
 ---
 
 ## 🛠️ Tahap Pengerjaan
 
-1. Refactor (clean code) CRUD pada **Menu Elektronik**
 1. Masih Banyak Bug di **Menu Survey Semesteran**
 
 ---

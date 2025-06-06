@@ -40,6 +40,10 @@
   <!-- jQuery (harus di load sebelum JS lainnya) -->
   <script src="/../../AdminLTE-3.2.0/plugins/jquery/jquery.min.js"></script>
 
+  <!-- FullCalendar CSS -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
+
 
   <!-- Style Tambahan -->
   <style>

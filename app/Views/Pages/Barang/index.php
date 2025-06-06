@@ -15,100 +15,69 @@
               <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
             <?php endif; ?>
 
+            <!-- Modal Konfirmasi Hapus -->
+
+
             <div class="card">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                <h3 class="h4">Ini Index</h3>
+                <h3 class="h4 mb-0">Daftar Jenis Barang</h3>
+                <a href="/admin/barang/jenis-barang/tambah" class="btn btn-warning btn-sm ml-auto">
+                  <div class="text-dark">
+                    <i class="fas fa-plus mr-1"></i> Tambah Data
+                  </div>
+                </a>
               </div>
 
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Kode Barang</th>
-                      <th>Nama Barang</th>
-                      <th>Kategori</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php if (!empty($allBarang)) : ?>
-                      <?php $counter = 1; ?>
-                      <?php foreach ($allBarang as $barang) : ?>
-                        <tr>
-                          <td><?= $counter++; ?></td>
-                          <td>
-                            <?= htmlspecialchars(
-                              !empty($barang['spesifikasi'])
-                                ? $barang['spesifikasi']
-                                : (!empty($barang['nama_barang_bergerak'])
-                                  ? $barang['nama_barang_bergerak']
-                                  : '-')
-                            ); ?>
-                          </td>
-                          <td><?= htmlspecialchars($barang['jumlah'] ?? '-'); ?></td>
-                          <td><?= htmlspecialchars($barang['merk'] ?? '-'); ?></td>
-                        </tr>
-                      <?php endforeach; ?>
-                    <?php else : ?>
-                      <tr>
-                        <td colspan="4" class="text-center">Data tidak ditemukan</td>
+                <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-sm table-hover w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th>No</th>
+                        <th>Kode Barang</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th width="15%">Aksi</th>
                       </tr>
-                    <?php endif; ?>
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      <?php if (!empty($jenisBarangData)) : ?>
+                        <?php $counter = 1; ?>
+                        <?php foreach ($jenisBarangData as $barang) : ?>
+                          <tr>
+                            <td><?= $counter++; ?></td>
+                            <td class="text-center"><?= htmlspecialchars($barang['kode_barang'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($barang['nama_barang'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($barang['nama_kategori'] ?? '-'); ?></td>
+                            <td class="text-center">
+                              <div class="d-flex justify-content-center gap-2">
+                                <button onclick="window.location.href='/admin/barang/jenis-barang?edit=<?= $barang['id']; ?>'" class="btn btn-warning btn-sm">
+                                  <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                                <button type="button" data-id="<?= $barang['id']; ?>" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-sm">
+                                  <i class="fas fa-trash-alt mr-1"></i> Hapus
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else : ?>
+                        <tr>
+                          <td colspan="4" class="text-center">Data tidak ditemukan</td>
+                        </tr>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </div> <!-- card -->
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Modal Form -->
-    <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog" aria-labelledby="modalBarangLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="card card-primary mb-0">
-            <div class="card-header">
-              <h3 class="card-title" id="modalTitle">Form Data Barang</h3>
-            </div>
-            <form action="/admin/barang/daftar-barang" method="POST">
-              <input type="hidden" name="id" id="id">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <div class="form-group">
-                      <label>Kode Kategori Barang</label>
-                      <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Nama Kategori</label>
-                      <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                      <label>Jenis Kategori</label>
-                      <select name="kategori_id" id="kategori_id" class="form-control" required>
-                        <option value="">Pilih Kategori</option>
-                        <?php foreach ($kategoriBarang as $kategori) : ?>
-                          <option value="<?= $kategori['id']; ?>"><?= htmlspecialchars($kategori['nama_kategori']); ?></option>
-                        <?php endforeach; ?>
-                      </select>
-                    </div>
-                  </div>
-                </div> <!-- /.card-body -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                  <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
-                </div>
-            </form>
-          </div> <!-- /.card -->
-        </div>
-      </div>
-    </div>
-
+    <?php include './app/Views/Components/foooter.php'; ?>
   </div>
-
-
-  <?php include './app/Views/Components/footer.php'; ?>
 
   <?php include './app/Views/Components/script.php'; ?>
 
@@ -118,32 +87,290 @@
         "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
-        "stripe": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        "stripe": true,
+        "paging": false,
+        "info": true,
+        "searching": true,
+        language: {
+          "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
+          "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+          "infoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
+          "infoFiltered": "(disaring dari _MAX_ entri keseluruhan)",
+          "lengthMenu": "Tampilkan _MENU_ entri",
+          "loadingRecords": "Sedang memuat...",
+          "processing": "Sedang memproses...",
+          "search": "Cari:",
+          "zeroRecords": "Tidak ditemukan data yang sesuai",
+          "paginate": {
+            "first": "Pertama",
+            "last": "Terakhir",
+            "next": "Selanjutnya",
+            "previous": "Sebelumnya"
+          },
+          "aria": {
+            "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
+            "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
+          },
+          "autoFill": {
+            "fill": "Isi semua sel dengan <i>%d<\/i>",
+            "fillHorizontal": "Isi sel secara horizontal",
+            "fillVertical": "Isi sel secara vertikal",
+            "cancel": "Batal",
+            "info": "Info"
+          },
+          "buttons": {
+            "collection": "Kumpulan <span class='ui-button-icon-primary ui-icon ui-icon-triangle-1-s'\/>",
+            "colvis": "Visibilitas Kolom",
+            "colvisRestore": "Kembalikan visibilitas",
+            "copy": "Salin",
+            "copySuccess": {
+              "_": "%d baris disalin ke papan klip",
+              "1": "satu baris disalin ke papan klip"
+            },
+            "copyTitle": "Salin ke Papan klip",
+            "csv": "CSV",
+            "excel": "Excel",
+            "pageLength": {
+              "-1": "Tampilkan semua baris",
+              "_": "Tampilkan %d baris",
+              "1": "Tampilkan satu baris"
+            },
+            "pdf": "PDF",
+            "print": "Cetak",
+            "copyKeys": "Tekan ctrl atau u2318 + C untuk menyalin tabel ke papan klip.<br \/><br \/>Untuk membatalkan, klik pesan ini atau tekan esc.",
+            "createState": "Tambahkan Data",
+            "removeAllStates": "Hapus Semua Data",
+            "removeState": "Hapus Data",
+            "renameState": "Rubah Nama",
+            "savedStates": "SImpan Data",
+            "stateRestore": "Publihkan Data",
+            "updateState": "Perbaharui data"
+          },
+          "searchBuilder": {
+            "add": "Tambah Kondisi",
+            "button": {
+              "0": "Cari Builder",
+              "_": "Cari Builder (%d)"
+            },
+            "clearAll": "Bersihkan Semua",
+            "condition": "Kondisi",
+            "data": "Data",
+            "deleteTitle": "Hapus filter",
+            "leftTitle": "Ke Kiri",
+            "logicAnd": "Dan",
+            "logicOr": "Atau",
+            "rightTitle": "Ke Kanan",
+            "title": {
+              "0": "Cari Builder",
+              "_": "Cari Builder (%d)"
+            },
+            "value": "Nilai",
+            "conditions": {
+              "date": {
+                "after": "Setelah",
+                "before": "Sebelum",
+                "between": "Diantara",
+                "empty": "Kosong",
+                "equals": "Sama dengan",
+                "not": "Tidak sama",
+                "notBetween": "Tidak diantara",
+                "notEmpty": "Tidak kosong"
+              },
+              "number": {
+                "empty": "Kosong",
+                "equals": "Sama dengan",
+                "gt": "Lebih besar dari",
+                "gte": "Lebih besar atau sama dengan",
+                "lt": "Lebih kecil dari",
+                "lte": "Lebih kecil atau sama dengan",
+                "not": "Tidak sama",
+                "notEmpty": "Tidak kosong",
+                "between": "Di antara",
+                "notBetween": "Tidak di antara"
+              },
+              "string": {
+                "contains": "Berisi",
+                "empty": "Kosong",
+                "endsWith": "Diakhiri dengan",
+                "not": "Tidak sama",
+                "notEmpty": "Tidak kosong",
+                "startsWith": "Diawali dengan",
+                "equals": "Sama dengan",
+                "notContains": "Tidak Berisi",
+                "notStartsWith": "Tidak diawali Dengan",
+                "notEndsWith": "Tidak diakhiri Dengan"
+              },
+              "array": {
+                "equals": "Sama dengan",
+                "empty": "Kosong",
+                "contains": "Berisi",
+                "not": "Tidak",
+                "notEmpty": "Tidak kosong",
+                "without": "Tanpa"
+              }
+            }
+          },
+          "searchPanes": {
+            "count": "{total}",
+            "countFiltered": "{shown} ({total})",
+            "collapse": {
+              "0": "Panel Pencarian",
+              "_": "Panel Pencarian (%d)"
+            },
+            "emptyPanes": "Tidak Ada Panel Pencarian",
+            "loadMessage": "Memuat Panel Pencarian",
+            "clearMessage": "Bersihkan",
+            "title": "Saringan Aktif - %d",
+            "showMessage": "Tampilkan",
+            "collapseMessage": "Ciutkan"
+          },
+          "infoThousands": ",",
+          "datetime": {
+            "previous": "Sebelumnya",
+            "next": "Selanjutnya",
+            "hours": "Jam",
+            "minutes": "Menit",
+            "seconds": "Detik",
+            "unknown": "-",
+            "amPm": [
+              "am",
+              "pm"
+            ],
+            "weekdays": [
+              "Min",
+              "Sen",
+              "Sel",
+              "Rab",
+              "Kam",
+              "Jum",
+              "Sab"
+            ],
+            "months": [
+              "Januari",
+              "Februari",
+              "Maret",
+              "April",
+              "Mei",
+              "Juni",
+              "Juli",
+              "Agustus",
+              "September",
+              "Oktober",
+              "November",
+              "Desember"
+            ]
+          },
+          "editor": {
+            "close": "Tutup",
+            "create": {
+              "button": "Tambah",
+              "submit": "Tambah",
+              "title": "Tambah inputan baru"
+            },
+            "remove": {
+              "button": "Hapus",
+              "submit": "Hapus",
+              "confirm": {
+                "_": "Apakah Anda yakin untuk menghapus %d baris?",
+                "1": "Apakah Anda yakin untuk menghapus 1 baris?"
+              },
+              "title": "Hapus inputan"
+            },
+            "multi": {
+              "title": "Beberapa Nilai",
+              "info": "Item yang dipilih berisi nilai yang berbeda untuk input ini. Untuk mengedit dan mengatur semua item untuk input ini ke nilai yang sama, klik atau tekan di sini, jika tidak maka akan mempertahankan nilai masing-masing.",
+              "restore": "Batalkan Perubahan",
+              "noMulti": "Masukan ini dapat diubah satu per satu, tetapi bukan bagian dari grup."
+            },
+            "edit": {
+              "title": "Edit inputan",
+              "submit": "Edit",
+              "button": "Edit"
+            },
+            "error": {
+              "system": "Terjadi kesalahan pada system. (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Informasi Selebihnya<\/a>)."
+            }
+          },
+          "stateRestore": {
+            "creationModal": {
+              "button": "Buat",
+              "columns": {
+                "search": "Pencarian Kolom",
+                "visible": "Visibilitas Kolom"
+              },
+              "name": "Nama:",
+              "order": "Penyortiran",
+              "search": "Pencarian",
+              "select": "Pemilihan",
+              "title": "Buat State Baru",
+              "toggleLabel": "Termasuk:",
+              "paging": "Nomor Halaman",
+              "scroller": "Posisi Skrol",
+              "searchBuilder": "Cari Builder"
+            },
+            "emptyError": "Nama tidak boleh kosong.",
+            "removeConfirm": "Apakah Anda yakin ingin menghapus %s?",
+            "removeJoiner": "dan",
+            "removeSubmit": "Hapus",
+            "renameButton": "Ganti Nama",
+            "renameLabel": "Nama Baru untuk %s:",
+            "duplicateError": "Nama State ini sudah ada.",
+            "emptyStates": "Tidak ada State yang disimpan.",
+            "removeError": "Gagal menghapus State.",
+            "removeTitle": "Penghapusan State",
+            "renameTitle": "Ganti nama State"
+          },
+          "decimal": ",",
+          "searchPlaceholder": "kata kunci pencarian",
+          "select": {
+            "cells": {
+              "1": "1 sel dipilih",
+              "_": "%d sel dipilih"
+            },
+            "columns": {
+              "1": "1 kolom dirpilih",
+              "_": "%d kolom dipilih"
+            },
+            "rows": {
+              "1": "1 baris dipilih",
+              "_": "%d baris dipilih"
+            }
+          },
+          "thousands": "."
+        },
+        "buttons": [{
+            extend: 'copy',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'csv',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'excel',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'pdf',
+            title: 'Data Jenis Barang'
+          },
+          {
+            extend: 'print',
+            title: 'Data Jenis Barang'
+          },
+          'colvis'
+        ]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
     });
+  </script>
 
-    document.addEventListener("DOMContentLoaded", function() {
-      const editButtons = document.querySelectorAll(".btn-edit");
-
-      editButtons.forEach(button => {
-        button.addEventListener("click", function() {
-          document.getElementById("modalTitle").textContent = "Edit Data Barang";
-          document.getElementById("submitBtn").textContent = "Update Data";
-          document.getElementById("submitBtn").className = "btn btn-warning";
-          document.getElementById("id").value = this.dataset.id;
-          document.getElementById("kode_barang").value = this.dataset.kode;
-          document.getElementById("nama_barang").value = this.dataset.nama;
-          document.getElementById("kategori_id").value = this.dataset.kategori;
-        });
-      });
-
-      $('#modalBarang').on('hidden.bs.modal', function() {
-        document.getElementById("modalTitle").textContent = "Form Data Barang";
-        document.getElementById("submitBtn").textContent = "Simpan";
-        document.getElementById("submitBtn").className = "btn btn-primary";
-        document.querySelector("form").reset();
-        document.getElementById("id").value = "";
+  <script>
+    $(document).ready(function() {
+      $('button[data-target="#deleteModal"]').on('click', function() {
+        var id = $(this).data('id');
+        var deleteUrl = '/admin/barang/jenis-barang?delete=' + id;
+        $('#deleteButton').attr('href', deleteUrl);
+        $('#deleteModal').modal('show');
       });
     });
   </script>

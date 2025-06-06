@@ -5,7 +5,7 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 class PagesController {
   private function renderView(string $view, $data = []) {
     extract($data);
-    require_once __DIR__ . "/../Views/Pages/login/{$view}.php";
+    require_once __DIR__ . "/../Views/Pages/Login/{$view}.php";
   }
 
   public function index() {
@@ -57,12 +57,30 @@ class PagesController {
 
   public function informasi() {
     global $conn;
-    $SaranaBergerak = SaranaBergerak::getAllStatusTersedia($conn);
-    $SaranaBergerak = SaranaMebelair::getAllStatusTersedia($conn);
-    $SaranaBergerak = SaranaMebelair::getAllStatusTersedia($conn);
+    $saranaBergerak = SaranaBergerak::getAllData($conn);
+    $saranaMebelair = SaranaMebelair::getAllData($conn);
+    $saranaATK = SaranaATK::getAllData($conn);
+    $saranaElektronik = SaranaElektronik::getAllData($conn);
+
+    $arrayMerge = array_merge(
+      $saranaBergerak,
+      $saranaMebelair,
+      $saranaATK,
+      $saranaElektronik
+    );
+
+    // Filter array untuk hanya menyertakan item dengan status 'Dipinjam'
+    $filteredArrayMerge = array_filter($arrayMerge, function ($item) {
+      return isset($item['status']) && $item['status'] === 'Dipinjam';
+    });
+
+    $filteredArrayMergeTersedia = array_filter($arrayMerge, function ($item) {
+      return isset($item['status']) && $item['status'] === 'Tersedia';
+    });
 
     $this->renderView('informasi', [
-      'saranaBergerak' =>    $SaranaBergerak
+      'saranaDataPinjam' => $filteredArrayMerge,
+      'saranaDataTersedia' => $filteredArrayMergeTersedia
     ]);
   }
 }

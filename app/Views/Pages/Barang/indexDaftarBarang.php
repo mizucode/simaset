@@ -3,149 +3,170 @@
 <?php include './app/Views/Components/head.php'; ?>
 
 <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
+  <div class="wrapper">
 
-        <?php include './app/Views/Components/navbar.php'; ?>
-        <?php include './app/Views/Components/aside.php'; ?>
+    <?php include './app/Views/Components/navbar.php'; ?>
+    <?php include './app/Views/Components/aside.php'; ?>
 
-        <div class="content-wrapper bg-white py-4 mb-5 px-2">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
+    <div class="content-wrapper bg-white py-4 mb-5 px-2">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
 
-                        <?php if (!empty($error)) : ?>
-                            <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
-                        <?php endif; ?>
+            <?php if (!empty($error)) : ?>
+              <div class="alert alert-danger"><?= htmlspecialchars($error); ?></div>
+            <?php endif; ?>
 
-                        <div class="card">
-                            <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                                <h3 class="h4">Daftar Seluruh Barang</h3>
-                            </div>
+            <?php include './app/Views/Components/helper.php'; ?>
+            <div class="card">
+              <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
+                <h3 class="h4">Daftar Seluruh Barang</h3>
+              </div>
 
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Kode Barang</th>
-                                            <th>Nama Barang</th>
-                                            <th>Kategori</th>
-                                            <th>lokasi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php if (!empty($allBarang)) : ?>
-                                            <?php $counter = 1; ?>
-                                            <?php foreach ($allBarang as $barang) : ?>
-                                                <tr>
-                                                    <td><?= $counter++; ?></td>
-
-                                                    <td><?= htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></td>
-                                                    <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-'); ?></td>
-                                                    <td><?= htmlspecialchars($barang['kategori'] ?? '-'); ?></td>
-                                                    <td><?= htmlspecialchars($barang['lokasi'] ?? '-'); ?></td>
-
-
-                                                </tr>
-                                            <?php endforeach; ?>
-                                        <?php else : ?>
-                                            <tr>
-                                                <td colspan="4" class="text-center">Data tidak ditemukan</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> <!-- card -->
-                    </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table id="example1" class="table table-bordered table-sm table-hover w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th width="5%">No</th>
+                        <th width="15%">No Registrasi</th>
+                        <th>Nama Barang</th>
+                        <th>Kategori</th>
+                        <th>Lokasi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php if (!empty($allBarang)) : ?>
+                        <?php $counter = 1; ?>
+                        <?php foreach ($allBarang as $barang) : ?>
+                          <tr class="align-middle">
+                            <td class="text-center"><?= $counter++; ?></td>
+                            <td class="text-center"><?= htmlspecialchars($barang['no_registrasi'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($barang['nama_detail_barang'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($barang['kategori'] ?? $barang['nama_kategori'] ?? '-'); ?></td>
+                            <td class="text-center"><?= htmlspecialchars($barang['lokasi'] ?? '-'); ?></td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else : ?>
+                        <tr>
+                          <td colspan="5" class="text-center">Data tidak ditemukan</td>
+                        </tr>
+                      <?php endif; ?>
+                    </tbody>
+                  </table>
                 </div>
-            </div>
+              </div>
+            </div> <!-- card -->
+          </div>
         </div>
-
-        <!-- Modal Form -->
-        <div class="modal fade" id="modalBarang" tabindex="-1" role="dialog" aria-labelledby="modalBarangLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="card card-primary mb-0">
-                        <div class="card-header">
-                            <h3 class="card-title" id="modalTitle">Form Data Barang</h3>
-                        </div>
-                        <form action="/admin/barang/daftar-barang" method="POST">
-                            <input type="hidden" name="id" id="id">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <label>Kode Kategori Barang</label>
-                                            <input type="text" name="kode_barang" id="kode_barang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nama Kategori</label>
-                                            <input type="text" name="nama_barang" id="nama_barang" class="form-control" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Jenis Kategori</label>
-                                            <select name="kategori_id" id="kategori_id" class="form-control" required>
-                                                <option value="">Pilih Kategori</option>
-                                                <?php foreach ($kategoriBarang as $kategori) : ?>
-                                                    <option value="<?= $kategori['id']; ?>"><?= htmlspecialchars($kategori['nama_kategori']); ?></option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div> <!-- /.card-body -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                                    <button type="submit" class="btn btn-primary" id="submitBtn">Simpan</button>
-                                </div>
-                        </form>
-                    </div> <!-- /.card -->
-                </div>
-            </div>
-        </div>
-
+      </div>
     </div>
-    <footer class="main-footer bg-white text-black">
-        <strong>&copy; 2025 <a href="#">Lpptsi</a>. Umkuningan.</strong>
-    </footer>
 
-    <?php include './app/Views/Components/script.php'; ?>
+    <?php include './app/Views/Components/footer.php'; ?>
+  </div>
 
-    <script>
-        $(function() {
-            $("#example1").DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "stripe": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
+  <?php include './app/Views/Components/script.php'; ?>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+  <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            const editButtons = document.querySelectorAll(".btn-edit");
+  <script>
+    $(function() {
+      // Fungsi untuk inisialisasi DataTable
+      function initDataTable(selector, buttonTitle) {
+        const currentTableOptions = {
+          responsive: true,
+          lengthChange: true, // Menampilkan opsi jumlah entri per halaman
+          autoWidth: false,
+          paging: false, // Menonaktifkan paginasi bawaan, semua data tampil
+          info: true, // Menampilkan informasi jumlah entri
+          searching: true, // Mengaktifkan fitur pencarian
+          language: {
+            emptyTable: "Tidak ada data yang tersedia pada tabel ini",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
+            infoEmpty: "Menampilkan 0 sampai 0 dari 0 entri",
+            infoFiltered: "(disaring dari _MAX_ entri keseluruhan)",
+            lengthMenu: "Tampilkan _MENU_ entri",
+            loadingRecords: "Sedang memuat...",
+            processing: "Sedang memproses...",
+            search: "Cari:",
+            zeroRecords: "Tidak ditemukan data yang sesuai",
+            paginate: { // Meskipun paging:false, terjemahan ini baik untuk konsistensi
+              first: "Pertama",
+              last: "Terakhir",
+              next: "Selanjutnya",
+              previous: "Sebelumnya"
+            },
+            aria: {
+              sortAscending: ": aktifkan untuk mengurutkan kolom ke atas",
+              sortDescending: ": aktifkan untuk mengurutkan kolom menurun"
+            },
+            decimal: ",",
+            thousands: ".",
+            searchPlaceholder: "kata kunci pencarian"
+          },
+          buttons: [{
+              extend: 'copy',
+              title: buttonTitle,
+              exportOptions: {
+                orthogonal: 'export'
+              }
+            },
+            {
+              extend: 'csv',
+              title: buttonTitle,
+              exportOptions: {
+                orthogonal: 'export'
+              }
+            },
+            {
+              extend: 'excel',
+              title: buttonTitle,
+              exportOptions: {
+                orthogonal: 'export'
+              }
+            },
+            {
+              extend: 'pdf',
+              title: buttonTitle,
+              exportOptions: {
+                orthogonal: 'export'
+              }
+            },
+            {
+              extend: 'print',
+              title: buttonTitle,
+              exportOptions: {
+                orthogonal: 'export'
+              }
+            },
+            'colvis'
+          ],
+          // DOM untuk mengatur tata letak elemen DataTables (lengthMenu, Buttons, Filter, Info)
+          dom: "<'row'<'col-sm-12 col-md-6'lB><'col-sm-12 col-md-6'f>>" + // Baris 1: Length menu & Buttons di kiri, Filter di kanan
+            "<'row'<'col-sm-12'tr>>" + // Baris 2: Tabel
+            "<'row'<'col-sm-12'i>>", // Baris 3: Info di bawah (karena paging:false)
+        };
 
-            editButtons.forEach(button => {
-                button.addEventListener("click", function() {
-                    document.getElementById("modalTitle").textContent = "Edit Data Barang";
-                    document.getElementById("submitBtn").textContent = "Update Data";
-                    document.getElementById("submitBtn").className = "btn btn-warning";
-                    document.getElementById("id").value = this.dataset.id;
-                    document.getElementById("kode_barang").value = this.dataset.kode;
-                    document.getElementById("nama_barang").value = this.dataset.nama;
-                    document.getElementById("kategori_id").value = this.dataset.kategori;
-                });
-            });
+        $(selector).DataTable(currentTableOptions);
+      }
 
-            $('#modalBarang').on('hidden.bs.modal', function() {
-                document.getElementById("modalTitle").textContent = "Form Data Barang";
-                document.getElementById("submitBtn").textContent = "Simpan";
-                document.getElementById("submitBtn").className = "btn btn-primary";
-                document.querySelector("form").reset();
-                document.getElementById("id").value = "";
-            });
-        });
-    </script>
+      // Inisialisasi DataTables untuk masing-masing tabel
+      initDataTable('#example1', 'Data Prasarana Tanah');
+      initDataTable('#example2', 'Data Prasarana Bangunan');
+      initDataTable('#example3', 'Data Prasarana Ruang'); // Judul tombol sesuai
+      initDataTable('#example4', 'Data Prasarana Lapang'); // Judul tombol sesuai
+    });
+  </script>
 </body>
 
 </html>

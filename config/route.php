@@ -49,6 +49,7 @@ class Router {
     '/admin/sarana/bergerak/pindah' => ['controller' => 'SaranaBergerakPindahController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/bergerak/pinjam' => ['controller' => 'SaranaBergerakPinjamController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/bergerak/pinjam/tambah' => ['controller' => 'SaranaBergerakPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
+    '/admin/sarana/bergerak/kembali' => ['controller' => 'SaranaBergerakKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
     '/admin/sarana/bergerak/download-qr' => ['controller' => 'SaranaBergerakController', 'method' => 'downloadAllQr', 'auth' => true],
     '/admin/sarana/bergerak/kondisi' => ['controller' => 'SaranaBergerakKondisiController', 'method' => 'index', 'auth' => true],
@@ -62,6 +63,7 @@ class Router {
     '/admin/sarana/mebelair/tambah' => ['controller' => 'SaranaMebelairController', 'method' => 'create', 'auth' => true],
     '/admin/sarana/mebelair/pindah' => ['controller' => 'SaranaMebelairPindahController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/mebelair/pinjam' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'index', 'auth' => true],
+    '/admin/sarana/mebelair/kembali' => ['controller' => 'SaranaMebelairKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/mebelair/pinjam/tambah' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
     '/admin/sarana/mebelair/kondisi' => ['controller' => 'SaranaMebelairKondisiController', 'method' => 'index', 'auth' => true],
 
@@ -72,6 +74,7 @@ class Router {
     '/admin/sarana/atk/pindah' => ['controller' => 'SaranaATKPindahController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/atk/kondisi' => ['controller' => 'SaranaATKKondisiController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/atk/pinjam' => ['controller' => 'SaranaATKPinjamController', 'method' => 'index', 'auth' => true],
+    '/admin/sarana/atk/kembali' => ['controller' => 'SaranaATKKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/atk/pinjam/tambah' => ['controller' => 'SaranaATKPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
 
 
@@ -80,6 +83,7 @@ class Router {
     '/admin/sarana/elektronik/tambah' => ['controller' => 'SaranaElektronikController', 'method' => 'create', 'auth' => true],
     '/admin/sarana/elektronik/pindah' => ['controller' => 'SaranaElektronikPindahController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/elektronik/pinjam' => ['controller' => 'SaranaElektronikPinjamController', 'method' => 'index', 'auth' => true],
+    '/admin/sarana/elektronik/kembali' => ['controller' => 'SaranaElektronikKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/elektronik/kondisi' => ['controller' => 'SaranaElektronikKondisiController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/elektronik/pinjam' => ['controller' => 'SaranaElektronikPinjamController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/elektronik/pinjam/tambah' => ['controller' => 'SaranaElektronikPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
@@ -87,7 +91,7 @@ class Router {
 
     // Barang routes
 
-    '/admin/barang/daftar-barang' => ['controller' => 'BarangController', 'method' => 'indexDaftarBarang', 'auth' => true],
+    '/admin/laporan/total-data-sarana' => ['controller' => 'BarangController', 'method' => 'indexDaftarBarang', 'auth' => true],
     '/admin/barang/jenis-barang' => ['controller' => 'JenisBarangController', 'method' => 'index', 'auth' => true],
     '/admin/barang/jenis-barang/tambah' => ['controller' => 'JenisBarangController', 'method' => 'create', 'auth' => true],
     '/admin/barang/kategori-barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
@@ -113,19 +117,29 @@ class Router {
     '/admin/transaksi/mutasi/barang-masuk' => ['controller' => 'MutasiBarangMasukController', 'method' => 'index', 'auth' => true],
     '/admin/transaksi/mutasi/barang-masuk/tambah' => ['controller' => 'MutasiBarangMasukController', 'method' => 'create', 'auth' => true],
 
-    //Laporan
-    '/admin/survey/semesteran' => ['controller' => 'SurveySemesteranController', 'method' => 'index', 'auth' => true],
-    '/admin/survey/semesteran/tambah' => ['controller' => 'SurveySemesteranController', 'method' => 'create', 'auth' => true],
-    '/admin/survey/semesteran/data-inventaris' => ['controller' => 'DataInventarisController', 'method' => 'update', 'auth' => true],
+
 
     // Laporan routes
 
     '/admin/laporan/total-data-prasarana' => ['controller' => 'LaporanController', 'method' => 'totalDataPrasarana', 'auth' => true],
-    '/admin/laporan/total-data-sarana' => ['controller' => 'LaporanController', 'method' => 'totalDataSarana', 'auth' => true],
+    '/admin/laporan/barang-dipinjam' => ['controller' => 'LaporanController', 'method' => 'totalDataPeminjaman', 'auth' => true],
+    '/admin/laporan/barang-rusak' => ['controller' => 'LaporanController', 'method' => 'totalDataBarangRusak', 'auth' => true],
+
 
 
     // Kondisi routes
     '/admin/kondisi/daftar-kondisi' => ['controller' => 'AdminController', 'method' => 'daftarKondisi', 'auth' => true],
+
+    // Survey
+    '/admin/survey/sarana/sarana-bergerak' => ['controller' => 'SurveySaranaBergerakController', 'method' => 'index', 'auth' => true],
+    '/admin/survey/sarana/sarana-bergerak/tambah' => ['controller' => 'SurveySaranaBergerakController', 'method' => 'create', 'auth' => true],
+    '/admin/survey/sarana/sarana-mebelair' => ['controller' => 'SurveySaranaMebelairController', 'method' => 'index', 'auth' => true],
+    '/admin/survey/sarana/sarana-mebelair/tambah' => ['controller' => 'SurveySaranaMebelairController', 'method' => 'create', 'auth' => true],
+    '/admin/survey/sarana/sarana-atk' => ['controller' => 'SurveySaranaATKController', 'method' => 'index', 'auth' => true],
+    '/admin/survey/sarana/sarana-atk/tambah' => ['controller' => 'SurveySaranaATKController', 'method' => 'create', 'auth' => true],
+    '/admin/survey/sarana/sarana-elektronik' => ['controller' => 'SurveySaranaElektronikController', 'method' => 'index', 'auth' => true],
+    '/admin/survey/sarana/sarana-elektronik/tambah' => ['controller' => 'SurveySaranaElektronikController', 'method' => 'create', 'auth' => true],
+
   ];
 
 
@@ -192,8 +206,6 @@ class Router {
       '/admin/sarana/atk',
       '/admin/sarana/elektronik',
       '/admin/barang/jenis-barang',
-      '/admin/survey/semesteran',
-      '/admin/survey/semesteran/data-inventaris',
       '/admin/transaksi/mutasi/barang-keluar',
       '/admin/transaksi/mutasi/barang-masuk',
       '/admin/sarana/bergerak/pindah',
@@ -207,7 +219,16 @@ class Router {
       '/admin/sarana/bergerak/pinjam',
       '/admin/sarana/mebelair/pinjam',
       '/admin/sarana/atk/pinjam',
-      '/admin/sarana/elektronik/pinjam'
+      '/admin/sarana/elektronik/pinjam',
+      '/admin/survey/sarana/sarana-bergerak',
+      '/admin/survey/sarana/sarana-mebelair',
+      '/admin/survey/sarana/sarana-atk',
+      '/admin/survey/sarana/sarana-elektronik',
+      '/admin/sarana/atk/kembali',
+      '/admin/sarana/mebelair/kembali',
+      '/admin/sarana/bergerak/kembali',
+      '/admin/sarana/elektronik/kembali',
+
     ];
 
     return in_array($this->uri, $allowedUris) && !empty($_GET);
@@ -224,7 +245,9 @@ class Router {
       'tambah-gambar' => 'dokumenGambar',
       'detail' => 'detail',
       'preview-gambar' => 'previewDokumen',
-      'download-dokumen' => 'downloadDokumen', // Ini akan memanggil method downloadDokumen
+      'download-dokumen' => 'downloadDokumen',
+      'tambah-barang' => 'tambahBarang',
+      'delete-barang' => 'deleteBarang'
     ];
 
     foreach ($queryHandlers as $param => $method) {
@@ -251,7 +274,7 @@ class Router {
 
   private function notFound() {
     http_response_code(404);
-    require __DIR__ . '/404.php';
+    require __DIR__ . '/../404.php';
     exit;
   }
 }

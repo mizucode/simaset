@@ -21,7 +21,6 @@ class SaranaATKController {
     $lapangData = Lapang::getAllData($conn);
     $ruangData = Ruang::getAllData($conn);
 
-    // Filter barang untuk kategori ATK (asumsi ID kategori ATK = 3)
     $filteredBarangList = array_filter($barangList, function ($barang) {
       return $barang['kategori_id'] == 3;
     });
