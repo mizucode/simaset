@@ -44,6 +44,8 @@ class SaranaMebelairKembaliController {
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'] ?? null;
+      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian'] ?? null;
 
       try {
         $success = SaranaMebelair::updateData(
@@ -67,7 +69,9 @@ class SaranaMebelairKembaliController {
           $status,
           $nama_peminjam,
           $identitas_peminjam,
-          $no_hp_peminjam
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.';

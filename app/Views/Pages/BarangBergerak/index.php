@@ -12,6 +12,32 @@
         <div class="row justify-content-center">
           <div class="col-12">
             <?php include './app/Views/Components/helper.php'; ?>
+
+            <!-- Filter Card -->
+            <div class="card shadow-md mb-3" style="border-top: 3px solid #001f3f;">
+              <div class="card-header bg-light">
+                <h3 class="card-title">Filter Data</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label for="jenisFilter" class="col-sm-2 col-form-label">Filter Berdasarkan Jenis:</label>
+                  <div class="col-sm-4">
+                    <select id="jenisFilter" class="form-control form-control-sm select2-custom">
+                      <option value="">Semua Jenis</option>
+                      <?php if (!empty($jenisList)) : ?>
+                        <?php foreach ($jenisList as $jenis) : ?>
+                          <option value="<?= htmlspecialchars($jenis); ?>"><?= htmlspecialchars($jenis); ?></option>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </select>
+                  </div>
+                  <div class="col-sm-2 d-flex">
+                    <button id="resetFilter" class="btn btn-secondary btn-sm align-self-stretch w-100">Reset Filter</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card shadow-md">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
                 <h3 class="h4 mb-0">
@@ -23,7 +49,7 @@
                     <i class="fas fa-save mr-1"></i> Download QR Code
                   </div>
                 </a>
-              </div> <!-- .card-header -->
+              </div>
               <div class="card-body p-3">
                 <div class="table-responsive">
                   <table id="saranaTable" class="table table-bordered w-100">
@@ -46,10 +72,7 @@
                             <td class="text-center"><?= htmlspecialchars($sarana['no_registrasi'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['nama_detail_barang'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['barang'] ?? '-'); ?></td>
-
                             <td class="text-center"><?= htmlspecialchars($sarana['no_polisi'] ?? '-'); ?></td>
-
-
                             <td class="text-center">
                               <div class="d-flex justify-content-center gap-2">
                                 <a href="/admin/sarana/bergerak?detail=<?= $sarana['id']; ?>" class="btn btn-info btn-sm">
@@ -80,7 +103,8 @@
   <?php require_once './app/Views/Components/script.php'; ?>
   <script>
     $(function() {
-      $("#saranaTable").DataTable({
+
+      var table = $("#saranaTable").DataTable({
         "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
@@ -88,7 +112,7 @@
         "info": true,
         "searching": true,
         "columnDefs": [{
-          "targets": [5], // Target kolom Aksi (indeks 5)
+          "targets": [5],
           "searchable": false,
           "orderable": false
         }],
@@ -114,45 +138,40 @@
           },
           "searchPlaceholder": "kata kunci pencarian",
           "thousands": "."
-        },
-        "buttons": [{
-            extend: 'copy',
-            title: 'Data Sarana Bergerak',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4]
-            } // No, No Registrasi, Nama Barang, Jenis, No Polisi
-          },
-          {
-            extend: 'csv',
-            title: 'Data Sarana Bergerak',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4]
-            }
-          },
-          {
-            extend: 'excel',
-            title: 'Data Sarana Bergerak',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4]
-            }
-          },
-          {
-            extend: 'pdf',
-            title: 'Data Sarana Bergerak',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4]
-            }
-          },
-          {
-            extend: 'print',
-            title: 'Data Sarana Bergerak',
-            exportOptions: {
-              columns: [0, 1, 2, 3, 4]
-            }
-          },
-          'colvis'
-        ]
-      }).buttons().container().appendTo('#saranaTable_wrapper .col-md-6:eq(0)');
+        }
+      });
+
+      // Event listener untuk filter, sekarang akan bekerja karena 'table' adalah objek yang benar
+      $('#jenisFilter').on('change', function() {
+        var val = $(this).val();
+        table.column(3) // Index kolom 'Jenis' adalah 3 (dimulai dari 0)
+          .search(val ? '^' + val + '$' : '', true, false)
+          .draw();
+      });
+
+      // Fungsi untuk mengatur ulang nomor urut setiap kali tabel digambar ulang
+      table.on('draw.dt', function() {
+        var PageInfo = table.page.info();
+        table.column(0, {
+          page: 'current'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
+      });
+
+      // Inisialisasi Select2 untuk filter jenis
+      $('#jenisFilter').select2({
+        theme: 'bootstrap4',
+        placeholder: "Pilih Jenis Barang",
+        allowClear: true, // Memungkinkan clear
+        minimumResultsForSearch: Infinity, // Sembunyikan kotak pencarian jika tidak banyak opsi
+        width: '100%'
+      });
+
+      // Event listener untuk tombol reset filter
+      $('#resetFilter').on('click', function() {
+        $('#jenisFilter').val('').trigger('change'); // Reset dropdown dan trigger change event
+      });
     });
   </script>
 </body>

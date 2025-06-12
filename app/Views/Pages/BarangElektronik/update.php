@@ -187,6 +187,79 @@
                       </div>
 
 
+
+                      <!-- Status & Informasi Peminjaman (Hanya tampil saat edit) -->
+                      <div class="col-12 mt-4 border-bottom">
+                        <div class="border-bottom pb-2 mb-3">
+                          <h5 class="text-bold fs-4 text-navy">
+                            STATUS & INFORMASI PEMINJAMAN
+                          </h5>
+                          <span class="form-text">Isi status sarana dan detail peminjam jika sarana sedang dipinjam.</span>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="status" class="fw-bold">Status <span class="text-danger">*</span></label>
+                            <select class="form-control" name="status" id="status" aria-label="Pilih Status Sarana" required>
+                              <option value="" disabled <?= !isset($sarana['status']) ? 'selected' : '' ?>>Pilih Status</option>
+                              <option value="Tersedia" <?= (isset($sarana['status']) && $sarana['status'] == 'Tersedia') ? 'selected' : '' ?>>Tersedia</option>
+                              <option value="Dipinjam" <?= (isset($sarana['status']) && $sarana['status'] == 'Dipinjam') ? 'selected' : '' ?>>Dipinjam</option>
+                              <option value="Terpakai" <?= (isset($sarana['status']) && $sarana['status'] == 'Terpakai') ? 'selected' : '' ?>>Terpakai</option>
+                              <option value="Rusak Ringan" <?= (isset($sarana['status']) && $sarana['status'] == 'Rusak Ringan') ? 'selected' : '' ?>>Rusak Ringan</option>
+                              <option value="Rusak Berat" <?= (isset($sarana['status']) && $sarana['status'] == 'Rusak Berat') ? 'selected' : '' ?>>Rusak Berat</option>
+                              <option value="Hilang" <?= (isset($sarana['status']) && $sarana['status'] == 'Hilang') ? 'selected' : '' ?>>Hilang</option>
+                            </select>
+                            <span class="form-text">
+                              Pilih status sarana saat ini. Jika "Dipinjam", lengkapi detail peminjam.
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="nama_peminjam" class="fw-bold">Nama Peminjam</label>
+                            <input type="text" class="form-control" id="nama_peminjam" name="nama_peminjam" placeholder="Contoh: Muhammad Febrianoor" value="<?= htmlspecialchars($sarana['nama_peminjam'] ?? '') ?>">
+                            <span class="form-text">
+                              Masukkan nama lengkap peminjam jika status "Dipinjam".
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="identitas_peminjam" class="fw-bold">Nomor Identitas Peminjam</label>
+                            <input type="text" class="form-control" id="identitas_peminjam" name="identitas_peminjam" placeholder="Contoh: NIK/NIDN/NIM" value="<?= htmlspecialchars($sarana['identitas_peminjam'] ?? '') ?>">
+                            <span class="form-text">
+                              Masukkan nomor identitas peminjam (NIK/NIDN/NIM).
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="no_hp_peminjam" class="fw-bold">Nomor HP Peminjam</label>
+                            <input type="text" class="form-control" id="no_hp_peminjam" name="no_hp_peminjam" placeholder="Contoh: 081234567890" value="<?= htmlspecialchars($sarana['no_hp_peminjam'] ?? '') ?>">
+                            <span class="form-text">
+                              Masukkan nomor HP peminjam yang aktif WhatsApp.
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="tanggal_peminjaman" class="fw-bold">Tanggal Peminjaman</label>
+                            <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman" value="<?= htmlspecialchars($sarana['tanggal_peminjaman'] ?? '') ?>">
+                            <span class="form-text">Masukkan tanggal barang ini dipinjam.</span>
+                          </div>
+                        </div>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="tanggal_pengembalian" class="fw-bold">Tanggal Rencana Pengembalian</label>
+                            <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian" value="<?= htmlspecialchars($sarana['tanggal_pengembalian'] ?? '') ?>">
+                            <span class="form-text">Masukkan tanggal rencana barang ini akan dikembalikan.</span>
+                          </div>
+                        </div>
+                      </div>
                       <div class="col-12 mt-4">
                         <div class="border-bottom pb-2 mb-3">
                           <h5 class="text-bold fs-4 text-navy">
@@ -229,16 +302,19 @@
                           </div>
                         </div>
                       </div>
+
                     </div>
-                  </div>
-                  <div class="card-footer text-right">
-                    <a href="/admin/sarana/elektronik" class="btn btn-secondary">
-                      <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
-                    </a>
-                    <button type="submit" class="btn btn-primary" id="submitBtn">
-                      <i class="fas fa-save mr-2"></i>
-                      <?= isset($sarana) ? 'Update Data Sarana Elektronik' : 'Simpan Data Sarana Elektronik' ?>
-                    </button>
+                  </div> <!-- Penutup .row -->
+                  <div class="card-footer">
+                    <div class="d-flex flex-column flex-md-row justify-content-md-end">
+                      <a href="/admin/sarana/elektronik" class="btn btn-secondary mb-2 mb-md-0 mr-md-2">
+                        <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                      </a>
+                      <button type="submit" class="btn btn-primary mb-2 mb-md-0" id="submitBtn">
+                        <i class="fas fa-save mr-2"></i>
+                        <?= isset($sarana) ? 'Update Data Sarana Elektronik' : 'Simpan Data Sarana Elektronik' ?>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </form>

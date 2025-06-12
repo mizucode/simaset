@@ -36,6 +36,12 @@ class SaranaBergerakController {
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $status = $_POST['status'] ?? 'Tersedia'; // Ambil status dari POST, default 'Tersedia' jika tidak ada
+      // Untuk data baru, detail peminjam biasanya null kecuali diisi dari form
+      $nama_peminjam = $_POST['nama_peminjam'] ?? null;
+      $identitas_peminjam = $_POST['identitas_peminjam'] ?? null;
+      $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? null;
+      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? null;
 
       $no_registrasi = $this->generateUniqueRegistrationNumber(
         $conn,
@@ -60,7 +66,12 @@ class SaranaBergerakController {
           $keterangan,
           $biaya_pembelian,
           $tanggal_pembelian,
-          $status // Tambahkan status ke pemanggilan storeData
+          $status,
+          $nama_peminjam,
+          $identitas_peminjam,
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana bergerak berhasil ditambahkan.' : 'Gagal menambahkan data sarana bergerak.';
@@ -113,7 +124,7 @@ class SaranaBergerakController {
       $keterangan = $_POST['keterangan'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
-      $status = $_POST['status'] ?? $sarana['status']; // Ambil status dari POST atau dari data sarana yang ada
+      $status = $_POST['status'] ?? $sarana['status'];
 
       try {
         $success = SaranaBergerak::updateData(
@@ -133,9 +144,11 @@ class SaranaBergerakController {
           $biaya_pembelian,
           $tanggal_pembelian,
           $status, // Tambahkan status ke pemanggilan updateData
-          $sarana['nama_peminjam'], // Pastikan parameter ini ada jika diperlukan oleh model
-          $sarana['identitas_peminjam'], // Pastikan parameter ini ada jika diperlukan oleh model
-          $sarana['no_hp_peminjam'] // Pastikan parameter ini ada jika diperlukan oleh model
+          $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'],
+          $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'],
+          $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'],
+          $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'],
+          $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian']
         );
 
         $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
@@ -200,8 +213,16 @@ class SaranaBergerakController {
     $saranaData = SaranaBergerak::getAllData($conn);
     $this->delete();
 
+    $jenisList = [];
+    if (!empty($saranaData)) {
+      $allJenis = array_column($saranaData, 'barang');
+      $jenisList = array_unique($allJenis);
+      sort($jenisList);
+    }
+
     $this->renderView('index', [
       'saranaData' => $saranaData,
+      'jenisList' => $jenisList,
     ]);
   }
 

@@ -66,6 +66,14 @@ class SaranaElektronikController {
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan
+          // Parameter tambahan sesuai model storeData
+          // status sudah default 'Tersedia' di model
+          // Untuk data baru, detail peminjam biasanya null
+          // null, // nama_peminjam
+          // null, // identitas_peminjam
+          // null, // no_hp_peminjam
+          // null, // tanggal_peminjaman
+          // null  // tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana elektronik berhasil ditambahkan.' : 'Gagal menambahkan data sarana elektronik.';
@@ -123,6 +131,8 @@ class SaranaElektronikController {
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'] ?? null;
+      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian'] ?? null;
 
 
       try {
@@ -146,7 +156,9 @@ class SaranaElektronikController {
           $status,
           $nama_peminjam,
           $identitas_peminjam,
-          $no_hp_peminjam
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
@@ -200,8 +212,8 @@ class SaranaElektronikController {
 
       // Hapus semua dokumen dan gambar terkait sebelum menghapus sarana utama
       // (Pastikan method ini ada dan bekerja dengan benar di model DokumenSaranaElektronik)
-      // DokumenSaranaElektronik::deleteAllBySaranaId($conn, $id); 
-      // DokumenSaranaElektronik::deleteAllGambarBySaranaId($conn, $id);
+      DokumenSaranaElektronik::deleteAllBySaranaId($conn, $id);
+      DokumenSaranaElektronik::deleteAllGambarBySaranaId($conn, $id);
 
       if (SaranaElektronik::deleteData($conn, $id)) {
         $_SESSION['success'] = 'Data sarana elektronik berhasil dihapus.';
@@ -374,22 +386,17 @@ class SaranaElektronikController {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $aset_elektronik_id = $_POST['aset_elektronik_id'] ?? $id_sarana;
       // Sesuaikan nama field jika di form berbeda, misal 'nama_gambar'
-      $nama_dokumen_gambar = $_POST['nama_dokumen_gambar'] ?? $_POST['nama_dokumen'] ?? 'Gambar ' . time();
+      $nama_dokumen_gambar = $_POST['nama_dokumen'] ?? 'Gambar ' . time();
       $path_dokumen_gambar = '';
+      $fileInputName = 'path_dokumen'; // Konsisten dengan form dokumen
 
-      // Sesuaikan nama field file jika di form berbeda, misal 'path_gambar'
-      if (!empty($_FILES['path_dokumen_gambar']['name'])) {
-        $fileInputName = 'path_dokumen_gambar';
-      } elseif (!empty($_FILES['path_dokumen']['name'])) { // Fallback jika menggunakan field 'path_dokumen' untuk gambar
-        $fileInputName = 'path_dokumen';
-      } else {
+      if (empty($_FILES[$fileInputName]['name'])) {
         $_SESSION['error'] = 'File gambar tidak boleh kosong.';
         $this->renderView('/Dokumen/createFoto', [
           'saranaElektronikData' => $saranaElektronikData,
         ]);
         return;
       }
-
 
       if (!empty($_FILES[$fileInputName]['name'])) {
         $uploadDir = __DIR__ . '/../../storage/dokumentasi_sarana_elektronik/';
@@ -422,7 +429,6 @@ class SaranaElektronikController {
           return;
         }
       }
-      // else case for empty file is already handled above
 
       try {
         // Menggunakan DokumenSaranaElektronik::storeDokumentasi
@@ -532,8 +538,8 @@ class SaranaElektronikController {
     $dokumenAsetElektronik = DokumenSaranaElektronik::getAllData($conn, $id) ?? [];
     $dokumenGambarElektronik = DokumenSaranaElektronik::getAllDataGambar($conn, $id) ?? [];
 
-    $this->deleteDokumen();    // Menangani ?delete-dokumen=id
-    $this->deleteDokumentasi(); // Menangani ?delete-gambar=id
+    // $this->deleteDokumen();    // Sebaiknya ditangani oleh router
+    // $this->deleteDokumentasi(); // Sebaiknya ditangani oleh router
 
     $this->renderView('detail', [
       'detailData' => $detailData,

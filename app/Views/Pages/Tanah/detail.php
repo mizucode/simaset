@@ -121,7 +121,7 @@
                 </div>
                 <div class="border-bottom pb-2 mt-5 mb-3 flex justify-content-between">
                   <h5 class="text-bold">
-                    Dokumen Gambar
+                    Dokumen Tanah
                   </h5>
                   <a href="/admin/prasarana/tanah?tambah-dokumen=<?= htmlspecialchars($detailData['id']) ?>" class="btn btn-warning btn-sm ml-auto">
                     <div class="text-dark">

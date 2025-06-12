@@ -333,7 +333,7 @@
               <?= $totalPrasaranaData['tanah'] ?? 0 ?>,
               <?= $totalPrasaranaData['gedung'] ?? 0 ?>,
               <?= $totalPrasaranaData['ruang'] ?? 0 ?>,
-              <?= $totalPrasaranaData['lapang'] ?? 0 ?>,
+              <?= $totalPrasaranaData['lapangan'] ?? 0 ?>,
               <?= $totalSaranaData['bergerak'] ?? 0 ?>,
               <?= $totalSaranaData['mebelair'] ?? 0 ?>,
               <?= $totalSaranaData['atk'] ?? 0 ?>,
@@ -385,36 +385,38 @@
             right: 'dayGridMonth,timeGridWeek,timeGridDay'
           },
           events: function(fetchInfo, successCallback, failureCallback) {
-            fetch('https://api-harilibur.vercel.app/api')
+            fetch('https://libur.deno.dev/api')
               .then(response => response.json())
               .then(data => {
                 let events = data.filter(item => item.is_national_holiday).map(function(item) {
                   return {
-                    title: item.holiday_name,
-                    start: item.holiday_date,
+                    title: item.name, // Menggunakan 'holiday_name' dari API aktual
+                    start: item.date, // Menggunakan 'holiday_date' dari API aktual
                     allDay: true,
                     backgroundColor: '#dc3545',
                     borderColor: '#dc3545'
                   };
                 });
-
-                // Add sample events for asset maintenance
-                events.push({
-                  title: 'Pemeliharaan Rutin',
-                  start: new Date(),
-                  backgroundColor: '#17a2b8',
-                  borderColor: '#17a2b8'
-                });
-
                 successCallback(events);
               })
               .catch(error => failureCallback(error));
           },
           eventContent: function(arg) {
+            let dateDisplay = '';
+            if (arg.event.start) {
+              // Format tanggal menjadi "DD Mon" (contoh: "17 Agu") menggunakan lokal Indonesia
+              dateDisplay = arg.event.start.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'short'
+              });
+            }
             return {
               html: '<div class="fc-event-main-frame">' +
                 '<div class="fc-event-title-container">' +
-                '<div class="fc-event-title fc-sticky">' + arg.event.title + '</div>' +
+                '<div class="fc-event-title fc-sticky">' +
+                arg.event.title + // Ini adalah holiday_name
+                (dateDisplay ? ' <small>(' + dateDisplay + ')</small>' : '') + // Ini adalah holiday_date yang diformat
+                '</div>' +
                 '</div></div>'
             };
           }
@@ -425,12 +427,6 @@
   </script>
 
   <style>
-    .asset-summary-wrapper {
-      /* Anda bisa menambahkan style spesifik di sini jika kelas bootstrap tidak cukup, 
-         misalnya box-shadow yang lebih custom atau border.
-         Untuk saat ini, bg-light, p-3, rounded-lg, dan mb-4 sudah cukup dari Bootstrap. */
-    }
-
     .btn-action {
       padding: 1.5rem 0.5rem;
       transition: all 0.3s ease;

@@ -134,6 +134,40 @@
                       <!-- Data Identitas Sarana -->
                       <div class="border-bottom pb-2 mb-3">
                         <h5 class="text-bold fs-4 text-navy">
+                          Tanggal Peminjaman dan Pengembalian </h5>
+                        <span class="form-text">Isi data tanggal peminjaman dan rencana pengembalian.</span>
+                      </div>
+
+                      <div class=" py-4 px-4 mb-4 border rounded-md">
+                        <div class="">
+                          <label for="tanggal_peminjaman" class="fw-normal ">Tanggal Peminjaman <span class="text-danger">*</span></label>
+                          <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman"
+                            value="<?= htmlspecialchars($sarana['tanggal_peminjaman'] ?? date('Y-m-d')) ?>" required>
+                          <span class="form-text">
+                            Masukkan tanggal barang ini dipinjam.
+                          </span>
+
+                        </div>
+                      </div>
+                      <div class=" py-4 px-4 mb-4 border rounded-md">
+                        <div class="">
+                          <label for="tanggal_pengembalian" class="fw-normal ">Tanggal Rencana Pengembalian <span class="text-danger">*</span></label>
+                          <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian"
+                            value="<?= htmlspecialchars($sarana['tanggal_pengembalian'] ?? '') ?>" required>
+                          <span class="form-text">
+                            Masukkan tanggal rencana barang ini akan dikembalikan.
+                          </span>
+
+                        </div>
+                      </div>
+
+                      <!-- Data Tambahan -->
+
+                    </div>
+                    <div class="col-12 mt-4 border-bottom">
+                      <!-- Data Identitas Sarana -->
+                      <div class="border-bottom pb-2 mb-3">
+                        <h5 class="text-bold fs-4 text-navy">
                           LOKASI PEMINJAMAN
                         </h5>
 

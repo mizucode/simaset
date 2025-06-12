@@ -38,6 +38,8 @@ class SaranaATKController {
       $keterangan = $_POST['keterangan'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
+      $tanggal_peminjaman = null; // Untuk data baru, default null
+      $tanggal_pengembalian = null; // Untuk data baru, default null
 
       $no_registrasi = $this->generateUniqueRegistrationNumber(
         $conn,
@@ -62,6 +64,12 @@ class SaranaATKController {
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan,
+          'Tersedia', // Status default
+          null,
+          null,
+          null, // Peminjam details default null
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana ATK berhasil ditambahkan.' : 'Gagal menambahkan data sarana ATK.';
@@ -114,11 +122,12 @@ class SaranaATKController {
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $keterangan = $_POST['keterangan'] ?? null;
-      // Ambil status dan detail peminjam dari POST atau data sarana yang ada
       $status = $_POST['status'] ?? $sarana['status'] ?? 'Tersedia';
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'] ?? null;
+      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian'] ?? null;
 
 
       try {
@@ -141,7 +150,9 @@ class SaranaATKController {
           $status,
           $nama_peminjam,
           $identitas_peminjam,
-          $no_hp_peminjam
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana ATK berhasil diperbarui.' : 'Gagal memperbarui data sarana ATK.';

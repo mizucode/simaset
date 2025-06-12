@@ -12,6 +12,32 @@
         <div class="row justify-content-center">
           <div class="col-12">
             <?php include './app/Views/Components/helper.php'; ?>
+
+            <!-- Filter Card -->
+            <div class="card shadow-md mb-3" style="border-top: 3px solid #001f3f;">
+              <div class="card-header bg-light">
+                <h3 class="card-title">Filter Data</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group row">
+                  <label for="jenisFilter" class="col-sm-2 col-form-label">Filter Berdasarkan Jenis:</label>
+                  <div class="col-sm-4">
+                    <select id="jenisFilter" class="form-control form-control-sm select2-custom">
+                      <option value="">Semua Jenis</option>
+                      <?php if (!empty($jenisList)) : ?>
+                        <?php foreach ($jenisList as $jenis) : ?>
+                          <option value="<?= htmlspecialchars($jenis); ?>"><?= htmlspecialchars($jenis); ?></option>
+                        <?php endforeach; ?>
+                      <?php endif; ?>
+                    </select>
+                  </div>
+                  <div class="col-sm-2 d-flex"> <!-- Jadikan kolom ini flex container -->
+                    <button id="resetFilter" class="btn btn-secondary btn-sm align-self-stretch w-100">Reset Filter</button> <!-- Regangkan tombol secara vertikal dan buat lebar penuh di kolomnya -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="card shadow-md">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
                 <h3 class="h4 mb-0">
@@ -73,18 +99,14 @@
   <?php require_once './app/Views/Components/script.php'; ?>
   <script>
     $(function() {
-      $("#mebelairTable").DataTable({
+      var table = $("#mebelairTable").DataTable({
         "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
         "paging": true,
         "info": true,
         "searching": true,
-        "columnDefs": [{
-          "targets": [4], // Target kolom Aksi (indeks 4)
-          "searchable": false,
-          "orderable": false
-        }],
+
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -108,44 +130,55 @@
           "searchPlaceholder": "kata kunci pencarian",
           "thousands": "."
         },
-        "buttons": [{
-            extend: 'copy',
-            title: 'Data Sarana Mebelair',
-            exportOptions: {
-              columns: [0, 1, 2, 3]
-            } // No, No Registrasi, Nama Barang, Jenis
+        "ordering": false, // Menonaktifkan fitur ordering untuk semua kolom
+        "columnDefs": [{
+            "targets": 0, // Kolom "No"
+            "orderable": false,
+            "searchable": false // Kolom "No" tidak perlu bisa dicari
           },
           {
-            extend: 'csv',
-            title: 'Data Sarana Mebelair',
-            exportOptions: {
-              columns: [0, 1, 2, 3]
-            }
-          },
-          {
-            extend: 'excel',
-            title: 'Data Sarana Mebelair',
-            exportOptions: {
-              columns: [0, 1, 2, 3]
-            }
-          },
-          {
-            extend: 'pdf',
-            title: 'Data Sarana Mebelair',
-            exportOptions: {
-              columns: [0, 1, 2, 3]
-            }
-          },
-          {
-            extend: 'print',
-            title: 'Data Sarana Mebelair',
-            exportOptions: {
-              columns: [0, 1, 2, 3]
-            }
-          },
-          'colvis'
+            "targets": [4], // Kolom "Aksi"
+            "orderable": false // Pastikan kolom aksi tetap tidak bisa diurutkan (jika ordering utama diaktifkan)
+          }
         ]
-      }).buttons().container().appendTo('#mebelairTable_wrapper .col-md-6:eq(0)');
+      });
+
+      table.buttons().container().appendTo('#mebelairTable_wrapper .col-md-6:eq(0)');
+
+      // Event listener untuk filter, sekarang akan bekerja karena 'table' adalah objek yang benar
+      $('#jenisFilter').on('change', function() {
+        var val = $(this).val();
+
+        table.column(3) // Index kolom 'Jenis' adalah 3 (dimulai dari 0)
+          .search(val ? '^' + val + '$' : '', true, false)
+          .draw();
+      });
+
+      // Fungsi untuk mengatur ulang nomor urut setiap kali tabel digambar ulang
+      table.on('draw.dt', function() {
+        var PageInfo = table.page.info();
+        table.column(0, {
+          page: 'current'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
+      });
+
+      // Inisialisasi Select2 untuk filter jenis
+      $('#jenisFilter').select2({
+        theme: 'bootstrap4',
+        placeholder: "Pilih Jenis Barang",
+        allowClear: false, // Menonaktifkan tombol clear (x)
+        minimumResultsForSearch: 1, // Tampilkan kotak pencarian jika ada minimal 1 opsi (untuk autocomplete)
+        width: '100%'
+      });
+
+      // Event listener untuk tombol reset filter
+      $('#resetFilter').on('click', function() {
+        $('#jenisFilter').val('').trigger('change'); // Reset dropdown dan trigger change event
+        // table.column(3).search('').draw(); // Baris ini menjadi redundan karena trigger('change') sudah memanggil draw()
+      });
+
     });
   </script>
 </body>

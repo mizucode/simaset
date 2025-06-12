@@ -145,6 +145,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
+      /* autoprefixer: ignore next */
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }
@@ -248,7 +249,6 @@
         padding: 0;
         box-shadow: none;
         gap: 10mm 5mm;
-        /* Pastikan gap konsisten atau sesuaikan jika perlu */
         align-content: flex-start;
       }
 

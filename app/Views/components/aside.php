@@ -123,7 +123,7 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           <a href="#" class="nav-link <?= $isBarangMasukOpen ? 'active' : '' ?>">
             <i class="nav-icon fas fa-cart-plus me-2"></i> <!-- atau fas fa-plus-square -->
             <p>
-              Barang Masuk (Stok) <!-- Ganti nama jika lebih sesuai, misal "Tambah Stok Barang" -->
+             Tambahkan Barang
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>

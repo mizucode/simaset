@@ -215,6 +215,8 @@
                   <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
                     Nama Peminjam
                   </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
+                    Rencana Pengembalian </th>
 
                 </tr>
               </thead>
@@ -247,6 +249,9 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                         <?php echo htmlspecialchars($barang['nama_peminjam'] ?? '-'); ?>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                        <?php echo htmlspecialchars($barang['tanggal_pengembalian'] ?? '-'); ?>
                       </td>
 
                     </tr>

@@ -1,9 +1,8 @@
 <?php
 
-// Asumsi ada model DokumenSaranaMebelair.php yang serupa dengan DokumenSaranaBergerak.php
+
 require_once __DIR__ . '/../Models/SaranaMebelair.php';
-require_once __DIR__ . '/../Models/DokumenSaranaMebelair.php'; // Diperlukan untuk fitur dokumen & gambar
-// Model lain yang mungkin masih relevan (sesuai kebutuhan create/update form Mebelair)
+require_once __DIR__ . '/../Models/DokumenSaranaMebelair.php'; // 
 require_once __DIR__ . '/../Models/KategoriBarang.php';
 require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
@@ -50,6 +49,13 @@ class SaranaMebelairController {
       // jika tidak, sesuaikan atau set default null. Ini diperlukan untuk generateUniqueRegistrationNumber
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
+      // Default values for new entries, matching model defaults
+      $status = 'Tersedia';
+      $nama_peminjam = null;
+      $identitas_peminjam = null;
+      $no_hp_peminjam = null;
+      $tanggal_peminjaman = null;
+      $tanggal_pengembalian = null;
 
 
       // Menggunakan generator nomor registrasi dari template, disesuaikan untuk Mebelair
@@ -77,7 +83,13 @@ class SaranaMebelairController {
           $bahan,
           $keterangan,
           $biaya_pembelian, // tambahkan jika ada
-          $tanggal_pembelian // tambahkan jika ada
+          $tanggal_pembelian, // tambahkan jika ada
+          $status,
+          $nama_peminjam,
+          $identitas_peminjam,
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana mebelair berhasil ditambahkan.' : 'Gagal menambahkan data sarana mebelair.';
@@ -139,6 +151,8 @@ class SaranaMebelairController {
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'] ?? null;
+      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian'] ?? null;
 
 
       try {
@@ -163,7 +177,9 @@ class SaranaMebelairController {
           $status,
           $nama_peminjam,
           $identitas_peminjam,
-          $no_hp_peminjam
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.';
@@ -226,19 +242,28 @@ class SaranaMebelairController {
     }
   }
 
+
+
+
   public function index() {
     global $conn;
     $saranaData = SaranaMebelair::getAllData($conn);
-    $this->delete(); // Memanggil fungsi delete jika ada parameter ?delete=id
+    $this->delete();
+
+    $jenisList = [];
+    if (!empty($saranaData)) {
+      $allJenis = array_column($saranaData, 'barang');
+      $jenisList = array_unique($allJenis);
+      sort($jenisList);
+    }
 
     $this->renderView('index', [
       'saranaData' => $saranaData,
+      'jenisList' => $jenisList,
     ]);
   }
 
-  // --- DOKUMEN LOGIC (Adapted from SaranaBergerakController) ---
-  // Asumsi Model DokumenSaranaMebelair memiliki method yang serupa dengan DokumenSaranaBergerak
-  // seperti storeDokumenMebelair, getDokumenById, delete, dll.
+
 
   public function dokumen($id) // $id adalah ID Sarana Mebelair
   {

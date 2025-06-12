@@ -145,6 +145,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
+      /* autoprefixer: ignore next */
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     }

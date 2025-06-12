@@ -19,14 +19,14 @@
                 <?= htmlspecialchars($error); ?>
               </div>
             <?php endif; ?>
-            <?php if (!empty($_SESSION['success_message'])) : // Untuk pesan sukses 
+            <?php if (!empty($_SESSION['update'])) : // Untuk pesan sukses (disesuaikan dengan controller)
             ?>
               <div class="alert alert-success alert-dismissible fade show mb-4">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">×</span>
                 </button>
-                <?= htmlspecialchars($_SESSION['success_message']); ?>
-                <?php unset($_SESSION['success_message']); ?>
+                <?= htmlspecialchars($_SESSION['update']); ?>
+                <?php unset($_SESSION['update']); ?>
               </div>
             <?php endif; ?>
 
@@ -227,17 +227,85 @@
                         </div>
                       </div>
                     </div>
+
+                    <!-- Status & Peminjaman Section (Hanya tampil saat edit) -->
+                    <?php if (isset($sarana)) : ?>
+                      <div class="col-12 mt-4 border-bottom">
+                        <div class="border-bottom pb-2 mb-3">
+                          <h5 class="text-bold fs-4 text-navy">
+                            STATUS & PEMINJAMAN
+                          </h5>
+                          <span class="form-text">Perbarui status dan informasi peminjam jika barang sedang dipinjam.</span>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <!-- Status -->
+                          <div class="form-group">
+                            <label for="status" class="fw-bold">Status Barang <span class="text-danger">*</span></label>
+                            <select class="form-control" id="status" name="status" required>
+                              <option value="Tersedia" <?= (isset($sarana['status']) && $sarana['status'] == 'Tersedia') ? 'selected' : ''; ?>>Tersedia</option>
+                              <option value="Dipinjam" <?= (isset($sarana['status']) && $sarana['status'] == 'Dipinjam') ? 'selected' : ''; ?>>Dipinjam</option>
+                              <option value="Rusak Ringan" <?= (isset($sarana['status']) && $sarana['status'] == 'Rusak Ringan') ? 'selected' : ''; ?>>Rusak Ringan</option>
+                              <option value="Rusak Berat" <?= (isset($sarana['status']) && $sarana['status'] == 'Rusak Berat') ? 'selected' : ''; ?>>Rusak Berat</option>
+                              <option value="Hilang" <?= (isset($sarana['status']) && $sarana['status'] == 'Hilang') ? 'selected' : ''; ?>>Hilang</option>
+                            </select>
+                            <span class="form-text">Pilih status barang saat ini.</span>
+                          </div>
+                        </div>
+
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <!-- Nama Peminjam -->
+                          <div class="form-group">
+                            <label for="nama_peminjam" class="fw-bold">Nama Peminjam</label>
+                            <input type="text" class="form-control" id="nama_peminjam" name="nama_peminjam" placeholder="Nama lengkap peminjam" value="<?= htmlspecialchars($sarana['nama_peminjam'] ?? '') ?>">
+                            <span class="form-text">Isi jika status barang "Dipinjam".</span>
+                          </div>
+                        </div>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <!-- Identitas Peminjam -->
+                          <div class="form-group">
+                            <label for="identitas_peminjam" class="fw-bold">Identitas Peminjam</label>
+                            <input type="text" class="form-control" id="identitas_peminjam" name="identitas_peminjam" placeholder="NIK/NIP/NIM peminjam" value="<?= htmlspecialchars($sarana['identitas_peminjam'] ?? '') ?>">
+                            <span class="form-text">Isi jika status barang "Dipinjam".</span>
+                          </div>
+                        </div>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <!-- No HP Peminjam -->
+                          <div class="form-group">
+                            <label for="no_hp_peminjam" class="fw-bold">No. HP Peminjam</label>
+                            <input type="text" class="form-control" id="no_hp_peminjam" name="no_hp_peminjam" placeholder="Nomor HP aktif peminjam" value="<?= htmlspecialchars($sarana['no_hp_peminjam'] ?? '') ?>">
+                            <span class="form-text">Isi jika status barang "Dipinjam".</span>
+                          </div>
+                        </div>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="tanggal_peminjaman" class="fw-bold">Tanggal Peminjaman</label>
+                            <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman" value="<?= htmlspecialchars($sarana['tanggal_peminjaman'] ?? '') ?>">
+                            <span class="form-text">Isi jika status barang "Dipinjam".</span>
+                          </div>
+                        </div>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="tanggal_pengembalian" class="fw-bold">Tanggal Pengembalian</label>
+                            <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian" value="<?= htmlspecialchars($sarana['tanggal_pengembalian'] ?? '') ?>">
+                            <span class="form-text">Isi jika status barang "Dipinjam".</span>
+                          </div>
+                        </div>
+                      </div>
+                    <?php endif; ?>
                   </div>
                 </div> <!-- Penutup card-body -->
 
-                <div class="card-footer text-right">
-                  <a href="/admin/sarana/atk" class="btn btn-secondary"> <!-- Tombol kembali ke daftar ATK -->
-                    <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
-                  </a>
-                  <button type="submit" class="btn btn-primary" id="submitBtn">
-                    <i class="fas fa-save mr-2"></i>
-                    <?= isset($sarana) ? 'Update Data Sarana ATK' : 'Simpan Data Sarana ATK' ?>
-                  </button>
+                <div class="card-footer">
+                  <div class="d-flex flex-column flex-md-row justify-content-md-end">
+                    <a href="/admin/sarana/atk" class="btn btn-secondary mb-2 mb-md-0 mr-md-2"> <!-- Tombol kembali ke daftar ATK -->
+                      <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary mb-2 mb-md-0" id="submitBtn">
+                      <i class="fas fa-save mr-2"></i>
+                      <?= isset($sarana) ? 'Update Data Sarana ATK' : 'Simpan Data Sarana ATK' ?>
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

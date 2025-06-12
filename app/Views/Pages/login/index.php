@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="Sistem Informasi Manajemen Aset Universitas Muhammadiyah Kuningan">
   <link rel="icon" href="img/favicon.png" type="image/png" />
-  <title>Masuk | SIMASET | UM Kuningan</title>
+  <title>SIMASET | UM Kuningan</title>
 
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">

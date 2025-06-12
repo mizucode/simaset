@@ -1,6 +1,11 @@
 <?php
 
 require_once __DIR__ . '/../Models/SaranaMebelair.php'; // Changed model
+require_once __DIR__ . '/../Models/KategoriBarang.php';
+require_once __DIR__ . '/../Models/Barang.php';
+require_once __DIR__ . '/../Models/KondisiBarang.php';
+require_once __DIR__ . '/../Models/Lapang.php';
+require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
 class SaranaMebelairPinjamController { // Renamed class
@@ -45,6 +50,8 @@ class SaranaMebelairPinjamController { // Renamed class
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'] ?? null;
+      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian'] ?? null;
 
       try {
         $success = SaranaMebelair::updateData(
@@ -68,7 +75,9 @@ class SaranaMebelairPinjamController { // Renamed class
           $status,
           $nama_peminjam,
           $identitas_peminjam,
-          $no_hp_peminjam
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.'; // Changed message

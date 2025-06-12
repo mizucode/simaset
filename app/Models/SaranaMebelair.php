@@ -101,7 +101,9 @@ class SaranaMebelair {
     $status = 'Tersedia', // Default status untuk data baru
     $nama_peminjam = null,
     $identitas_peminjam = null,
-    $no_hp_peminjam = null
+    $no_hp_peminjam = null,
+    $tanggal_peminjaman = null,
+    $tanggal_pengembalian = null
   ) {
     $fields = [
       'kategori_barang_id' => $kategori_barang_id,
@@ -123,6 +125,8 @@ class SaranaMebelair {
       'nama_peminjam' => $nama_peminjam,
       'identitas_peminjam' => $identitas_peminjam,
       'no_hp_peminjam' => $no_hp_peminjam,
+      'tanggal_peminjaman' => $tanggal_peminjaman,
+      'tanggal_pengembalian' => $tanggal_pengembalian,
     ];
 
     $columns = implode(', ', array_keys($fields));
@@ -168,7 +172,9 @@ class SaranaMebelair {
     $status, // Tambahkan parameter status
     $nama_peminjam,
     $identitas_peminjam,
-    $no_hp_peminjam
+    $no_hp_peminjam,
+    $tanggal_peminjaman,
+    $tanggal_pengembalian
   ) {
     $query = "UPDATE sarana_mebelair SET
             kategori_barang_id = :kategori_barang_id,
@@ -190,6 +196,8 @@ class SaranaMebelair {
             nama_peminjam = :nama_peminjam,
             identitas_peminjam = :identitas_peminjam,
             no_hp_peminjam = :no_hp_peminjam,
+            tanggal_peminjaman = :tanggal_peminjaman,
+            tanggal_pengembalian = :tanggal_pengembalian,
             updated_at = CURRENT_TIMESTAMP
         WHERE id = :id";
 
@@ -214,6 +222,8 @@ class SaranaMebelair {
       $stmt->bindParam(':nama_peminjam', $nama_peminjam);
       $stmt->bindParam(':identitas_peminjam', $identitas_peminjam);
       $stmt->bindParam(':no_hp_peminjam', $no_hp_peminjam);
+      $stmt->bindParam(':tanggal_peminjaman', $tanggal_peminjaman);
+      $stmt->bindParam(':tanggal_pengembalian', $tanggal_pengembalian);
       $stmt->bindParam(':id', $id);
       return $stmt->execute();
     } catch (PDOException $e) {

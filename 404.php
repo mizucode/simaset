@@ -6,7 +6,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="Sistem Informasi Manajemen Aset Universitas Muhammadiyah Kuningan">
-  <link rel="icon" href="img/favicon.png" type="image/png" />
+  <link rel="icon" href="/img/favicon.png" type="image/png" />
   <title>Informasi Aset | SIMASET | UM Kuningan</title>
 
   <!-- Font Awesome CDN -->
@@ -89,7 +89,7 @@
       <div class="flex justify-between items-center h-16 lg:h-20">
         <!-- Logo -->
         <a href="index.html" class="flex items-center space-x-2">
-          <img src="img/logo.png" alt="UM Kuningan" class="h-8 md:h-10">
+          <img src="/img/logo.png" alt="UM Kuningan" class="h-8 md:h-10">
         </a>
 
         <!-- Desktop Menu -->
@@ -140,27 +140,41 @@
   <main>
     <!-- Hero Section -->
     <section class="bg-gradient-to-r from-primary to-primary-dark text-white py-12">
-      <div class="container mx-auto px-4 lg:px-8 xl:px-16 text-center">
-        <h1 class="text-3xl md:text-4xl font-bold mb-4">Halaman Tidak Ditemukan</h1>
-        <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">Temukan informasi lengkap tentang aset yang tersedia di Universitas Muhammadiyah Kuningan</p>
+      <div class="container mx-auto px-4 lg:px-8 xl:px-16 text-center py-8">
+        <i class="fas fa-exclamation-triangle text-6xl text-secondary mb-6"></i>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Oops! Halaman Tidak Ditemukan</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">Sepertinya halaman yang Anda cari tidak tersedia.</p>
       </div>
     </section>
 
     <!-- Information Section -->
-    <section class="py-12 bg-white">
-      <div class="container mx-auto px-4 lg:px-8 xl:px-16">
-        <!-- Filter Section -->
+    <section class="py-12 bg-gray-50">
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 ">
+        <div class="bg-white p-6 md:p-8 rounded-lg shadow-card">
+          <h2 class="text-xl font-semibold text-primary mb-4 text-left">Berikut beberapa kemungkinan penyebabnya:</h2>
+          <ul class="list-disc list-inside text-left space-y-1.5 mb-6 text-gray-700 text-sm md:text-base">
+            <li><strong>Tautan salah atau kedaluwarsa</strong> - Periksa kembali alamat URL yang Anda masukkan.</li>
+            <li><strong>Halaman telah dipindahkan atau dihapus</strong> - Coba cari halaman terkait di menu navigasi kami.</li>
+            <li><strong>Kesalahan pengetikan</strong> - Pastikan tidak ada typo dalam URL.</li>
+          </ul>
 
-
-        <!-- Table Section -->
-        <div class="bg-white rounded-lg shadow-card overflow-hidden">
-
+          <h2 class="text-xl font-semibold text-primary mb-4 text-left">Apa yang bisa Anda lakukan?</h2>
+          <div class="space-y-3 text-left">
+            <a href="/" class="inline-flex items-center bg-primary hover:bg-primary-dark text-white font-medium py-2.5 px-5 rounded-md transition duration-300 text-sm md:text-base">
+              <i class="fas fa-home mr-2"></i>Kembali ke Beranda
+            </a>
+            <p class="text-gray-700 text-sm md:text-base">Gunakan fitur pencarian di situs kami.</p>
+            <p class="text-gray-700 text-sm md:text-base">
+              Laporkan masalah ini ke tim kami jika Anda merasa ini adalah kesalahan.
+            </p>
+            <p class="text-gray-700 text-sm md:text-base">
+              Butuh bantuan lebih lanjut? <a href="#" class="text-accent hover:underline font-medium">Hubungi kami</a>.
+            </p>
+          </div>
+          <p class="mt-8 text-gray-600 text-sm text-center">Terima kasih atas pengertiannya!</p>
         </div>
       </div>
     </section>
-
-    <!-- Stats Section -->
-
   </main>
 
   <!-- Footer -->
@@ -224,7 +238,7 @@
       <div class="border-t border-gray-700 pt-6 flex flex-col md:flex-row justify-between items-center">
         <div class="mb-4 md:mb-0">
           <a href="https://www.umkuningan.ac.id">
-            <img src="img/logo-footer.png" alt="UM Kuningan" class="h-8">
+            <img src="/img/logo-footer.png" alt="UM Kuningan" class="h-8">
           </a>
         </div>
         <div class="text-center md:text-right">

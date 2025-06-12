@@ -106,7 +106,9 @@ class SaranaBergerak {
     $status = 'Tersedia', // Default status untuk data baru
     $nama_peminjam = null,
     $identitas_peminjam = null,
-    $no_hp_peminjam = null
+    $no_hp_peminjam = null,
+    $tanggal_peminjaman = null,
+    $tanggal_pengembalian = null
   ) {
     $fields = [
       'kategori_barang_id' => $kategori_barang_id,
@@ -126,6 +128,8 @@ class SaranaBergerak {
       'nama_peminjam' => $nama_peminjam,
       'identitas_peminjam' => $identitas_peminjam,
       'no_hp_peminjam' => $no_hp_peminjam,
+      'tanggal_peminjaman' => $tanggal_peminjaman,
+      'tanggal_pengembalian' => $tanggal_pengembalian,
     ];
 
     $columns = implode(', ', array_keys($fields));
@@ -160,7 +164,9 @@ class SaranaBergerak {
     $status,
     $nama_peminjam,
     $identitas_peminjam,
-    $no_hp_peminjam
+    $no_hp_peminjam,
+    $tanggal_peminjaman,
+    $tanggal_pengembalian
   ) {
     $fields = [
       'kategori_barang_id' => $kategori_barang_id,
@@ -179,7 +185,9 @@ class SaranaBergerak {
       'status' => $status,
       'nama_peminjam' => $nama_peminjam,
       'identitas_peminjam' => $identitas_peminjam,
-      'no_hp_peminjam' =>  $no_hp_peminjam
+      'no_hp_peminjam' =>  $no_hp_peminjam,
+      'tanggal_peminjaman' => $tanggal_peminjaman,
+      'tanggal_pengembalian' => $tanggal_pengembalian,
     ];
 
     $setClause = implode(', ', array_map(function ($key) {

@@ -13,11 +13,24 @@ class LaporanController {
     $PrasaranaRuang = Ruang::getAllData($conn);
     $PrasaranaLapang = Lapang::getAllData($conn);
 
+    $totalTanah = count($PrasaranaTanah);
+    $totalGedung = count($PrasaranaBangunan);
+    $totalRuang = count($PrasaranaRuang);
+    $totalLapang = count($PrasaranaLapang);
+
+    $chartData = [
+      'labels' => ['Tanah', 'Bangunan', 'Ruang', 'Lapang'],
+      'datasets' => [
+        [
+          'label' => 'Total Prasarana',
+          'data' => [$totalTanah, $totalGedung, $totalRuang, $totalLapang],
+          'backgroundColor' => ['#007bff', '#28a745', '#ffc107', '#dc3545'],
+        ]
+      ]
+    ];
+
     $this->renderView('Prasarana/index', [
-      'PrasaranaTanah' => $PrasaranaTanah,
-      'PrasaranaBangunan' => $PrasaranaBangunan,
-      'PrasaranaRuang' => $PrasaranaRuang,
-      'PrasaranaLapang' => $PrasaranaLapang,
+      'chartData' => json_encode($chartData)
     ]);
   }
 

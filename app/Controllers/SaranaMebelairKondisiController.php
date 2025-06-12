@@ -50,6 +50,13 @@ class SaranaMebelairKondisiController {
       // jika tidak, sesuaikan atau set default null. Ini diperlukan untuk generateUniqueRegistrationNumber
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
+      // Default values for new entries, matching model defaults
+      $status = 'Tersedia';
+      $nama_peminjam = null;
+      $identitas_peminjam = null;
+      $no_hp_peminjam = null;
+      $tanggal_peminjaman = null;
+      $tanggal_pengembalian = null;
 
 
       // Menggunakan generator nomor registrasi dari template, disesuaikan untuk Mebelair
@@ -77,7 +84,13 @@ class SaranaMebelairKondisiController {
           $bahan,
           $keterangan,
           $biaya_pembelian, // tambahkan jika ada
-          $tanggal_pembelian // tambahkan jika ada
+          $tanggal_pembelian, // tambahkan jika ada
+          $status,
+          $nama_peminjam,
+          $identitas_peminjam,
+          $no_hp_peminjam,
+          $tanggal_peminjaman,
+          $tanggal_pengembalian
         );
 
         $message = $success ? 'Data sarana mebelair berhasil ditambahkan.' : 'Gagal menambahkan data sarana mebelair.';
@@ -139,6 +152,8 @@ class SaranaMebelairKondisiController {
       $nama_peminjam = $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $sarana['no_hp_peminjam'] ?? null;
+      $tanggal_peminjaman = $sarana['tanggal_peminjaman'] ?? null; // Ambil dari data sarana yang ada
+      $tanggal_pengembalian = $sarana['tanggal_pengembalian'] ?? null; // Ambil dari data sarana yang ada
 
 
       try {
@@ -163,7 +178,9 @@ class SaranaMebelairKondisiController {
           $status,
           $nama_peminjam,
           $identitas_peminjam,
-          $no_hp_peminjam
+          $no_hp_peminjam,
+          $tanggal_peminjaman,    // Tambahkan parameter
+          $tanggal_pengembalian   // Tambahkan parameter
         );
 
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.';
@@ -513,7 +530,7 @@ class SaranaMebelairKondisiController {
       exit();
     }
 
-    
+
     $dokumenAsetMebelair = DokumenSaranaMebelair::getAllData($conn, $id);
     $dokumenGambarMebelair = DokumenSaranaMebelair::getAllDataGambar($conn, $id);
 
