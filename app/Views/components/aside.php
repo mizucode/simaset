@@ -123,7 +123,7 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           <a href="#" class="nav-link <?= $isBarangMasukOpen ? 'active' : '' ?>">
             <i class="nav-icon fas fa-cart-plus me-2"></i> <!-- atau fas fa-plus-square -->
             <p>
-             Tambahkan Barang
+              Tambahkan Barang
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
@@ -231,7 +231,7 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           <a href="#" class="nav-link <?= $isPemindahanOpen ? 'active' : '' ?>">
             <i class="nav-icon fas fa-truck-loading me-2"></i> <!-- atau fas fa-people-arrows -->
             <p>
-              Pemindahan Barang
+              Survey Sarana
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>

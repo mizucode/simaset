@@ -268,4 +268,30 @@ class SaranaElektronik {
       return false;
     }
   }
+
+  /**
+   * Memperbarui kondisi dan lokasi barang elektronik berdasarkan nomor registrasi.
+   *
+   * @param PDO $conn Koneksi database.
+   * @param string $no_registrasi Nomor registrasi barang.
+   * @param int $kondisi_barang_id_baru ID kondisi barang yang baru.
+   * @param string $lokasi_baru Lokasi barang yang baru.
+   * @return bool True jika berhasil, false jika gagal.
+   */
+  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru) {
+    $query = "UPDATE sarana_elektronik SET 
+                  kondisi_barang_id = :kondisi_barang_id, 
+                  lokasi = :lokasi 
+                WHERE no_registrasi = :no_registrasi";
+    try {
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id_baru, PDO::PARAM_INT);
+      $stmt->bindParam(':lokasi', $lokasi_baru, PDO::PARAM_STR);
+      $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
+      return $stmt->execute();
+    } catch (PDOException $e) {
+      error_log("Error in SaranaElektronik::updateKondisiLokasiByNoReg - " . $e->getMessage());
+      return false;
+    }
+  }
 }

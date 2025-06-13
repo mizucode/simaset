@@ -52,7 +52,7 @@
                         <th width="15%">No Registrasi</th>
                         <th width="15%">Nama Barang</th>
                         <th width="15%">Jenis</th>
-                        <th width="15%">No Polisi</th>
+                        <th width="15%">Kondisi</th>
                         <th width="15%">Lokasi Saat Ini</th>
                         <th width="15%">Aksi</th>
                       </tr>
@@ -67,7 +67,7 @@
                             <td><?= htmlspecialchars($sarana['nama_detail_barang'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['barang'] ?? '-'); ?></td>
 
-                            <td class="text-center"><?= htmlspecialchars($sarana['no_polisi'] ?? '-'); ?></td>
+                            <td class="text-center"><?= htmlspecialchars($sarana['kondisi'] ?? '-'); ?></td>
                             <td class="text-center"><?= htmlspecialchars($sarana['lokasi'] ?? '-'); ?></td>
 
 

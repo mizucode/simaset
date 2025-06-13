@@ -8,6 +8,19 @@
     <?php include './app/Views/Components/aside.php'; ?>
     <?php include './app/Views/Components/css.php'; ?>
 
+    <style>
+      /* PERBAIKAN: Menambahkan CSS eksplisit untuk ukuran logo di dalam kartu QR */
+      .stk-card .stk-logo-wrapper img {
+        width: 70px;
+        height: auto;
+      }
+
+      .stk-card .stk-favicon-wrapper img {
+        width: 35px;
+        height: auto;
+      }
+    </style>
+
     <div class="content-wrapper bg-white mb-5 pt-3 px-4">
       <div class="container-fluid">
         <div class="row justify-content-center">
@@ -18,7 +31,6 @@
                 <div class="d-flex justify-content-between align-items-center">
                   <h3 class="card-title text-lg">
                     Detail Barang Bergerak
-
                   </h3>
                   <div class="text-right">
                     <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= htmlspecialchars($detailData['id'] ?? ''); ?>">
@@ -43,28 +55,25 @@
                         $namaBarang = $detailData['nama_detail_barang'] ?? 'Barang Tidak Bernama';
                         $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
                         $qrCanvasId = "qrCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
+                        $qrPinjamCanvasId = "qrPinjamCanvas_" . htmlspecialchars($detailData['id'] ?? uniqid());
                         ?>
                         <div>
                           <div class="stk-card" id="qrCardToExport">
                             <div class="stk-content">
                               <div class="stk-header">
                                 <div class="stk-logo-wrapper">
-                                  <img src="/img/logo.png" width="70" alt="Logo Perusahaan">
+                                  <img src="/img/logo.png" alt="Logo Perusahaan">
                                 </div>
                                 <div class="stk-favicon-wrapper">
-                                  <img src="/img/logo.svg" width="35" alt="Favicon">
+                                  <img src="/img/logopng.png" alt="Favicon">
                                 </div>
                               </div>
-
                               <div class="stk-item-info">
                                 <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
                                 <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
                               </div>
-
                               <div class="stk-qr-area">
-                                <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>">
-                                  <!-- QR Code akan digenerate oleh JavaScript di sini -->
-                                </div>
+                                <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>"></div>
                                 <span class="stk-scan-text text-navy pt-2">
                                   <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
                                 </span>
@@ -76,10 +85,40 @@
                         <button id="downloadQR" class="btn btn-sm btn-success mt-4 mb-5">
                           <i class="fas fa-download mr-1"></i> Download QR Card
                         </button>
+
+                        <?php if (isset($detailData['status']) && $detailData['status'] === 'Tersedia') : ?>
+                          <hr class="w-100">
+                          <h6 class="text-bold text-navy mt-3 mb-4">QR Peminjaman Barang Tersedia</h6>
+                          <div>
+                            <div class="stk-card" id="qrPinjamCardToExport">
+                              <div class="stk-content">
+                                <div class="stk-header">
+                                  <div class="stk-logo-wrapper">
+                                    <img src="/img/logo.png" alt="Logo Perusahaan">
+                                  </div>
+                                  <div class="stk-favicon-wrapper">
+                                    <img src="/img/logopng.png" alt="Favicon">
+                                  </div>
+                                </div>
+                                <div class="stk-item-info">
+                                  <span class="stk-item-name"><?= htmlspecialchars($namaBarang) ?></span>
+                                  <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
+                                </div>
+                                <div class="stk-qr-area">
+                                  <div id="<?= $qrPinjamCanvasId ?>" class="stk-qr-image-container" data-qr-pinjam-content="<?= htmlspecialchars($detailData['id'] ?? '') ?>"></div>
+                                  <span class="stk-scan-text text-navy pt-2"><i class="fas fa-hand-holding-medical mr-1"></i> PINJAM BARANG</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <button id="downloadQRPinjam" class="btn btn-sm btn-primary mt-3 mb-4">
+                            <i class="fas fa-download mr-1"></i> Download QR Peminjaman Barang
+                          </button>
+                        <?php endif; ?>
                       </div>
                     </div>
                   </div>
-                  <!-- /.col -->
+
                   <div class="col-md-9">
                     <div class="card">
                       <div class="card-body">
@@ -287,7 +326,6 @@
                                 onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
                                 <i class="fas fa-trash"></i> Hapus
                               </button>
-
                             </div>
                           </div>
                         </div>
@@ -308,7 +346,6 @@
       </div>
     </div>
 
-    <!-- Modal Konfirmasi Hapus Barang Utama -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -333,18 +370,12 @@
 
   <?php include './app/Views/Components/script.php'; ?>
 
-  <!-- Ekstensi untuk lightbox gambar -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
-  <!-- JsBarcode (jika diperlukan di bagian lain) -->
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
-  <!-- Library untuk generate QR Code (davidshimjs) -->
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
-  <!-- Library untuk konversi HTML ke Canvas (untuk download) -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
-
   <script>
-    // Fungsi konfirmasi hapus untuk dokumen dan gambar (agar tidak redirect langsung)
     function confirmDelete(url, itemName, type) {
       if (confirm(`Apakah Anda yakin ingin menghapus ${type} "${itemName}"? Tindakan ini tidak dapat dibatalkan.`)) {
         window.location.href = url;
@@ -352,8 +383,6 @@
     }
 
     function confirmDeleteDokumen(dokumenId, saranaId) {
-      // Mungkin Anda ingin menambahkan nama dokumen ke pesan konfirmasi
-      // Untuk itu, Anda perlu mengambilnya atau melewatkannya ke fungsi ini
       if (confirm(`Apakah Anda yakin ingin menghapus dokumen ini? Tindakan ini tidak dapat dibatalkan.`)) {
         window.location.href = `/admin/sarana/bergerak?delete-dokumen=${dokumenId}&sarana_id=${saranaId}`;
       }
@@ -365,9 +394,7 @@
       }
     }
 
-
     $(document).ready(function() {
-      // Inisialisasi lightbox untuk gambar dokumentasi
       $(document).on('click', '[data-toggle="lightbox"]', function(event) {
         event.preventDefault();
         $(this).ekkoLightbox({
@@ -375,110 +402,99 @@
         });
       });
 
-      // Modal konfirmasi hapus barang utama
       $('#deleteModal').on('show.bs.modal', function(event) {
-        var button = $(event.relatedTarget); // Tombol yang memicu modal
-        var itemId = button.data('id'); // Ekstrak info dari atribut data-*
-        var itemName = "<?= htmlspecialchars($detailData['nama_detail_barang'] ?? 'Barang Ini') ?>"; // Ambil nama barang dari PHP
-
+        var button = $(event.relatedTarget);
+        var itemId = button.data('id');
+        var itemName = "<?= htmlspecialchars($detailData['nama_detail_barang'] ?? 'Barang Ini') ?>";
         var modal = $(this);
-        modal.find('#itemNameModal').text(itemName); // Isi nama barang di modal
+        modal.find('#itemNameModal').text(itemName);
         var deleteUrl = '/admin/sarana/bergerak?delete=' + itemId;
         modal.find('#confirmDeleteButton').attr('href', deleteUrl);
       });
 
-
-      // 1. Generate QR Code pada elemen yang ditentukan
       const qrContainer = document.getElementById('<?= $qrCanvasId ?>');
       if (qrContainer) {
         const containerIdString = qrContainer.id;
         let itemId = null;
-
         if (containerIdString && containerIdString.startsWith("qrCanvas_")) {
-          const potentialId = containerIdString.substring("qrCanvas_".length);
-          // Cek apakah potentialId adalah angka (ID barang yang valid)
-          // dan bukan hasil dari uniqid() (yang biasanya string non-numerik panjang)
-          if (potentialId && !isNaN(parseInt(potentialId)) && String(parseInt(potentialId)) === potentialId) {
-            itemId = potentialId;
-          } else {
-            // Ini terjadi jika $detailData['id'] kosong di PHP dan uniqid() digunakan.
-            // Atau jika ID mengandung karakter non-numerik yang tidak diinginkan di sini.
-            console.warn("Tidak dapat mengekstrak ID barang numerik yang valid dari ID kontainer QR:", containerIdString, ". Value yang diekstrak:", potentialId);
-          }
+          itemId = containerIdString.substring("qrCanvas_".length);
         }
-
-        if (itemId) {
-          // Bagian "{http ini dibuat custom nantinya}"
-          // Untuk saat ini, kita gunakan origin dari URL saat ini (misal: "http://simaset.test")
-          // Jika Anda punya base URL custom tetap, ganti di sini.
-          // Contoh: const qrBaseUrl = "http://appscanner.com";
+        if (itemId && !isNaN(parseInt(itemId))) {
           const qrBaseUrl = "<?= $BaseUrlQr; ?>";
-
-          // Path yang diinginkan setelah base URL
           const qrPath = `/admin/sarana/bergerak?edit=${itemId}`;
-
-          // Gabungkan untuk mendapatkan konten QR final
           const finalQrText = qrBaseUrl + qrPath;
-
-          console.log("Konten QR yang akan digenerate:", finalQrText); // Untuk debugging
-
-          try {
-            new QRCode(qrContainer, {
-              text: finalQrText, // Gunakan URL yang sudah dikonstruksi
-              width: 150,
-              height: 150,
-              colorDark: "#000000",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.H
-            });
-          } catch (e) {
-            console.error("Error generating QR Code for container ID: <?= $qrCanvasId ?> with content:", finalQrText, e);
-            qrContainer.innerHTML = "<small>Error QR</small>";
-          }
+          new QRCode(qrContainer, {
+            text: finalQrText,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
         } else {
-          console.error("ID Barang tidak dapat ditentukan untuk generate QR code. ID kontainer:", containerIdString);
           qrContainer.innerHTML = "<small>ID Barang Error</small>";
-          // Atribut data-qr-content asli (nomorRegistrasi) masih ada jika Anda ingin fallback:
-          // const originalQrContent = qrContainer.getAttribute('data-qr-content');
-          // if (originalQrContent) { /* generate QR dengan originalQrContent */ }
         }
-      } else {
-        console.warn("QR Code container element with ID '<?= $qrCanvasId ?>' not found.");
       }
 
-      // 2. Fungsi Download QR Card (elemen stk-card)
+      function downloadCardAsImage(targetElementId, fileNamePrefix) {
+        const targetElement = document.getElementById(targetElementId);
+        if (!targetElement) {
+          alert(`Tidak dapat menemukan elemen kartu QR untuk diunduh (${targetElementId}).`);
+          return;
+        }
+
+        const namaBarangPHP = "<?= htmlspecialchars($namaBarang, ENT_QUOTES, 'UTF-8') ?>";
+        const nomorRegPHP = "<?= htmlspecialchars($nomorRegistrasi, ENT_QUOTES, 'UTF-8') ?>";
+        const fileName = `${fileNamePrefix}-${namaBarangPHP.replace(/[^a-zA-Z0-9_.-]/g, '_')}-${nomorRegPHP}.png`;
+
+        html2canvas(targetElement, {
+          scale: 5, // PERBAIKAN: Tingkatkan skala untuk resolusi lebih tinggi
+          useCORS: true,
+          logging: false,
+          backgroundColor: '#FFFFFF' // PERBAIKAN: Atur warna latar belakang eksplisit
+        }).then(canvas => {
+          const link = document.createElement("a");
+          link.download = fileName;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+        }).catch(err => {
+          console.error(`Gagal membuat gambar kartu QR (${targetElementId}):`, err);
+          alert(`Gagal membuat gambar kartu QR. Cek console untuk detail.`);
+        });
+      }
+
       const downloadButton = document.getElementById("downloadQR");
       if (downloadButton) {
         downloadButton.addEventListener("click", function() {
-          const targetElement = document.getElementById("qrCardToExport");
-          // Variabel namaBarang dan nomorRegistrasi ini diambil dari PHP untuk nama file, bukan konten QR
-          const namaBarang = "<?= htmlspecialchars($namaBarang, ENT_QUOTES, 'UTF-8') ?>";
-          const nomorReg = "<?= htmlspecialchars($nomorRegistrasi, ENT_QUOTES, 'UTF-8') ?>";
-          const fileName = `QR-${namaBarang.replace(/[^a-zA-Z0-9_.-]/g, '_')}-${nomorReg}.png`;
-
-          if (!targetElement) {
-            console.error("Target element for QR download ('qrCardToExport') not found!");
-            alert("Tidak dapat menemukan elemen kartu QR untuk diunduh.");
-            return;
-          }
-
-          html2canvas(targetElement, {
-            scale: 3,
-            useCORS: true,
-            logging: false,
-            backgroundColor: null
-          }).then(canvas => {
-            const link = document.createElement("a");
-            link.download = fileName;
-            link.href = canvas.toDataURL("image/png");
-            link.click();
-          }).catch(err => {
-            console.error("Error during html2canvas operation:", err);
-            alert("Gagal membuat gambar kartu QR. Cek console untuk detail.");
-          });
+          downloadCardAsImage("qrCardToExport", "QR");
         });
-      } else {
-        console.warn("Download button with ID 'downloadQR' not found.");
+      }
+
+      const downloadPinjamButton = document.getElementById("downloadQRPinjam");
+      if (downloadPinjamButton) {
+        downloadPinjamButton.addEventListener("click", function() {
+          downloadCardAsImage("qrPinjamCardToExport", "QR-Pinjam");
+        });
+      }
+
+      const qrPinjamContainer = document.getElementById('<?= $qrPinjamCanvasId ?>');
+      if (qrPinjamContainer) {
+        const itemIdForPinjam = qrPinjamContainer.getAttribute('data-qr-pinjam-content');
+        if (itemIdForPinjam) {
+          const qrBaseUrl = "<?= $BaseUrlQr; ?>";
+          const qrPinjamPath = `/admin/sarana/bergerak/pinjam?edit=${itemIdForPinjam}`;
+          const finalQrPinjamText = qrBaseUrl + qrPinjamPath;
+          new QRCode(qrPinjamContainer, {
+            text: finalQrPinjamText,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+          });
+        } else {
+          qrPinjamContainer.innerHTML = "<small>ID Barang Error</small>";
+        }
       }
     });
   </script>

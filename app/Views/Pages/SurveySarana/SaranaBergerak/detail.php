@@ -81,55 +81,83 @@
                     </div>
                   </div>
                 </div>
-                <div class="border-bottom pb-2 mb-3 flex justify-content-between">
-                  <h5 class=" text-bold">
-                    Daftar Inventaris Sarpras
 
+
+                <div class="border-bottom pb-2 mb-3">
+                  <h5 class="text-bold">
+                    Barang Inventaris di Lokasi Survey
                   </h5>
-                  <a href="/admin/survey/sarana/sarana-bergerak?tambah-barang=<?= htmlspecialchars($surveyData['id'] ?? '') ?>" class="btn btn-warning btn-sm ml-auto">
-                    <div class="text-dark">
-                      <i class="fas fa-plus mr-1"></i> Tambah Data
-                    </div>
+                </div>
+
+                <!-- Tombol Tambah Barang ke Survey -->
+                <div class="mb-3">
+                  <a href="/admin/survey/sarana/sarana-bergerak?tambah-barang=<?= htmlspecialchars($surveyData['id'] ?? '') ?>" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus mr-1"></i> Tambah Barang ke Survey Ini
                   </a>
                 </div>
 
-                <!-- Display Daftar Inventaris Sarpras -->
-                <?php if (!empty($dataSurvey)) : ?>
-                  <table class="table table-bordered table-striped">
-                    <thead>
+                <div class="table-responsive">
+                  <table class="table table-bordered table-hover">
+                    <thead class="bg-light">
                       <tr>
-                        <th>No</th>
-                        <th>No Registrasi</th>
-                        <th>Nama Barang</th>
-                        <th>Kondisi</th>
-                        <th>lokasi</th>
-                        <th width="10%" class="text-center">Hapus</th>
-                        <!-- Add other relevant columns -->
+                        <th width="5%">No</th>
+                        <th width="25%">Nama Barang</th>
+                        <th width="20%">No Registrasi</th>
+                        <th width="20%">Kondisi Aktual</th>
+                        <th width="20%">Lokasi Aktual</th>
+                        <th width="10%">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach ($dataSurvey as $index => $item) : ?>
+                      <?php
+                      // Asumsi variabel $surveyInventarisItems berisi data dari data_survey_bb untuk survey ini
+                      // Variabel ini harus di-passing dari controller
+                      // Contoh: $surveyInventarisItems = SurveySaranaBergerak::getAllDataInventaris($conn, $surveyData['id']);
+                      ?>
+                      <?php if (!empty($surveyInventarisItems)): ?>
+                        <?php $no = 1; ?>
+                        <?php foreach ($surveyInventarisItems as $item): ?>
+                          <tr>
+                            <td><?= $no++ ?></td>
+                            <td><?= htmlspecialchars($item['nama_barang'] ?? '-') ?></td>
+                            <td><?= htmlspecialchars($item['no_registrasi'] ?? '-') ?></td>
+                            <td>
+                              <?php if (isset($item['kondisi'])): ?>
+                                <?php
+                                $kondisiText = htmlspecialchars($item['kondisi']);
+                                $badgeClass = 'badge-light'; // Default
+                                if ($kondisiText === 'Baik') {
+                                  $badgeClass = 'badge-success';
+                                } elseif ($kondisiText === 'Rusak Ringan') {
+                                  $badgeClass = 'badge-warning';
+                                } elseif ($kondisiText === 'Rusak Berat') {
+                                  $badgeClass = 'badge-danger';
+                                }
+                                ?>
+                                <span class="badge <?= $badgeClass ?>"><?= $kondisiText ?></span>
+                              <?php else: ?>
+                                -
+                              <?php endif; ?>
+                            </td>
+                            <td><?= htmlspecialchars($item['lokasi'] ?? '-') ?></td>
+                            <td class="text-center">
+                              <a href="/admin/survey/sarana/sarana-bergerak?delete-barang=<?= htmlspecialchars($item['id']) ?>"
+                                class="btn btn-xs btn-danger"
+                                onclick="return confirm('Apakah Anda yakin ingin menghapus item barang ini dari survey?');"
+                                title="Hapus Item dari Survey">
+                                <i class="fas fa-trash"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        <?php endforeach; ?>
+                      <?php else: ?>
                         <tr>
-                          <td><?= $index + 1; ?></td>
-                          <td><?= htmlspecialchars($item['no_registrasi'] ?? '-'); ?></td>
-                          <td><?= htmlspecialchars($item['nama_barang'] ?? '-'); ?></td>
-                          <td><?= htmlspecialchars($item['kondisi'] ?? '-'); ?></td>
-                          <td><?= htmlspecialchars($item['lokasi'] ?? '-'); ?></td>
-                          <td class="text-center">
-                            <a href="/admin/survey/sarana/sarana-bergerak?delete-barang=<?= htmlspecialchars($item['id']) ?>"
-                              class="btn btn-danger btn-sm"
-                              onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini dari survey?');">
-                              <i class="fas fa-trash mr-1"></i> Hapus
-                            </a>
-                          </td>
-                          <!-- Add other relevant cells -->
+                          <td colspan="6" class="text-center">Belum ada data barang yang ditambahkan untuk survey ini.</td>
                         </tr>
-                      <?php endforeach; ?>
+                      <?php endif; ?>
                     </tbody>
                   </table>
-                <?php else : ?>
-                  <p class="text-center">Belum ada data inventaris untuk survey ini.</p>
-                <?php endif; ?>
+                </div>
                 <!-- End Display Daftar Inventaris Sarpras -->
               </div>
 

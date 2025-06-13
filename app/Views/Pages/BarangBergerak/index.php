@@ -111,11 +111,18 @@
         "paging": true,
         "info": true,
         "searching": true,
+        "ordering": false, // Menonaktifkan fitur ordering untuk semua kolom
         "columnDefs": [{
-          "targets": [5],
-          "searchable": false,
-          "orderable": false
-        }],
+            "targets": 0, // Kolom "No"
+            "orderable": false,
+            "searchable": false // Kolom "No" tidak perlu bisa dicari
+          },
+          {
+            "targets": [5], // Kolom "Aksi"
+            "orderable": false, // Pastikan kolom aksi tetap tidak bisa diurutkan
+            "searchable": false // Kolom "Aksi" tidak perlu bisa dicari
+          }
+        ],
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -163,8 +170,8 @@
       $('#jenisFilter').select2({
         theme: 'bootstrap4',
         placeholder: "Pilih Jenis Barang",
-        allowClear: true, // Memungkinkan clear
-        minimumResultsForSearch: Infinity, // Sembunyikan kotak pencarian jika tidak banyak opsi
+        allowClear: false, // Menonaktifkan tombol clear (x)
+        minimumResultsForSearch: 1, // Tampilkan kotak pencarian jika ada minimal 1 opsi (untuk autocomplete)
         width: '100%'
       });
 

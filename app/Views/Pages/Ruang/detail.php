@@ -152,7 +152,8 @@
                         <th width="30%">Nama Barang</th>
                         <th width="15%">Jumlah</th>
                         <th width="20%">Kondisi</th>
-                        <th width="30%">Keterangan</th>
+                        <th width="20%">Keterangan</th>
+                        <th width="10%">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -176,7 +177,31 @@
                                 -
                               <?php endif; ?>
                             </td>
-                            <td><?= htmlspecialchars($barang['keterangan'] ?? '-') ?></td>
+                            <td><?= htmlspecialchars(isset($barang['keterangan']) && $barang['keterangan'] !== '' ? $barang['keterangan'] : '-') ?></td>
+                            <td class="text-center">
+                              <?php
+                              $editUrl = '#';
+                              if (isset($barang['kategori_barang_id'])) {
+                                switch ($barang['kategori_barang_id']) {
+                                  case 1: // Bergerak
+                                    $editUrl = "/admin/sarana/bergerak?edit=" . htmlspecialchars($barang['id']);
+                                    break;
+                                  case 2: // Mebelair
+                                    $editUrl = "/admin/sarana/mebelair?edit=" . htmlspecialchars($barang['id']);
+                                    break;
+                                  case 3: // ATK
+                                    $editUrl = "/admin/sarana/atk?edit=" . htmlspecialchars($barang['id']);
+                                    break;
+                                  case 4: // Elektronik
+                                    $editUrl = "/admin/sarana/elektronik?edit=" . htmlspecialchars($barang['id']);
+                                    break;
+                                }
+                              }
+                              ?>
+                              <a href="<?= $editUrl ?>" class="btn btn-xs btn-warning" title="Edit Barang">
+                                <i class="fas fa-edit"></i>
+                              </a>
+                            </td>
                           </tr>
                         <?php endforeach; ?>
                       <?php else: ?>

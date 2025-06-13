@@ -39,6 +39,7 @@
               <form action="/admin/survey/sarana/sarana-bergerak?tambah-barang=<?= htmlspecialchars($surveyData['id']) ?>" method="POST" enctype="multipart/form-data">
 
                 <input type="text" hidden name="survey_sarana_bergerak_id" value="<?= htmlspecialchars($surveyData['id']) ?>" id="">
+                <input type="hidden" name="kategori_asal_barang" id="kategori_asal_barang" value="">
 
                 <div class="card-body">
                   <div class="row">
@@ -57,7 +58,11 @@
                           <select class="form-control" id="nama_barang" name="nama_barang" required>
                             <option value="" disabled selected>Pilih Barang</option>
                             <?php foreach ($barangBergerak as $barang): ?>
-                              <option value="<?= htmlspecialchars($barang['nama_detail_barang']) ?>" data-no-registrasi="<?= htmlspecialchars($barang['no_registrasi']) ?>">
+                              <option value="<?= htmlspecialchars($barang['nama_detail_barang']) ?>"
+                                data-no-registrasi="<?= htmlspecialchars($barang['no_registrasi'] ?? '') ?>"
+                                data-kondisi="<?= htmlspecialchars($barang['kondisi'] ?? '') ?>"
+                                data-lokasi="<?= htmlspecialchars($barang['lokasi'] ?? '') ?>"
+                                data-kategori-asal="<?= htmlspecialchars($barang['kategori_asal'] ?? '') ?>">
                                 <?= htmlspecialchars($barang['no_registrasi']) ?> - <?= htmlspecialchars($barang['nama_detail_barang']) ?>
                               </option>
                             <?php endforeach; ?>
@@ -167,7 +172,7 @@
       });
       $('#nama_barang').select2({
         theme: 'bootstrap4',
-        placeholder: "Pilih atau ketik lokasi survey", // Placeholder spesifik untuk lokasi
+        placeholder: "Pilih atau ketik nama barang",
         allowClear: false,
         minimumResultsForSearch: 1,
         width: '100%'
@@ -176,7 +181,13 @@
       $('#nama_barang').on('change', function() {
         var selectedOption = $(this).find('option:selected');
         var noRegistrasi = selectedOption.data('no-registrasi');
+        var kondisiBarang = selectedOption.data('kondisi');
+        var lokasiBarang = selectedOption.data('lokasi');
+        var kategoriAsal = selectedOption.data('kategori-asal');
         $('#no_registrasi').val(noRegistrasi);
+        $('#kondisi').val(kondisiBarang); // Untuk select biasa
+        $('#lokasi').val(lokasiBarang).trigger('change'); // Untuk select2, trigger change
+        $('#kategori_asal_barang').val(kategoriAsal); // Mengisi input hidden
       });
     });
   </script>

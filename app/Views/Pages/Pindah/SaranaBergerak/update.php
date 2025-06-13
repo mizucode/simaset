@@ -47,7 +47,7 @@
                 <input type="hidden" name="spesifikasi" value="<?= htmlspecialchars($sarana['spesifikasi'] ?? '') ?>">
                 <input type="hidden" name="no_polisi" value="<?= htmlspecialchars($sarana['no_polisi'] ?? '') ?>">
                 <input type="hidden" name="sumber" value="<?= htmlspecialchars($sarana['sumber'] ?? '') ?>">
-                <input type="hidden" name="kondisi_barang_id" value="<?= htmlspecialchars($sarana['kondisi_barang_id'] ?? '') ?>">
+
                 <input type="hidden" name="biaya_pembelian" value="<?= htmlspecialchars($sarana['biaya_pembelian'] ?? '') ?>">
                 <input type="hidden" name="tanggal_pembelian" value="<?= htmlspecialchars($sarana['tanggal_pembelian'] ?? '') ?>">
                 <input type="hidden" name="keterangan" value="<?= htmlspecialchars($sarana['keterangan'] ?? '') ?>">
@@ -78,35 +78,64 @@
                           <span class="form-text">Nama detail barang akan terisi otomatis.</span>
                         </div>
                       </div>
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <div class="form-group">
-                          <label for="lokasi" class="fw-bold text-dark mb-2">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
-                          <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
+                      <div class="col-12 mt-4 border-bottom">
+                        <div class="border-bottom pb-2 mb-3">
+                          <h5 class="text-bold fs-4 text-navy">
+                            Kondisi dan Penempatan Barang saat ini
+                          </h5>
+                          <span class="form-text">Pilih kondisi sarana bergerak saat ini.</span>
+                        </div>
+                        <!-- Kondisi Barang -->
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <label for="kondisi_barang_id" class="font-weight-bold">Kondisi Barang</label>
+                          <div class="input-group">
                             <div class="input-group-prepend">
-                              <span class="input-group-text border-0 bg-light">
-                                <i class="fas fa-map-marker-alt text-primary"></i>
-                              </span>
+                              <span class="input-group-text bg-light"><i class="fas fa-clipboard-check text-primary"></i></span>
                             </div>
-                            <select class="form-control rounded border-0 select2-custom" id="lokasi" name="lokasi" required>
-                              <optgroup label="Lapang">
-                                <?php foreach ($lapangData as $lokasi_item) : ?>
-                                  <option value="<?= htmlspecialchars($lokasi_item['nama_lapang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_lapang']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($lokasi_item['kode_lapang']); ?> - <?= htmlspecialchars($lokasi_item['nama_lapang']); ?>
-                                  </option>
-                                <?php endforeach; ?>
-                              </optgroup>
-                              <optgroup label="Ruang">
-                                <?php foreach ($ruangData as $lokasi_item) : ?>
-                                  <option value="<?= htmlspecialchars($lokasi_item['nama_ruang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_ruang']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($lokasi_item['kode_ruang']); ?> - <?= htmlspecialchars($lokasi_item['nama_ruang']); ?>
-                                  </option>
-                                <?php endforeach; ?>
-                              </optgroup>
+                            <select class="form-control" id="kondisi_barang_id" name="kondisi_barang_id" required>
+                              <option value="" disabled <?= !isset($sarana['kondisi_barang_id']) ? 'selected' : ''; ?>>Pilih Kondisi</option>
+                              <?php foreach ($kondisiList as $kondisi) : ?>
+                                <option value="<?= htmlspecialchars($kondisi['id']) ?>" <?= isset($sarana['kondisi_barang_id']) && $sarana['kondisi_barang_id'] == $kondisi['id'] ? 'selected' : ''; ?>>
+                                  <?= htmlspecialchars($kondisi['nama_kondisi']) ?>
+                                </option>
+                              <?php endforeach; ?>
                             </select>
                           </div>
-                          <span class="form-text text-muted mt-1">Pilih lokasi penempatan baru untuk sarana bergerak.</span>
+                          <span class="form-text">Pilih kondisi aktual sarana.</span>
                         </div>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="lokasi" class="fw-bold text-dark mb-2">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
+                            <div class="rounded-md d-flex align-items-stretch border bg-white select2-custom-wrapper">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text border-0 bg-light">
+                                  <i class="fas fa-map-marker-alt text-primary"></i>
+                                </span>
+                              </div>
+                              <select class="form-control rounded border-0 select2-custom" id="lokasi" name="lokasi" required>
+                                <optgroup label="Lapang">
+                                  <?php foreach ($lapangData as $lokasi_item) : ?>
+                                    <option value="<?= htmlspecialchars($lokasi_item['nama_lapang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_lapang']) ? 'selected' : '' ?>>
+                                      <?= htmlspecialchars($lokasi_item['kode_lapang']); ?> - <?= htmlspecialchars($lokasi_item['nama_lapang']); ?>
+                                    </option>
+                                  <?php endforeach; ?>
+                                </optgroup>
+                                <optgroup label="Ruang">
+                                  <?php foreach ($ruangData as $lokasi_item) : ?>
+                                    <option value="<?= htmlspecialchars($lokasi_item['nama_ruang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_ruang']) ? 'selected' : '' ?>>
+                                      <?= htmlspecialchars($lokasi_item['kode_ruang']); ?> - <?= htmlspecialchars($lokasi_item['nama_ruang']); ?>
+                                    </option>
+                                  <?php endforeach; ?>
+                                </optgroup>
+                              </select>
+                            </div>
+                            <span class="form-text text-muted mt-1">Pilih lokasi penempatan baru untuk sarana bergerak.</span>
+                          </div>
+                        </div>
+                        <!-- Sumber -->
+
                       </div>
+
                     </div>
                   </div>
                 </div> <!-- Penutup card-body -->
