@@ -114,15 +114,31 @@ class SaranaMebelairController {
     ]);
   }
 
-  public function update($id) {
+  public function update($identifier) { // Mengubah parameter dari $id menjadi $identifier
     global $conn;
-    $sarana = SaranaMebelair::getById($conn, $id);
+    $sarana = null;
+    $actual_id = null;
+
+    if (is_numeric($identifier)) {
+      // Jika identifier numerik, anggap sebagai ID
+      $sarana = SaranaMebelair::getById($conn, $identifier);
+      if ($sarana) {
+        $actual_id = $identifier;
+      }
+    } else {
+      // Jika identifier bukan numerik, anggap sebagai no_registrasi
+      // Pastikan method getByNoRegistrasi ada di model SaranaMebelair.php
+      $sarana = SaranaMebelair::getByNoRegistrasi($conn, $identifier);
+      if ($sarana) {
+        $actual_id = $sarana['id']; // Ambil ID dari data yang ditemukan
+      }
+    }
+
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn); // Tidak perlu difilter di update, karena barang sudah terpilih
     $kondisiList = KondisiBarang::getAllData($conn);
     $lapangData = Lapang::getAllData($conn);
     $ruangData = Ruang::getAllData($conn);
-
     if (!$sarana) {
       $_SESSION['error'] = 'Data sarana mebelair tidak ditemukan.';
       header('Location: /admin/sarana/mebelair'); // Path redirect disesuaikan
@@ -158,7 +174,7 @@ class SaranaMebelairController {
       try {
         $success = SaranaMebelair::updateData(
           $conn,
-          $id,
+          $actual_id, // Gunakan ID yang sebenarnya
           $kategori_barang_id,
           $barang_id,
           $kondisi_barang_id,
@@ -185,8 +201,13 @@ class SaranaMebelairController {
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.';
         $_SESSION['update'] = $message;
 
-        header('Location: /admin/sarana/mebelair?detail=' . $id); // Path redirect disesuaikan
-        exit();
+        if ($success && $sarana && isset($sarana['no_registrasi'])) {
+          header('Location: /admin/sarana/mebelair/detail/' . urlencode($sarana['no_registrasi']));
+          exit();
+        } elseif ($success) {
+          header('Location: /admin/sarana/mebelair'); // Fallback
+          exit();
+        }
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
       }
@@ -320,9 +341,14 @@ class SaranaMebelairController {
         $_SESSION['update'] = $message;
 
         if ($success) {
-          // Redirect ke detail Sarana Mebelair
-          header('Location: /admin/sarana/mebelair?detail=' . $mebelairDataId);
-          exit();
+          // Redirect ke detail Sarana Mebelair menggunakan no_registrasi jika ada
+          if ($mebelairData && isset($mebelairData['no_registrasi'])) {
+            header('Location: /admin/sarana/mebelair/detail/' . urlencode($mebelairData['no_registrasi']));
+            exit();
+          } else {
+            header('Location: /admin/sarana/mebelair'); // Fallback
+            exit();
+          }
         }
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -350,7 +376,12 @@ class SaranaMebelairController {
 
     if (!file_exists($filePath)) {
       $_SESSION['error'] = 'File tidak ditemukan di server.';
-      header('Location: /admin/sarana/mebelair?detail=' . $dokumen['aset_mebelair_id']); // Kembali ke detail aset
+      // Kembali ke detail aset menggunakan no_registrasi jika memungkinkan
+      if (isset($dokumen['aset_mebelair_id']) && ($saranaItem = SaranaMebelair::getById($conn, $dokumen['aset_mebelair_id'])) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/mebelair/detail/' . urlencode($saranaItem['no_registrasi']));
+      } else {
+        header('Location: /admin/sarana/mebelair');
+      }
       exit();
     }
 
@@ -384,8 +415,8 @@ class SaranaMebelairController {
         $_SESSION['error'] = 'Gagal menghapus dokumen.';
       }
 
-      if ($aset_mebelair_id) {
-        header('Location: /admin/sarana/mebelair?detail=' . $aset_mebelair_id);
+      if ($aset_mebelair_id && ($saranaItem = SaranaMebelair::getById($conn, $aset_mebelair_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/mebelair/detail/' . urlencode($saranaItem['no_registrasi']));
       } else {
         header('Location: /admin/sarana/mebelair'); // Fallback redirect
       }
@@ -460,8 +491,13 @@ class SaranaMebelairController {
         $_SESSION['update'] = $message;
 
         if ($success) {
-          header('Location: /admin/sarana/mebelair?detail=' . $mebelairDataId);
-          exit();
+          if ($mebelairData && isset($mebelairData['no_registrasi'])) {
+            header('Location: /admin/sarana/mebelair/detail/' . urlencode($mebelairData['no_registrasi']));
+            exit();
+          } else {
+            header('Location: /admin/sarana/mebelair'); // Fallback
+            exit();
+          }
         }
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -469,6 +505,45 @@ class SaranaMebelairController {
     }
     // Path view untuk form tambah gambar, pastikan $mebelairData dikirim, bukan $bergerakData
     $this->renderView('Dokumen/createFoto', ['mebelairData' => $mebelairData]);
+  }
+
+  public function previewFileDokumen($id) // $id adalah ID Dokumen Mebelair
+  {
+    global $conn;
+    $dokumen = DokumenSaranaMebelair::getDokumenById($conn, $id);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/mebelair';
+      if (isset($dokumen['aset_mebelair_id']) && ($saranaItem = SaranaMebelair::getById($conn, $dokumen['aset_mebelair_id'])) && isset($saranaItem['no_registrasi'])) {
+        $redirect_url = '/admin/sarana/mebelair/detail/' . urlencode($saranaItem['no_registrasi']);
+      } elseif (isset($dokumen['aset_mebelair_id'])) {
+        // Fallback jika no_registrasi tidak ada tapi ID aset ada
+        $redirect_url = '/admin/sarana/mebelair/detail/' . $dokumen['aset_mebelair_id'];
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    $filePath = __DIR__ . '/../../storage/dokumen_sarana_mebelair/' . $dokumen['path_dokumen'];
+
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server untuk pratinjau.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/mebelair';
+      if (isset($dokumen['aset_mebelair_id']) && ($saranaItem = SaranaMebelair::getById($conn, $dokumen['aset_mebelair_id'])) && isset($saranaItem['no_registrasi'])) {
+        $redirect_url = '/admin/sarana/mebelair/detail/' . urlencode($saranaItem['no_registrasi']);
+      } elseif (isset($dokumen['aset_mebelair_id'])) {
+        $redirect_url = '/admin/sarana/mebelair/detail/' . $dokumen['aset_mebelair_id'];
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    header('Content-Type: application/pdf'); // Asumsi PDF, bisa dibuat dinamis jika perlu
+    header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    header('Content-Length: ' . filesize($filePath));
+    readfile($filePath);
+    exit;
   }
 
   public function previewDokumen($id) // $id adalah ID Dokumen Gambar Mebelair
@@ -519,8 +594,8 @@ class SaranaMebelairController {
         $_SESSION['error'] = 'Gagal menghapus dokumentasi gambar.';
       }
 
-      if ($aset_mebelair_id) {
-        header('Location: /admin/sarana/mebelair?detail=' . $aset_mebelair_id);
+      if ($aset_mebelair_id && ($saranaItem = SaranaMebelair::getById($conn, $aset_mebelair_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/mebelair/detail/' . urlencode($saranaItem['no_registrasi']));
       } else {
         header('Location: /admin/sarana/mebelair'); // Fallback redirect
       }
@@ -528,21 +603,34 @@ class SaranaMebelairController {
     }
   }
 
-  public function detail($id) {
+  public function detail($identifier) { // Mengubah parameter dari $id menjadi $identifier
     global $conn;
-    $detailData = SaranaMebelair::getById($conn, $id);
-    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
+    $detailData = null;
+    $id_for_related_data = null;
 
+    if (is_numeric($identifier)) {
+      // Jika identifier numerik, anggap sebagai ID
+      $detailData = SaranaMebelair::getById($conn, $identifier);
+      if ($detailData) {
+        $id_for_related_data = $identifier;
+      }
+    } else {
+      // Jika identifier bukan numerik, anggap sebagai no_registrasi
+      $detailData = SaranaMebelair::getByNoRegistrasi($conn, $identifier);
+      if ($detailData) {
+        $id_for_related_data = $detailData['id']; // Ambil ID dari data yang ditemukan
+      }
+    }
+
+    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
 
     if (!$detailData) {
       $_SESSION['error'] = 'Data sarana mebelair tidak ditemukan.';
       header('Location: /admin/sarana/mebelair');
       exit();
     }
-
-
-    $dokumenAsetMebelair = DokumenSaranaMebelair::getAllData($conn, $id);
-    $dokumenGambarMebelair = DokumenSaranaMebelair::getAllDataGambar($conn, $id);
+    $dokumenAsetMebelair = DokumenSaranaMebelair::getAllData($conn, $id_for_related_data);
+    $dokumenGambarMebelair = DokumenSaranaMebelair::getAllDataGambar($conn, $id_for_related_data);
 
     if (!is_array($dokumenAsetMebelair)) {
       $dokumenAsetMebelair = [];
@@ -551,13 +639,21 @@ class SaranaMebelairController {
       $dokumenGambarMebelair = [];
     }
 
-
     $this->delete();
     $this->deleteDokumen();
     $this->deleteDokumentasi();
+
+    // Pastikan $detailData dan $detailData['id'] ada sebelum melakukan filter
+    $filteredDokumen = [];
+    if ($detailData && isset($detailData['id'])) {
+      $filteredDokumen = array_filter($dokumenAsetMebelair, function ($dokumen) use ($detailData) {
+        return isset($dokumen['aset_mebelair_id']) && $dokumen['aset_mebelair_id'] == $detailData['id'];
+      });
+    }
+
     $this->renderView('detail', [
       'detailData' => $detailData,
-      'dokumenSaranaMebelair' => $dokumenAsetMebelair,
+      'dokumenSaranaMebelair' => $filteredDokumen, // Menggunakan dokumen yang sudah difilter
       'dokumenGambar' => $dokumenGambarMebelair,
       'BaseUrlQr' => $BaseUrlQr
     ]);

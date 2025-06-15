@@ -10,7 +10,7 @@
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper bg-white mb-5 pt-3 ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -27,7 +27,7 @@
 
             <div class="card bg-">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">Tambah Dokumentasi Barang Bergerak</h1>
+                <h3 class="card-title text-bold">Tambah Dokumentasi Barang Bergerak</h3>
               </div>
 
               <form action="/admin/sarana/bergerak?tambah-gambar=<?= $bergerakData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -42,21 +42,17 @@
                       </div>
 
                       <!-- Aset Barang Bergerak -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_bergerak_id" class="fw-bold">Pilih Aset Barang Bergerak</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="aset_bergerak_id" name="aset_bergerak_id"
-                              value="<?= htmlspecialchars($bergerakData['id'] ?? '') ?>" readonly>
-                          </div>
+                          <input type="text" class="form-control" id="aset_bergerak_id" name="aset_bergerak_id"
+                            value="<?= htmlspecialchars($bergerakData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="nama_dokumen" class="fw-bold">Nama Dokumentasi / Foto <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="text" placeholder="Contoh: Foto Barang Bagian Depan" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
-                          </div>
+                          <input type="text" placeholder="Contoh: Foto Barang Bagian Depan" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
                           <span class="form-text">Masukkan nama untuk dokumentasi atau foto.</span>
                         </div>
                       </div>
@@ -64,10 +60,8 @@
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="path_dokumen" class="fw-bold">Upload Dokumentasi / Foto Barang Bergerak <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="file" class="form-control" id="path_dokumen" name="path_dokumen"
-                              accept="image/jpeg, image/png, image/jpg" required>
-                          </div>
+                          <input type="file" class="form-control" id="path_dokumen" name="path_dokumen"
+                            accept="image/jpeg, image/png, image/jpg" required>
                           <span class="form-text">Format file: JPG, PNG (maks. 5MB).</span>
                         </div>
                       </div>
@@ -103,6 +97,22 @@
   </div>
 
   <?php include './app/Views/Components/script.php'; ?>
+  <script>
+    // Script untuk menampilkan nama file yang dipilih, jika diperlukan.
+    // Sesuaikan ID 'path_dokumen' jika berbeda.
+    const pathDokumenInput = document.getElementById('path_dokumen');
+    if (pathDokumenInput) {
+      pathDokumenInput.addEventListener('change', function(e) {
+        var fileName = e.target.files[0]?.name || 'Pilih File';
+        var nextSibling = e.target.nextElementSibling;
+        // Jika Anda memiliki elemen untuk menampilkan nama file (misalnya, dengan class 'custom-file-label'),
+        // Anda bisa uncomment dan sesuaikan baris berikut:
+        // if (nextSibling && nextSibling.classList.contains('custom-file-label')) {
+        //     nextSibling.innerText = fileName;
+        // }
+      });
+    }
+  </script>
 
 </body>
 

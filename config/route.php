@@ -62,7 +62,8 @@ class Router {
     '/admin/sarana/atk/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaATKController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
     '/admin/sarana/mebelair/download-qr' => ['controller' => 'SaranaMebelairController', 'method' => 'downloadAllQr', 'auth' => true],
     '/admin/sarana/mebelair/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaMebelairController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
-    '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true],
+    '/admin/sarana/mebelair/edit/([A-Z]{3}-[A-Z]{3}-\d{4}-\d{3})' => ['controller' => 'SaranaMebelairController', 'method' => 'update', 'auth' => true], // Rute edit mebelair by no_registrasi
+    '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true], // Rute edit mebelair by no_registrasi
 
     // Sarana - Mebelair
     '/admin/sarana/mebelair' => ['controller' => 'SaranaMebelairController', 'method' => 'index', 'auth' => true],
@@ -72,7 +73,6 @@ class Router {
     '/admin/sarana/mebelair/kembali' => ['controller' => 'SaranaMebelairKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/mebelair/pinjam/tambah' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
     '/admin/sarana/mebelair/kondisi' => ['controller' => 'SaranaMebelairKondisiController', 'method' => 'index', 'auth' => true],
-    // '/admin/sarana/mebelair/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaMebelairController', 'method' => 'detail', 'auth' => true], // Duplikat, sudah ada di atas
 
 
     // Sarana - ATK

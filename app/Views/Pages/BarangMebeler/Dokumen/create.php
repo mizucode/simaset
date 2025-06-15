@@ -7,13 +7,15 @@
 
   <div class="wrapper">
 
-    <?php include './app/Views/Components/navbar.php'; ?>
+    <?php include './app/Views/Components/na1vbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper bg-white mb-5 pt-3  ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
+
+            <?php include './app/Views/Components/helper.php'; ?>
 
 
             <?php if (!empty($error)) : ?>
@@ -25,14 +27,14 @@
               </div>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Tambah Dokumen Mebelair
-                </h1>
+                </h3>
               </div>
 
-              <form action="/admin/sarana/mebelair?tambah-dokumen=<?= htmlspecialchars($mebelairData['id'] ?? '') ?>" method="POST" enctype="multipart/form-data">
+              <form action="/admin/sarana/mebelair?tambah-dokumen=<?= $mebelairData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12 border-bottom">
@@ -44,11 +46,11 @@
                       </div>
 
                       <!-- Aset Mebelair -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden"> <!-- Removed hidden class -->
                         <div class="form-group">
                           <label for="aset_mebelair_id" class="fw-bold">Pilih Aset Mebelair</label>
                           <input type="text" class="form-control" id="aset_mebelair_id" name="aset_mebelair_id"
-                            value="<?= htmlspecialchars($mebelairData['id']) ?>" readonly>
+                            value="<?= htmlspecialchars($mebelairData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
@@ -71,7 +73,14 @@
                 </div>
 
                 <div class="card-footer text-right">
-                  <a href="/admin/sarana/mebelair?detail=<?= htmlspecialchars($mebelairData['id']) ?>" class="btn btn-secondary">
+                  <?php
+                  $backUrl = "/admin/sarana/mebelair"; // Default fallback
+                  if (isset($mebelairData['no_registrasi']) && !empty($mebelairData['no_registrasi'])) {
+                    $backUrl = "/admin/sarana/mebelair/detail/" . htmlspecialchars($mebelairData['no_registrasi']);
+                  } elseif (isset($mebelairData['id'])) {
+                    $backUrl = "/admin/sarana/mebelair?detail=" . htmlspecialchars($mebelairData['id']);
+                  } ?>
+                  <a href="<?= $backUrl ?>" class="btn btn-secondary">
                     <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">
@@ -96,11 +105,13 @@
     const pathDokumenInput = document.getElementById('path_dokumen');
     if (pathDokumenInput) {
       pathDokumenInput.addEventListener('change', function(e) {
-        var fileName = e.target.files[0]?.name || 'Pilih File Dokumen'; // Disesuaikan placeholder
+        var fileName = e.target.files[0]?.name || 'Pilih File';
         var nextSibling = e.target.nextElementSibling;
-        if (nextSibling && nextSibling.tagName === 'LABEL') { // Jika masih menggunakan custom file input, label akan diupdate
-          nextSibling.innerText = fileName;
-        }
+        // Jika Anda memiliki elemen untuk menampilkan nama file (misalnya, dengan class 'custom-file-label'),
+        // Anda bisa uncomment dan sesuaikan baris berikut:
+        // if (nextSibling && nextSibling.classList.contains('custom-file-label')) {
+        //     nextSibling.innerText = fileName;
+        // }
       });
     }
   </script>

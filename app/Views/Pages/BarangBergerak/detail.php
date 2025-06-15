@@ -9,7 +9,6 @@
     <?php include './app/Views/Components/css.php'; ?>
 
     <style>
-      /* PERBAIKAN: Menambahkan CSS eksplisit untuk ukuran logo di dalam kartu QR */
       .stk-card .stk-logo-wrapper img {
         width: 70px;
         height: auto;

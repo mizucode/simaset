@@ -74,13 +74,13 @@
                     <thead class="bg-gray-100">
                       <tr class="text-center align-middle">
                         <th width="5%">No</th> <!-- Tetap -->
-                        <th width="7%" class="text-center"> <!-- Disesuaikan dari 8% -->
+                        <th width="8%" class="text-center"> <!-- Disesuaikan dari 8% -->
                           Pilih Qr
                         </th>
                         <th width="15%">No Registrasi</th> <!-- Tetap -->
                         <th width="25%">Nama Barang</th> <!-- Tetap, nama barang bisa panjang -->
                         <th width="15%">Jenis</th> <!-- Tetap -->
-                        <th width="13%">Status</th> <!-- Disesuaikan dari 15% -->
+                        <th width="15%">Status</th> <!-- Disesuaikan dari 15% -->
                         <th width="20%">Aksi</th> <!-- Tetap, untuk tombol aksi -->
                       </tr>
                     </thead>
@@ -112,7 +112,7 @@
                             </td>
                             <td class="text-center">
                               <div class="d-flex justify-content-center gap-2">
-                                <a href="/admin/sarana/mebelair?detail=<?= $sarana['id']; ?>" class="btn btn-info btn-sm">
+                                <a href="/admin/sarana/mebelair/detail/<?= htmlspecialchars($sarana['no_registrasi']); ?>" class="btn btn-info btn-sm">
                                   <i class="fas fa-eye mr-1"></i> Detail
                                 </a>
                               </div>

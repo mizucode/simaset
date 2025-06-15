@@ -2,7 +2,7 @@
 <html lang="en">
 <?php require_once './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode  sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode  sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
   <div class="wrapper">
     <?php require_once './app/Views/Components/navbar.php'; ?>
     <?php require_once './app/Views/Components/aside.php'; ?>

@@ -300,4 +300,27 @@ class SaranaMebelair {
       return false;
     }
   }
+
+  /**
+   * Mendapatkan data barang mebelair berdasarkan Nomor Registrasi
+   * 
+   * @param PDO $conn Koneksi database
+   * @param string $no_registrasi Nomor Registrasi barang mebelair
+   * @return array|false Array data atau false jika tidak ditemukan
+   */
+  public static function getByNoRegistrasi($conn, $no_registrasi) {
+    $query = "SELECT sm.*, 
+                 kb.nama_kategori, 
+                 b.nama_barang, 
+                 kond.nama_kondisi
+                 FROM sarana_mebelair sm
+                 LEFT JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
+                 LEFT JOIN barang b ON sm.barang_id = b.id
+                 LEFT JOIN kondisi_barang kond ON sm.kondisi_barang_id = kond.id
+                 WHERE sm.no_registrasi = :no_registrasi";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 }

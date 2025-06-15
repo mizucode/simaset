@@ -10,7 +10,7 @@
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper bg-white mb-5 pt-3  ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -27,9 +27,9 @@
 
             <div class="card bg-">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Tambah Dokumentasi Mebelair
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/sarana/mebelair?tambah-gambar=<?= $mebelairData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -44,21 +44,17 @@
                       </div>
 
                       <!-- Aset Mebelair -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_mebelair_id" class="fw-bold">Pilih Aset Mebelair</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="aset_mebelair_id" name="aset_mebelair_id"
-                              value="<?= htmlspecialchars($mebelairData['id'] ?? '') ?>" readonly>
-                          </div>
+                          <input type="text" class="form-control" id="aset_mebelair_id" name="aset_mebelair_id"
+                            value="<?= htmlspecialchars($mebelairData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="nama_dokumen" class="fw-bold">Nama Dokumentasi / Foto <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="text" placeholder="Contoh: Foto Mebelair Bagian Depan" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
-                          </div>
+                          <input type="text" placeholder="Contoh: Foto Mebelair Bagian Depan" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
                           <span class="form-text">Masukkan nama untuk dokumentasi atau foto.</span>
                         </div>
                       </div>
@@ -66,11 +62,9 @@
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="path_dokumen" class="fw-bold">Upload Dokumentasi / Foto Mebelair <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="file" class="form-control" id="path_dokumen" name="path_dokumen"
-                              accept="image/jpeg, image/png, image/jpg, image/webp" required>
-                          </div>
-                          <span class="form-text">Format file: JPG, PNG, WEBP (maks. 5MB).</span>
+                          <input type="file" class="form-control" id="path_dokumen" name="path_dokumen"
+                            accept="image/jpeg, image/png, image/jpg" required>
+                          <span class="form-text">Format file: JPG, PNG (maks. 5MB).</span>
                         </div>
                       </div>
                     </div>
@@ -78,15 +72,21 @@
                 </div>
 
                 <div class="card-footer text-right">
-                  <a href="/admin/sarana/mebelair?detail=<?= htmlspecialchars($mebelairData['id'] ?? '') ?>" class="btn btn-secondary">
-                    <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                  <?php
+                  $backUrl = "/admin/sarana/mebelair"; // Default fallback
+                  if (isset($mebelairData['no_registrasi']) && !empty($mebelairData['no_registrasi'])) {
+                    $backUrl = "/admin/sarana/mebelair/detail/" . htmlspecialchars($mebelairData['no_registrasi']);
+                  } elseif (isset($mebelairData['id'])) { // Fallback
+                    $backUrl = "/admin/sarana/mebelair?detail=" . htmlspecialchars($mebelairData['id']);
+                  } ?>
+                  <a href="<?= $backUrl ?>" class="btn btn-secondary">
+                    <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">
                     <i class="fas fa-save mr-2"></i>
                     Simpan Dokumentasi Mebelair
                   </button>
                 </div>
-
               </form>
             </div>
 
@@ -100,16 +100,15 @@
 
   <?php include './app/Views/Components/script.php'; ?>
   <script>
-    // Script untuk menampilkan nama file yang dipilih (jika menggunakan input file custom Bootstrap)
-    // Jika menggunakan input file standar (class="form-control"), script ini mungkin tidak diperlukan
-    // atau perlu disesuaikan.
-    const pathDokumenFotoInput = document.getElementById('path_dokumen');
-    if (pathDokumenFotoInput) {
-      pathDokumenFotoInput.addEventListener('change', function(e) {
-        // Untuk input standar, browser biasanya sudah menampilkan nama file.
-        // Jika Anda masih menggunakan struktur .custom-file, uncomment baris di bawah:
-        // var fileName = e.target.files[0]?.name || 'Pilih file gambar';
-        // var nextSibling = e.target.nextElementSibling; // Ini untuk .custom-file-label
+    // Script untuk menampilkan nama file yang dipilih, jika diperlukan.
+    // Sesuaikan ID 'path_dokumen' jika berbeda.
+    const pathDokumenInput = document.getElementById('path_dokumen');
+    if (pathDokumenInput) {
+      pathDokumenInput.addEventListener('change', function(e) {
+        var fileName = e.target.files[0]?.name || 'Pilih File';
+        var nextSibling = e.target.nextElementSibling;
+        // Jika Anda memiliki elemen untuk menampilkan nama file (misalnya, dengan class 'custom-file-label'),
+        // Anda bisa uncomment dan sesuaikan baris berikut:
         // if (nextSibling && nextSibling.classList.contains('custom-file-label')) {
         //     nextSibling.innerText = fileName;
         // }

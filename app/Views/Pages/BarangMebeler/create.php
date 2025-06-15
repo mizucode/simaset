@@ -23,7 +23,7 @@
               <form action="/admin/sarana/mebelair/tambah" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="id">
                 <input type="hidden" name="kategori_barang_id" value="2" id="kategori_barang_id">
-                <input type="hidden" name="status" value="Tersedia">
+                <input type="hidden" name="status" value="Terpakai">
 
                 <div class="card-body">
                   <div class="row">
