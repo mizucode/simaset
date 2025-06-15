@@ -2,25 +2,25 @@
 <html lang="en">
 <?php require_once './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode  sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
   <div class="wrapper">
     <?php require_once './app/Views/Components/navbar.php'; ?>
     <?php require_once './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white py-4 mb-5 px-3">
+    <div class="content-wrapper bg-white py-4 mb-5 ">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
             <?php include './app/Views/Components/helper.php'; ?>
 
             <div class="card shadow-md mb-3" style="border-top: 3px solid #001f3f;">
-              <div class="card-header bg-light">
-                <h3 class="card-title">Filter Data</h3>
+              <div class="card-header bg-light py-2">
+                <h3 class="card-title mb-0" style="font-size: 1.1rem;">Filter Data</h3>
               </div>
-              <div class="card-body">
-                <div class="form-group row">
-                  <label for="jenisFilter" class="col-md-2 col-12 col-form-label">Filter Berdasarkan Jenis:</label>
-                  <div class="col-md-4 col-12 mb-2 mb-md-0">
+              <div class="card-body pt-3 pb-3">
+                <div class="form-group row mb-3 align-items-center">
+                  <label for="jenisFilter" class="col-md-1 col-form-label">Jenis:</label>
+                  <div class="col-md-11">
                     <select id="jenisFilter" class="form-control form-control-sm select2-custom">
                       <option value="">Semua Jenis</option>
                       <?php if (!empty($jenisList)) : ?>
@@ -30,24 +30,44 @@
                       <?php endif; ?>
                     </select>
                   </div>
-                  <div class="col-md-2 col-12 d-flex">
-                    <button id="resetFilter" class="btn btn-secondary btn-sm w-100">Reset Filter</button>
+                </div>
+                <div class="form-group row mb-3 align-items-center">
+                  <label for="statusFilter" class="col-md-1 col-form-label">Status:</label>
+                  <div class="col-md-11">
+                    <select id="statusFilter" class="form-control form-control-sm select2-custom">
+                      <option value="">Semua Status</option>
+                      <option value="Tersedia">Tersedia</option>
+                      <option value="Dipinjam">Dipinjam</option>
+                      <option value="Terpakai">Terpakai</option>
+                      <option value="Rusak Ringan">Rusak Ringan</option>
+                      <option value="Rusak Berat">Rusak Berat</option>
+                      <option value="Hilang">Hilang</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group row mb-0">
+                  <div class="col-12 d-flex justify-content-start">
+                    <button id="resetFilter" class="btn btn-secondary btn-sm px-4">Reset</button>
                   </div>
                 </div>
               </div>
             </div>
+
 
             <div class="card shadow-md">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
                 <h3 class="h4 mb-0">
                   Data Sarana Bergerak
                 </h3>
-                <div class="ml-auto d-flex flex-column flex-sm-row">
-                  <button id="downloadSelectedQR" class="btn btn-primary btn-sm mb-2 mb-sm-0 mr-sm-2">
-                    <i class="fas fa-check-square mr-1"></i> Download QR Terpilih
-                  </button>
-                  <a href="/admin/sarana/bergerak/download-qr" class="btn btn-success btn-sm">
+                <div class="ml-auto d-flex flex-column flex-sm-row align-items-sm-center">
+                  <a href="/admin/sarana/bergerak/download-qr" class="btn btn-success btn-sm mb-2 mb-sm-0 mr-sm-2">
                     <i class="fas fa-download mr-1"></i> Download Semua QR
+                  </a>
+                  <button id="downloadSelectedQR" class="btn btn-primary btn-sm mb-2 mb-sm-0 mr-sm-2" title="Download QR untuk item yang dipilih">
+                    <i class="fas fa-check-square mr-1"></i> QR Terpilih
+                  </button>
+                  <a href="/admin/sarana/bergerak/tambah" class="btn btn-warning btn-sm mb-2 mb-sm-0">
+                    <i class="fas fa-plus mr-1"></i> Tambah Barang
                   </a>
                 </div>
               </div>
@@ -63,7 +83,7 @@
                         <th width="15%">No Registrasi</th>
                         <th width="25%">Nama Barang</th>
                         <th width="15%">Jenis</th>
-                        <th width="15%">No Polisi</th>
+                        <th width="15%">Status</th>
                         <th width="20%">Aksi</th>
                       </tr>
                     </thead>
@@ -79,10 +99,24 @@
                             <td class="text-center"><?= htmlspecialchars($sarana['no_registrasi'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['nama_detail_barang'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['barang'] ?? '-'); ?></td>
-                            <td class="text-center"><?= htmlspecialchars($sarana['no_polisi'] ?? '-'); ?></td>
                             <td class="text-center">
-                              <div class="d-flex justify-content-center gap-2">
-                                <a href="/admin/sarana/bergerak?detail=<?= $sarana['id']; ?>" class="btn btn-info btn-sm">
+                              <?php
+                              $status = htmlspecialchars($sarana['status'] ?? 'Tidak Diketahui');
+                              $badgeClass = 'badge-secondary'; // Default badge
+                              if ($status === 'Tersedia') {
+                                $badgeClass = 'badge-success';
+                              } elseif ($status === 'Dipinjam') {
+                                $badgeClass = 'badge-warning';
+                              } elseif ($status === 'Terpakai') {
+                                $badgeClass = 'badge-info';
+                              }
+                              ?>
+                              <span class="badge <?= $badgeClass; ?>"><?= $status; ?></span>
+                            </td>
+                            <td class="text-center">
+                              <div class="d-flex justify-content-center">
+                                <!-- Tautan Detail menggunakan no_registrasi -->
+                                <a href="/admin/sarana/bergerak/detail/<?= htmlspecialchars($sarana['no_registrasi']); ?>" class="btn btn-info btn-sm">
                                   <i class="fas fa-eye mr-1"></i> Detail
                                 </a>
                               </div>
@@ -105,6 +139,26 @@
     </div>
     <?php require_once './app/Views/Components/footer.php'; ?>
   </div>
+
+  <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="alertModalLabel">Peringatan</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Silakan pilih minimal satu barang untuk diunduh QR code-nya.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <?php require_once './app/Views/Components/script.php'; ?>
   <script>
@@ -162,6 +216,13 @@
           .draw();
       });
 
+      $('#statusFilter').on('change', function() {
+        var val = $(this).val();
+        table.column(5) // Index kolom 'Status' adalah 5
+          .search(val ? '^' + val + '$' : '', true, false)
+          .draw();
+      });
+
       table.on('draw.dt', function() {
         var PageInfo = table.page.info();
         table.column(0, {
@@ -179,9 +240,18 @@
         width: '100%'
       });
 
+      $('#statusFilter').select2({
+        theme: 'bootstrap4',
+        placeholder: "Pilih Status Barang",
+        allowClear: false,
+        minimumResultsForSearch: 1, // Ubah ke 1 atau lebih jika ingin ada search box
+        width: '100%'
+      });
+
       // Event listener untuk tombol reset filter
       $('#resetFilter').on('click', function() {
         $('#jenisFilter').val('').trigger('change');
+        $('#statusFilter').val('').trigger('change'); // Reset filter status juga
       });
 
       // Handle "Pilih Semua" checkbox
@@ -198,7 +268,7 @@
         });
 
         if (selectedIds.length === 0) {
-          alert('Silakan pilih minimal satu barang untuk diunduh QR code-nya.');
+          $('#alertModal').modal('show');
           return;
         }
 

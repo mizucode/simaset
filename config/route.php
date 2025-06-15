@@ -27,9 +27,11 @@ class Router {
     // Prasarana - Tanah
     '/admin/prasarana/tanah' => ['controller' => 'TanahController', 'method' => 'tanah', 'auth' => true],
     '/admin/prasarana/tanah/tambah' => ['controller' => 'TanahController', 'method' => 'create', 'auth' => true],
+    '/admin/prasarana/tanah/detail/([A-Za-z0-9\-]+)' => ['controller' => 'TanahController', 'method' => 'detail', 'auth' => true], // Menggunakan kode_aset
 
     // Prasarana - Gedung
     '/admin/prasarana/gedung' => ['controller' => 'GedungController', 'method' => 'gedung', 'auth' => true],
+    '/admin/prasarana/gedung/detail/([A-Za-z0-9\-]+)' => ['controller' => 'GedungController', 'method' => 'detail', 'auth' => true], // Menggunakan kode_gedung
     '/admin/prasarana/gedung/tambah' => ['controller' => 'GedungController', 'method' => 'create', 'auth' => true],
 
     // Prasarana - Ruang
@@ -50,12 +52,16 @@ class Router {
     '/admin/sarana/bergerak/pinjam' => ['controller' => 'SaranaBergerakPinjamController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/bergerak/pinjam/tambah' => ['controller' => 'SaranaBergerakPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
     '/admin/sarana/bergerak/kembali' => ['controller' => 'SaranaBergerakKembaliController', 'method' => 'index', 'auth' => true],
-    '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true],
+    '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true], // Menggunakan SaranaBergerakController
     '/admin/sarana/bergerak/download-qr' => ['controller' => 'SaranaBergerakController', 'method' => 'downloadAllQr', 'auth' => true],
+    '/admin/sarana/bergerak/edit/([A-Z]{3}-[A-Z]{3}-\d{4}-\d{3})' => ['controller' => 'SaranaBergerakController', 'method' => 'update', 'auth' => true], // Rute edit berdasarkan no_registrasi format baru
+    '/admin/sarana/bergerak/detail/([A-Z]{3}-[A-Z]{3}-\d{4}-\d{3})' => ['controller' => 'SaranaBergerakController', 'method' => 'detail', 'auth' => true],
     '/admin/sarana/bergerak/kondisi' => ['controller' => 'SaranaBergerakKondisiController', 'method' => 'index', 'auth' => true],
 
     '/admin/sarana/atk/download-qr' => ['controller' => 'SaranaATKController', 'method' => 'downloadAllQr', 'auth' => true],
+    '/admin/sarana/atk/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaATKController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
     '/admin/sarana/mebelair/download-qr' => ['controller' => 'SaranaMebelairController', 'method' => 'downloadAllQr', 'auth' => true],
+    '/admin/sarana/mebelair/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaMebelairController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
     '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true],
 
     // Sarana - Mebelair
@@ -66,6 +72,7 @@ class Router {
     '/admin/sarana/mebelair/kembali' => ['controller' => 'SaranaMebelairKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/mebelair/pinjam/tambah' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
     '/admin/sarana/mebelair/kondisi' => ['controller' => 'SaranaMebelairKondisiController', 'method' => 'index', 'auth' => true],
+    // '/admin/sarana/mebelair/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaMebelairController', 'method' => 'detail', 'auth' => true], // Duplikat, sudah ada di atas
 
 
     // Sarana - ATK
@@ -86,6 +93,7 @@ class Router {
     '/admin/sarana/elektronik/kembali' => ['controller' => 'SaranaElektronikKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/elektronik/kondisi' => ['controller' => 'SaranaElektronikKondisiController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/elektronik/pinjam' => ['controller' => 'SaranaElektronikPinjamController', 'method' => 'index', 'auth' => true],
+    '/admin/sarana/elektronik/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaElektronikController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
     '/admin/sarana/elektronik/pinjam/tambah' => ['controller' => 'SaranaElektronikPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
 
 
@@ -206,16 +214,19 @@ class Router {
       '/admin/sarana/atk',
       '/admin/sarana/elektronik',
       '/admin/barang/jenis-barang',
+      // '/admin/barang/kategori-barang', // Jika kategori barang punya detail view via query param
       '/admin/transaksi/mutasi/barang-keluar',
       '/admin/transaksi/mutasi/barang-masuk',
       '/admin/sarana/bergerak/pindah',
       '/admin/sarana/mebelair/pindah',
       '/admin/sarana/atk/pindah',
       '/admin/sarana/elektronik/pindah',
+      // Kondisi, Pinjam, Kembali biasanya tidak memiliki halaman detail sendiri per item, tapi daftar item.
       '/admin/sarana/atk/kondisi',
       '/admin/sarana/mebelair/kondisi',
       '/admin/sarana/bergerak/kondisi',
       '/admin/sarana/elektronik/kondisi',
+      // Pinjam & Kembali
       '/admin/sarana/bergerak/pinjam',
       '/admin/sarana/mebelair/pinjam',
       '/admin/sarana/atk/pinjam',
@@ -228,7 +239,6 @@ class Router {
       '/admin/sarana/mebelair/kembali',
       '/admin/sarana/bergerak/kembali',
       '/admin/sarana/elektronik/kembali',
-
     ];
 
     return in_array($this->uri, $allowedUris) && !empty($_GET);
@@ -243,12 +253,19 @@ class Router {
       'delete-dokumen' => 'deleteDokumen',
       'delete-gambar' => 'deleteDokumentasi',
       'tambah-gambar' => 'dokumenGambar',
-      'detail' => 'detail',
+      'preview-file-dokumen' => 'previewFileDokumen', // Tambahkan ini
       'preview-gambar' => 'previewDokumen',
       'download-dokumen' => 'downloadDokumen',
       'tambah-barang' => 'tambahBarang',
       'delete-barang' => 'deleteBarang'
     ];
+
+    // Jika semua detail view menggunakan path parameter, maka 'detail' bisa dihapus dari $queryHandlers
+    // atau dibuat lebih spesifik jika masih ada yang menggunakan ?detail=
+    // Untuk saat ini, saya akan membiarkannya, tetapi idealnya ini akan dihapus jika transisi selesai.
+    if (!preg_match('/\/detail\/[^\/]+$/', $this->uri)) { // Hanya proses ?detail= jika bukan path /detail/xxx
+      $queryHandlers['detail'] = 'detail';
+    }
 
     foreach ($queryHandlers as $param => $method) {
       if (isset($_GET[$param]) && is_numeric($_GET[$param])) {

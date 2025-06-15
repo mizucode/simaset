@@ -27,21 +27,22 @@ class SaranaBergerakController {
       $barang_id = $_POST['barang_id'];
       $kondisi_barang_id = $_POST['kondisi_barang_id'];
       $nama_detail_barang = $_POST['nama_detail_barang'];
-      $merk = $_POST['merk'] ?? null;
-      $spesifikasi = $_POST['spesifikasi'] ?? null;
-      $no_polisi = $_POST['no_polisi'] ?? null;
-      $sumber = $_POST['sumber'] ?? null;
       $lokasi = $_POST['lokasi'];
-      $keterangan = $_POST['keterangan'] ?? null;
-      $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
-      $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
-      $status = $_POST['status'] ?? 'Tersedia'; // Ambil status dari POST, default 'Tersedia' jika tidak ada
-      // Untuk data baru, detail peminjam biasanya null kecuali diisi dari form
-      $nama_peminjam = $_POST['nama_peminjam'] ?? null;
-      $identitas_peminjam = $_POST['identitas_peminjam'] ?? null;
-      $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? null;
-      $tanggal_peminjaman = $_POST['tanggal_peminjaman'] ?? null;
-      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? null;
+      $status = $_POST['status'] ?? 'Terpakai';
+
+      // Handle optional fields: if empty, store as null
+      $merk = !empty($_POST['merk']) ? $_POST['merk'] : null;
+      $spesifikasi = !empty($_POST['spesifikasi']) ? $_POST['spesifikasi'] : null;
+      $no_polisi = !empty($_POST['no_polisi']) ? $_POST['no_polisi'] : null;
+      $sumber = !empty($_POST['sumber']) ? $_POST['sumber'] : null;
+      $keterangan = !empty($_POST['keterangan']) ? $_POST['keterangan'] : null;
+      $biaya_pembelian = !empty($_POST['biaya_pembelian']) ? $_POST['biaya_pembelian'] : null;
+      $tanggal_pembelian = !empty($_POST['tanggal_pembelian']) ? $_POST['tanggal_pembelian'] : null;
+      $nama_peminjam = !empty($_POST['nama_peminjam']) ? $_POST['nama_peminjam'] : null;
+      $identitas_peminjam = !empty($_POST['identitas_peminjam']) ? $_POST['identitas_peminjam'] : null;
+      $no_hp_peminjam = !empty($_POST['no_hp_peminjam']) ? $_POST['no_hp_peminjam'] : null;
+      $tanggal_peminjaman = !empty($_POST['tanggal_peminjaman']) ? $_POST['tanggal_peminjaman'] : null;
+      $tanggal_pengembalian = !empty($_POST['tanggal_pengembalian']) ? $_POST['tanggal_pengembalian'] : null;
 
       $no_registrasi = $this->generateUniqueRegistrationNumber(
         $conn,
@@ -96,15 +97,30 @@ class SaranaBergerakController {
     ]);
   }
 
-  public function update($id) {
+  public function update($identifier) { // Mengubah parameter dari $id menjadi $identifier
     global $conn;
-    $sarana = SaranaBergerak::getById($conn, $id);
+    $sarana = null;
+    $actual_id = null;
+
+    if (is_numeric($identifier)) {
+      // Jika identifier numerik, anggap sebagai ID
+      $sarana = SaranaBergerak::getById($conn, $identifier);
+      if ($sarana) {
+        $actual_id = $identifier;
+      }
+    } else {
+      // Jika identifier bukan numerik, anggap sebagai no_registrasi
+      $sarana = SaranaBergerak::getByNoRegistrasi($conn, $identifier);
+      if ($sarana) {
+        $actual_id = $sarana['id']; // Ambil ID dari data yang ditemukan
+      }
+    }
+
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn);
     $kondisiList = KondisiBarang::getAllData($conn);
     $lapangData = Lapang::getAllData($conn);
     $ruangData = Ruang::getAllData($conn);
-
     if (!$sarana) {
       $_SESSION['error'] = 'Data sarana bergerak tidak ditemukan.';
       header('Location: /admin/sarana/bergerak');
@@ -116,46 +132,63 @@ class SaranaBergerakController {
       $barang_id = $_POST['barang_id'];
       $kondisi_barang_id = $_POST['kondisi_barang_id'];
       $nama_detail_barang = $_POST['nama_detail_barang'];
-      $merk = $_POST['merk'] ?? null;
-      $spesifikasi = $_POST['spesifikasi'] ?? null;
-      $no_polisi = $_POST['no_polisi'] ?? null;
-      $sumber = $_POST['sumber'] ?? null;
       $lokasi = $_POST['lokasi'];
-      $keterangan = $_POST['keterangan'] ?? null;
-      $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
-      $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
-      $status = $_POST['status'] ?? $sarana['status'];
+
+      // Handle optional fields for update:
+      // If field is submitted in POST: use it (empty string becomes null).
+      // If field is not submitted in POST: keep existing value from $sarana.
+      $merk_val = array_key_exists('merk', $_POST) ? (!empty($_POST['merk']) ? $_POST['merk'] : null) : $sarana['merk'];
+      $spesifikasi_val = array_key_exists('spesifikasi', $_POST) ? (!empty($_POST['spesifikasi']) ? $_POST['spesifikasi'] : null) : $sarana['spesifikasi'];
+      $no_polisi_val = array_key_exists('no_polisi', $_POST) ? (!empty($_POST['no_polisi']) ? $_POST['no_polisi'] : null) : $sarana['no_polisi'];
+      $sumber_val = array_key_exists('sumber', $_POST) ? (!empty($_POST['sumber']) ? $_POST['sumber'] : null) : $sarana['sumber'];
+      $keterangan_val = array_key_exists('keterangan', $_POST) ? (!empty($_POST['keterangan']) ? $_POST['keterangan'] : null) : $sarana['keterangan'];
+      $biaya_pembelian_val = array_key_exists('biaya_pembelian', $_POST) ? (!empty($_POST['biaya_pembelian']) ? $_POST['biaya_pembelian'] : null) : $sarana['biaya_pembelian'];
+      $tanggal_pembelian_val = array_key_exists('tanggal_pembelian', $_POST) ? (!empty($_POST['tanggal_pembelian']) ? $_POST['tanggal_pembelian'] : null) : $sarana['tanggal_pembelian'];
+
+      $status_val = $_POST['status'] ?? $sarana['status'];
+
+      $nama_peminjam_val = array_key_exists('nama_peminjam', $_POST) ? (!empty($_POST['nama_peminjam']) ? $_POST['nama_peminjam'] : null) : $sarana['nama_peminjam'];
+      $identitas_peminjam_val = array_key_exists('identitas_peminjam', $_POST) ? (!empty($_POST['identitas_peminjam']) ? $_POST['identitas_peminjam'] : null) : $sarana['identitas_peminjam'];
+      $no_hp_peminjam_val = array_key_exists('no_hp_peminjam', $_POST) ? (!empty($_POST['no_hp_peminjam']) ? $_POST['no_hp_peminjam'] : null) : $sarana['no_hp_peminjam'];
+      $tanggal_peminjaman_val = array_key_exists('tanggal_peminjaman', $_POST) ? (!empty($_POST['tanggal_peminjaman']) ? $_POST['tanggal_peminjaman'] : null) : $sarana['tanggal_peminjaman'];
+      $tanggal_pengembalian_val = array_key_exists('tanggal_pengembalian', $_POST) ? (!empty($_POST['tanggal_pengembalian']) ? $_POST['tanggal_pengembalian'] : null) : $sarana['tanggal_pengembalian'];
 
       try {
         $success = SaranaBergerak::updateData(
           $conn,
-          $id,
+          $actual_id, // Gunakan ID yang sebenarnya
           $kategori_barang_id,
           $barang_id,
           $kondisi_barang_id,
           $sarana['no_registrasi'], // Keep existing registration number
           $nama_detail_barang,
-          $merk,
-          $spesifikasi,
-          $no_polisi,
-          $sumber,
+          $merk_val,
+          $spesifikasi_val,
+          $no_polisi_val,
+          $sumber_val,
           $lokasi,
-          $keterangan,
-          $biaya_pembelian,
-          $tanggal_pembelian,
-          $status, // Tambahkan status ke pemanggilan updateData
-          $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'],
-          $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'],
-          $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'],
-          $_POST['tanggal_peminjaman'] ?? $sarana['tanggal_peminjaman'],
-          $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian']
+          $keterangan_val,
+          $biaya_pembelian_val,
+          $tanggal_pembelian_val,
+          $status_val,
+          $nama_peminjam_val,
+          $identitas_peminjam_val,
+          $no_hp_peminjam_val,
+          $tanggal_peminjaman_val,
+          $tanggal_pengembalian_val
         );
 
         $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
         $_SESSION['update'] = $message;
 
-        header('Location: /admin/sarana/bergerak?detail=' . $id);
-        exit();
+        if ($success && $sarana && isset($sarana['no_registrasi'])) {
+          header('Location: /admin/sarana/bergerak/detail/' . urlencode($sarana['no_registrasi']));
+          exit();
+        } elseif ($success) {
+          // Fallback jika no_registrasi tidak ada, meskipun seharusnya ada
+          header('Location: /admin/sarana/bergerak');
+          exit();
+        }
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
       }
@@ -276,8 +309,12 @@ class SaranaBergerakController {
         $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
         $_SESSION['update'] = $message;
 
-        if ($success) {
-          header('Location: /admin/sarana/bergerak?detail=' . $dokumenDataId);
+        if ($success && $dokumenData && isset($dokumenData['no_registrasi'])) {
+          header('Location: /admin/sarana/bergerak/detail/' . urlencode($dokumenData['no_registrasi']));
+          exit();
+        } elseif ($success) {
+          // Fallback jika no_registrasi tidak ada di $dokumenData (yang merupakan data sarana)
+          header('Location: /admin/sarana/bergerak');
           exit();
         }
       } catch (PDOException $e) {
@@ -328,20 +365,56 @@ class SaranaBergerakController {
     exit;
   }
 
+  public function previewFileDokumen($id) {
+    global $conn;
+
+    // 1. Ambil data dokumen dari database
+    $dokumen = DokumenSaranaBergerak::getDokumenById($conn, $id);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      // Redirect ke halaman sebelumnya atau halaman detail aset
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? ('/admin/sarana/bergerak/detail/' . ($dokumen['aset_bergerak_id'] ?? ''));
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 2. Tentukan path file
+    $filePath = __DIR__ . '/../../storage/dokumen_sarana_bergerak/' . $dokumen['path_dokumen'];
+
+    // 3. Validasi file
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server untuk pratinjau.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? ('/admin/sarana/bergerak/detail/' . ($dokumen['aset_bergerak_id'] ?? ''));
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 4. Set headers untuk pratinjau (inline)
+    header('Content-Type: application/pdf'); // Asumsi PDF, bisa dibuat dinamis jika perlu
+    header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    header('Content-Length: ' . filesize($filePath));
+    readfile($filePath);
+    exit;
+  }
+
   public function deleteDokumen() {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
-      $aset_bergerak_id = DokumenSaranaBergerak::getDokumenById($conn, $id)['aset_bergerak_id'];
+      $dokumenEntry = DokumenSaranaBergerak::getDokumenById($conn, $id);
+      $aset_bergerak_id = $dokumenEntry ? $dokumenEntry['aset_bergerak_id'] : null;
 
       if (DokumenSaranaBergerak::delete($conn, $id)) {
         $_SESSION['success'] = 'Data berhasil dihapus.';
       } else {
         $_SESSION['error'] = 'Gagal menghapus data.';
       }
-
-
-      header('Location: /admin/sarana/bergerak?detail=' . $aset_bergerak_id);
+      if ($aset_bergerak_id && ($saranaItem = SaranaBergerak::getById($conn, $aset_bergerak_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/bergerak/detail/' . urlencode($saranaItem['no_registrasi']));
+      } else {
+        header('Location: /admin/sarana/bergerak');
+      }
       exit();
     }
   }
@@ -394,8 +467,12 @@ class SaranaBergerakController {
         $message = $success ? 'Data berhasil ditambahkan.' : 'Gagal menambahkan data.';
         $_SESSION['update'] = $message;
 
-        if ($success) {
-          header('Location: /admin/sarana/bergerak?detail=' . $bergerakDataId);
+        if ($success && $bergerakData && isset($bergerakData['no_registrasi'])) {
+          header('Location: /admin/sarana/bergerak/detail/' . urlencode($bergerakData['no_registrasi']));
+          exit();
+        } elseif ($success) {
+          // Fallback
+          header('Location: /admin/sarana/bergerak');
           exit();
         }
       } catch (PDOException $e) {
@@ -444,26 +521,48 @@ class SaranaBergerakController {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
-      $aset_bergerak_id = DokumenSaranaBergerak::getDokumenGambarById($conn, $id)['aset_bergerak_id'];
+      $gambarEntry = DokumenSaranaBergerak::getDokumenGambarById($conn, $id);
+      $aset_bergerak_id = $gambarEntry ? $gambarEntry['aset_bergerak_id'] : null;
 
       if (DokumenSaranaBergerak::deleteGambar($conn, $id)) {
         $_SESSION['success'] = 'Data berhasil dihapus.';
       } else {
         $_SESSION['error'] = 'Gagal menghapus data.';
       }
-
-
-      header('Location: /admin/sarana/bergerak?detail=' . $aset_bergerak_id);
+      if ($aset_bergerak_id && ($saranaItem = SaranaBergerak::getById($conn, $aset_bergerak_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/bergerak/detail/' . urlencode($saranaItem['no_registrasi']));
+      } else {
+        header('Location: /admin/sarana/bergerak');
+      }
       exit();
     }
   }
 
-  public function detail($id) {
+  public function detail($identifier) { // Mengubah parameter dari $id menjadi $identifier
     global $conn;
-    $detailData = SaranaBergerak::getById($conn, $id);
-    $dokumenAsetGedung = DokumenSaranaBergerak::getAllData($conn, $id);
-    $dokumenGambarGedung = DokumenSaranaBergerak::getAllDataGambar($conn, $id);
+    $detailData = null;
+    $id_for_related_data = null;
+
+    if (is_numeric($identifier)) {
+      // Jika identifier numerik, anggap sebagai ID
+      $detailData = SaranaBergerak::getById($conn, $identifier);
+      if ($detailData) {
+        $id_for_related_data = $identifier;
+      }
+    } else {
+      // Jika identifier bukan numerik, anggap sebagai no_registrasi
+      // Pastikan method getByNoRegistrasi ada di model SaranaBergerak.php
+      // Contoh: public static function getByNoRegistrasi($conn, $no_registrasi) { ... }
+      $detailData = SaranaBergerak::getByNoRegistrasi($conn, $identifier);
+      if ($detailData) {
+        $id_for_related_data = $detailData['id']; // Ambil ID dari data yang ditemukan
+      }
+    }
+
+    $dokumenAsetGedung = DokumenSaranaBergerak::getAllData($conn, $id_for_related_data);
+    $dokumenGambarGedung = DokumenSaranaBergerak::getAllDataGambar($conn, $id_for_related_data);
     $BaseUrlQr = BaseUrlQr::BaseUrlQr();
+
 
     if (!is_array($dokumenAsetGedung)) {
       $dokumenAsetGedung = [];
@@ -472,13 +571,17 @@ class SaranaBergerakController {
       $dokumenGambarGedung = [];
     }
 
-    $filteredDokumen = array_filter($dokumenAsetGedung, function ($dokumen) use ($detailData) {
-      return $dokumen['aset_bergerak_id'] == $detailData['id'];
-    });
+    // Pastikan $detailData dan $detailData['id'] ada sebelum melakukan filter
+    $filteredDokumen = [];
+    if ($detailData && isset($detailData['id'])) {
+      $filteredDokumen = array_filter($dokumenAsetGedung, function ($dokumen) use ($detailData) {
+        return isset($dokumen['aset_bergerak_id']) && $dokumen['aset_bergerak_id'] == $detailData['id'];
+      });
 
-    $filteredGambar = array_filter($dokumenGambarGedung, function ($dokumen) use ($detailData) {
-      return $dokumen['aset_bergerak_id'] == $detailData['id'];
-    });
+      $filteredGambar = array_filter($dokumenGambarGedung, function ($dokumen) use ($detailData) {
+        return isset($dokumen['aset_bergerak_id']) && $dokumen['aset_bergerak_id'] == $detailData['id'];
+      });
+    }
 
 
 
@@ -487,7 +590,7 @@ class SaranaBergerakController {
     $this->deleteDokumen();
 
     $this->renderView('detail', [
-      'detailData' => $detailData,
+      'detailData' => $detailData, // $detailData akan berisi data barang, termasuk 'id' dan 'no_registrasi'
       'dokumenSaranaBergerak' => $filteredDokumen,
       'dokumenGambar' => $filteredGambar,
       'BaseUrlQr' => $BaseUrlQr,

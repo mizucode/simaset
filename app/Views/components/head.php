@@ -5,6 +5,8 @@
   <link rel="icon" href="/img/favicon.png" type="image/png" />
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
   <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/fontawesome-free/css/all.min.css" />
   <link rel="stylesheet" href="/../../AdminLTE-3.2.0/dist/css/adminlte.min.css" />
   <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" />
@@ -17,6 +19,7 @@
   <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid.min.css">
   <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.min.css">
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
+
 
 
 </head>

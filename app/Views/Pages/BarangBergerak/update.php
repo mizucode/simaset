@@ -7,7 +7,7 @@
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper mb-5 pt-3">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -31,16 +31,15 @@
             <?php endif; ?>
 
             <div class="card">
-              <div class="card-header bg-navy mb-3 text-white">
-                <h1 class="text-xl font-weight-bold">
+              <div class="card-header bg-navy mb-3">
+                <h3 class="card-title text-bold">
                   Edit Data Sarana Bergerak
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/sarana/bergerak?edit=<?= htmlspecialchars($sarana['id']) ?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($sarana['id']) ?>">
                 <input type="hidden" name="kategori_barang_id" value="1" id="kategori_barang_id">
-                <input type="hidden" name="status" value="<?= htmlspecialchars($sarana['status'] ?? 'Terpakai') ?>">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">
@@ -58,6 +57,9 @@
                           <div class="form-group">
                             <label for="barang_id" class="fw-bold">Jenis Barang <span class="text-danger">*</span></label>
                             <select class="form-control select2-custom" id="barang_id" name="barang_id" required>
+                              <option value="" disabled <?= !isset($sarana['barang_id']) ? 'selected' : '' ?>>
+                                Pilih atau ketik jenis barang
+                              </option>
                               <?php foreach ($barangList as $barang) : ?>
                                 <?php if ($barang['kategori_id'] == 1) : // Filter untuk kategori bergerak 
                                 ?>
@@ -94,7 +96,7 @@
                           <!-- Merk -->
                           <div class="form-group">
                             <label for="merk" class="fw-bold">Merk</label>
-                            <input type="text" class="form-control" id="merk" name="merk" value="<?= htmlspecialchars($sarana['merk']) ?>" placeholder="Contoh: Toyota">
+                            <input type="text" class="form-control" id="merk" name="merk" value="<?= htmlspecialchars($sarana['merk']) ?>" placeholder="Contoh: Toyota" required>
                             <span class="form-text">Masukkan merk produk jika ada.</span>
                           </div>
                         </div>
@@ -103,7 +105,7 @@
                           <!-- No Polisi -->
                           <div class="form-group">
                             <label for="no_polisi" class="fw-bold">Nomor Polisi</label>
-                            <input type="text" class="form-control" id="no_polisi" name="no_polisi" value="<?= htmlspecialchars($sarana['no_polisi']) ?>" placeholder="Contoh: B 1234 ABC">
+                            <input type="text" class="form-control" id="no_polisi" name="no_polisi" value="<?= htmlspecialchars($sarana['no_polisi']) ?>" placeholder="Contoh: B 1234 ABC" required>
                             <span class="form-text">Masukkan nomor polisi jika sarana adalah kendaraan.</span>
                           </div>
                         </div>
@@ -112,7 +114,7 @@
                           <!-- Spesifikasi -->
                           <div class="form-group">
                             <label for="spesifikasi" class="fw-bold">Spesifikasi</label>
-                            <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3" placeholder="Masukkan spesifikasi lengkap"><?= htmlspecialchars($sarana['spesifikasi']) ?></textarea>
+                            <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3" placeholder="Masukkan spesifikasi lengkap" required><?= htmlspecialchars($sarana['spesifikasi']) ?></textarea>
                             <span class="form-text">Jelaskan spesifikasi teknis sarana.</span>
                           </div>
                         </div>
@@ -146,22 +148,47 @@
                         <div class="py-4 px-4 mb-4 border rounded-md">
                           <!-- Sumber -->
                           <div class="form-group">
-                            <label for="sumber" class="fw-bold">Sumber Perolehan</label>
-                            <select class="form-control" id="sumber" name="sumber">
-                              <option value="" <?= !isset($sarana['sumber']) || empty($sarana['sumber']) ? 'selected' : '' ?>>Pilih Sumber</option>
-                              <option value="APBD" <?= ($sarana['sumber'] == 'APBD') ? 'selected' : '' ?>>APBD</option>
-                              <option value="APBN" <?= ($sarana['sumber'] == 'APBN') ? 'selected' : '' ?>>APBN</option>
-                              <option value="Hibah" <?= ($sarana['sumber'] == 'Hibah') ? 'selected' : '' ?>>Hibah</option>
-                              <option value="CSR" <?= ($sarana['sumber'] == 'CSR') ? 'selected' : '' ?>>CSR Perusahaan</option>
+                            <label for="sumber" class="fw-bold">Sumber Perolehan <span class="text-danger">*</span></label>
+                            <select class="form-control" id="sumber" name="sumber" required>
+                              <option value="" <?= !isset($sarana['sumber']) || empty($sarana['sumber']) ? 'selected disabled' : 'disabled' ?>>Pilih Sumber Perolehan...</option>
+
+                              <optgroup label="I. Dana Internal Universitas">
+                                <option value="Dana Operasional (SPP & Sejenisnya)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Dana Operasional (SPP & Sejenisnya)') ? 'selected' : '' ?>>Dana Operasional (SPP & Sejenisnya)</option>
+                                <option value="Dana Pembangunan/Sumbangan Lainnya dari Mahasiswa" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Dana Pembangunan/Sumbangan Lainnya dari Mahasiswa') ? 'selected' : '' ?>>Dana Pembangunan/Sumbangan Lainnya dari Mahasiswa</option>
+                                <option value="Dana Kegiatan Spesifik (KKN, KKL, dll.)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Dana Kegiatan Spesifik (KKN, KKL, dll.)') ? 'selected' : '' ?>>Dana Kegiatan Spesifik (KKN, KKL, dll.)</option>
+                                <option value="Hasil Usaha & Unit Bisnis Universitas" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Hasil Usaha & Unit Bisnis Universitas') ? 'selected' : '' ?>>Hasil Usaha & Unit Bisnis Universitas</option>
+                                <option value="Hasil Investasi Universitas" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Hasil Investasi Universitas') ? 'selected' : '' ?>>Hasil Investasi Universitas</option>
+                                <option value="Anggaran Internal Universitas (APB-PTM)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Anggaran Internal Universitas (APB-PTM)') ? 'selected' : '' ?>>Anggaran Internal Universitas (APB-PTM)</option>
+                              </optgroup>
+
+                              <optgroup label="II. Dana Eksternal (Filantropi & Kemitraan)">
+                                <option value="Hibah Penelitian" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Hibah Penelitian') ? 'selected' : '' ?>>Hibah Penelitian</option>
+                                <option value="Hibah Pengabdian kepada Masyarakat (PkM)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Hibah Pengabdian kepada Masyarakat (PkM)') ? 'selected' : '' ?>>Hibah Pengabdian kepada Masyarakat (PkM)</option>
+                                <option value="Hibah Kompetisi/Pengembangan Institusi" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Hibah Kompetisi/Pengembangan Institusi') ? 'selected' : '' ?>>Hibah Kompetisi/Pengembangan Institusi</option>
+                                <option value="Sumbangan/Donasi (Individu, Alumni, Korporasi)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Sumbangan/Donasi (Individu, Alumni, Korporasi)') ? 'selected' : '' ?>>Sumbangan/Donasi (Individu, Alumni, Korporasi)</option>
+                                <option value="Corporate Social Responsibility (CSR)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Corporate Social Responsibility (CSR)') ? 'selected' : '' ?>>Corporate Social Responsibility (CSR)</option>
+                                <option value="Wakaf" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Wakaf') ? 'selected' : '' ?>>Wakaf</option>
+                              </optgroup>
+
+                              <optgroup label="III. Bantuan Pemerintah">
+                                <option value="Bantuan Dana APBN" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Bantuan Dana APBN') ? 'selected' : '' ?>>Bantuan Dana APBN</option>
+                                <option value="Bantuan Dana APBD" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Bantuan Dana APBD') ? 'selected' : '' ?>>Bantuan Dana APBD</option>
+                              </optgroup>
+
+                              <optgroup label="IV. Perolehan Non-Pembelian">
+                                <option value="Pertukaran Aset (Ruilslag)" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Pertukaran Aset (Ruilslag)') ? 'selected' : '' ?>>Pertukaran Aset (Ruilslag)</option>
+                                <option value="Hasil Lelang" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Hasil Lelang') ? 'selected' : '' ?>>Hasil Lelang</option>
+                                <option value="Ketetapan Hukum/Peraturan" <?= (isset($sarana['sumber']) && $sarana['sumber'] == 'Ketetapan Hukum/Peraturan') ? 'selected' : '' ?>>Ketetapan Hukum/Peraturan</option>
+                              </optgroup>
                             </select>
-                            <span class="form-text">Pilih sumber perolehan sarana.</span>
+                            <span class="form-text">Pilih sumber perolehan sarana sesuai klasifikasi yang direkomendasikan.</span>
                           </div>
                         </div>
 
                         <div class="py-4 px-4 mb-4 border rounded-md">
                           <div class="form-group">
                             <label for="biaya_pembelian" class="fw-bold">Biaya Pembelian</label>
-                            <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian" value="<?= htmlspecialchars($sarana['biaya_pembelian']) ?>" placeholder="Contoh: 100000000 tanpa titik">
+                            <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian" value="<?= htmlspecialchars($sarana['biaya_pembelian']) ?>" placeholder="Contoh: 100000000 tanpa titik" required>
                             <span class="form-text">Masukkan harga perolehan sarana dalam rupiah (hanya angka).</span>
                           </div>
                         </div>
@@ -175,14 +202,14 @@
                         </div>
                       </div>
 
-                      <!-- Status & Informasi Peminjaman (Hanya tampil saat edit) -->
+                      <!-- Status & Penempatan (Hanya tampil saat edit) -->
                       <?php if (isset($sarana)) : ?>
                         <div class="col-12 mt-4 border-bottom">
                           <div class="border-bottom pb-2 mb-3">
                             <h5 class="text-bold fs-4 text-navy">
-                              STATUS & INFORMASI PEMINJAMAN
+                              STATUS & PENEMPATAN
                             </h5>
-                            <span class="form-text">Isi status sarana dan detail peminjam jika sarana sedang dipinjam.</span>
+                            <span class="form-text">Pilih status dan lokasi penempatan sarana.</span>
                           </div>
 
                           <div class="py-4 px-4 mb-4 border rounded-md">
@@ -193,16 +220,40 @@
                                 <option value="Tersedia" <?= (isset($sarana['status']) && $sarana['status'] == 'Tersedia') ? 'selected' : '' ?>>Tersedia</option>
                                 <option value="Dipinjam" <?= (isset($sarana['status']) && $sarana['status'] == 'Dipinjam') ? 'selected' : '' ?>>Dipinjam</option>
                                 <option value="Terpakai" <?= (isset($sarana['status']) && $sarana['status'] == 'Terpakai') ? 'selected' : '' ?>>Terpakai</option>
-                                <option value="Rusak Ringan" <?= (isset($sarana['status']) && $sarana['status'] == 'Rusak Ringan') ? 'selected' : '' ?>>Rusak Ringan</option>
-                                <option value="Rusak Berat" <?= (isset($sarana['status']) && $sarana['status'] == 'Rusak Berat') ? 'selected' : '' ?>>Rusak Berat</option>
-                                <option value="Hilang" <?= (isset($sarana['status']) && $sarana['status'] == 'Hilang') ? 'selected' : '' ?>>Hilang</option>
                               </select>
                               <span class="form-text">
-                                Pilih status sarana saat ini. Jika "Dipinjam", lengkapi detail peminjam.
+                                Pilih status sarana saat ini.
                               </span>
                             </div>
                           </div>
 
+                          <!-- Lokasi Penempatan Barang -->
+                          <div class="py-4 px-4 mb-4 border rounded-md">
+                            <div class="form-group">
+                              <label for="lokasi" class="fw-bold">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
+                              <select class="form-control select2-custom" id="lokasi" name="lokasi" required>
+                                <option value="" disabled <?= !isset($sarana['lokasi']) || empty($sarana['lokasi']) ? 'selected' : '' ?>>
+                                  Pilih atau ketik lokasi barang
+                                </option>
+                                <optgroup label="Lapang">
+                                  <?php foreach ($lapangData as $lokasi_item) : ?>
+                                    <option value="<?= htmlspecialchars($lokasi_item['nama_lapang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_lapang']) ? 'selected' : '' ?>>
+                                      <?= htmlspecialchars($lokasi_item['kode_lapang']); ?> - <?= htmlspecialchars($lokasi_item['nama_lapang']); ?>
+                                    </option>
+                                  <?php endforeach; ?>
+                                </optgroup>
+                                <optgroup label="Ruang">
+                                  <?php foreach ($ruangData as $lokasi_item) : ?>
+                                    <option value="<?= htmlspecialchars($lokasi_item['nama_ruang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_ruang']) ? 'selected' : '' ?>>
+                                      <?= htmlspecialchars($lokasi_item['kode_ruang']); ?> - <?= htmlspecialchars($lokasi_item['nama_ruang']); ?>
+                                    </option>
+                                  <?php endforeach; ?>
+                                </optgroup>
+                              </select>
+                              <span class="form-text">Pilih lokasi penempatan sarana saat ini.</span>
+                            </div>
+                          </div>
+                          <!--
                           <div class="py-4 px-4 mb-4 border rounded-md">
                             <div class="form-group">
                               <label for="nama_peminjam" class="fw-bold">Nama Peminjam</label>
@@ -247,6 +298,7 @@
                               <span class="form-text">Masukkan tanggal rencana barang ini akan dikembalikan.</span>
                             </div>
                           </div>
+                          -->
                         </div>
                       <?php endif; ?>
 
@@ -256,30 +308,6 @@
                             INFORMASI TAMBAHAN
                           </h5>
                           <span class="form-text">Isi informasi tambahan terkait sarana.</span>
-                        </div>
-
-                        <div class="py-4 px-4 mb-4 border rounded-md">
-                          <!-- Lokasi Penempatan Barang -->
-                          <div class="form-group">
-                            <label for="lokasi" class="fw-bold">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
-                            <select class="form-control rounded border-0 select2-custom" id="lokasi" name="lokasi" required>
-                              <optgroup label="Lapang">
-                                <?php foreach ($lapangData as $lokasi_item) : ?>
-                                  <option value="<?= htmlspecialchars($lokasi_item['nama_lapang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_lapang']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($lokasi_item['kode_lapang']); ?> - <?= htmlspecialchars($lokasi_item['nama_lapang']); ?>
-                                  </option>
-                                <?php endforeach; ?>
-                              </optgroup>
-                              <optgroup label="Ruang">
-                                <?php foreach ($ruangData as $lokasi_item) : ?>
-                                  <option value="<?= htmlspecialchars($lokasi_item['nama_ruang']); ?>" <?= ($sarana['lokasi'] == $lokasi_item['nama_ruang']) ? 'selected' : '' ?>>
-                                    <?= htmlspecialchars($lokasi_item['kode_ruang']); ?> - <?= htmlspecialchars($lokasi_item['nama_ruang']); ?>
-                                  </option>
-                                <?php endforeach; ?>
-                              </optgroup>
-                            </select>
-                            <span class="form-text">Pilih lokasi penempatan sarana saat ini.</span>
-                          </div>
                         </div>
 
                         <div class="py-4 px-4 mb-4 border rounded-md">
@@ -294,16 +322,21 @@
                     </div>
                   </div>
 
-                  <div class="card-footer">
-                    <div class="d-flex flex-column flex-md-row justify-content-md-end">
-                      <a href="/admin/sarana/bergerak" class="btn btn-secondary mb-2 mb-md-0 mr-md-2">
-                        <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
-                      </a>
-                      <button type="submit" class="btn btn-primary mb-2 mb-md-0" id="submitBtn">
-                        <i class="fas fa-save mr-2"></i>
-                        Update Data Sarana Bergerak
-                      </button>
-                    </div>
+                  <div class="card-footer text-right">
+                    <?php
+                    // Determine the correct back URL. Prefer no_registrasi if available.
+                    $backUrl = "/admin/sarana/bergerak"; // Default fallback
+                    if (isset($sarana['no_registrasi']) && !empty($sarana['no_registrasi'])) {
+                      $backUrl = "/admin/sarana/bergerak/detail/" . htmlspecialchars($sarana['no_registrasi']);
+                    }
+                    ?>
+                    <a href="<?= $backUrl ?>" class="btn btn-secondary">
+                      <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Batal
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                      <i class="fas fa-save mr-2"></i>
+                      Simpan Perubahan
+                    </button>
                   </div>
               </form>
             </div>
@@ -333,6 +366,14 @@
         theme: 'bootstrap4',
         placeholder: "Pilih atau ketik lokasi barang",
         allowClear: false,
+        minimumResultsForSearch: 1,
+        width: '100%'
+      });
+
+      $('#sumber').select2({
+        theme: 'bootstrap4',
+        placeholder: "Pilih Sumber Perolehan...",
+        allowClear: true,
         minimumResultsForSearch: 1,
         width: '100%'
       });

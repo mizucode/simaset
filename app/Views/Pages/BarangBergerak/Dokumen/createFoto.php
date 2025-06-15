@@ -76,7 +76,14 @@
                 </div>
 
                 <div class="card-footer text-right">
-                  <a href="/admin/sarana/bergerak?detail=<?= htmlspecialchars($bergerakData['id'] ?? '') ?>" class="btn btn-secondary">
+                  <?php
+                  $backUrl = "/admin/sarana/bergerak"; // Default fallback
+                  if (isset($bergerakData['no_registrasi']) && !empty($bergerakData['no_registrasi'])) {
+                    $backUrl = "/admin/sarana/bergerak/detail/" . htmlspecialchars($bergerakData['no_registrasi']);
+                  } elseif (isset($bergerakData['id'])) { // Fallback
+                    $backUrl = "/admin/sarana/bergerak?detail=" . htmlspecialchars($bergerakData['id']);
+                  } ?>
+                  <a href="<?= $backUrl ?>" class="btn btn-secondary">
                     <i class="fas fa-arrow-alt-circle-left mr-2"></i>Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">

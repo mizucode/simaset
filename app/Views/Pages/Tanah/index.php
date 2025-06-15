@@ -30,7 +30,7 @@
 
               <div class="card-body p-3">
                 <div class="table-responsive">
-                  <table id="tanahTable" class="table table-bordered w-100">
+                  <table id="tanahTable" class="table table-bordered table-striped table-hover w-100">
                     <thead class="bg-gray-100">
                       <tr class="text-center align-middle">
                         <th width="5%">No</th>
@@ -76,19 +76,26 @@
 
   <script>
     $(function() {
-      $("#tanahTable").DataTable({
+      var table = $("#tanahTable").DataTable({
         "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
         "paging": true,
         "info": true,
         "searching": true,
+        "ordering": false,
         "columnDefs": [{
-          "targets": [4], // Target kolom No (0) dan Aksi (4)
-          "searchable": false, // Nonaktifkan pencarian
-          "orderable": false // Nonaktifkan pengurutan
-        }],
-        language: {
+            "targets": 0,
+            "orderable": false,
+            "searchable": false
+          },
+          {
+            "targets": [4],
+            "searchable": false,
+            "orderable": false
+          }
+        ],
+        "language": {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
           "infoEmpty": "Menampilkan 0 sampai 0 dari 0 entri",
@@ -111,11 +118,14 @@
           "searchPlaceholder": "kata kunci pencarian",
           "thousands": "."
         },
+        "dom": "<'row'<'col-sm-12 col-md-6'lB><'col-sm-12 col-md-6'f>>" +
+          "<'row'<'col-sm-12'tr>>" +
+          "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         "buttons": [{
             extend: 'copy',
             title: 'Data Aset Tanah',
             exportOptions: {
-              columns: [0, 1, 2, 3] // Hanya ekspor kolom 0-3 (termasuk No)
+              columns: [0, 1, 2, 3]
             }
           },
           {
@@ -148,9 +158,20 @@
           },
           'colvis'
         ]
-      }).buttons().container().appendTo('#tanahTable_wrapper .col-md-6:eq(0)');
+      });
+
+      table.on('draw.dt', function() {
+        var PageInfo = table.page.info();
+        table.column(0, {
+          page: 'current'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
+      });
+
     });
   </script>
+
 
 </body>
 

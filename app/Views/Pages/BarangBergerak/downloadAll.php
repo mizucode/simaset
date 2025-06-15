@@ -320,10 +320,13 @@
       $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
       $qrContainerId = "stkQrCanvas_" . $itemId;
       $qrContentForJs = "";
-      if (!empty($detailData['id'])) {
-        $qrPath = "/admin/sarana/bergerak?edit=" . urlencode($detailData['id']);
+      // Menggunakan no_registrasi untuk URL detail jika tersedia
+      if (!empty($nomorRegistrasi) && $nomorRegistrasi !== 'REG-TIDAK-ADA') {
+        $qrPath = "/admin/sarana/bergerak/detail/" . urlencode($nomorRegistrasi);
         $qrContentForJs = rtrim($BaseUrlQr, '/') . $qrPath;
       } else {
+        // Fallback jika no_registrasi tidak ada, bisa menggunakan ID atau pesan error
+        // Untuk konsistensi, jika no_registrasi tidak ada, QR mungkin tidak valid atau mengarah ke error
         $qrContentForJs = $nomorRegistrasi;
       }
 

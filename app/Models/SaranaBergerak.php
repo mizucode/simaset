@@ -87,6 +87,23 @@ class SaranaBergerak {
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
+  public static function getByNoRegistrasi($conn, $no_registrasi) {
+    $query = "SELECT sb.*, 
+                     kb.nama_kategori AS kategori, 
+                     b.nama_barang AS barang, 
+                     kond.nama_kondisi AS kondisi
+              FROM sarana_bergerak sb
+              JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
+              JOIN barang b ON sb.barang_id = b.id
+              JOIN kondisi_barang kond ON sb.kondisi_barang_id = kond.id
+              WHERE sb.no_registrasi = :no_registrasi
+              LIMIT 1";
+
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 
   public static function storeData(
     $conn,
@@ -103,7 +120,7 @@ class SaranaBergerak {
     $keterangan,
     $biaya_pembelian,
     $tanggal_pembelian,
-    $status = 'Tersedia', // Default status untuk data baru
+    $status = 'Terpakai',
     $nama_peminjam = null,
     $identitas_peminjam = null,
     $no_hp_peminjam = null,

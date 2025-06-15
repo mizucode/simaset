@@ -21,7 +21,7 @@
       }
     </style>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4">
+    <div class="content-wrapper bg-white mb-5 pt-3">
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
@@ -36,7 +36,8 @@
                     <button type="button" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#deleteModal" data-id="<?= htmlspecialchars($detailData['id'] ?? ''); ?>">
                       <i class="fas fa-trash mr-1"></i> Hapus
                     </button>
-                    <a href="/admin/sarana/bergerak?edit=<?= htmlspecialchars($detailData['id'] ?? ''); ?>" class="btn btn-warning btn-sm mr-2">
+                    <!-- Tautan Edit menggunakan no_registrasi -->
+                    <a href="/admin/sarana/bergerak/edit/<?= htmlspecialchars($detailData['no_registrasi']); ?>" class="btn btn-warning btn-sm mr-2">
                       <i class="fas fa-edit mr-1"></i> Edit
                     </a>
                     <a href="/admin/sarana/bergerak" class="btn btn-secondary btn-sm">
@@ -73,7 +74,8 @@
                                 <span class="stk-item-reg-number">REG: <?= htmlspecialchars($nomorRegistrasi) ?></span>
                               </div>
                               <div class="stk-qr-area">
-                                <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>"></div>
+                                <!-- Konten QR akan menjadi URL detail dengan no_registrasi -->
+                                <div id="<?= $qrCanvasId ?>" class="stk-qr-image-container" data-qr-content="<?= htmlspecialchars($nomorRegistrasi) ?>" data-qr-type="detail"></div>
                                 <span class="stk-scan-text text-navy pt-2">
                                   <i class="fas fa-qrcode mr-1"></i> SCAN DI SINI
                                 </span>
@@ -130,7 +132,7 @@
                         <div class="info-box bg-light">
                           <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
                           <div class="info-box-content">
-                            <span class="info-box-number">No Registrasi</span>
+                            <span class="info-box-number">Nomor Registrasi</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['no_registrasi'] ?? '-') ?></span>
                           </div>
                         </div>
@@ -226,6 +228,64 @@
                             <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['keterangan'] ?? 'Tidak ada keterangan') ?></span>
                           </div>
                         </div>
+                        <!-- Tampilkan Informasi Peminjaman/Pengembalian jika status Dipinjam atau Tersedia dengan data peminjam -->
+                        <?php
+                        $showPeminjamanInfo = isset($detailData['status']) && $detailData['status'] == 'Dipinjam';
+                        $showPengembalianInfo = isset($detailData['status']) && $detailData['status'] == 'Tersedia' && !empty($detailData['nama_peminjam']);
+                        ?>
+                        <?php if ($showPeminjamanInfo || $showPengembalianInfo) : ?>
+                          <div class="border-top pt-3 mt-4">
+                            <h5 class="text-bold text-navy">
+                              <?php if ($showPeminjamanInfo) : ?>
+                                Informasi Peminjaman
+                              <?php elseif ($showPengembalianInfo) : ?>
+                                Informasi Pengembalian Barang
+                              <?php endif; ?>
+                            </h5>
+                          </div>
+                          <div class="info-box bg-light">
+                            <span class="info-box-icon bg-info"><i class="fas fa-info-circle"></i></span>
+                            <div class="info-box-content">
+                              <span class="info-box-number">Status Barang</span>
+                              <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['status'] ?? 'Tidak Diketahui') ?></span>
+                            </div>
+                          </div>
+                          <div class="info-box bg-light">
+                            <span class="info-box-icon bg-primary"><i class="fas fa-user"></i></span>
+                            <div class="info-box-content">
+                              <span class="info-box-number">Nama</span>
+                              <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['nama_peminjam'] ?? '-') ?></span>
+                            </div>
+                          </div>
+                          <div class="info-box bg-light">
+                            <span class="info-box-icon bg-secondary"><i class="fas fa-id-card"></i></span>
+                            <div class="info-box-content">
+                              <span class="info-box-number">Identitas</span>
+                              <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['identitas_peminjam'] ?? '-') ?></span>
+                            </div>
+                          </div>
+                          <div class="info-box bg-light">
+                            <span class="info-box-icon bg-teal"><i class="fas fa-phone"></i></span>
+                            <div class="info-box-content">
+                              <span class="info-box-number">No. HP</span>
+                              <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['no_hp_peminjam'] ?? '-') ?></span>
+                            </div>
+                          </div>
+                          <div class="info-box bg-light">
+                            <span class="info-box-icon bg-info"><i class="far fa-calendar-alt"></i></span>
+                            <div class="info-box-content">
+                              <span class="info-box-number">Tanggal Peminjaman</span>
+                              <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['tanggal_peminjaman'] ?? '-') ?></span>
+                            </div>
+                          </div>
+                          <div class="info-box bg-light">
+                            <span class="info-box-icon bg-warning"><i class="far fa-calendar-check"></i></span>
+                            <div class="info-box-content">
+                              <span class="info-box-number">Tanggal Pengembalian</span>
+                              <span class="info-box-text text-wrap text-justify"><?= htmlspecialchars($detailData['tanggal_pengembalian'] ?? '-') ?></span>
+                            </div>
+                          </div>
+                        <?php endif; ?>
                       </div>
                     </div>
                   </div>
@@ -258,12 +318,16 @@
                             <td class="text-center"><?= $no++ ?></td>
                             <td><?= htmlspecialchars($barang['nama_dokumen'] ?? '-') ?></td>
                             <td class="text-center">
+                              <a href="/admin/sarana/bergerak?preview-file-dokumen=<?= htmlspecialchars($barang['id'] ?? '') ?>"
+                                class="btn btn-sm btn-info" title="Preview" target="_blank">
+                                <i class="fas fa-eye"></i> Preview
+                              </a>
                               <a href="/admin/sarana/bergerak?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '') ?>"
                                 class="btn btn-sm btn-success" title="Download">
                                 <i class="fas fa-download"></i> Download
                               </a>
                               <button type="button" class="btn btn-sm btn-danger" title="Hapus"
-                                onclick="confirmDeleteDokumen('<?= htmlspecialchars($barang['id'] ?? '') ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
+                                onclick="confirmDeleteDokumen('<?= htmlspecialchars($barang['id'] ?? '') ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', '<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Ini') ?>')">
                                 <i class="fas fa-trash"></i> Hapus
                               </button>
                             </td>
@@ -323,7 +387,7 @@
                                 <i class="fas fa-eye"></i> Lihat
                               </a>
                               <button type="button" class="btn btn-sm btn-danger" title="Hapus Gambar"
-                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>')">
+                                onclick="confirmDeleteGambar('<?= $idGambar ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', '<?= $namaDokumenGambar ?>')">
                                 <i class="fas fa-trash"></i> Hapus
                               </button>
                             </div>
@@ -365,6 +429,48 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal Konfirmasi Hapus Dokumen -->
+    <div class="modal fade" id="deleteDokumenModal" tabindex="-1" role="dialog" aria-labelledby="deleteDokumenModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="deleteDokumenModalLabel">Konfirmasi Hapus Dokumen</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Apakah Anda yakin ingin menghapus dokumen <strong id="dokumenNameModal"></strong>? Tindakan ini tidak dapat dibatalkan.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <a href="#" id="confirmDeleteDokumenButton" class="btn btn-danger">Hapus</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus Gambar -->
+    <div class="modal fade" id="deleteGambarModal" tabindex="-1" role="dialog" aria-labelledby="deleteGambarModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header bg-danger text-white">
+            <h5 class="modal-title" id="deleteGambarModalLabel">Konfirmasi Hapus Gambar</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Apakah Anda yakin ingin menghapus gambar <strong id="gambarNameModal"></strong>? Tindakan ini tidak dapat dibatalkan.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+            <a href="#" id="confirmDeleteGambarButton" class="btn btn-danger">Hapus</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <?php include './app/Views/Components/footer.php'; ?>
   </div>
 
@@ -382,16 +488,22 @@
       }
     }
 
-    function confirmDeleteDokumen(dokumenId, saranaId) {
-      if (confirm(`Apakah Anda yakin ingin menghapus dokumen ini? Tindakan ini tidak dapat dibatalkan.`)) {
-        window.location.href = `/admin/sarana/bergerak?delete-dokumen=${dokumenId}&sarana_id=${saranaId}`;
-      }
+    function confirmDeleteDokumen(dokumenId, saranaId, namaDokumen) {
+      // Mengisi nama dokumen di modal
+      $('#dokumenNameModal').text(namaDokumen || 'Dokumen Ini');
+      // Membuat URL untuk tombol hapus di modal
+      var deleteUrl = `/admin/sarana/bergerak?delete-dokumen=${dokumenId}&sarana_id=${saranaId}`;
+      $('#confirmDeleteDokumenButton').attr('href', deleteUrl);
+      // Menampilkan modal
+      $('#deleteDokumenModal').modal('show');
     }
 
-    function confirmDeleteGambar(gambarId, saranaId) {
-      if (confirm(`Apakah Anda yakin ingin menghapus gambar ini? Tindakan ini tidak dapat dibatalkan.`)) {
-        window.location.href = `/admin/sarana/bergerak?delete-gambar=${gambarId}&sarana_id=${saranaId}`;
-      }
+    function confirmDeleteGambar(gambarId, saranaId, namaGambar) {
+      // Mengisi nama gambar di modal
+      $('#gambarNameModal').text(namaGambar || 'Gambar Ini');
+      var deleteUrl = `/admin/sarana/bergerak?delete-gambar=${gambarId}&sarana_id=${saranaId}`;
+      $('#confirmDeleteGambarButton').attr('href', deleteUrl);
+      $('#deleteGambarModal').modal('show');
     }
 
     $(document).ready(function() {
@@ -414,15 +526,17 @@
 
       const qrContainer = document.getElementById('<?= $qrCanvasId ?>');
       if (qrContainer) {
-        const containerIdString = qrContainer.id;
-        let itemId = null;
-        if (containerIdString && containerIdString.startsWith("qrCanvas_")) {
-          itemId = containerIdString.substring("qrCanvas_".length);
-        }
-        if (itemId && !isNaN(parseInt(itemId))) {
+        // Mengambil no_registrasi dari atribut data-qr-content
+        const nomorRegFromDataAttr = qrContainer.getAttribute('data-qr-content');
+
+        if (nomorRegFromDataAttr && nomorRegFromDataAttr !== 'REG-TIDAK-ADA') {
           const qrBaseUrl = "<?= $BaseUrlQr; ?>";
-          const qrPath = `/admin/sarana/bergerak?edit=${itemId}`;
+          // Path QR untuk halaman detail menggunakan no_registrasi
+          const qrPath = `/admin/sarana/bergerak/detail/${nomorRegFromDataAttr}`;
           const finalQrText = qrBaseUrl + qrPath;
+
+          console.log("Konten QR (Detail) yang akan digenerate:", finalQrText); // Untuk debugging
+
           new QRCode(qrContainer, {
             text: finalQrText,
             width: 150,
@@ -432,7 +546,8 @@
             correctLevel: QRCode.CorrectLevel.H
           });
         } else {
-          qrContainer.innerHTML = "<small>ID Barang Error</small>";
+          console.error("Nomor Registrasi tidak valid untuk QR Detail:", nomorRegFromDataAttr);
+          qrContainer.innerHTML = "<small>No. Registrasi Error</small>";
         }
       }
 

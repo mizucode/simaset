@@ -6,7 +6,7 @@
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
-    <?php include './app/Views/Components/css.php'; // Asumsi file ini ada 
+    <?php include './app/Views/Components/css.php';
     ?>
 
     <div class="content-wrapper bg-white mb-5 pt-3 px-4">
