@@ -194,7 +194,7 @@ class SaranaElektronikController {
     }
 
     do {
-      $randomNumber = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+      $randomNumber = str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
       $registrationNumber = "{$entityCode}-{$barangCode}-{$year}-{$randomNumber}";
 
       $stmt = $conn->prepare("SELECT COUNT(*) FROM sarana_elektronik WHERE no_registrasi = ?");

@@ -54,15 +54,15 @@ class Router {
     '/admin/sarana/bergerak/kembali' => ['controller' => 'SaranaBergerakKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/bergerak/tambah' => ['controller' => 'SaranaBergerakController', 'method' => 'create', 'auth' => true], // Menggunakan SaranaBergerakController
     '/admin/sarana/bergerak/download-qr' => ['controller' => 'SaranaBergerakController', 'method' => 'downloadAllQr', 'auth' => true],
-    '/admin/sarana/bergerak/edit/([A-Z]{3}-[A-Z]{3}-\d{4}-\d{3})' => ['controller' => 'SaranaBergerakController', 'method' => 'update', 'auth' => true], // Rute edit berdasarkan no_registrasi format baru
-    '/admin/sarana/bergerak/detail/([A-Z]{3}-[A-Z]{3}-\d{4}-\d{3})' => ['controller' => 'SaranaBergerakController', 'method' => 'detail', 'auth' => true],
+    '/admin/sarana/bergerak/edit/([A-Z]{3}-[A-Z]{3,4}-\d{4}-\d{3,4})' => ['controller' => 'SaranaBergerakController', 'method' => 'update', 'auth' => true], // Rute edit, random number bisa 3 atau 4 digit
+    '/admin/sarana/bergerak/detail/([A-Z]{3}-[A-Z]{3,4}-\d{4}-\d{3,4})' => ['controller' => 'SaranaBergerakController', 'method' => 'detail', 'auth' => true], // Rute detail, random number bisa 3 atau 4 digit
     '/admin/sarana/bergerak/kondisi' => ['controller' => 'SaranaBergerakKondisiController', 'method' => 'index', 'auth' => true],
-
     '/admin/sarana/atk/download-qr' => ['controller' => 'SaranaATKController', 'method' => 'downloadAllQr', 'auth' => true],
-    '/admin/sarana/atk/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaATKController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
+    '/admin/sarana/atk/edit/([A-Z]{3}-[A-Z]{3,4}-\d{4}-\d{3,4})' => ['controller' => 'SaranaATKController', 'method' => 'update', 'auth' => true], // Rute edit ATK, random number bisa 3 atau 4 digit
+    '/admin/sarana/atk/detail/([A-Z]{3}-[A-Z]{3,4}-\d{4}-\d{3,4})' => ['controller' => 'SaranaATKController', 'method' => 'detail', 'auth' => true], // Rute detail ATK, random number bisa 3 atau 4 digit
     '/admin/sarana/mebelair/download-qr' => ['controller' => 'SaranaMebelairController', 'method' => 'downloadAllQr', 'auth' => true],
     '/admin/sarana/mebelair/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaMebelairController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
-    '/admin/sarana/mebelair/edit/([A-Z]{3}-[A-Z]{3}-\d{4}-\d{3})' => ['controller' => 'SaranaMebelairController', 'method' => 'update', 'auth' => true], // Rute edit mebelair by no_registrasi
+    '/admin/sarana/mebelair/edit/([A-Z]{3}-[A-Z]{3,4}-\d{4}-\d{3,4})' => ['controller' => 'SaranaMebelairController', 'method' => 'update', 'auth' => true], // Rute edit mebelair, random number bisa 3 atau 4 digit
     '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true], // Rute edit mebelair by no_registrasi
 
     // Sarana - Mebelair

@@ -287,33 +287,33 @@
 
   <div class="a4-page" id="pageToPrint">
     <?php
+    // $saranaData is passed by the controller. This is the full list for the category.
+    $dataToDisplay = []; // Initialize with empty
 
-    // Default mock data if $saranaData is not provided by a controller
-    if (!isset($saranaData) || empty($saranaData)) {
-      $saranaData = [
-        ['id' => '1', 'nama_detail_barang' => 'Laptop Lenovo Mockup', 'no_registrasi' => 'MOCK-LPTP-001'],
-        ['id' => '2', 'nama_detail_barang' => 'Proyektor Epson Mockup', 'no_registrasi' => 'MOCK-PROJ-002'],
-        ['id' => '3', 'nama_detail_barang' => 'Printer HP Mockup', 'no_registrasi' => 'MOCK-PRNT-003'],
-      ];
-    }
-
-    // Filter $saranaData if selected_ids are POSTed
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_ids']) && is_array($_POST['selected_ids'])) {
-      $selectedIdsFromPost = $_POST['selected_ids'];
-
-      // In a real application, if $saranaData is fetched from a database,
-      // it would be more efficient to modify the database query to fetch only selected items.
-      // For this example, we filter the existing $saranaData array.
-      if (!empty($selectedIdsFromPost)) {
-        $saranaData = array_filter($saranaData, function ($item) use ($selectedIdsFromPost) {
-          return isset($item['id']) && in_array((string)$item['id'], $selectedIdsFromPost);
+      // This is a "Download Selected QR" action
+      $selectedIds = $_POST['selected_ids'];
+      // Ensure $saranaData from controller exists and is an array before filtering
+      if (!empty($selectedIds) && isset($saranaData) && is_array($saranaData)) {
+        $dataToDisplay = array_filter($saranaData, function ($item) use ($selectedIds) {
+          return isset($item['id']) && in_array((string)$item['id'], $selectedIds);
         });
       }
+      // If $selectedIds is empty, $dataToDisplay remains [], which is correct (display no items).
+    } else {
+      // This is a "Download All QR" action or direct access without selection
+      if (isset($saranaData) && !empty($saranaData)) {
+        $dataToDisplay = $saranaData;
+      } else {
+        // Fallback to mock data ONLY if controller sent nothing for "Download All"
+        $dataToDisplay = [
+          ['id' => '1', 'nama_detail_barang' => 'Mobil Avanza Mockup', 'no_registrasi' => 'MOCK-BGR-AVZ-001'],
+          ['id' => '2', 'nama_detail_barang' => 'Motor Vario Mockup', 'no_registrasi' => 'MOCK-BGR-VRO-002'],
+        ];
+      }
     }
-
     ?>
-
-    <?php foreach ($saranaData as $detailData): ?>
+    <?php foreach ($dataToDisplay as $detailData): ?>
       <?php
       $itemId = htmlspecialchars($detailData['id'] ?? uniqid());
       $namaBarang = $detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia';

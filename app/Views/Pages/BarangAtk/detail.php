@@ -2,7 +2,7 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
@@ -143,7 +143,7 @@
                           </div>
                         </div>
                         <div class="info-box bg-light">
-                          <span class="info-box-icon bg-success"><i class="fas fa-pencil-ruler"></i></span>
+                          <span class="info-box-icon bg-success"><i class="fas fa-tags"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Jenis Barang</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['nama_barang'] ?? '-') ?></span>
@@ -157,17 +157,17 @@
                           </div>
                         </div>
                         <div class="info-box bg-light">
-                          <span class="info-box-icon bg-primary"><i class="fas fa-boxes"></i></span>
-                          <div class="info-box-content">
-                            <span class="info-box-number">Jumlah</span>
-                            <span class="info-box-text"><?= htmlspecialchars($detailData['jumlah'] ?? '1') ?> <?= htmlspecialchars($detailData['satuan'] ?? 'Unit') ?></span>
-                          </div>
-                        </div>
-                        <div class="info-box bg-light">
                           <span class="info-box-icon bg-success"><i class="fas fa-clipboard-check"></i></span>
                           <div class="info-box-content">
                             <span class="info-box-number">Kondisi</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['nama_kondisi'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
+                          <span class="info-box-icon bg-blue"><i class="fas fa-boxes"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">Jumlah</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['jumlah'] ?? '1') ?> <?= htmlspecialchars($detailData['satuan'] ?? 'Unit') ?></span>
                           </div>
                         </div>
                         <div class="info-box bg-light">

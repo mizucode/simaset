@@ -2,7 +2,7 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
@@ -407,6 +407,8 @@
           </div>
         </div>
       </div>
+      <?php include './app/Views/Components/footer.php'; ?>
+
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -470,7 +472,6 @@
         </div>
       </div>
     </div>
-    <?php include './app/Views/Components/footer.php'; ?>
   </div>
 
   <?php include './app/Views/Components/script.php'; ?>

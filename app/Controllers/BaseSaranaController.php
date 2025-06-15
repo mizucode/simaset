@@ -70,7 +70,7 @@ abstract class BaseSaranaController extends BaseController {
     }
 
     do {
-      $randomNumber = str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT);
+      $randomNumber = str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT);
       $registrationNumber = "{$this->entityCodePrefix}-{$barangCode}-{$year}-{$randomNumber}";
 
       $stmt = $this->conn->prepare("SELECT COUNT(*) FROM {$this->dbTableName} WHERE no_registrasi = ?");

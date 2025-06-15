@@ -296,49 +296,47 @@
 
   <div class="a4-page" id="pageToPrint">
     <?php
+    // $saranaData is passed by the controller. This is the full list for the category.
+    $dataToDisplay = []; // Initialize with empty
 
-    // Default mock data if $saranaData is not provided by a controller
-    if (!isset($saranaData) || empty($saranaData)) {
-      $saranaData = [
-        ['id' => '001', 'nama_detail_barang' => 'Laptop Lenovo ThinkPad X1 Carbon Gen 9 Ruang Rapat Lt.3 No.Inv/Aset: LPTP/2023/001', 'no_registrasi' => 'ASSET-2023-001'],
-        ['id' => '002', 'nama_detail_barang' => 'Proyektor Epson EB-S400 Aula Utama No.Inv/Aset: PROJ/2022/005', 'no_registrasi' => 'ASSET-2022-005'],
-        ['id' => '003', 'nama_detail_barang' => 'Printer HP LaserJet Pro M404dn Ruang Admin Lt.1', 'no_registrasi' => 'ASSET-2023-017'],
-        // Contoh data Mebelair
-        ['id' => 'MB001', 'nama_detail_barang' => 'Meja Rapat Kayu Jati Besar', 'no_registrasi' => 'MB/REG/001'],
-        ['id' => 'MB002', 'nama_detail_barang' => 'Kursi Direktur Ergonomis Kulit', 'no_registrasi' => 'MB/REG/002'],
-        ['id' => 'MB003', 'nama_detail_barang' => 'Lemari Arsip Besi 4 Pintu', 'no_registrasi' => 'MB/REG/003'],
-      ];
-    }
-
-    // Filter $saranaData if selected_ids are POSTed
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['selected_ids']) && is_array($_POST['selected_ids'])) {
-      $selectedIdsFromPost = $_POST['selected_ids'];
-
-      // In a real application, if $saranaData is fetched from a database,
-      // it would be more efficient to modify the database query to fetch only selected items.
-      // For this example, we filter the existing $saranaData array.
-      if (!empty($selectedIdsFromPost)) {
-        $saranaData = array_filter($saranaData, function ($item) use ($selectedIdsFromPost) {
-          return isset($item['id']) && in_array((string)$item['id'], $selectedIdsFromPost);
+      // This is a "Download Selected QR" action
+      $selectedIds = $_POST['selected_ids'];
+      // Ensure $saranaData from controller exists and is an array before filtering
+      if (!empty($selectedIds) && isset($saranaData) && is_array($saranaData)) {
+        $dataToDisplay = array_filter($saranaData, function ($item) use ($selectedIds) {
+          return isset($item['id']) && in_array((string)$item['id'], $selectedIds);
         });
+      }
+      // If $selectedIds is empty, $dataToDisplay remains [], which is correct (display no items).
+    } else {
+      // This is a "Download All QR" action or direct access without selection
+      if (isset($saranaData) && !empty($saranaData)) {
+        $dataToDisplay = $saranaData;
+      } else {
+        // Fallback to mock data ONLY if controller sent nothing for "Download All"
+        $dataToDisplay = [
+          ['id' => '001', 'nama_detail_barang' => 'Laptop Lenovo Mockup', 'no_registrasi' => 'ASSET-MOCK-001'],
+          ['id' => 'MB001', 'nama_detail_barang' => 'Meja Rapat Kayu Jati Besar (Mockup)', 'no_registrasi' => 'MB/MOCK/001'],
+          ['id' => 'MB002', 'nama_detail_barang' => 'Kursi Direktur Ergonomis Kulit (Mockup)', 'no_registrasi' => 'MB/MOCK/002'],
+        ];
       }
     }
     ?>
-
-    <?php foreach ($saranaData as $detailData): ?>
+    <?php foreach ($dataToDisplay as $detailData): ?>
       <?php
       $itemId = htmlspecialchars($detailData['id'] ?? uniqid());
       $namaBarang = $detailData['nama_detail_barang'] ?? 'Nama Barang Tidak Tersedia';
       $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
       $qrContainerId = "stkQrCanvas_" . $itemId;
       $qrContentForJs = "";
-      if (!empty($detailData['id'])) {
-        // Untuk Mebelair, QR biasanya mengarah ke halaman edit/detail berdasarkan ID
-        $qrPath = "/admin/sarana/mebelair?detail=" . urlencode($detailData['id']); // atau ?edit= jika itu tujuannya
+      if (!empty($detailData['no_registrasi']) && $detailData['no_registrasi'] !== 'REG-TIDAK-ADA') {
+        // Menggunakan no_registrasi untuk URL edit
+        $qrPath = "/admin/sarana/mebelair/edit/" . urlencode($detailData['no_registrasi']);
         $qrContentForJs = rtrim($BaseUrlQr, '/') . $qrPath;
       } else {
-        // Fallback jika ID tidak ada, bisa menggunakan nomor registrasi atau pesan error
-        $qrContentForJs = "Error: ID Barang tidak valid"; // Atau $nomorRegistrasi jika itu yang diinginkan
+        // Fallback jika no_registrasi tidak ada atau tidak valid
+        $qrContentForJs = "Error: Nomor Registrasi tidak valid";
       }
 
       ?>

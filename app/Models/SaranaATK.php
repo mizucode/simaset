@@ -91,6 +91,7 @@ class SaranaATK {
     $jumlah,
     $satuan,
     $lokasi,
+    $sumber,
     $biaya_pembelian,
     $tanggal_pembelian,
     $keterangan,
@@ -112,6 +113,7 @@ class SaranaATK {
       'jumlah' => $jumlah,
       'satuan' => $satuan,
       'lokasi' => $lokasi,
+      'sumber' => $sumber,
       'biaya_pembelian' => $biaya_pembelian,
       'tanggal_pembelian' => $tanggal_pembelian,
       'keterangan' => $keterangan,
@@ -158,6 +160,7 @@ class SaranaATK {
     $jumlah,
     $satuan,
     $lokasi,
+    $sumber, // Tambahkan parameter sumber
     $biaya_pembelian,
     $tanggal_pembelian,
     $keterangan,
@@ -179,6 +182,7 @@ class SaranaATK {
             jumlah = :jumlah,
             satuan = :satuan,
             lokasi = :lokasi,
+            sumber = :sumber, 
             keterangan = :keterangan,
             biaya_pembelian = :biaya_pembelian,
             status = :status,
@@ -203,6 +207,7 @@ class SaranaATK {
       $stmt->bindParam(':jumlah', $jumlah);
       $stmt->bindParam(':satuan', $satuan);
       $stmt->bindParam(':keterangan', $keterangan);
+      $stmt->bindParam(':sumber', $sumber);
       $stmt->bindParam(':lokasi', $lokasi);
       $stmt->bindParam(':biaya_pembelian', $biaya_pembelian);
       $stmt->bindParam(':status', $status);
@@ -287,5 +292,28 @@ class SaranaATK {
       error_log("Error in SaranaATK::updateKondisiLokasiByNoReg - " . $e->getMessage());
       return false;
     }
+  }
+
+  /**
+   * Mendapatkan data barang ATK berdasarkan Nomor Registrasi
+   * 
+   * @param PDO $conn Koneksi database
+   * @param string $no_registrasi Nomor Registrasi barang ATK
+   * @return array|false Array data atau false jika tidak ditemukan
+   */
+  public static function getByNoRegistrasi($conn, $no_registrasi) {
+    $query = "SELECT sa.*, 
+                 kb.nama_kategori, 
+                 b.nama_barang, 
+                 kond.nama_kondisi
+                 FROM sarana_atk sa
+                 LEFT JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+                 LEFT JOIN barang b ON sa.barang_id = b.id
+                 LEFT JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
+                 WHERE sa.no_registrasi = :no_registrasi";
+    $stmt = $conn->prepare($query);
+    $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }

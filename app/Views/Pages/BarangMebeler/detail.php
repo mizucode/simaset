@@ -2,7 +2,7 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
@@ -168,6 +168,13 @@
                           <div class="info-box-content">
                             <span class="info-box-number">Kondisi</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['nama_kondisi'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
+                          <span class="info-box-icon bg-blue"><i class="fas fa-boxes"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">Jumlah</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['jumlah'] ?? '1') ?> <?= htmlspecialchars($detailData['satuan'] ?? 'Unit') ?></span>
                           </div>
                         </div>
                         <div class="info-box bg-light">
@@ -362,9 +369,7 @@
                             $extension = $pathGambar ? strtolower(pathinfo($pathGambar, PATHINFO_EXTENSION)) : '';
                             ?>
                             <?php if ($pathGambar && in_array($extension, $allowedExtensions)) : ?>
-                              <a href="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>" data-toggle="lightbox" data-title="<?= $namaDokumenGambar ?>" data-gallery="gallery-images">
-                                <img src="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>" alt="<?= $namaDokumenGambar ?>" class="img-fluid h-100 w-100" style="object-fit: cover;" loading="lazy">
-                              </a>
+                              <img src="/admin/sarana/mebelair?preview-gambar=<?= $idGambar ?>" alt="<?= $namaDokumenGambar ?>" class="img-fluid h-100 w-100" style="object-fit: cover;" loading="lazy">
                             <?php else : ?>
                               <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
                                 Preview Tidak Tersedia
@@ -398,6 +403,8 @@
           </div>
         </div>
       </div>
+      <?php require_once './app/Views/Components/footer.php'; ?>
+
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -418,6 +425,7 @@
           </div>
         </div>
       </div>
+
     </div>
 
     <!-- Modal Konfirmasi Hapus Dokumen -->
@@ -461,7 +469,6 @@
         </div>
       </div>
     </div>
-    <?php include './app/Views/Components/footer.php'; ?>
   </div>
 
   <?php include './app/Views/Components/script.php'; ?>
