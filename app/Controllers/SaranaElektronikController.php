@@ -9,13 +9,16 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 
-class SaranaElektronikController {
-  private function renderView(string $view, $data = []) {
+class SaranaElektronikController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/BarangElektronik/{$view}.php";
   }
 
-  public function create() {
+  public function create()
+  {
     global $conn;
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn);
@@ -35,12 +38,14 @@ class SaranaElektronikController {
       $merk = $_POST['merk'] ?? null;
       $spesifikasi = $_POST['spesifikasi'] ?? null;
       $tipe = $_POST['tipe'] ?? null;
+      $sumber = $_POST['sumber'] ?? null; // Tambahkan pengambilan data sumber
       $jumlah = $_POST['jumlah'] ?? 1;
       $satuan = $_POST['satuan'] ?? 'Unit';
       $lokasi = $_POST['lokasi'];
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
-      $keterangan = $_POST['keterangan'] ?? null;
+      $keterangan = !empty($_POST['keterangan']) ? $_POST['keterangan'] : null;
+      $status = $_POST['status'] ?? 'Terpakai'; // Ambil status dari POST, default 'Terpakai'
 
       $no_registrasi = $this->generateUniqueRegistrationNumber(
         $conn,
@@ -60,20 +65,14 @@ class SaranaElektronikController {
           $merk,
           $spesifikasi,
           $tipe,
+          $sumber, // Tambahkan variabel sumber ke pemanggilan storeData
           $jumlah,
           $satuan,
           $lokasi,
           $biaya_pembelian,
           $tanggal_pembelian,
-          $keterangan
-          // Parameter tambahan sesuai model storeData
-          // status sudah default 'Tersedia' di model
-          // Untuk data baru, detail peminjam biasanya null
-          // null, // nama_peminjam
-          // null, // identitas_peminjam
-          // null, // no_hp_peminjam
-          // null, // tanggal_peminjaman
-          // null  // tanggal_pengembalian
+          $keterangan,
+          $status // Teruskan status yang diambil dari form
         );
 
         $message = $success ? 'Data sarana elektronik berhasil ditambahkan.' : 'Gagal menambahkan data sarana elektronik.';
@@ -97,9 +96,13 @@ class SaranaElektronikController {
     ]);
   }
 
-  public function update($id) {
+  public function update($no_registrasi_param) // Mengubah parameter ke no_registrasi
+  {
     global $conn;
-    $sarana = SaranaElektronik::getById($conn, $id);
+    // Mengambil data sarana berdasarkan no_registrasi
+    // Asumsi SaranaElektronik::getByNoRegistrasi() sudah ada atau akan dibuat
+    $sarana = SaranaElektronik::getByNoRegistrasi($conn, $no_registrasi_param);
+
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn);
     $kondisiList = KondisiBarang::getAllData($conn);
@@ -107,10 +110,21 @@ class SaranaElektronikController {
     $ruangData = Ruang::getAllData($conn);
 
     if (!$sarana) {
-      $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan.';
+      $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan dengan No. Registrasi: ' . htmlspecialchars($no_registrasi_param);
       header('Location: /admin/sarana/elektronik');
       exit();
     }
+
+    // Dapatkan ID aktual dari data sarana yang diambil, karena updateData mungkin memerlukan ID primary key
+    $actual_id = $sarana['id'];
+
+    // Jika $sarana tidak ditemukan setelah getByNoRegistrasi, seharusnya sudah ditangani di atas.
+    // Baris ini bisa jadi redundan jika pengecekan di atas sudah cukup.
+    // if (!$sarana) {
+    //   $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan.';
+    //   header('Location: /admin/sarana/elektronik');
+    //   exit();
+    // }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $kategori_barang_id = $_POST['kategori_barang_id'];
@@ -120,6 +134,7 @@ class SaranaElektronikController {
       $merk = $_POST['merk'] ?? null;
       $spesifikasi = $_POST['spesifikasi'] ?? null;
       $tipe = $_POST['tipe'] ?? null;
+      $sumber = $_POST['sumber'] ?? $sarana['sumber'] ?? null; // Tambahkan pengambilan sumber untuk update
       $jumlah = $_POST['jumlah'] ?? $sarana['jumlah'];
       $satuan = $_POST['satuan'] ?? $sarana['satuan'];
       $lokasi = $_POST['lokasi'];
@@ -127,7 +142,7 @@ class SaranaElektronikController {
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $keterangan = $_POST['keterangan'] ?? null;
       // Ambil status dan detail peminjam dari POST atau data sarana yang ada
-      $status = $_POST['status'] ?? $sarana['status'] ?? 'Tersedia';
+      $status = $_POST['status'] ?? $sarana['status'] ?? 'Terpakai';
       $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
       $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
       $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
@@ -138,7 +153,7 @@ class SaranaElektronikController {
       try {
         $success = SaranaElektronik::updateData(
           $conn,
-          $id,
+          $actual_id, // Gunakan ID primary key untuk update
           $kategori_barang_id,
           $barang_id,
           $kondisi_barang_id,
@@ -147,6 +162,7 @@ class SaranaElektronikController {
           $merk,
           $spesifikasi,
           $tipe,
+          $sumber, // Tambahkan variabel sumber ke pemanggilan updateData
           $jumlah,
           $satuan,
           $lokasi,
@@ -164,7 +180,12 @@ class SaranaElektronikController {
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
         $_SESSION['update'] = $message;
 
-        header('Location: /admin/sarana/elektronik?detail=' . $id);
+        // Redirect ke halaman detail menggunakan no_registrasi
+        if ($success && isset($sarana['no_registrasi'])) {
+          header('Location: /admin/sarana/elektronik/detail/' . urlencode($sarana['no_registrasi']));
+        } else {
+          header('Location: /admin/sarana/elektronik'); // Fallback
+        }
         exit();
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -181,7 +202,8 @@ class SaranaElektronikController {
     ]);
   }
 
-  private function generateUniqueRegistrationNumber($conn, $barangId, $tanggal_pembelian, $barangList) {
+  private function generateUniqueRegistrationNumber($conn, $barangId, $tanggal_pembelian, $barangList)
+  {
     $year = $tanggal_pembelian ? date('Y', strtotime($tanggal_pembelian)) : date('Y');
     $entityCode = 'ELK';
     $barangCode = 'BRG'; // Default
@@ -205,7 +227,8 @@ class SaranaElektronikController {
     return $registrationNumber;
   }
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -225,13 +248,24 @@ class SaranaElektronikController {
     }
   }
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaElektronik::getAllData($conn);
     $this->delete();
 
+    $jenisList = [];
+    if (!empty($saranaData)) {
+      // Assuming 'barang' is the alias for jenis barang name from getAllData()
+      // This matches how SaranaATKController prepares $jenisList
+      $allJenis = array_column($saranaData, 'barang');
+      $jenisList = array_unique($allJenis);
+      sort($jenisList);
+    }
+
     $this->renderView('index', [
       'saranaData' => $saranaData,
+      'jenisList' => $jenisList, // Pass jenisList to the view
     ]);
   }
 
@@ -291,7 +325,12 @@ class SaranaElektronikController {
         $_SESSION['update'] = $message;
 
         if ($success) {
-          header('Location: /admin/sarana/elektronik?detail=' . $id_sarana);
+          // Redirect ke halaman detail menggunakan no_registrasi
+          if ($saranaElektronikData && isset($saranaElektronikData['no_registrasi'])) {
+            header('Location: /admin/sarana/elektronik/detail/' . urlencode($saranaElektronikData['no_registrasi']));
+          } else {
+            header('Location: /admin/sarana/elektronik'); // Fallback
+          }
           exit();
         }
       } catch (PDOException $e) {
@@ -304,14 +343,19 @@ class SaranaElektronikController {
     ]);
   }
 
-  public function downloadDokumen($id_dokumen) {
+  public function downloadDokumen($id_dokumen)
+  {
     global $conn;
     // Menggunakan DokumenSaranaElektronik::getDokumenById
     $dokumen = DokumenSaranaElektronik::getDokumenById($conn, $id_dokumen);
 
     if (!$dokumen || empty($dokumen['path_dokumen'])) {
       $_SESSION['error'] = 'Dokumen tidak ditemukan.';
-      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik'; // Default fallback
+      // Coba redirect ke detail item jika aset_elektronik_id ada di dokumen
+      if (isset($dokumen['aset_elektronik_id']) && ($saranaItem = SaranaElektronik::getById($conn, $dokumen['aset_elektronik_id'])) && isset($saranaItem['no_registrasi'])) {
+        $redirect_url = '/admin/sarana/elektronik/detail/' . urlencode($saranaItem['no_registrasi']);
+      }
       header('Location: ' . $redirect_url);
       exit();
     }
@@ -321,8 +365,11 @@ class SaranaElektronikController {
     if (!file_exists($filePath)) {
       $_SESSION['error'] = 'File tidak ditemukan di server.';
       // Pastikan field 'aset_elektronik_id' ada di tabel dokumen_sarana_elektronik
-      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik?detail=' . ($dokumen['aset_elektronik_id'] ?? '');
-      header('Location: ' . $redirect_url);
+      $redirect_url_error = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      if (isset($dokumen['aset_elektronik_id']) && ($saranaItem = SaranaElektronik::getById($conn, $dokumen['aset_elektronik_id'])) && isset($saranaItem['no_registrasi'])) {
+        $redirect_url_error = '/admin/sarana/elektronik/detail/' . urlencode($saranaItem['no_registrasi']);
+      }
+      header('Location: ' . $redirect_url_error);
       exit();
     }
 
@@ -340,7 +387,8 @@ class SaranaElektronikController {
     exit;
   }
 
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id_dokumen = $_GET['delete-dokumen'];
@@ -349,7 +397,7 @@ class SaranaElektronikController {
 
       if (!$dokumen) {
         $_SESSION['error'] = 'Dokumen tidak ditemukan untuk dihapus.';
-        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik'));
+        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik')); // Fallback ke list jika referer tidak ada
         exit();
       }
 
@@ -367,7 +415,12 @@ class SaranaElektronikController {
         $_SESSION['error'] = 'Gagal menghapus data dokumen dari database.';
       }
 
-      header('Location: /admin/sarana/elektronik?detail=' . $aset_elektronik_id);
+      // Redirect ke halaman detail menggunakan no_registrasi
+      if ($aset_elektronik_id && ($saranaItem = SaranaElektronik::getById($conn, $aset_elektronik_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/elektronik/detail/' . urlencode($saranaItem['no_registrasi']));
+      } else {
+        header('Location: /admin/sarana/elektronik'); // Fallback
+      }
       exit();
     }
   }
@@ -442,7 +495,12 @@ class SaranaElektronikController {
         $_SESSION['update'] = $message;
 
         if ($success) {
-          header('Location: /admin/sarana/elektronik?detail=' . $id_sarana);
+          // Redirect ke halaman detail menggunakan no_registrasi
+          if ($saranaElektronikData && isset($saranaElektronikData['no_registrasi'])) {
+            header('Location: /admin/sarana/elektronik/detail/' . urlencode($saranaElektronikData['no_registrasi']));
+          } else {
+            header('Location: /admin/sarana/elektronik'); // Fallback
+          }
           exit();
         }
       } catch (PDOException $e) {
@@ -462,16 +520,24 @@ class SaranaElektronikController {
     $dokumenGambar = DokumenSaranaElektronik::getDokumenGambarById($conn, $id_gambar);
 
     if (!$dokumenGambar || empty($dokumenGambar['path_dokumen'])) {
+      $_SESSION['error'] = 'Gambar tidak ditemukan.'; // Tambahkan pesan error
       header("HTTP/1.0 404 Not Found");
-      echo "Gambar tidak ditemukan."; // Atau redirect dengan pesan error
+      // Pertimbangkan redirect jika 404 tidak diinginkan untuk user experience
+      // $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      // if(isset($dokumenGambar['aset_elektronik_id']) && ($item = SaranaElektronik::getById($conn, $dokumenGambar['aset_elektronik_id'])) && isset($item['no_registrasi'])) {
+      //   $redirect_url = '/admin/sarana/elektronik/detail/' . urlencode($item['no_registrasi']);
+      // }
+      // header('Location: ' . $redirect_url);
       exit();
     }
 
     $filePath = __DIR__ . '/../../storage/dokumentasi_sarana_elektronik/' . $dokumenGambar['path_dokumen'];
 
     if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File gambar tidak ada di server.'; // Tambahkan pesan error
       header("HTTP/1.0 404 Not Found");
-      echo "File gambar tidak ada di server."; // Atau redirect dengan pesan error
+      // Pertimbangkan redirect serupa seperti di atas
+      // header('Location: ...');
       exit();
     }
 
@@ -499,7 +565,7 @@ class SaranaElektronikController {
 
       if (!$gambar) {
         $_SESSION['error'] = 'Gambar dokumentasi tidak ditemukan untuk dihapus.';
-        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik'));
+        header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik')); // Fallback ke list jika referer tidak ada
         exit();
       }
 
@@ -517,29 +583,82 @@ class SaranaElektronikController {
         $_SESSION['error'] = 'Gagal menghapus data gambar dokumentasi dari database.';
       }
 
-      header('Location: /admin/sarana/elektronik?detail=' . $aset_elektronik_id);
+      // Redirect ke halaman detail menggunakan no_registrasi
+      if ($aset_elektronik_id && ($saranaItem = SaranaElektronik::getById($conn, $aset_elektronik_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/elektronik/detail/' . urlencode($saranaItem['no_registrasi']));
+      } else {
+        header('Location: /admin/sarana/elektronik'); // Fallback
+      }
       exit();
     }
   }
 
-  public function detail($id) {
+  public function previewFileDokumen($id_dokumen)
+  {
     global $conn;
-    $detailData = SaranaElektronik::getById($conn, $id);
+    // Menggunakan DokumenSaranaElektronik::getDokumenById
+    $dokumen = DokumenSaranaElektronik::getDokumenById($conn, $id_dokumen);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      // Redirect ke halaman detail Elektronik jika ID aset tersedia, jika tidak ke halaman list Elektronik
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      if (isset($dokumen['aset_elektronik_id']) && ($saranaItem = SaranaElektronik::getById($conn, $dokumen['aset_elektronik_id'])) && isset($saranaItem['no_registrasi'])) {
+        $redirect_url = '/admin/sarana/elektronik/detail/' . urlencode($saranaItem['no_registrasi']);
+      } else {
+        // Jika no_registrasi tidak ditemukan, fallback ke list atau referer
+        $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    $filePath = __DIR__ . '/../../storage/dokumen_sarana_elektronik/' . $dokumen['path_dokumen'];
+
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server untuk pratinjau.';
+      // Logika redirect yang sama seperti di atas
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      if (isset($dokumen['aset_elektronik_id']) && ($saranaItem = SaranaElektronik::getById($conn, $dokumen['aset_elektronik_id'])) && isset($saranaItem['no_registrasi'])) {
+        $redirect_url = '/admin/sarana/elektronik/detail/' . urlencode($saranaItem['no_registrasi']);
+      } else {
+        // Jika no_registrasi tidak ditemukan, fallback ke list atau referer
+        $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/sarana/elektronik';
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    header('Content-Type: application/pdf'); // Asumsi file adalah PDF, sesuaikan jika perlu
+    header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    header('Content-Length: ' . filesize($filePath));
+    readfile($filePath);
+    exit;
+  }
+
+  public function detail($no_registrasi_param) // Mengubah parameter ke no_registrasi
+  {
+    global $conn;
+    // Mengambil data sarana berdasarkan no_registrasi
+    // Asumsi SaranaElektronik::getByNoRegistrasi() sudah ada atau akan dibuat
+    $detailData = SaranaElektronik::getByNoRegistrasi($conn, $no_registrasi_param);
     $BaseUrlQr = BaseUrlQr::BaseUrlQr();
 
 
     if (!$detailData) {
-      $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan.';
+      $_SESSION['error'] = 'Data sarana elektronik tidak ditemukan dengan No. Registrasi: ' . htmlspecialchars($no_registrasi_param);
       header('Location: /admin/sarana/elektronik');
       exit();
     }
 
     // Menggunakan DokumenSaranaElektronik::getAllData dan DokumenSaranaElektronik::getAllDataGambar
-    $dokumenAsetElektronik = DokumenSaranaElektronik::getAllData($conn, $id) ?? [];
-    $dokumenGambarElektronik = DokumenSaranaElektronik::getAllDataGambar($conn, $id) ?? [];
+    $dokumenAsetElektronik = DokumenSaranaElektronik::getAllData($conn, $detailData['id']) ?? [];
+    $dokumenGambarElektronik = DokumenSaranaElektronik::getAllDataGambar($conn, $detailData['id']) ?? [];
 
-    // $this->deleteDokumen();    // Sebaiknya ditangani oleh router
-    // $this->deleteDokumentasi(); // Sebaiknya ditangani oleh router
+    // Panggilan ini akan memeriksa query parameters dan melakukan aksi jika ada
+    // Sesuai dengan pola di SaranaATKController dan logika router
+    $this->deleteDokumen();
+    $this->deleteDokumentasi();
 
     $this->renderView('detail', [
       'detailData' => $detailData,
@@ -550,7 +669,8 @@ class SaranaElektronikController {
     ]);
   }
 
-  public function downloadAllQr() {
+  public function downloadAllQr()
+  {
     global $conn;
     $saranaData = SaranaElektronik::getAllData($conn);
     $BaseUrlQr = BaseUrlQr::BaseUrlQr();

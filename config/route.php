@@ -4,7 +4,8 @@
 require 'config/config.php';
 
 
-class Router {
+class Router
+{
 
   private $uri;
   private $query;
@@ -64,6 +65,7 @@ class Router {
     '/admin/sarana/mebelair/detail/([A-Z0-9\-]+)' => ['controller' => 'SaranaMebelairController', 'method' => 'detail', 'auth' => true], // Asumsi no_registrasi
     '/admin/sarana/mebelair/edit/([A-Z]{3}-[A-Z]{3,4}-\d{4}-\d{3,4})' => ['controller' => 'SaranaMebelairController', 'method' => 'update', 'auth' => true], // Rute edit mebelair, random number bisa 3 atau 4 digit
     '/admin/sarana/elektronik/download-qr' => ['controller' => 'SaranaElektronikController', 'method' => 'downloadAllQr', 'auth' => true], // Rute edit mebelair by no_registrasi
+    '/admin/sarana/elektronik/edit/([A-Z0-9\-]+)' => ['controller' => 'SaranaElektronikController', 'method' => 'update', 'auth' => true], // Rute edit elektronik by no_registrasi
 
     // Sarana - Mebelair
     '/admin/sarana/mebelair' => ['controller' => 'SaranaMebelairController', 'method' => 'index', 'auth' => true],
@@ -151,12 +153,14 @@ class Router {
   ];
 
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
     $this->query = parse_url($_SERVER['REQUEST_URI'], PHP_URL_QUERY);
   }
 
-  public function route() {
+  public function route()
+  {
     $routeFound = false;
 
     foreach ($this->allowedRoutes as $route => $config) {
@@ -181,7 +185,8 @@ class Router {
     }
   }
 
-  private function handleRoute(array $config): void {
+  private function handleRoute(array $config): void
+  {
     $this->checkAuthentication($config);
 
     $controller = new $config['controller']();
@@ -196,14 +201,16 @@ class Router {
     call_user_func_array([$controller, $method], $params);
   }
 
-  private function checkAuthentication(array $config): void {
+  private function checkAuthentication(array $config): void
+  {
     if ($config['auth'] && !$this->isAuthenticated()) {
       header('Location: /');
       exit;
     }
   }
 
-  private function shouldHandleQueryParameters(): bool {
+  private function shouldHandleQueryParameters(): bool
+  {
     $allowedUris = [
       '/admin/prasarana/tanah',
       '/admin/prasarana/gedung',
@@ -244,7 +251,8 @@ class Router {
     return in_array($this->uri, $allowedUris) && !empty($_GET);
   }
 
-  private function handleQueryParameters($controller): void {
+  private function handleQueryParameters($controller): void
+  {
     $queryHandlers = [
       'edit' => 'update',
       'tambah' => 'create',
@@ -284,12 +292,14 @@ class Router {
       return;
     }
   }
-  private function isAuthenticated() {
+  private function isAuthenticated()
+  {
     // Implement your authentication check logic here
     return isset($_SESSION['user']);
   }
 
-  private function notFound() {
+  private function notFound()
+  {
     http_response_code(404);
     require __DIR__ . '/../404.php';
     exit;

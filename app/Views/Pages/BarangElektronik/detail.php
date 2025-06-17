@@ -2,7 +2,7 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
@@ -168,6 +168,13 @@
                           <div class="info-box-content">
                             <span class="info-box-number">Kondisi</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['nama_kondisi'] ?? '-') ?></span>
+                          </div>
+                        </div>
+                        <div class="info-box bg-light">
+                          <span class="info-box-icon bg-blue"><i class="fas fa-boxes"></i></span>
+                          <div class="info-box-content">
+                            <span class="info-box-number">Jumlah</span>
+                            <span class="info-box-text"><?= htmlspecialchars($detailData['jumlah'] ?? '1') ?> <?= htmlspecialchars($detailData['satuan'] ?? 'Unit') ?></span>
                           </div>
                         </div>
                         <div class="info-box bg-light">
@@ -362,9 +369,7 @@
                             $extension = $pathGambar ? strtolower(pathinfo($pathGambar, PATHINFO_EXTENSION)) : '';
                             ?>
                             <?php if ($pathGambar && in_array($extension, $allowedExtensions)) : ?>
-                              <a href="/admin/sarana/elektronik?preview-gambar=<?= $idGambar ?>" data-toggle="lightbox" data-title="<?= $namaDokumenGambar ?>" data-gallery="gallery-images">
-                                <img src="/admin/sarana/elektronik?preview-gambar=<?= $idGambar ?>" alt="<?= $namaDokumenGambar ?>" class="img-fluid h-100 w-100" style="object-fit: cover;" loading="lazy">
-                              </a>
+                              <img src="/admin/sarana/elektronik?preview-gambar=<?= $idGambar ?>" alt="<?= $namaDokumenGambar ?>" class="img-fluid h-100 w-100" style="object-fit: cover;" loading="lazy">
                             <?php else : ?>
                               <div class="img-fluid h-100 w-100 d-flex align-items-center justify-content-center bg-light text-muted">
                                 Preview Tidak Tersedia
@@ -466,7 +471,6 @@
 
   <?php include './app/Views/Components/script.php'; ?>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -487,12 +491,6 @@
     }
 
     $(document).ready(function() {
-      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault();
-        $(this).ekkoLightbox({
-          alwaysShowClose: true
-        });
-      });
 
       $('#deleteModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);

@@ -23,17 +23,20 @@
               </div>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Tambah Dokumen Sarana Elektronik
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/sarana/elektronik?tambah-dokumen=<?= $saranaElektronikData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12 border-bottom">
+                      <?php include './app/Views/Components/helper.php'; // Included from BarangBergerak version 
+                      ?>
+
                       <div class="border-bottom pb-2 mb-3">
                         <h5 class="text-bold fs-4 text-navy">
                           DATA DOKUMEN SARANA ELEKTRONIK
@@ -42,40 +45,44 @@
                       </div>
 
                       <!-- Aset Elektronik -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_elektronik_id" class="fw-bold">Pilih Aset Elektronik</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="aset_elektronik_id" name="aset_elektronik_id"
-                              value="<?= htmlspecialchars($saranaElektronikData['id'] ?? '') ?>" readonly>
-                          </div>
+                          <input type="text" class="form-control" id="aset_elektronik_id" name="aset_elektronik_id"
+                            value="<?= htmlspecialchars($saranaElektronikData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="nama_dokumen" class="fw-bold">Nama Dokumen <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="text" placeholder="Contoh: Manual Penggunaan, Kartu Garansi" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
-                          </div>
+                          <input type="text" placeholder="Contoh: Manual Penggunaan, Kartu Garansi" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
                           <span class="form-text">Masukkan nama dokumen.</span>
                         </div>
                       </div>
                       <!-- Upload Dokumen -->
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
-                          <label for="path_dokumen" class="fw-bold">Upload Dokumen Sarana Elektronik <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
-                          </div>
+                          <label for="path_dokumen" class="fw-bold">Upload Dokumen Elektronik <span class="text-danger">*</span></label>
+                          <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
                           <span class="form-text">Format file: PDF, JPG, PNG, DOC, DOCX (maks. 5MB).</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
                 <div class="card-footer text-right">
-                  <a href="/admin/sarana/elektronik?detail=<?= htmlspecialchars($saranaElektronikData['id'] ?? '') ?>" class="btn btn-secondary">
+                  <?php
+                  $backUrl = "/admin/sarana/elektronik"; // Default fallback
+                  // Use $saranaElektronikData which is passed by SaranaElektronikController
+                  if (isset($saranaElektronikData['no_registrasi']) && !empty($saranaElektronikData['no_registrasi'])) {
+                    $backUrl = "/admin/sarana/elektronik/detail/" . htmlspecialchars($saranaElektronikData['no_registrasi']);
+                  } elseif (isset($saranaElektronikData['id'])) {
+                    // Fallback to ID if no_registrasi is not available, though detail page prefers no_registrasi
+                    // This might lead to /admin/sarana/elektronik?detail=ID if no_registrasi is missing
+                    // Ensure your routing and detail controller can handle this or enforce no_registrasi
+                    $backUrl = "/admin/sarana/elektronik?detail=" . htmlspecialchars($saranaElektronikData['id']);
+                  } ?>
+                  <a href="<?= $backUrl ?>" class="btn btn-secondary">
                     <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">
@@ -85,12 +92,10 @@
                 </div>
               </form>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-
     <?php include './app/Views/Components/footer.php'; ?>
   </div>
 
@@ -98,13 +103,15 @@
 
   <script>
     // Script untuk menampilkan nama file yang dipilih pada input file standar (jika diperlukan)
-    // Untuk input standar, browser biasanya sudah menampilkan nama file.
-    // Jika Anda menggunakan custom file input Bootstrap, script ini perlu disesuaikan.
-    document.getElementById('path_dokumen').addEventListener('change', function(e) {
-      // var fileName = e.target.files[0]?.name || 'Pilih file dokumen';
-      // var nextSibling = e.target.nextElementSibling; // Untuk .custom-file-label
-      // if (nextSibling && nextSibling.classList.contains('custom-file-label')) nextSibling.innerText = fileName;
-    });
+    // Sesuaikan ID 'path_dokumen' jika berbeda.
+    const pathDokumenInput = document.getElementById('path_dokumen');
+    if (pathDokumenInput) {
+      pathDokumenInput.addEventListener('change', function(e) {
+        var fileName = e.target.files[0]?.name || 'Pilih File';
+        // var nextSibling = e.target.nextElementSibling; // Uncomment if using custom file label
+        // if (nextSibling && nextSibling.classList.contains('custom-file-label')) nextSibling.innerText = fileName;
+      });
+    }
 
     // Form validation
     document.querySelector('form').addEventListener('submit', function(e) {

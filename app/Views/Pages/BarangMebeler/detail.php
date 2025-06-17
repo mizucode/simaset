@@ -473,7 +473,6 @@
 
   <?php include './app/Views/Components/script.php'; ?>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs@gh-pages/qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -494,12 +493,6 @@
     }
 
     $(document).ready(function() {
-      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
-        event.preventDefault();
-        $(this).ekkoLightbox({
-          alwaysShowClose: true
-        });
-      });
 
       $('#deleteModal').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget);

@@ -3,27 +3,60 @@ require_once __DIR__ . '/../Models/Tanah.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
 require_once __DIR__ . '/../Models/DokumenAsetTanah.php';
 
-class TanahController {
-  private function renderView(string $view, $data = []) {
+class TanahController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Tanah/{$view}.php";
   }
 
-  public function create() {
-    global $conn;
-    $tanahData = Tanah::getAllData($conn);
-    $jenis_aset_id = JenisAset::GetAllData($conn);
+  private function generateUniqueKodeAsetTanah($conn, $tanggal_perolehan)
+  {
+    $year = $tanggal_perolehan ? date('Y', strtotime($tanggal_perolehan)) : date('Y');
+    $prefix = "PRS-TNH";
 
+    do {
+      // Generate 4 digit random number
+      $randomNumber = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+      $kode_aset = "{$prefix}-{$year}-{$randomNumber}";
+
+      // Check for uniqueness in the database
+      $stmt = $conn->prepare("SELECT COUNT(*) FROM aset_tanah WHERE kode_aset = ?");
+      $stmt->execute([$kode_aset]);
+      $exists = $stmt->fetchColumn() > 0;
+    } while ($exists);
+
+    return $kode_aset;
+  }
+
+  public function create()
+  {
+    global $conn;
+    $jenis_aset_id_list = JenisAset::GetAllData($conn); // Correct variable name for the list
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $kode_aset = $_POST['kode_aset'];
       $nama_aset = $_POST['nama_aset'];
       $jenis_aset_id = $_POST['jenis_aset_id'];
       $nomor_sertifikat = $_POST['nomor_sertifikat'];
       $luas = $_POST['luas'];
       $lokasi = $_POST['lokasi'];
       $tgl_pajak = $_POST['tgl_pajak'];
+      $sumber_perolehan = $_POST['sumber_perolehan'] ?? null;
+      $tanggal_perolehan = $_POST['tanggal_perolehan'] ?? null;
+      $harga_perolehan_rp = $_POST['harga_perolehan_rp'] ?? null;
+      $alamat_lengkap = $_POST['alamat_lengkap'] ?? null;
+      $koordinat_centroid_lat = $_POST['koordinat_centroid_lat'] ?? null;
+      $koordinat_centroid_lon = $_POST['koordinat_centroid_lon'] ?? null;
+      $njop_bumi_per_m2 = $_POST['njop_bumi_per_m2'] ?? null;
+      $unit_pengguna = $_POST['unit_pengguna'] ?? null;
+      $status_kepemilikan = $_POST['status_kepemilikan'] ?? null;
+      $jenis_sertifikat = $_POST['jenis_sertifikat'] ?? null;
+      $tanggal_terbit_sertifikat = $_POST['tanggal_terbit_sertifikat'] ?? null;
+      $nama_pemegang_hak = $_POST['nama_pemegang_hak'] ?? null;
       $fungsi = $_POST['fungsi'];
       $keterangan = $_POST['keterangan'];
+
+      $kode_aset = $this->generateUniqueKodeAsetTanah($conn, $tanggal_perolehan);
 
       try {
         $success = Tanah::storeData(
@@ -35,6 +68,18 @@ class TanahController {
           $luas,
           $lokasi,
           $tgl_pajak,
+          $sumber_perolehan,
+          $tanggal_perolehan,
+          $harga_perolehan_rp,
+          $alamat_lengkap,
+          $koordinat_centroid_lat,
+          $koordinat_centroid_lon,
+          $njop_bumi_per_m2,
+          $unit_pengguna,
+          $status_kepemilikan,
+          $jenis_sertifikat,
+          $tanggal_terbit_sertifikat,
+          $nama_pemegang_hak,
           $fungsi,
           $keterangan,
         );
@@ -51,12 +96,12 @@ class TanahController {
     }
 
     $this->renderView('create', [
-      'tanahData' => $tanahData,
-      'jenisAsetId' => $jenis_aset_id
+      'jenisAsetId' => $jenis_aset_id_list // Pass the list of asset types
     ]);
   }
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $tanah = Tanah::getById($conn, $id);
     $jenis_aset_id = JenisAset::GetAllData($conn);
@@ -75,6 +120,18 @@ class TanahController {
       $luas = $_POST['luas'];
       $lokasi = $_POST['lokasi'];
       $tgl_pajak = $_POST['tgl_pajak'];
+      $sumber_perolehan = $_POST['sumber_perolehan'] ?? $tanah['sumber_perolehan'] ?? null;
+      $tanggal_perolehan = $_POST['tanggal_perolehan'] ?? $tanah['tanggal_perolehan'] ?? null;
+      $harga_perolehan_rp = $_POST['harga_perolehan_rp'] ?? $tanah['harga_perolehan_rp'] ?? null;
+      $alamat_lengkap = $_POST['alamat_lengkap'] ?? $tanah['alamat_lengkap'] ?? null;
+      $koordinat_centroid_lat = $_POST['koordinat_centroid_lat'] ?? $tanah['koordinat_centroid_lat'] ?? null;
+      $koordinat_centroid_lon = $_POST['koordinat_centroid_lon'] ?? $tanah['koordinat_centroid_lon'] ?? null;
+      $njop_bumi_per_m2 = $_POST['njop_bumi_per_m2'] ?? $tanah['njop_bumi_per_m2'] ?? null;
+      $unit_pengguna = $_POST['unit_pengguna'] ?? $tanah['unit_pengguna'] ?? null;
+      $status_kepemilikan = $_POST['status_kepemilikan'] ?? $tanah['status_kepemilikan'] ?? null;
+      $jenis_sertifikat = $_POST['jenis_sertifikat'] ?? $tanah['jenis_sertifikat'] ?? null;
+      $tanggal_terbit_sertifikat = $_POST['tanggal_terbit_sertifikat'] ?? $tanah['tanggal_terbit_sertifikat'] ?? null;
+      $nama_pemegang_hak = $_POST['nama_pemegang_hak'] ?? $tanah['nama_pemegang_hak'] ?? null;
       $fungsi = $_POST['fungsi'];
       $keterangan = $_POST['keterangan'];
 
@@ -89,6 +146,18 @@ class TanahController {
           $luas,
           $lokasi,
           $tgl_pajak,
+          $sumber_perolehan,
+          $tanggal_perolehan,
+          $harga_perolehan_rp,
+          $alamat_lengkap,
+          $koordinat_centroid_lat,
+          $koordinat_centroid_lon,
+          $njop_bumi_per_m2,
+          $unit_pengguna,
+          $status_kepemilikan,
+          $jenis_sertifikat,
+          $tanggal_terbit_sertifikat,
+          $nama_pemegang_hak,
           $fungsi,
           $keterangan,
         );
@@ -109,7 +178,8 @@ class TanahController {
     ]);
   }
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -122,7 +192,8 @@ class TanahController {
       exit();
     }
   }
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
@@ -139,7 +210,8 @@ class TanahController {
       exit();
     }
   }
-  public function deleteDokumentasi() {
+  public function deleteDokumentasi()
+  {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
@@ -157,7 +229,8 @@ class TanahController {
     }
   }
 
-  public function download() {
+  public function download()
+  {
     if (!isset($_SESSION['user'])) {
       header('HTTP/1.1 403 Forbidden');
       exit('Unauthorized');
@@ -200,7 +273,48 @@ class TanahController {
     exit;
   }
 
-  public function preview() {
+  public function previewFileDokumen($id)
+  {
+    global $conn;
+
+    // 1. Ambil data dokumen dari database
+    $dokumen = DokumenAsetTanah::getDokumenById($conn, $id);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      // Redirect kembali ke halaman detail aset jika ID aset tersedia
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/tanah'; // Fallback
+      if (isset($dokumen['aset_tanah_id'])) {
+        $redirect_url = '/admin/prasarana/tanah?detail=' . $dokumen['aset_tanah_id'];
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 2. Tentukan path file
+    $filePath = __DIR__ . '/../../storage/dokumen_tanah/' . $dokumen['path_dokumen'];
+
+    // 3. Validasi file
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server untuk pratinjau.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/tanah'; // Fallback
+      if (isset($dokumen['aset_tanah_id'])) {
+        $redirect_url = '/admin/prasarana/tanah?detail=' . $dokumen['aset_tanah_id'];
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 4. Set headers untuk pratinjau (inline)
+    header('Content-Type: application/pdf'); // Asumsi PDF, sesuaikan jika perlu
+    header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    header('Content-Length: ' . filesize($filePath));
+    readfile($filePath);
+    exit;
+  }
+
+  public function preview()
+  {
     if (!isset($_SESSION['user'])) {
       header('HTTP/1.1 403 Forbidden');
       exit('Unauthorized');
@@ -236,18 +350,22 @@ class TanahController {
     exit;
   }
 
-  public function tanah() {
+  public function tanah()
+  {
     global $conn;
     $tanahData = Tanah::getAllData($conn);
+    $jenisAsetList = JenisAset::GetAllData($conn); // Tambahkan ini untuk mengambil data jenis aset
 
     $this->delete();
 
     $this->renderView('index', [
       'tanahData' => $tanahData,
+      'jenisAsetList' => $jenisAsetList, // Kirim data jenis aset ke view
     ]);
   }
 
-  public function dokumen($id) {
+  public function dokumen($id)
+  {
     global $conn;
     $tanahData = Tanah::getById($conn, $id);
     // $tanahDataId = Tanah::getById($conn, $id)['id']; // Redundant, $id is the tanah ID
@@ -316,7 +434,8 @@ class TanahController {
     ]);
   }
 
-  public function downloadDokumen($id) {
+  public function downloadDokumen($id)
+  {
     global $conn;
 
     // 1. Ambil data dokumen dari database
@@ -354,7 +473,8 @@ class TanahController {
     exit;
   }
 
-  public function previewDokumen($id) {
+  public function previewDokumen($id)
+  {
     global $conn;
 
     // Ambil data dokumen dari database
@@ -388,7 +508,8 @@ class TanahController {
     exit;
   }
 
-  public function dokumenGambar($id) {
+  public function dokumenGambar($id)
+  {
     global $conn;
     $tanahData = Tanah::getById($conn, $id);
     $tanahDataId = Tanah::getById($conn, $id)['id'];
@@ -450,7 +571,8 @@ class TanahController {
     ]);
   }
 
-  public function detail($id) {
+  public function detail($id)
+  {
     global $conn;
     $detailData = Tanah::getById($conn, $id);
     $dokumenAsetTanah = DokumenAsetTanah::getAllData($conn, $id);

@@ -2,8 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-class Tanah {
-  public static function getAllData($conn) {
+class Tanah
+{
+  public static function getAllData($conn)
+  {
     $query = "SELECT aset_tanah.*, jenis_aset.jenis_aset 
               FROM aset_tanah 
               JOIN jenis_aset ON aset_tanah.jenis_aset_id = jenis_aset.id";
@@ -16,7 +18,8 @@ class Tanah {
     }
   }
 
-  public static function getById($conn, $id) {
+  public static function getById($conn, $id)
+  {
     $query = "SELECT aset_tanah.*, jenis_aset.jenis_aset 
               FROM aset_tanah 
               JOIN jenis_aset ON aset_tanah.jenis_aset_id = jenis_aset.id
@@ -36,6 +39,18 @@ class Tanah {
     $luas,
     $lokasi,
     $tgl_pajak,
+    $sumber_perolehan,
+    $tanggal_perolehan,
+    $harga_perolehan_rp,
+    $alamat_lengkap,
+    $koordinat_centroid_lat,
+    $koordinat_centroid_lon,
+    $njop_bumi_per_m2,
+    $unit_pengguna,
+    $status_kepemilikan,
+    $jenis_sertifikat,
+    $tanggal_terbit_sertifikat,
+    $nama_pemegang_hak,
     $fungsi,
     $keterangan,
   ) {
@@ -47,6 +62,18 @@ class Tanah {
       'luas' => $luas,
       'lokasi' => $lokasi,
       'tgl_pajak' => $tgl_pajak,
+      'sumber_perolehan' => $sumber_perolehan,
+      'tanggal_perolehan' => $tanggal_perolehan,
+      'harga_perolehan_rp' => $harga_perolehan_rp,
+      'alamat_lengkap' => $alamat_lengkap,
+      'koordinat_centroid_lat' => $koordinat_centroid_lat,
+      'koordinat_centroid_lon' => $koordinat_centroid_lon,
+      'njop_bumi_per_m2' => $njop_bumi_per_m2,
+      'unit_pengguna' => $unit_pengguna,
+      'status_kepemilikan' => $status_kepemilikan,
+      'jenis_sertifikat' => $jenis_sertifikat,
+      'tanggal_terbit_sertifikat' => $tanggal_terbit_sertifikat,
+      'nama_pemegang_hak' => $nama_pemegang_hak,
       'fungsi' => $fungsi,
       'keterangan' => $keterangan,
     ];
@@ -74,6 +101,18 @@ class Tanah {
     $luas,
     $lokasi,
     $tgl_pajak,
+    $sumber_perolehan,
+    $tanggal_perolehan,
+    $harga_perolehan_rp,
+    $alamat_lengkap,
+    $koordinat_centroid_lat,
+    $koordinat_centroid_lon,
+    $njop_bumi_per_m2,
+    $unit_pengguna,
+    $status_kepemilikan,
+    $jenis_sertifikat,
+    $tanggal_terbit_sertifikat,
+    $nama_pemegang_hak,
     $fungsi,
     $keterangan,
   ) {
@@ -85,6 +124,18 @@ class Tanah {
                 luas = :luas,
                 lokasi = :lokasi,
                 tgl_pajak = :tgl_pajak,
+                sumber_perolehan = :sumber_perolehan,
+                tanggal_perolehan = :tanggal_perolehan,
+                harga_perolehan_rp = :harga_perolehan_rp,
+                alamat_lengkap = :alamat_lengkap,
+                koordinat_centroid_lat = :koordinat_centroid_lat,
+                koordinat_centroid_lon = :koordinat_centroid_lon,
+                njop_bumi_per_m2 = :njop_bumi_per_m2,
+                unit_pengguna = :unit_pengguna,
+                status_kepemilikan = :status_kepemilikan,
+                jenis_sertifikat = :jenis_sertifikat,
+                tanggal_terbit_sertifikat = :tanggal_terbit_sertifikat,
+                nama_pemegang_hak = :nama_pemegang_hak,
                 fungsi = :fungsi,
                 keterangan = :keterangan
                 WHERE id = :id";
@@ -97,6 +148,18 @@ class Tanah {
     $stmt->bindParam(':luas', $luas);
     $stmt->bindParam(':lokasi', $lokasi);
     $stmt->bindParam(':tgl_pajak', $tgl_pajak);
+    $stmt->bindParam(':sumber_perolehan', $sumber_perolehan);
+    $stmt->bindParam(':tanggal_perolehan', $tanggal_perolehan);
+    $stmt->bindParam(':harga_perolehan_rp', $harga_perolehan_rp);
+    $stmt->bindParam(':alamat_lengkap', $alamat_lengkap);
+    $stmt->bindParam(':koordinat_centroid_lat', $koordinat_centroid_lat);
+    $stmt->bindParam(':koordinat_centroid_lon', $koordinat_centroid_lon);
+    $stmt->bindParam(':njop_bumi_per_m2', $njop_bumi_per_m2);
+    $stmt->bindParam(':unit_pengguna', $unit_pengguna);
+    $stmt->bindParam(':status_kepemilikan', $status_kepemilikan);
+    $stmt->bindParam(':jenis_sertifikat', $jenis_sertifikat);
+    $stmt->bindParam(':tanggal_terbit_sertifikat', $tanggal_terbit_sertifikat);
+    $stmt->bindParam(':nama_pemegang_hak', $nama_pemegang_hak);
     $stmt->bindParam(':fungsi', $fungsi);
     $stmt->bindParam(':keterangan', $keterangan);
     $stmt->bindParam(':id', $id);
@@ -104,7 +167,8 @@ class Tanah {
     return $stmt->execute();
   }
 
-  public static function deleteData($conn, $id) {
+  public static function deleteData($conn, $id)
+  {
     $query = "DELETE FROM aset_tanah WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);

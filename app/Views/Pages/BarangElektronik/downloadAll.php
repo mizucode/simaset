@@ -329,11 +329,14 @@
       $nomorRegistrasi = $detailData['no_registrasi'] ?? 'REG-TIDAK-ADA';
       $qrContainerId = "stkQrCanvas_" . $itemId;
       $qrContentForJs = "";
-      if (!empty($detailData['id'])) {
-        $qrPath = "/admin/sarana/elektronik?edit=" . urlencode($detailData['id']);
-        $qrContentForJs = rtrim($BaseUrlQr, '/') . $qrPath;
+      // Menggunakan no_registrasi untuk URL detail jika tersedia dan valid
+      if (!empty($detailData['no_registrasi']) && $detailData['no_registrasi'] !== 'REG-TIDAK-ADA') {
+        $qrPath = "/admin/sarana/elektronik/detail/" . urlencode($detailData['no_registrasi']);
+        $qrContentForJs = rtrim($BaseUrlQr ?? '', '/') . $qrPath;
       } else {
-        $qrContentForJs = $nomorRegistrasi;
+        // Fallback jika no_registrasi tidak ada atau tidak valid
+        // Atau bisa juga menggunakan ID jika itu adalah fallback yang diinginkan, tapi detail lebih baik
+        $qrContentForJs = "Error: Nomor Registrasi tidak valid untuk QR";
       }
 
       ?>

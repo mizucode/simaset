@@ -1,13 +1,15 @@
 <?php
 
-class SaranaElektronik {
+class SaranaElektronik
+{
   /**
    * Mendapatkan semua data barang elektronik dengan join ke tabel terkait
    * 
    * @param PDO $conn Koneksi database
    * @return array|string Array data atau pesan error
    */
-  public static function getAllData($conn) {
+  public static function getAllData($conn)
+  {
     $query = "SELECT se.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_elektronik se
                   JOIN kategori_barang kb ON se.kategori_barang_id = kb.id
@@ -23,7 +25,8 @@ class SaranaElektronik {
     }
   }
 
-  public static function getAllStatus($conn) {
+  public static function getAllStatus($conn)
+  {
     $query = "SELECT se.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_elektronik se
                   JOIN kategori_barang kb ON se.kategori_barang_id = kb.id
@@ -39,7 +42,8 @@ class SaranaElektronik {
       return "Query gagal: " . $e->getMessage();
     }
   }
-  public static function getAllStatusTersedia($conn) {
+  public static function getAllStatusTersedia($conn)
+  {
     $query = "SELECT se.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_elektronik se
                   JOIN kategori_barang kb ON se.kategori_barang_id = kb.id
@@ -56,7 +60,8 @@ class SaranaElektronik {
     }
   }
 
-  public static function getAllStatusExDipinjam($conn) {
+  public static function getAllStatusExDipinjam($conn)
+  {
     $query = "SELECT se.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_elektronik se
                   JOIN kategori_barang kb ON se.kategori_barang_id = kb.id
@@ -90,6 +95,7 @@ class SaranaElektronik {
     $merk,
     $spesifikasi,
     $tipe,
+    $sumber, // Tambahkan parameter sumber
     $jumlah,
     $satuan,
     $lokasi,
@@ -112,6 +118,7 @@ class SaranaElektronik {
       'merk' => $merk,
       'spesifikasi' => $spesifikasi,
       'tipe' => $tipe,
+      'sumber' => $sumber,
       'jumlah' => $jumlah,
       'satuan' => $satuan,
       'lokasi' => $lokasi,
@@ -159,6 +166,7 @@ class SaranaElektronik {
     $merk,
     $spesifikasi,
     $tipe,
+    $sumber, // Tambahkan parameter sumber
     $jumlah,
     $satuan,
     $lokasi,
@@ -181,6 +189,7 @@ class SaranaElektronik {
             merk = :merk,
             spesifikasi = :spesifikasi,
             tipe = :tipe,
+            sumber = :sumber,
             jumlah = :jumlah,
             satuan = :satuan,
             lokasi = :lokasi,
@@ -206,6 +215,7 @@ class SaranaElektronik {
       $stmt->bindParam(':merk', $merk);
       $stmt->bindParam(':spesifikasi', $spesifikasi);
       $stmt->bindParam(':tipe', $tipe);
+      $stmt->bindParam(':sumber', $sumber);
       $stmt->bindParam(':jumlah', $jumlah);
       $stmt->bindParam(':satuan', $satuan);
       $stmt->bindParam(':lokasi', $lokasi);
@@ -233,7 +243,8 @@ class SaranaElektronik {
    * @param int $id ID barang elektronik
    * @return bool|string True jika berhasil, pesan error jika gagal
    */
-  public static function deleteData($conn, $id) {
+  public static function deleteData($conn, $id)
+  {
     $query = "DELETE FROM sarana_elektronik WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
@@ -247,7 +258,8 @@ class SaranaElektronik {
    * @param int $id ID barang elektronik
    * @return array|false Array data atau false jika tidak ditemukan
    */
-  public static function getById($conn, $id) {
+  public static function getById($conn, $id)
+  {
     $query = "SELECT se.*, 
                  kb.nama_kategori, 
                  b.nama_barang, 
@@ -278,7 +290,8 @@ class SaranaElektronik {
    * @param string $lokasi_baru Lokasi barang yang baru.
    * @return bool True jika berhasil, false jika gagal.
    */
-  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru) {
+  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru)
+  {
     $query = "UPDATE sarana_elektronik SET 
                   kondisi_barang_id = :kondisi_barang_id, 
                   lokasi = :lokasi 
@@ -291,6 +304,35 @@ class SaranaElektronik {
       return $stmt->execute();
     } catch (PDOException $e) {
       error_log("Error in SaranaElektronik::updateKondisiLokasiByNoReg - " . $e->getMessage());
+      return false;
+    }
+  }
+
+  /**
+   * Mendapatkan data barang elektronik berdasarkan Nomor Registrasi
+   * 
+   * @param PDO $conn Koneksi database
+   * @param string $no_registrasi Nomor Registrasi barang elektronik
+   * @return array|false Array data atau false jika tidak ditemukan
+   */
+  public static function getByNoRegistrasi($conn, $no_registrasi)
+  {
+    $query = "SELECT se.*, 
+                 kb.nama_kategori, 
+                 b.nama_barang, 
+                 kond.nama_kondisi
+                 FROM sarana_elektronik se
+                 LEFT JOIN kategori_barang kb ON se.kategori_barang_id = kb.id
+                 LEFT JOIN barang b ON se.barang_id = b.id
+                 LEFT JOIN kondisi_barang kond ON se.kondisi_barang_id = kond.id
+                 WHERE se.no_registrasi = :no_registrasi";
+    try {
+      $stmt = $conn->prepare($query);
+      $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
+      $stmt->execute();
+      return $stmt->fetch(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      error_log("Error in SaranaElektronik::getByNoRegistrasi - " . $e->getMessage());
       return false;
     }
   }

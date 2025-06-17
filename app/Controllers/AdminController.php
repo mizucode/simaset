@@ -16,7 +16,7 @@ class AdminController {
     $PrasaranaLapang = Lapang::getAllData($conn);
 
     // Sarana
-    $SaranaBergerak = SaranaBergerak::getAllData($conn);
+   $SaranaBergerak = SaranaBergerak::getAllData($conn);
     $SaranaMebelair = SaranaMebelair::getAllData($conn);
     $SaranaATK = SaranaATK::getAllData($conn);
     $SaranaElektronik = SaranaElektronik::getAllData($conn);

@@ -3,20 +3,41 @@ require_once __DIR__ . '/../Models/Gedung.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
 require_once __DIR__ . '/../Models/DokumenAsetGedung.php';
+require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class GedungController {
-  private function renderView(string $view, $data = []) {
+class GedungController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Gedung/{$view}.php";
   }
 
-  public function create() {
+  private function generateUniqueKodeGedung($conn, $tahun_dibangun)
+  {
+    $year = $tahun_dibangun ? date('Y', strtotime($tahun_dibangun)) : date('Y');
+    $prefix = "PRS-BNG";
+
+    do {
+      // Generate 4 digit random number
+      $randomNumber = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+      $kode_gedung = "{$prefix}-{$year}-{$randomNumber}";
+
+      // Check for uniqueness in the database
+      $stmt = $conn->prepare("SELECT COUNT(*) FROM aset_gedung WHERE kode_gedung = ?");
+      $stmt->execute([$kode_gedung]);
+      $exists = $stmt->fetchColumn() > 0;
+    } while ($exists);
+
+    return $kode_gedung;
+  }
+
+  public function create()
+  {
     global $conn;
     $gedungData = Gedung::getAllData($conn);
     $jenis_aset_id = JenisAset::GetAllData($conn);
-
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      $kode_gedung = $_POST['kode_gedung'];
       $nama_gedung = $_POST['nama_gedung'];
       $jenis_aset_id = $_POST['jenis_aset_id'];
       $luas = $_POST['luas'];
@@ -26,6 +47,11 @@ class GedungController {
       $kondisi = $_POST['kondisi'];
       $unit_kepemilikan = $_POST['unit_kepemilikan'];
       $fungsi = $_POST['fungsi'];
+      $tahun_dibangun = $_POST['tahun_dibangun'] ?? null;
+      $jenis_bangunan = $_POST['jenis_bangunan'] ?? null;
+      $keterangan = $_POST['keterangan'] ?? null;
+
+      $kode_gedung = $this->generateUniqueKodeGedung($conn, $tahun_dibangun);
 
       try {
         $success = Gedung::storeData(
@@ -39,7 +65,10 @@ class GedungController {
           $lokasi,
           $kondisi,
           $unit_kepemilikan,
-          $fungsi
+          $fungsi,
+          $tahun_dibangun,
+          $jenis_bangunan,
+          $keterangan
         );
 
         $message = $success ? 'Data gedung berhasil ditambahkan.' : 'Gagal menambahkan data gedung.';
@@ -60,7 +89,8 @@ class GedungController {
     ]);
   }
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $gedung = Gedung::getById($conn, $id);
     $jenis_aset_id = JenisAset::GetAllData($conn);
@@ -82,6 +112,9 @@ class GedungController {
       $kondisi = $_POST['kondisi'];
       $unit_kepemilikan = $_POST['unit_kepemilikan'];
       $fungsi = $_POST['fungsi'];
+      $tahun_dibangun = $_POST['tahun_dibangun'] ?? $gedung['tahun_dibangun'] ?? null;
+      $jenis_bangunan = $_POST['jenis_bangunan'] ?? $gedung['jenis_bangunan'] ?? null;
+      $keterangan = $_POST['keterangan'] ?? $gedung['keterangan'] ?? null;
 
       try {
         $success = Gedung::updateData(
@@ -96,7 +129,10 @@ class GedungController {
           $lokasi,
           $kondisi,
           $unit_kepemilikan,
-          $fungsi
+          $fungsi,
+          $tahun_dibangun,
+          $jenis_bangunan,
+          $keterangan
         );
 
         $message = $success ? 'Data gedung berhasil diperbarui.' : 'Gagal memperbarui data gedung.';
@@ -115,7 +151,8 @@ class GedungController {
     ]);
   }
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -129,14 +166,33 @@ class GedungController {
     }
   }
 
-  public function gedung() {
+  public function gedung()
+  {
     global $conn;
+    // Model Gedung::getAllData tidak menerima parameter filter.
+    // Filtering dilakukan di sisi client (JavaScript DataTable).
     $gedungData = Gedung::getAllData($conn);
 
-    $this->delete();
+    // Data untuk filter Jenis Aset di view
+    $jenisAsetList = JenisAset::GetAllData($conn);
 
+    // Data untuk filter Jenis Bangunan di view
+    $jenisBangunanList = [];
+    if (!empty($gedungData)) {
+      $allJenisBangunan = array_column($gedungData, 'jenis_bangunan');
+      // Filter out null or empty strings before getting unique values
+      $allJenisBangunan = array_filter($allJenisBangunan, function ($value) {
+        return !is_null($value) && $value !== '';
+      });
+      $jenisBangunanList = array_unique($allJenisBangunan);
+      sort($jenisBangunanList); // Optional: sort the list
+    }
+
+    $this->delete();
     $this->renderView('index', [
       'gedungData' => $gedungData,
+      'jenisAsetList' => $jenisAsetList, // For the filter dropdown
+      'jenisBangunanList' => $jenisBangunanList, // For the Jenis Bangunan filter dropdown
     ]);
   }
 
@@ -145,7 +201,8 @@ class GedungController {
 
   // dokumen
 
-  public function dokumen($id) {
+  public function dokumen($id)
+  {
     global $conn;
     $dokumenData = Gedung::getById($conn, $id);
     $dokumenDataId = Gedung::getById($conn, $id)['id'];
@@ -206,7 +263,8 @@ class GedungController {
     ]);
   }
 
-  public function downloadDokumen($id) {
+  public function downloadDokumen($id)
+  {
     global $conn;
 
     // 1. Ambil data dokumen dari database
@@ -244,7 +302,8 @@ class GedungController {
     exit;
   }
 
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
@@ -263,7 +322,8 @@ class GedungController {
   }
 
   // dokumen gambar
-  public function dokumenGambar($id) {
+  public function dokumenGambar($id)
+  {
     global $conn;
     $gedungData = Gedung::getById($conn, $id);
     $gedungDataId = Gedung::getById($conn, $id)['id'];
@@ -323,7 +383,8 @@ class GedungController {
       'gedungData' => $gedungData,
     ]);
   }
-  public function previewDokumen($id) {
+  public function previewDokumen($id)
+  {
     global $conn;
 
     // Ambil data dokumen dari database
@@ -356,7 +417,8 @@ class GedungController {
     readfile($filePath);
     exit;
   }
-  public function deleteDokumentasi() {
+  public function deleteDokumentasi()
+  {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
@@ -376,29 +438,20 @@ class GedungController {
 
 
   // Detail
-  public function detail($id) {
+  public function detail($id)
+  {
     global $conn;
+    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
 
     $detailData = Gedung::getById($conn, $id);
     $ruangList = Ruang::getAllData($conn);
-    $dokumenAsetGedung = DokumenAsetGedung::getAllData($conn, $id);
-    $dokumenGambarGedung = DokumenAsetGedung::getAllDataGambar($conn, $id);
+    // Mengambil dokumen dan gambar khusus untuk gedung ini
+    // Pastikan $detailData['id'] adalah ID yang benar untuk aset_gedung_id
+    $dokumenAsetGedung = $detailData ? DokumenAsetGedung::getAllData($conn, $detailData['id']) : [];
+    $dokumenGambarGedung = $detailData ? DokumenAsetGedung::getAllDataGambar($conn, $detailData['id']) : [];
 
-    if (!is_array($dokumenAsetGedung)) {
-      $dokumenAsetGedung = [];
-    }
-    if (!is_array($dokumenGambarGedung)) {
-      $dokumenGambarGedung = [];
-    }
-
-
-    $filteredDokumen = array_filter($dokumenAsetGedung, function ($dokumen) use ($detailData) {
-      return $dokumen['aset_gedung_id'] == $detailData['id'];
-    });
-
-    $filteredGambar = array_filter($dokumenGambarGedung, function ($dokumen) use ($detailData) {
-      return $dokumen['aset_gedung_id'] == $detailData['id'];
-    });
+    $dokumenAsetGedung = is_array($dokumenAsetGedung) ? $dokumenAsetGedung : [];
+    $dokumenGambarGedung = is_array($dokumenGambarGedung) ? $dokumenGambarGedung : [];
 
     // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
     $filteredRuangList = array_filter($ruangList, function ($ruang) use ($detailData) {
@@ -412,8 +465,9 @@ class GedungController {
     $this->renderView('detail', [
       'detailData' => $detailData,
       'filteredRuangList' => $filteredRuangList,
-      'dokumenAsetGedung' => $filteredDokumen,
-      'dokumenGambar' => $filteredGambar,
+      'dokumenAsetGedung' => $dokumenAsetGedung,
+      'dokumenGambar' => $dokumenGambarGedung,
+      'BaseUrlQr' => $BaseUrlQr,
     ]);
   }
 }

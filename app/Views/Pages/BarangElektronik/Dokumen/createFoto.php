@@ -2,14 +2,14 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
 
   <div class="wrapper">
 
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper bg-white mb-5 pt-3  ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -25,9 +25,9 @@
 
             <div class="card bg-">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Tambah Dokumentasi Barang Elektronik
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/sarana/elektronik?tambah-gambar=<?= $saranaElektronikData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -42,7 +42,7 @@
                       </div>
 
                       <!-- Aset Elektronik -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_elektronik_id" class="fw-bold">Pilih Barang Elektronik</label>
                           <input type="text" class="form-control" id="aset_elektronik_id" name="aset_elektronik_id"
@@ -72,8 +72,15 @@
                 </div>
 
                 <div class="card-footer text-right">
-                  <a href="/admin/sarana/elektronik?detail=<?= htmlspecialchars($saranaElektronikData['id'] ?? '') ?>" class="btn btn-secondary">
-                    <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                  <?php
+                  $backUrl = "/admin/sarana/elektronik"; // Default fallback
+                  if (isset($saranaElektronikData['no_registrasi']) && !empty($saranaElektronikData['no_registrasi'])) {
+                    $backUrl = "/admin/sarana/elektronik/detail/" . htmlspecialchars($saranaElektronikData['no_registrasi']);
+                  } elseif (isset($saranaElektronikData['id'])) { // Fallback
+                    $backUrl = "/admin/sarana/elektronik?detail=" . htmlspecialchars($saranaElektronikData['id']);
+                  } ?>
+                  <a href="<?= $backUrl ?>" class="btn btn-secondary">
+                    <i class="fas fa-arrow-alt-circle-left mr-2"></i> Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">
                     <i class="fas fa-save mr-2"></i>

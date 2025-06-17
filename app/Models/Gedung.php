@@ -6,7 +6,7 @@ class Gedung
 {
     public static function getAllData($conn)
     {
-        $query = "SELECT aset_gedung.*, jenis_aset.jenis_aset 
+        $query = "SELECT aset_gedung.*, jenis_aset.jenis_aset, aset_gedung.tahun_dibangun, aset_gedung.jenis_bangunan, aset_gedung.keterangan
               FROM aset_gedung 
               JOIN jenis_aset ON aset_gedung.jenis_aset_id = jenis_aset.id";
         $stmt = $conn->prepare($query);
@@ -20,7 +20,7 @@ class Gedung
 
     public static function getById($conn, $id)
     {
-        $query = "SELECT aset_gedung.*, jenis_aset.jenis_aset 
+        $query = "SELECT aset_gedung.*, jenis_aset.jenis_aset, aset_gedung.tahun_dibangun, aset_gedung.jenis_bangunan, aset_gedung.keterangan
               FROM aset_gedung 
               JOIN jenis_aset ON aset_gedung.jenis_aset_id = jenis_aset.id
               WHERE aset_gedung.id = :id";
@@ -41,7 +41,10 @@ class Gedung
         $lokasi,
         $kondisi,
         $unit_kepemilikan,
-        $fungsi
+        $fungsi,
+        $tahun_dibangun,
+        $jenis_bangunan,
+        $keterangan = null
     ) {
         $fields = [
             'kode_gedung' => $kode_gedung,
@@ -53,7 +56,10 @@ class Gedung
             'lokasi' => $lokasi,
             'kondisi' => $kondisi,
             'unit_kepemilikan' => $unit_kepemilikan,
-            'fungsi' => $fungsi
+            'fungsi' => $fungsi,
+            'tahun_dibangun' => $tahun_dibangun,
+            'jenis_bangunan' => $jenis_bangunan,
+            'keterangan' => $keterangan
         ];
 
         $columns = implode(', ', array_keys($fields));
@@ -81,7 +87,10 @@ class Gedung
         $lokasi,
         $kondisi,
         $unit_kepemilikan,
-        $fungsi
+        $fungsi,
+        $tahun_dibangun,
+        $jenis_bangunan,
+        $keterangan = null
     ) {
         $query = "UPDATE aset_gedung SET 
                 kode_gedung = :kode_gedung,
@@ -93,7 +102,10 @@ class Gedung
                 lokasi = :lokasi,
                 kondisi = :kondisi,
                 unit_kepemilikan = :unit_kepemilikan,
-                fungsi = :fungsi
+                fungsi = :fungsi,
+                tahun_dibangun = :tahun_dibangun,
+                jenis_bangunan = :jenis_bangunan,
+                keterangan = :keterangan
                 WHERE id = :id";
 
         $stmt = $conn->prepare($query);
@@ -107,6 +119,9 @@ class Gedung
         $stmt->bindParam(':kondisi', $kondisi);
         $stmt->bindParam(':unit_kepemilikan', $unit_kepemilikan);
         $stmt->bindParam(':fungsi', $fungsi);
+        $stmt->bindParam(':tahun_dibangun', $tahun_dibangun);
+        $stmt->bindParam(':jenis_bangunan', $jenis_bangunan);
+        $stmt->bindParam(':keterangan', $keterangan);
         $stmt->bindParam(':id', $id);
 
         return $stmt->execute();

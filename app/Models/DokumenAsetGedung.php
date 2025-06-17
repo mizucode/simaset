@@ -2,15 +2,22 @@
 
 class DokumenAsetGedung
 {
-    public static function getAllData($conn)
+    public static function getAllData($conn, $aset_gedung_id = null)
     {
         $query = "SELECT * FROM dokumen_aset_gedung";
+        if ($aset_gedung_id !== null) {
+            $query .= " WHERE aset_gedung_id = :aset_gedung_id";
+        }
         $stmt = $conn->prepare($query);
+        if ($aset_gedung_id !== null) {
+            $stmt->bindParam(':aset_gedung_id', $aset_gedung_id, PDO::PARAM_INT);
+        }
         try {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            return "Query gagal: " . $e->getMessage();
+            error_log("Error in DokumenAsetGedung::getAllData: " . $e->getMessage());
+            return [];
         }
     }
 
@@ -91,15 +98,22 @@ class DokumenAsetGedung
         return $stmt->execute();
     }
 
-    public static function getAllDataGambar($conn)
+    public static function getAllDataGambar($conn, $aset_gedung_id = null)
     {
         $query = "SELECT * FROM dokumentasi_gedung";
+        if ($aset_gedung_id !== null) {
+            $query .= " WHERE aset_gedung_id = :aset_gedung_id";
+        }
         $stmt = $conn->prepare($query);
+        if ($aset_gedung_id !== null) {
+            $stmt->bindParam(':aset_gedung_id', $aset_gedung_id, PDO::PARAM_INT);
+        }
         try {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            return "Query gagal: " . $e->getMessage();
+            error_log("Error in DokumenAsetGedung::getAllDataGambar: " . $e->getMessage());
+            return [];
         }
     }
     public static function getDokumenGambarById($conn, $id)

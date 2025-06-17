@@ -6,13 +6,16 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/DokumenSaranaATK.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class SaranaATKController {
-  private function renderView(string $view, $data = []) {
+class SaranaATKController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/BarangATK/{$view}.php";
   }
 
-  public function create() {
+  public function create()
+  {
     global $conn;
     $saranaData = SaranaATK::getAllData($conn);
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -97,7 +100,8 @@ class SaranaATKController {
     ]);
   }
 
-  public function update($no_registrasi_param) {
+  public function update($no_registrasi_param)
+  {
     global $conn;
     // Mengambil data sarana berdasarkan no_registrasi
     $sarana = SaranaATK::getByNoRegistrasi($conn, $no_registrasi_param);
@@ -195,7 +199,8 @@ class SaranaATKController {
     ]);
   }
 
-  private function generateUniqueRegistrationNumber($conn, $barangId, $tanggal_pembelian, $barangList) {
+  private function generateUniqueRegistrationNumber($conn, $barangId, $tanggal_pembelian, $barangList)
+  {
     $year = $tanggal_pembelian ? date('Y', strtotime($tanggal_pembelian)) : date('Y');
     $barangCode = 'ATK';
 
@@ -218,7 +223,8 @@ class SaranaATKController {
     return $registrationNumber;
   }
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -232,7 +238,8 @@ class SaranaATKController {
     }
   }
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaATK::getAllData($conn);
     $this->delete();
@@ -252,7 +259,8 @@ class SaranaATKController {
   }
 
   // dokumen
-  public function dokumen($id) {
+  public function dokumen($id)
+  {
     global $conn;
     $dokumenData = SaranaATK::getById($conn, $id);
     $dokumenDataId = SaranaATK::getById($conn, $id)['id'];
@@ -319,7 +327,8 @@ class SaranaATKController {
     ]);
   }
 
-  public function downloadDokumen($id) {
+  public function downloadDokumen($id)
+  {
     global $conn;
 
     $dokumen = DokumenSaranaATK::getDokumenById($conn, $id);
@@ -352,7 +361,8 @@ class SaranaATKController {
     exit;
   }
 
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
@@ -377,10 +387,11 @@ class SaranaATKController {
   }
 
   // dokumen gambar
-  public function dokumenGambar($id) {
+  public function dokumenGambar($id)
+  {
     global $conn;
     $atkData = SaranaATK::getById($conn, $id);
-    $atkDataId = SaranaATK::getById($conn, $id)['id'];
+    // $atkDataId = SaranaATK::getById($conn, $id)['id']; // Redundant, $atkData['id'] can be used if needed
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $aset_atk_id = $_POST['aset_atk_id'];
@@ -424,8 +435,16 @@ class SaranaATKController {
         $_SESSION['update'] = $message;
 
         if ($success) {
-          header('Location: /admin/sarana/atk?detail=' . $atkDataId);
-          exit();
+          // Pastikan $atkData (yang merupakan data Sarana ATK) ada dan memiliki no_registrasi
+          if ($atkData && isset($atkData['no_registrasi'])) {
+            header('Location: /admin/sarana/atk/detail/' . urlencode($atkData['no_registrasi']));
+            exit();
+          } else {
+            // Fallback jika no_registrasi tidak ditemukan
+            $_SESSION['error'] = 'Gagal mendapatkan nomor registrasi untuk pengalihan setelah unggah gambar.';
+            header('Location: /admin/sarana/atk');
+            exit();
+          }
         }
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -437,7 +456,8 @@ class SaranaATKController {
     ]);
   }
 
-  public function previewDokumen($id) {
+  public function previewDokumen($id)
+  {
     global $conn;
 
     $dokumen = DokumenSaranaATK::getDokumenGambarById($conn, $id);
@@ -468,24 +488,39 @@ class SaranaATKController {
     exit;
   }
 
-  public function deleteDokumentasi() {
+  public function deleteDokumentasi()
+  {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
-      $aset_atk_id = DokumenSaranaATK::getDokumenGambarById($conn, $id)['aset_atk_id'];
+      $dokumenEntry = DokumenSaranaATK::getDokumenGambarById($conn, $id);
+      $aset_atk_id = $dokumenEntry ? $dokumenEntry['aset_atk_id'] : null;
 
       if (DokumenSaranaATK::deleteGambar($conn, $id)) {
+        // Opsional: Hapus file dari storage jika model tidak menanganinya
+        // if ($dokumenEntry && !empty($dokumenEntry['path_dokumen'])) {
+        //    $filePath = __DIR__ . '/../../storage/dokumentasi_sarana_atk/' . $dokumenEntry['path_dokumen'];
+        //    if (file_exists($filePath)) {
+        //        unlink($filePath);
+        //    }
+        // }
         $_SESSION['success'] = 'Data berhasil dihapus.';
       } else {
         $_SESSION['error'] = 'Gagal menghapus data.';
       }
 
-      header('Location: /admin/sarana/atk?detail=' . $aset_atk_id);
-      exit();
+      if ($aset_atk_id && ($saranaItem = SaranaATK::getById($conn, $aset_atk_id)) && isset($saranaItem['no_registrasi'])) {
+        header('Location: /admin/sarana/atk/detail/' . urlencode($saranaItem['no_registrasi']));
+        exit();
+      } else {
+        header('Location: /admin/sarana/atk');
+        exit();
+      }
     }
   }
 
-  public function previewFileDokumen($id_dokumen) {
+  public function previewFileDokumen($id_dokumen)
+  {
     global $conn;
     // Menggunakan DokumenSaranaATK::getDokumenById
     $dokumen = DokumenSaranaATK::getDokumenById($conn, $id_dokumen);
@@ -527,7 +562,8 @@ class SaranaATKController {
     exit;
   }
 
-  public function detail($no_registrasi_param) {
+  public function detail($no_registrasi_param)
+  {
     global $conn;
     // Mengambil data sarana berdasarkan no_registrasi
     $detailData = SaranaATK::getByNoRegistrasi($conn, $no_registrasi_param);
@@ -570,7 +606,8 @@ class SaranaATKController {
   }
 
   // download all qr
-  public function downloadAllQr() {
+  public function downloadAllQr()
+  {
     global $conn;
     $saranaData = SaranaATK::getAllData($conn);
     $BaseUrlQr = BaseUrlQr::BaseUrlQr();

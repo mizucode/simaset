@@ -2,14 +2,14 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
 
   <div class="wrapper">
 
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper bg-white mb-5 pt-3 ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -23,11 +23,11 @@
               </div>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Tambah Dokumen ATK
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/sarana/atk?tambah-dokumen=<?= $dokumenData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -42,11 +42,11 @@
                       </div>
 
                       <!-- Aset ATK -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_atk_id" class="fw-bold">Pilih Aset ATK</label>
                           <input type="text" class="form-control" id="aset_atk_id" name="aset_atk_id"
-                            value="<?= htmlspecialchars($dokumenData['id']) ?>" readonly>
+                            value="<?= htmlspecialchars($dokumenData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
@@ -69,7 +69,17 @@
                 </div>
 
                 <div class="card-footer text-right">
-                  <a href="/admin/sarana/atk?detail=<?= htmlspecialchars($dokumenData['id']) ?>" class="btn btn-secondary">
+                  <?php
+                  $backUrl = "/admin/sarana/atk"; // Default fallback
+                  // Assuming $dokumenData holds the ATK asset data and has 'no_registrasi' and 'id'
+                  if (isset($dokumenData['no_registrasi']) && !empty($dokumenData['no_registrasi'])) {
+                    $backUrl = "/admin/sarana/atk/detail/" . htmlspecialchars($dokumenData['no_registrasi']);
+                  } elseif (isset($dokumenData['id'])) {
+                    // Fallback to the original link pattern if no_registrasi is not available
+                    // This assumes /admin/sarana/atk can handle ?detail=ID to show item details or list.
+                    $backUrl = "/admin/sarana/atk?detail=" . htmlspecialchars($dokumenData['id']);
+                  } ?>
+                  <a href="<?= $backUrl ?>" class="btn btn-secondary">
                     <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">

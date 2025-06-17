@@ -2,9 +2,10 @@
 
 require_once __DIR__ . '/../../config/database.php';
 
-class AuthController {
-  public function loginForm() {
-    // Kalau sudah login langsung ke /admin
+class AuthController
+{
+  public function loginForm()
+  {
     if (isset($_SESSION['login'])) {
       header('Location: /admin');
       exit;
@@ -13,7 +14,8 @@ class AuthController {
     require_once __DIR__ . '/../Views/Pages/Login/index.php';
   }
 
-  public function login() {
+  public function login()
+  {
     global $conn;
 
     $username = $_POST['username'];
@@ -35,16 +37,13 @@ class AuthController {
     exit;
   }
 
-
-  public function adduser() {
+  public function adduser()
+  {
     global $conn;
 
-    // Untuk menambahkan admin baru
     $username = 'yogi';
     $plain_password = 'akuatmin';
     $email = 'admigiugiuun@example.com';
-
-    // Pastikan pakai password_hash
     $hashed_password = password_hash($plain_password, PASSWORD_DEFAULT);
 
     $stmt = $conn->prepare("INSERT INTO user (username, password, email, status, role) VALUES (:username, :password, :email, 'disetujui', 'admin')");
@@ -57,10 +56,8 @@ class AuthController {
     echo "Admin berhasil ditambahkan!";
   }
 
-
-
-
-  public function logout() {
+  public function logout()
+  {
     session_destroy();
     header('Location: /');
     exit;
