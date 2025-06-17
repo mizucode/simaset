@@ -3,6 +3,10 @@ require_once __DIR__ . '/../Models/Gedung.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
 require_once __DIR__ . '/../Models/DokumenAsetGedung.php';
+require_once __DIR__ . '/../Models/SaranaBergerak.php'; // Added for detail view
+require_once __DIR__ . '/../Models/SaranaMebelair.php'; // Added for detail view
+require_once __DIR__ . '/../Models/SaranaATK.php'; // Added for detail view
+require_once __DIR__ . '/../Models/SaranaElektronik.php'; // Added for detail view
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
 class GedungController
@@ -149,6 +153,52 @@ class GedungController
       'gedung' => $gedung,
       'jenisAsetId' => $jenis_aset_id
     ]);
+  }
+
+  public function previewFileDokumen($id_dokumen)
+  {
+    global $conn;
+
+    $dokumen = DokumenAsetGedung::getDokumenById($conn, $id_dokumen);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/gedung';
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    $filePath = __DIR__ . '/../../storage/dokumen_gedung/' . $dokumen['path_dokumen'];
+
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/gedung';
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // Deteksi tipe file
+    $mimeType = mime_content_type($filePath);
+
+    // Set header berdasarkan tipe file
+    header('Content-Type: ' . $mimeType);
+
+    // Untuk PDF, gunakan inline preview
+    if ($mimeType == 'application/pdf') {
+      header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    } else {
+      // Untuk file non-PDF, gunakan attachment (download)
+      header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+    }
+
+    header('Content-Length: ' . filesize($filePath));
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+
+    ob_clean();
+    flush();
+    readfile($filePath);
+    exit;
   }
 
   public function delete()
@@ -321,7 +371,7 @@ class GedungController
     }
   }
 
-  // dokumen gambar
+  // dokumen gambar (kept separate as it handles image-specific preview)
   public function dokumenGambar($id)
   {
     global $conn;
@@ -441,10 +491,18 @@ class GedungController
   public function detail($id)
   {
     global $conn;
-    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
-
     $detailData = Gedung::getById($conn, $id);
     $ruangList = Ruang::getAllData($conn);
+
+    // Get all sarana data to filter by location later
+    $barangBergerak = SaranaBergerak::getAllData($conn);
+    $barangMebelair = SaranaMebelair::getAllData($conn);
+    $barangATK = SaranaATK::getAllData($conn);
+    $barangElektronik = SaranaElektronik::getAllData($conn);
+
+    // Combine all sarana items
+    $semuaBarang = array_merge($barangBergerak, $barangMebelair, $barangATK, $barangElektronik);
+
     // Mengambil dokumen dan gambar khusus untuk gedung ini
     // Pastikan $detailData['id'] adalah ID yang benar untuk aset_gedung_id
     $dokumenAsetGedung = $detailData ? DokumenAsetGedung::getAllData($conn, $detailData['id']) : [];
@@ -454,16 +512,31 @@ class GedungController
     $dokumenGambarGedung = is_array($dokumenGambarGedung) ? $dokumenGambarGedung : [];
 
     // Filter barang berdasarkan lokasi ruangan yang sedang dilihat
-    $filteredRuangList = array_filter($ruangList, function ($ruang) use ($detailData) {
-      return $ruang['gedung_id'] == $detailData['id'];
-    });
+    $filteredRuangList = [];
+    if ($detailData && isset($detailData['id'])) {
+      $filteredRuangList = array_filter($ruangList, function ($ruang) use ($detailData) {
+        return isset($ruang['gedung_id']) && $ruang['gedung_id'] == $detailData['id'];
+      });
+    }
+
+    // Filter sarana items located within this gedung's rooms
+    // This requires a join or lookup in the view or here.
+    // For simplicity, let's just pass all sarana and filter in the view if needed,
+    // or assume the 'lokasi' field in sarana models directly stores the room name.
+    // Given the RuangController detail view filters sarana by ruang['nama_ruang'],
+    // we might need a more complex join or separate query to get sarana *within* rooms *of* this gedung.
+    // However, the current detail view doesn't display sarana *in* rooms, only the rooms themselves.
+    // So, filteredBarangList is not needed here based on the current view structure.
+    // Keeping the merge logic commented out or removed for now unless the view changes.
+
+    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
 
     $this->delete();
     $this->deleteDokumen();
     $this->deleteDokumentasi();
 
     $this->renderView('detail', [
-      'detailData' => $detailData,
+      'detailData' => $detailData, // Contains Gedung data
       'filteredRuangList' => $filteredRuangList,
       'dokumenAsetGedung' => $dokumenAsetGedung,
       'dokumenGambar' => $dokumenGambarGedung,

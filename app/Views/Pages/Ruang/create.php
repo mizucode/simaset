@@ -38,6 +38,14 @@
                         </h5>
                         <span class="form-text">Silahkan isi data identitas ruang dengan lengkap.</span>
                       </div>
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <!-- Nama Ruang -->
+                        <div class="form-group">
+                          <label for="nama_ruang" class="fw-bold">Nama Ruang <span class="text-danger">*</span></label>
+                          <input type="text" class="form-control" id="nama_ruang" name="nama_ruang" placeholder="Contoh: Ruang Kelas A1" required>
+                          <span class="form-text">Masukkan nama lengkap atau deskriptif untuk ruang.</span>
+                        </div>
+                      </div>
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Gedung -->
@@ -80,23 +88,15 @@
                         </div>
                       </div>
 
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <!-- Kode Ruang -->
                         <div class="form-group">
                           <label for="kode_ruang" class="fw-bold">Kode Ruang <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Contoh: R-GEDUNA-RKA" required>
-                          <span class="form-text">Masukkan kode unik untuk ruang. Gunakan RNG</span>
+                          <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Akan di-generate otomatis" readonly required>
+                          <span class="form-text">Format: PRS-RNG-XXXX (di-generate otomatis).</span>
                         </div>
                       </div>
 
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <!-- Nama Ruang -->
-                        <div class="form-group">
-                          <label for="nama_ruang" class="fw-bold">Nama Ruang <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" id="nama_ruang" name="nama_ruang" placeholder="Contoh: Ruang Kelas A1" required>
-                          <span class="form-text">Masukkan nama lengkap atau deskriptif untuk ruang.</span>
-                        </div>
-                      </div>
 
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Kapasitas -->
@@ -237,46 +237,6 @@
     });
   </script>
 
-  <!-- Script for Kode Ruang generation (existing) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const namaRuangInput = document.getElementById('nama_ruang');
-      const kodeRuangInput = document.getElementById('kode_ruang');
-      const gedungSelect = document.getElementById('gedung_id');
-
-      function generateKodeRuang() {
-        let namaRuang = namaRuangInput.value.trim();
-        let gedungId = gedungSelect.value;
-        let selectedGedungOption = gedungSelect.options[gedungSelect.selectedIndex];
-        let gedungText = "";
-
-        if (selectedGedungOption && selectedGedungOption.value !== "") {
-          gedungText = selectedGedungOption.text;
-        }
-
-        if (namaRuang.length > 0 && gedungId && gedungText.length > 0) {
-          let namaSingkatGedung = gedungText.split(' ').map(kata => kata.charAt(0).toUpperCase()).join('');
-          if (namaSingkatGedung.length > 4) namaSingkatGedung = namaSingkatGedung.substring(0, 4);
-
-          let namaSingkatRuang = namaRuang.split(' ').map(kata => kata.charAt(0).toUpperCase()).join('');
-          if (namaSingkatRuang.length > 4) namaSingkatRuang = namaSingkatRuang.substring(0, 4);
-
-          let kodeRuang = `R-${namaSingkatGedung}-${namaSingkatRuang}`;
-          if (!kodeRuangInput.dataset.manual) {
-            kodeRuangInput.value = kodeRuang;
-          }
-        } else if (!kodeRuangInput.dataset.manual) {
-          kodeRuangInput.value = '';
-        }
-      }
-
-      namaRuangInput.addEventListener('input', generateKodeRuang);
-      gedungSelect.addEventListener('change', generateKodeRuang);
-      kodeRuangInput.addEventListener('input', function() {
-        kodeRuangInput.dataset.manual = "true";
-      });
-    });
-  </script>
 </body>
 
 </html>

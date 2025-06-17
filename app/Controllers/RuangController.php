@@ -5,21 +5,43 @@ require_once __DIR__ . '/../Models/SaranaBergerak.php';
 require_once __DIR__ . '/../Models/SaranaBergerak.php';
 require_once __DIR__ . '/../Models/DokumenAsetRuang.php';
 require_once __DIR__ . '/../Models/DokumenAsetLapang.php';
+require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class RuangController {
-  private function renderView(string $view, $data = []) {
+class RuangController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Ruang/{$view}.php";
   }
 
-  public function create() {
+  private function generateUniqueKodeRuang($conn)
+  {
+    $prefix = "PRS-RNG";
+
+    do {
+      // Generate 4 digit random number
+      $randomNumber = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+      $kode_ruang = "{$prefix}-{$randomNumber}";
+
+      // Check for uniqueness in the database
+      $stmt = $conn->prepare("SELECT COUNT(*) FROM aset_ruang WHERE kode_ruang = ?");
+      $stmt->execute([$kode_ruang]);
+      $exists = $stmt->fetchColumn() > 0;
+    } while ($exists);
+
+    return $kode_ruang;
+  }
+
+  public function create()
+  {
     global $conn;
     $ruangData = Ruang::getAllData($conn);
     $gedungList = Gedung::getAllData($conn);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $gedung_id = $_POST['gedung_id'];
-      $kode_ruang = $_POST['kode_ruang'];
+      // $kode_ruang = $_POST['kode_ruang']; // Kode ruang akan di-generate otomatis
       $jenis_ruangan = $_POST['jenis_ruangan'];
       $nama_ruang = $_POST['nama_ruang'];
       $kapasitas = $_POST['kapasitas'] ?? null;
@@ -29,6 +51,8 @@ class RuangController {
       $fungsi = $_POST['fungsi'];
       $kondisi_ruang = $_POST['kondisi_ruang'];
       $keterangan = $_POST['keterangan'] ?? null;
+
+      $kode_ruang = $this->generateUniqueKodeRuang($conn);
 
       try {
         $success = Ruang::storeData(
@@ -64,7 +88,8 @@ class RuangController {
     ]);
   }
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $ruang = Ruang::getById($conn, $id);
     $gedungList = Gedung::getAllData($conn);
@@ -121,7 +146,8 @@ class RuangController {
     ]);
   }
 
-  private function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -135,19 +161,43 @@ class RuangController {
     }
   }
 
-  public function ruang() {
+  public function ruang()
+  {
     global $conn;
     $ruangData = Ruang::getAllData($conn);
+    $gedungListForFilter = [];
+    $jenisRuanganList = [];
+
+    if (!empty($ruangData)) {
+      // Get unique 'nama_gedung' for filter
+      $allGedung = array_column($ruangData, 'nama_gedung');
+      $allGedung = array_filter($allGedung, function ($value) {
+        return !is_null($value) && $value !== '';
+      });
+      $gedungListForFilter = array_unique($allGedung);
+      sort($gedungListForFilter);
+
+      // Get unique 'jenis_ruangan' for filter
+      $allJenisRuangan = array_column($ruangData, 'jenis_ruangan');
+      $allJenisRuangan = array_filter($allJenisRuangan, function ($value) {
+        return !is_null($value) && $value !== '';
+      });
+      $jenisRuanganList = array_unique($allJenisRuangan);
+      sort($jenisRuanganList);
+    }
 
     $this->delete();
 
     $this->renderView('index', [
       'ruangData' => $ruangData,
+      'gedungListForFilter' => $gedungListForFilter,
+      'jenisRuanganList' => $jenisRuanganList,
     ]);
   }
   // dokumen
 
-  public function dokumen($id) {
+  public function dokumen($id)
+  {
     global $conn;
     $dokumenData = Ruang::getById($conn, $id);
     $dokumenDataId = Ruang::getById($conn, $id)['id'];
@@ -208,7 +258,8 @@ class RuangController {
     ]);
   }
 
-  public function downloadDokumen($id) {
+  public function downloadDokumen($id)
+  {
     global $conn;
 
     // 1. Ambil data dokumen dari database
@@ -246,7 +297,8 @@ class RuangController {
     exit;
   }
 
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
@@ -264,7 +316,8 @@ class RuangController {
   }
 
   // dokumen gambar
-  public function dokumenGambar($id) {
+  public function dokumenGambar($id)
+  {
     global $conn;
     $ruangData = Ruang::getById($conn, $id);
     $ruangDataId = Ruang::getById($conn, $id)['id'];
@@ -325,7 +378,8 @@ class RuangController {
     ]);
   }
 
-  public function previewDokumen($id) {
+  public function previewDokumen($id)
+  {
     global $conn;
 
     // Ambil data dokumen dari database
@@ -359,7 +413,8 @@ class RuangController {
     exit;
   }
 
-  public function deleteDokumentasi() {
+  public function deleteDokumentasi()
+  {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
@@ -376,8 +431,45 @@ class RuangController {
     }
   }
 
+  public function previewFileDokumen($id_dokumen)
+  {
+    global $conn;
 
-  public function detail($id) {
+    // 1. Ambil data dokumen dari database
+    $dokumen = DokumenAsetRuang::getDokumenById($conn, $id_dokumen);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      // Redirect ke halaman detail Ruang jika ID aset tersedia, jika tidak ke halaman list Ruang
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/ruang';
+      if (isset($dokumen['aset_ruang_id'])) {
+        $redirect_url = '/admin/prasarana/ruang?detail=' . $dokumen['aset_ruang_id'];
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 2. Tentukan path file
+    $filePath = __DIR__ . '/../../storage/dokumen_ruang/' . $dokumen['path_dokumen'];
+
+    // 3. Validasi file
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/ruang?detail=' . $dokumen['aset_ruang_id'];
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 4. Set headers untuk pratinjau (inline)
+    header('Content-Type: ' . mime_content_type($filePath)); // Dinamis berdasarkan tipe file
+    header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    header('Content-Length: ' . filesize($filePath));
+    readfile($filePath);
+    exit;
+  }
+
+  public function detail($id)
+  {
     global $conn;
 
     $detailData = Ruang::getById($conn, $id);
@@ -388,6 +480,7 @@ class RuangController {
     $dokumenAsetRuang = DokumenAsetRuang::getAllData($conn, $id);
     $dokumenGambarRuang = DokumenAsetRuang::getAllDataGambar($conn, $id);
 
+    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
     if (!is_array($dokumenAsetRuang)) {
       $dokumenAsetRuang = [];
     }
@@ -419,6 +512,7 @@ class RuangController {
       'filteredBarangList' => $filteredBarangList,
       'dokumenAsetRuang' => $filteredDokumen,
       'dokumenGambar' => $filteredGambar,
+      'BaseUrlQr' => $BaseUrlQr,
     ]);
   }
 }

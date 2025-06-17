@@ -6,7 +6,7 @@
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
-    <?php include './app/Views/Components/css.php'; ?>
+    <?php include './app/Views/Components/css.php'; ?> <!-- Ensure this includes necessary CSS -->
 
     <style>
       .stk-card .stk-logo-wrapper img {
@@ -281,8 +281,12 @@
                             <td class="text-center"><?= $no++ ?></td>
                             <td><?= htmlspecialchars($barang['nama_dokumen'] ?? '-') ?></td>
                             <td class="text-center">
-                              <a href="/admin/prasarana/gedung?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>" class="btn btn-sm btn-success mr-1" title="Download" download>
-                                <i class="fas fa-download"></i> Download
+
+                              <a href="/admin/prasarana/gedung?preview-file-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>" class="btn btn-sm btn-primary mr-1" title="Preview" target="_blank">
+                                <i class="fas fa-eye"></i> Preview
+                              </a>
+                              <a href="/admin/prasarana/gedung?download-dokumen=<?= htmlspecialchars($barang['id'] ?? '-') ?>" class="btn btn-sm btn-success" title="Download" download>
+                                <i class="fas fa-download"></i> Unduh
                               </a>
                               <button type="button" class="btn btn-sm btn-danger" title="Hapus Dokumen"
                                 onclick="confirmDeleteGedungDokumen('<?= htmlspecialchars($barang['id'] ?? '') ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', '<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Dokumen Ini') ?>')">
@@ -337,7 +341,7 @@
                                 onclick="confirmDeleteGedungGambar('<?= htmlspecialchars($barang['id'] ?? '') ?>', '<?= htmlspecialchars($detailData['id'] ?? '') ?>', '<?= htmlspecialchars($barang['nama_dokumen'] ?? 'Gambar Ini') ?>')">
                                 <i class="fas fa-trash"></i> Hapus
                               </button>
-                              <a href="/admin/prasarana/gedung?preview-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>" class="btn btn-sm btn-primary" title="Preview" target="_blank">
+                              <a href="/admin/prasarana/gedung?preview-gambar=<?= htmlspecialchars($barang['id'] ?? '-') ?>" class="btn btn-sm btn-primary mr-1" title="Preview" target="_blank">
                                 <i class="fas fa-eye"></i> Lihat
                               </a>
                             </div>

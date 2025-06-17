@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
+<!-- Apply px-3 to match Tanah/Dokumen/create.php -->
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
 
   <div class="wrapper">
 
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
-
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <!-- Adjust padding to match Tanah/Dokumen/create.php -->
+    <div class="content-wrapper bg-white mb-5 pt-3 ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -23,11 +24,12 @@
               </div>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <!-- Change h1 to h3 and update classes/text -->
+                <h3 class="card-title text-bold">
                   Tambah Dokumen Ruang
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/prasarana/ruang?tambah-dokumen=<?= $dokumenData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -42,21 +44,17 @@
                       </div>
 
                       <!-- Aset Ruang -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_ruang_id" class="fw-bold">Pilih Aset Ruang</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="aset_ruang_id" name="aset_ruang_id"
-                              value="<?= htmlspecialchars($dokumenData['id'] ?? '') ?>" readonly>
-                          </div>
+                          <input type="text" class="form-control" id="aset_ruang_id" name="aset_ruang_id"
+                            value="<?= htmlspecialchars($dokumenData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="nama_dokumen" class="fw-bold">Nama Dokumen Ruang <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="text" placeholder="Contoh: Sertifikat Labolatorium" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
-                          </div>
+                          <input type="text" placeholder="Contoh: Sertifikat Labolatorium" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
                           <span class="form-text">Masukkan nama dokumen.</span>
                         </div>
                       </div>
@@ -64,12 +62,12 @@
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="path_dokumen" class="fw-bold">Upload Dokumen Ruang <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
-                          </div>
-                          <span class="form-text">Format file: PDF, JPG, PNG (maks. 5MB).</span>
+                          <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
+                          <span class="form-text">Format file: PDF, JPG, PNG, DOC, DOCX (maks. 5MB).</span>
                         </div>
                       </div>
+
+
                     </div>
                   </div>
                 </div>
@@ -96,10 +94,34 @@
 
   <?php include './app/Views/Components/script.php'; ?>
   <script>
+    // Script untuk menampilkan nama file yang dipilih pada input file standar (jika diperlukan)
+    // Untuk input standar, browser biasanya sudah menampilkan nama file.
+    // Jika Anda menggunakan custom file input Bootstrap, script ini perlu disesuaikan.
     document.getElementById('path_dokumen').addEventListener('change', function(e) {
-      var fileName = e.target.files[0]?.name || 'Pilih File';
-      var nextSibling = e.target.nextElementSibling;
-      nextSibling.innerText = fileName;
+      // var fileName = e.target.files[0]?.name || 'Pilih file dokumen';
+      // var nextSibling = e.target.nextElementSibling; // Untuk .custom-file-label
+      // if (nextSibling && nextSibling.classList.contains('custom-file-label')) nextSibling.innerText = fileName;
+    });
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const fileInput = document.getElementById('path_dokumen');
+      if (fileInput.files.length > 0) {
+        const fileSize = fileInput.files[0].size / 1024 / 1024; // in MB
+        if (fileSize > 5) {
+          e.preventDefault();
+          alert('Ukuran file terlalu besar. Maksimal 5MB');
+          return false;
+        }
+        // Validasi tipe file (opsional, bisa ditambahkan jika perlu)
+        // const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        // if (!validTypes.includes(fileInput.files[0].type)) {
+        //     e.preventDefault();
+        //     alert('Format file tidak didukung. Harap upload PDF, JPG, PNG, DOC, atau DOCX.');
+        //     return false;
+        // }
+      }
+      return true;
     });
   </script>
 

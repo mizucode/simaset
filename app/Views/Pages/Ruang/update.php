@@ -58,8 +58,8 @@
                         <!-- Kode Ruang -->
                         <div class="form-group">
                           <label for="kode_ruang" class="fw-bold">Kode Ruang <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" placeholder="Contoh: R-GEDUNA-RKA" value="<?= isset($ruang['kode_ruang']) ? htmlspecialchars($ruang['kode_ruang']) : '' ?>" required>
-                          <span class="form-text">Masukkan kode unik untuk ruang.</span>
+                          <input type="text" class="form-control" id="kode_ruang" name="kode_ruang" value="<?= isset($ruang['kode_ruang']) ? htmlspecialchars($ruang['kode_ruang']) : '' ?>" readonly required>
+                          <span class="form-text">Kode ruang unik. Tidak dapat diubah.</span>
                         </div>
                       </div>
 
