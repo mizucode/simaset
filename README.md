@@ -73,17 +73,27 @@ Sistem ini dirancang untuk membantu pengelolaan aset seperti barang elektronik d
 ## 📁 Struktur Direktori (Contoh)
 
 ```
-📦 sistem-informasi-aset/
-├── AdminLTE/→ Folder untuk template AdminLTE
+📦 simaset/
+├── AdminLTE-3.2.0/        → Template AdminLTE
 ├── app/
-│   ├── controllers/→ Logika aplikasi
-│   ├── models/ → Logika database
-│   └── views/→ Tampilan antarmuka
-├── config/→ Konfigurasi koneksi database
-├── core/→ Pengaturan routing dan autentikasi
-├── .gitignore
+│   ├── Controllers/        → Logika aplikasi
+│   ├── Models/             → Logika database
+│   └── Views/              → Tampilan antarmuka
+├── config/                 → Konfigurasi (database, route, dll)
+├── core/                   → Routing & autentikasi
+├── css/                    → File CSS
+├── fonts/                  → Font dan ikon
+├── img/                    → Gambar & ikon
+├── js/                     → File JavaScript
+├── logs/                   → Log aplikasi
+├── resource/               → Resource tambahan (admin, auth, dll)
+├── scss/                   → Sumber file SCSS
+├── storage/                → Penyimpanan dokumen & dokumentasi
+├── vendors/                → Plugin & library pihak ketiga
+├── 404.php
+├── index.php
 ├── README.md
-└── index.php
+└── ...
 ```
 
 ---

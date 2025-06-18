@@ -2,14 +2,13 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
 
   <div class="wrapper">
 
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
-
-    <div class="content-wrapper bg-white mb-5 pt-3 px-4 ">
+    <div class="content-wrapper bg-white mb-5 pt-3 ">
       <div class="container-fluid ">
         <div class="row justify-content-center ">
           <div class="col-12 ">
@@ -23,11 +22,10 @@
               </div>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Tambah Dokumen Lapang
-                </h1>
               </div>
 
               <form action="/admin/prasarana/lapang?tambah-dokumen=<?= $dokumenData['id'] ?? '' ?>" method="POST" enctype="multipart/form-data">
@@ -42,21 +40,17 @@
                       </div>
 
                       <!-- Aset Lapang -->
-                      <div class="py-4 px-4 mb-4 border rounded-md">
+                      <div class="py-4 px-4 mb-4 border rounded-md hidden">
                         <div class="form-group">
                           <label for="aset_lapang_id" class="fw-bold">Pilih Aset Lapang</label>
-                          <div class="input-group">
-                            <input type="text" class="form-control" id="aset_lapang_id" name="aset_lapang_id"
-                              value="<?= htmlspecialchars($dokumenData['id'] ?? '') ?>" readonly>
-                          </div>
+                          <input type="text" class="form-control" id="aset_lapang_id" name="aset_lapang_id"
+                            value="<?= htmlspecialchars($dokumenData['id'] ?? '') ?>" readonly>
                         </div>
                       </div>
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="nama_dokumen" class="fw-bold">Nama Dokumen <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="text" placeholder="Contoh: Sertifikat Lapang" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
-                          </div>
+                          <input type="text" placeholder="Contoh: Sertifikat Lapang" class="form-control" id="nama_dokumen" name="nama_dokumen" value="" required>
                           <span class="form-text">Masukkan nama dokumen.</span>
                         </div>
                       </div>
@@ -64,16 +58,13 @@
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <div class="form-group">
                           <label for="path_dokumen" class="fw-bold">Upload Dokumen Lapang <span class="text-danger">*</span></label>
-                          <div class="input-group">
-                            <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
-                          </div>
-                          <span class="form-text">Format file: PDF, JPG, PNG (maks. 5MB).</span>
+                          <input type="file" class="form-control" id="path_dokumen" name="path_dokumen" required>
+                          <span class="form-text">Format file: PDF, JPG, PNG, DOC, DOCX (maks. 5MB).</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
                 <div class="card-footer text-right">
                   <a href="/admin/prasarana/lapang?detail=<?= htmlspecialchars($dokumenData['id'] ?? '') ?>" class="btn btn-secondary">
                     <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
@@ -108,6 +99,27 @@
         // Contoh sederhana: if (nextSibling && nextSibling.classList.contains('custom-file-label')) { nextSibling.innerText = fileName; }
       });
     }
+
+    // Form validation
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const fileInput = document.getElementById('path_dokumen');
+      if (fileInput.files.length > 0) {
+        const fileSize = fileInput.files[0].size / 1024 / 1024; // in MB
+        if (fileSize > 5) {
+          e.preventDefault();
+          alert('Ukuran file terlalu besar. Maksimal 5MB');
+          return false;
+        }
+        // Validasi tipe file (opsional, bisa ditambahkan jika perlu)
+        // const validTypes = ['application/pdf', 'image/jpeg', 'image/png', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+        // if (!validTypes.includes(fileInput.files[0].type)) {
+        //     e.preventDefault();
+        //     alert('Format file tidak didukung. Harap upload PDF, JPG, PNG, DOC, atau DOCX.');
+        //     return false;
+        // }
+      }
+      return true;
+    });
   </script>
 
 </body>

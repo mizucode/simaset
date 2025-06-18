@@ -7,15 +7,19 @@ require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
+require_once __DIR__ . '/../Models/PeminjamanELK.php';
 
-class SaranaElektronikPinjamController {
-  private function renderView(string $view, $data = []) {
+class SaranaElektronikPinjamController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Pinjam/SaranaElektronik/{$view}.php";
   }
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $sarana = SaranaElektronik::getById($conn, $id);
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -45,6 +49,7 @@ class SaranaElektronikPinjamController {
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? $sarana['biaya_pembelian'];
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? $sarana['tanggal_pembelian'];
       $keterangan_sarana = $_POST['keterangan'] ?? $sarana['keterangan'];
+      $sumber = $_POST['sumber'] ?? $sarana['sumber']; // Tambahkan baris ini
 
       // Pinjam specific fields (collected but NOT passed to SaranaElektronik::updateData as it doesn't accept them)
       $status = $_POST['status'] ?? $sarana['status'] ?? null;
@@ -55,7 +60,7 @@ class SaranaElektronikPinjamController {
       $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? $sarana['tanggal_pengembalian'] ?? null;
 
       try {
-        // SaranaElektronik::updateData now handles peminjam details. Status is not handled by this model method.
+        // Update data elektronik
         $success = SaranaElektronik::updateData(
           $conn,
           $id,
@@ -67,23 +72,37 @@ class SaranaElektronikPinjamController {
           $merk,
           $spesifikasi,
           $tipe,
+          $sumber,
           $jumlah,
           $satuan,
           $lokasi,
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan_sarana,
-          $status, // Ditambahkan argumen status yang hilang
+          $status,
           $nama_peminjam,
           $identitas_peminjam,
           $no_hp_peminjam,
           $tanggal_peminjaman,
           $tanggal_pengembalian
         );
-
+        // Simpan riwayat ke peminjaman_elk jika update berhasil
+        if ($success) {
+          // Simpan riwayat ke peminjaman_elk (menggunakan model baru)
+          PeminjamanELK::storeData(
+            $conn,
+            $sarana['no_registrasi'],
+            $sarana['nama_detail_barang'],
+            $nama_peminjam,
+            $identitas_peminjam,
+            $no_hp_peminjam,
+            $tanggal_peminjaman,
+            $tanggal_pengembalian,
+            $lokasi
+          );
+        }
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
         $_SESSION['update'] = $message;
-
         if ($success) {
           header('Location: /admin/sarana/elektronik/pinjam');
           exit();
@@ -106,7 +125,8 @@ class SaranaElektronikPinjamController {
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaElektronik::getAllStatus($conn);
 
@@ -116,7 +136,8 @@ class SaranaElektronikPinjamController {
     ]);
   }
 
-  public function indexPeminjaman() {
+  public function indexPeminjaman()
+  {
     global $conn;
     $saranaData = SaranaElektronik::getAllStatusExDipinjam($conn);
     $this->renderView('indexPeminjaman', [

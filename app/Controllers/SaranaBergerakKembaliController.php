@@ -3,14 +3,17 @@
 require_once __DIR__ . '/../Models/DokumenSaranaBergerak.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class SaranaBergerakKembaliController {
-  private function renderView(string $view, $data = []) {
+class SaranaBergerakKembaliController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Kembali/SaranaBergerak/{$view}.php";
   }
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $sarana = SaranaBergerak::getById($conn, $id);
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -73,7 +76,20 @@ class SaranaBergerakKembaliController {
         $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
         $_SESSION['update'] = $message;
 
+        // Duplikasi ke riwayat pengembalian_bb jika update berhasil
         if ($success) {
+          require_once __DIR__ . '/../Models/PengembalianBB.php';
+          PengembalianBB::storeData(
+            $conn,
+            $sarana['no_registrasi'],
+            $nama_detail_barang,
+            $nama_peminjam,
+            $identitas_peminjam,
+            $no_hp_peminjam,
+            $tanggal_peminjaman,
+            $tanggal_pengembalian, // asumsikan ini sebagai tanggal rencana pengembalian
+            $lokasi
+          );
           header('Location: /admin/sarana/bergerak/kembali');
           exit();
         }
@@ -95,7 +111,8 @@ class SaranaBergerakKembaliController {
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaBergerak::getAllStatus($conn);
 
@@ -105,7 +122,8 @@ class SaranaBergerakKembaliController {
     ]);
   }
 
-  public function indexPeminjaman() {
+  public function indexPeminjaman()
+  {
     global $conn;
     $saranaData = SaranaBergerak::getAllStatusExDipinjam($conn);
     $this->renderView('indexPeminjaman', [

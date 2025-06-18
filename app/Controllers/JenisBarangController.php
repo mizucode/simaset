@@ -117,12 +117,14 @@ class JenisBarangController
     public function index()
     {
         global $conn;
+        // Mengambil semua data jenis barang
         $jenisBarangData = JenisBarang::getAllData($conn);
-
+        // Mengambil semua data kategori untuk filter
+        $kategoriList = KategoriBarang::getAllData($conn);
         $this->delete();
-
         $this->renderView('index', [
             'jenisBarangData' => $jenisBarangData,
+            'kategoriList' => $kategoriList, // Tambahkan ini
         ]);
     }
 }

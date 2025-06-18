@@ -2,21 +2,45 @@
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/JenisAset.php';
 require_once __DIR__ . '/../Models/SaranaBergerak.php';
+require_once __DIR__ . '/../Models/SaranaMebelair.php';
+require_once __DIR__ . '/../Models/SaranaATK.php';
+require_once __DIR__ . '/../Models/SaranaElektronik.php';
+require_once __DIR__ . '/../Models/DokumenAsetLapang.php';
+require_once __DIR__ . '/../Models/BaseUrlQr.php';
 
-class LapangController {
-  private function renderView(string $view, $data = []) {
+class LapangController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Lapang/{$view}.php";
   }
 
-  public function create() {
+  private function generateUniqueKodeLapang($conn)
+  {
+    $prefix = "PRS-LPG";
+
+    do {
+      // Generate 4 digit random number
+      $randomNumber = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+      $kode_lapang = "{$prefix}-{$randomNumber}";
+
+      // Check for uniqueness in the database
+      $stmt = $conn->prepare("SELECT COUNT(*) FROM aset_lapang WHERE kode_lapang = ?");
+      $stmt->execute([$kode_lapang]);
+      $exists = $stmt->fetchColumn() > 0;
+    } while ($exists);
+
+    return $kode_lapang;
+  }
+  public function create()
+  {
     global $conn;
     $lapangData = Lapang::getAllData($conn);
     $jenisAsetList = JenisAset::getAllData($conn);
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $jenis_aset_id = $_POST['jenis_aset_id'];
-      $kode_lapang = $_POST['kode_lapang'];
       $nama_lapang = $_POST['nama_lapang'];
       $luas = $_POST['luas'] ?? null;
       $kategori = $_POST['kategori'] ?? null;
@@ -24,7 +48,9 @@ class LapangController {
       $lokasi = $_POST['lokasi'];
       $status = $_POST['status'];
       $kondisi = $_POST['kondisi'];
-      $keterangan = $_POST['keterangan'] ?? null;
+      $keterangan = !empty(trim($_POST['keterangan'])) ? trim($_POST['keterangan']) : null;
+
+      $kode_lapang = $this->generateUniqueKodeLapang($conn);
 
       try {
         $success = Lapang::storeData(
@@ -59,7 +85,8 @@ class LapangController {
     ]);
   }
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $lapang = Lapang::getById($conn, $id);
     $jenisAsetList = JenisAset::getAllData($conn);
@@ -73,7 +100,7 @@ class LapangController {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       $input = [
         'jenis_aset_id' => $_POST['jenis_aset_id'],
-        'kode_lapang' => $_POST['kode_lapang'],
+        'kode_lapang' => $lapang['kode_lapang'], // Kode lapang tidak diubah saat update
         'nama_lapang' => $_POST['nama_lapang'],
         'luas' => $_POST['luas'] ?? null,
         'kategori' => $_POST['kategori'] ?? null,
@@ -81,11 +108,24 @@ class LapangController {
         'lokasi' => $_POST['lokasi'],
         'status' => $_POST['status'],
         'kondisi' => $_POST['kondisi'],
-        'keterangan' => $_POST['keterangan'] ?? null
+        'keterangan' => !empty(trim($_POST['keterangan'])) ? trim($_POST['keterangan']) : null
       ];
 
       try {
-        $success = Lapang::updateData($conn, $id, ...$input);
+        $success = Lapang::updateData(
+          $conn,
+          $id,
+          $input['jenis_aset_id'],
+          $input['kode_lapang'], // Pastikan parameter ini ada di model updateData
+          $input['nama_lapang'],
+          $input['luas'],
+          $input['kategori'],
+          $input['fungsi'],
+          $input['lokasi'],
+          $input['status'],
+          $input['kondisi'],
+          $input['keterangan']
+        );
 
         $_SESSION['update'] = $success
           ? 'Data lapang berhasil diperbarui.'
@@ -105,7 +145,8 @@ class LapangController {
   }
 
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -119,18 +160,35 @@ class LapangController {
     }
   }
 
-  public function lapang() {
+  public function lapang()
+  {
     global $conn;
     $lapangData = Lapang::getAllData($conn);
+    $kategoriListForFilter = [];
+    // Status list is usually predefined, so we might not need to extract it from data
+    // unless it's dynamic. For this example, let's assume predefined statuses.
+
+    if (!empty($lapangData)) {
+      // Get unique 'kategori' for filter
+      $allKategori = array_column($lapangData, 'kategori');
+      $allKategori = array_filter($allKategori, function ($value) {
+        return !is_null($value) && $value !== '';
+      });
+      $kategoriListForFilter = array_unique($allKategori);
+      sort($kategoriListForFilter);
+    }
 
     $this->delete();
 
     $this->renderView('index', [
       'lapangData' => $lapangData,
+      'kategoriListForFilter' => $kategoriListForFilter,
+      // 'statusListForFilter' => $statusListForFilter, // If status were dynamic
     ]);
   }
 
-  public function dokumen($id) {
+  public function dokumen($id)
+  {
     global $conn;
     $dokumenData = Lapang::getById($conn, $id);
     $dokumenDataId = Lapang::getById($conn, $id)['id'];
@@ -191,7 +249,8 @@ class LapangController {
     ]);
   }
 
-  public function downloadDokumen($id) {
+  public function downloadDokumen($id)
+  {
     global $conn;
 
     $dokumen = DokumenAsetLapang::getDokumenById($conn, $id);
@@ -224,7 +283,8 @@ class LapangController {
     exit;
   }
 
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
@@ -241,8 +301,47 @@ class LapangController {
     }
   }
 
+  public function previewFileDokumen($id_dokumen)
+  {
+    global $conn;
+
+    // 1. Ambil data dokumen dari database
+    $dokumen = DokumenAsetLapang::getDokumenById($conn, $id_dokumen);
+
+    if (!$dokumen || empty($dokumen['path_dokumen'])) {
+      $_SESSION['error'] = 'Dokumen tidak ditemukan untuk pratinjau.';
+      // Redirect ke halaman detail Lapang jika ID aset tersedia, jika tidak ke halaman list Lapang
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/lapang';
+      if (isset($dokumen['aset_lapang_id'])) {
+        $redirect_url = '/admin/prasarana/lapang?detail=' . $dokumen['aset_lapang_id'];
+      }
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 2. Tentukan path file
+    $filePath = __DIR__ . '/../../storage/dokumen_lapang/' . $dokumen['path_dokumen'];
+
+    // 3. Validasi file
+    if (!file_exists($filePath)) {
+      $_SESSION['error'] = 'File tidak ditemukan di server.';
+      $redirect_url = $_SERVER['HTTP_REFERER'] ?? '/admin/prasarana/lapang?detail=' . ($dokumen['aset_lapang_id'] ?? '');
+      header('Location: ' . $redirect_url);
+      exit();
+    }
+
+    // 4. Set headers untuk pratinjau (inline)
+    header('Content-Type: ' . mime_content_type($filePath)); // Dinamis berdasarkan tipe file
+    header('Content-Disposition: inline; filename="' . basename($filePath) . '"');
+    header('Content-Length: ' . filesize($filePath));
+    readfile($filePath);
+    exit;
+  }
+
+
   // dokumen gambar
-  public function dokumenGambar($id) {
+  public function dokumenGambar($id)
+  {
     global $conn;
     $lapangData = Lapang::getById($conn, $id);
     $lapangDataId = Lapang::getById($conn, $id)['id'];
@@ -303,7 +402,8 @@ class LapangController {
     ]);
   }
 
-  public function previewDokumen($id) {
+  public function previewDokumen($id)
+  {
     global $conn;
 
     $dokumen = DokumenAsetLapang::getDokumenGambarById($conn, $id);
@@ -334,7 +434,8 @@ class LapangController {
     exit;
   }
 
-  public function deleteDokumentasi() {
+  public function deleteDokumentasi()
+  {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
@@ -351,7 +452,8 @@ class LapangController {
     }
   }
 
-  public function detail($id) {
+  public function detail($id)
+  {
     global $conn;
 
     $detailData = Lapang::getById($conn, $id);
@@ -359,8 +461,10 @@ class LapangController {
     $barangMebel = SaranaMebelair::getAllData($conn);
     $barangATK = SaranaATK::getAllData($conn);
     $barangElektronik = SaranaElektronik::getAllData($conn);
-    $dokumenAsetLapang = DokumenAsetLapang::getAllData($conn, $id);
-    $dokumenGambarLapang = DokumenAsetLapang::getAllDataGambar($conn, $id);
+    $dokumenAsetLapang = DokumenAsetLapang::getAllData($conn); // Model doesn't filter by ID here
+    $dokumenGambarLapang = DokumenAsetLapang::getAllDataGambar($conn); // Model doesn't filter by ID here
+
+    $BaseUrlQr = BaseUrlQr::BaseUrlQr();
 
 
     if (!is_array($dokumenAsetLapang)) {
@@ -395,6 +499,7 @@ class LapangController {
       'filteredBarangList' => $filteredBarangList,
       'dokumenAsetLapang' => $filteredDokumen,
       'dokumenGambar' => $filteredGambar,
+      'BaseUrlQr' => $BaseUrlQr,
     ]);
   }
 }

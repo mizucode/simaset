@@ -26,6 +26,85 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
 
     <!-- Sidebar Menu -->
     <nav class="mt-2">
+      <?php
+      // Pre-calculate active states for transactional/functional menus
+      // This helps in determining if the main "Sarana" menu should be active
+
+      // Tambahkan Barang
+      $barangMasukBasePaths = [
+        '/admin/sarana/bergerak/tambah',
+        '/admin/sarana/mebelair/tambah',
+        '/admin/sarana/atk/tambah',
+        '/admin/sarana/elektronik/tambah'
+      ];
+      $isBarangMasukOpen = false;
+      foreach ($barangMasukBasePaths as $basePath) {
+        if (strpos($currentUrl, $basePath) === 0) {
+          $isBarangMasukOpen = true;
+          break;
+        }
+      }
+
+      // Peminjaman
+      $peminjamanBasePaths = [
+        '/admin/sarana/bergerak/pinjam',
+        '/admin/sarana/mebelair/pinjam',
+        '/admin/sarana/atk/pinjam',
+        '/admin/sarana/elektronik/pinjam'
+      ];
+      $isPeminjamanOpen = false;
+      foreach ($peminjamanBasePaths as $basePath) {
+        if (strpos($currentUrl, $basePath) === 0) {
+          $isPeminjamanOpen = true;
+          break;
+        }
+      }
+
+      // Pengembalian
+      $pengembalianBasePaths = [
+        '/admin/sarana/bergerak/kembali',
+        '/admin/sarana/mebelair/kembali',
+        '/admin/sarana/atk/kembali',
+        '/admin/sarana/elektronik/kembali'
+      ];
+      $isPengembalianOpen = false;
+      foreach ($pengembalianBasePaths as $basePath) {
+        if (strpos($currentUrl, $basePath) === 0) {
+          $isPengembalianOpen = true;
+          break;
+        }
+      }
+
+      // Survey Sarana (Pindah Barang paths)
+      $pemindahanBasePaths = [
+        '/admin/sarana/bergerak/pindah',
+        '/admin/sarana/mebelair/pindah',
+        '/admin/sarana/atk/pindah',
+        '/admin/sarana/elektronik/pindah'
+      ];
+      $isPemindahanOpen = false; // Used for "Survey Sarana" menu item that links to /pindah
+      foreach ($pemindahanBasePaths as $basePath) {
+        if (strpos($currentUrl, $basePath) === 0) {
+          $isPemindahanOpen = true;
+          break;
+        }
+      }
+
+      // Kondisi Barang
+      $kondisiBasePaths = [
+        '/admin/sarana/bergerak/kondisi',
+        '/admin/sarana/mebelair/kondisi',
+        '/admin/sarana/atk/kondisi',
+        '/admin/sarana/elektronik/kondisi'
+      ];
+      $isKondisiOpen = false;
+      foreach ($kondisiBasePaths as $basePath) {
+        if (strpos($currentUrl, $basePath) === 0) {
+          $isKondisiOpen = true;
+          break;
+        }
+      }
+      ?>
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- LAYANAN -->
         <li class="nav-header">LAYANAN</li>
@@ -96,43 +175,51 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           '/admin/sarana/atk',
           '/admin/sarana/elektronik'
         ];
-        $isSaranaOpen = false;
+        // Sarana hanya terbuka jika tidak sedang di menu transaksi
+        $isSaranaTreeviewOpen = false;
         foreach ($saranaBasePaths as $basePath) {
-          if (strpos($currentUrl, $basePath) === 0) {
-            $isSaranaOpen = true;
+          if (strpos($currentUrl, $basePath) === 0 && !$isBarangMasukOpen && !$isPeminjamanOpen && !$isPengembalianOpen && !$isPemindahanOpen && !$isKondisiOpen) {
+            $isSaranaTreeviewOpen = true;
             break;
           }
         }
+        $isSaranaLinkActive = $isSaranaTreeviewOpen;
         ?>
-        <li class="nav-item has-treeview <?= $isSaranaOpen ? 'menu-open' : '' ?>">
-          <a href="#" class="nav-link <?= $isSaranaOpen ? 'active' : '' ?>">
+        <li class="nav-item has-treeview <?= $isSaranaTreeviewOpen ? 'menu-open' : '' ?>">
+          <a href="#" class="nav-link <?= $isSaranaLinkActive ? 'active' : '' ?>">
             <i class="nav-icon fas fa-tools me-2"></i>
             <p>
               Sarana
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview" style="<?= $isSaranaOpen ? 'display: block;' : '' ?>">
+          <ul class="nav nav-treeview" style="<?= $isSaranaTreeviewOpen ? 'display: block;' : '' ?>">
+            <?php
+            $isSaranaBergerakActive = (strpos($currentUrl, '/admin/sarana/bergerak') === 0) && !$isBarangMasukOpen && !$isPeminjamanOpen && !$isPengembalianOpen && !$isPemindahanOpen && !$isKondisiOpen;
+            $isSaranaMebelairActive = (strpos($currentUrl, '/admin/sarana/mebelair') === 0) && !$isBarangMasukOpen && !$isPeminjamanOpen && !$isPengembalianOpen && !$isPemindahanOpen && !$isKondisiOpen;
+            $isSaranaAtkActive = (strpos($currentUrl, '/admin/sarana/atk') === 0) && !$isBarangMasukOpen && !$isPeminjamanOpen && !$isPengembalianOpen && !$isPemindahanOpen && !$isKondisiOpen;
+            $isSaranaElektronikActive = (strpos($currentUrl, '/admin/sarana/elektronik') === 0) && !$isBarangMasukOpen && !$isPeminjamanOpen && !$isPengembalianOpen && !$isPemindahanOpen && !$isKondisiOpen;
+            ?>
             <li class="nav-item">
-              <a href="/admin/sarana/bergerak" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/bergerak') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/bergerak" class="nav-link <?= $isSaranaBergerakActive ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-truck-moving me-2"></i>
                 <p>Bergerak</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/sarana/mebelair" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/mebelair') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/mebelair" class="nav-link <?= $isSaranaMebelairActive ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-chair me-2"></i>
                 <p>Mebelair</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/sarana/atk" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/atk') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/atk" class="nav-link <?= $isSaranaAtkActive ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-pencil-ruler me-2"></i>
                 <p>Alat Tulis Kantor</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/sarana/elektronik" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/elektronik') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/elektronik" class="nav-link <?= $isSaranaElektronikActive ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-plug me-2"></i>
                 <p>Elektronik</p>
               </a>
@@ -146,21 +233,6 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
         <li class="nav-header">TRANSAKSI</li>
 
 
-        <?php
-        $barangMasukBasePaths = [
-          '/admin/sarana/bergerak/tambah',
-          '/admin/sarana/mebelair/tambah',
-          '/admin/sarana/atk/tambah',
-          '/admin/sarana/elektronik/tambah'
-        ];
-        $isBarangMasukOpen = false;
-        foreach ($barangMasukBasePaths as $basePath) {
-          if (strpos($currentUrl, $basePath) === 0) {
-            $isBarangMasukOpen = true;
-            break;
-          }
-        }
-        ?>
         <li class="nav-item has-treeview <?= $isBarangMasukOpen ? 'menu-open' : '' ?>">
           <a href="#" class="nav-link <?= $isBarangMasukOpen ? 'active' : '' ?>">
             <i class="nav-icon fas fa-cart-plus me-2"></i> <!-- atau fas fa-plus-square -->
@@ -196,21 +268,6 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
             </li>
           </ul>
         </li>
-        <?php
-        $peminjamanBasePaths = [
-          '/admin/sarana/bergerak/pinjam',
-          '/admin/sarana/mebelair/pinjam',
-          '/admin/sarana/atk/pinjam',
-          '/admin/sarana/elektronik/pinjam'
-        ];
-        $isPeminjamanOpen = false;
-        foreach ($peminjamanBasePaths as $basePath) {
-          if (strpos($currentUrl, $basePath) === 0) {
-            $isPeminjamanOpen = true;
-            break;
-          }
-        }
-        ?>
         <li class="nav-item has-treeview <?= $isPeminjamanOpen ? 'menu-open' : '' ?>">
           <a href="#" class="nav-link <?= $isPeminjamanOpen ? 'active' : '' ?>">
             <i class="nav-icon fas fa-people-arrows me-2"></i> <!-- Icon utama untuk menu -->
@@ -221,46 +278,31 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           </a>
           <ul class="nav nav-treeview" style="<?= $isPeminjamanOpen ? 'display: block;' : '' ?>">
             <li class="nav-item">
-              <a href="/admin/sarana/bergerak/pinjam" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/bergerak/pinjam') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/bergerak/pinjam" class="nav-link <?= ($currentUrl === '/admin/sarana/bergerak/pinjam') ? 'active' : '' ?>">
                 <i class="fas fa-truck nav-icon me-2"></i> <!-- Icon untuk barang bergerak -->
                 <p>Bergerak</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/sarana/mebelair/pinjam" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/mebelair/pinjam') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/mebelair/pinjam" class="nav-link <?= ($currentUrl === '/admin/sarana/mebelair/pinjam') ? 'active' : '' ?>">
                 <i class="fas fa-couch nav-icon me-2"></i> <!-- Icon untuk mebelair -->
                 <p>Mebelair</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/sarana/atk/pinjam" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/atk/pinjam') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/atk/pinjam" class="nav-link <?= ($currentUrl === '/admin/sarana/atk/pinjam') ? 'active' : '' ?>">
                 <i class="fas fa-pen-nib nav-icon me-2"></i> <!-- Icon yang lebih representatif untuk ATK -->
                 <p>Alat Tulis Kantor</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/sarana/elektronik/pinjam" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/elektronik/pinjam') === 0) ? 'active' : '' ?>">
+              <a href="/admin/sarana/elektronik/pinjam" class="nav-link <?= ($currentUrl === '/admin/sarana/elektronik/pinjam') ? 'active' : '' ?>">
                 <i class="fas fa-tv nav-icon me-2"></i> <!-- Icon yang lebih jelas untuk elektronik -->
                 <p>Elektronik</p>
               </a>
             </li>
           </ul>
         </li>
-        <?php
-        $pengembalianBasePaths = [
-          '/admin/sarana/bergerak/kembali',
-          '/admin/sarana/mebelair/kembali',
-          '/admin/sarana/atk/kembali',
-          '/admin/sarana/elektronik/kembali'
-        ];
-        $isPengembalianOpen = false;
-        foreach ($pengembalianBasePaths as $basePath) {
-          if (strpos($currentUrl, $basePath) === 0) {
-            $isPengembalianOpen = true;
-            break;
-          }
-        }
-        ?>
         <li class="nav-item has-treeview <?= $isPengembalianOpen ? 'menu-open' : '' ?>">
           <a href="#" class="nav-link <?= $isPengembalianOpen ? 'active' : '' ?>">
             <i class="nav-icon fas fa-people-arrows me-2"></i> <!-- Icon utama untuk menu -->
@@ -296,107 +338,9 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           </ul>
         </li>
 
-        <?php
-        $pemindahanBasePaths = [ // Assuming these are for "Pindah Barang" rather than "Survey Sarana" based on paths
-          '/admin/sarana/bergerak/pindah',
-          '/admin/sarana/mebelair/pindah',
-          '/admin/sarana/atk/pindah',
-          '/admin/sarana/elektronik/pindah'
-        ];
-        $isPemindahanOpen = false; // This variable is used for the "Survey Sarana" menu item in the original code.
-        foreach ($pemindahanBasePaths as $basePath) {
-          if (strpos($currentUrl, $basePath) === 0) {
-            $isPemindahanOpen = true;
-            break;
-          }
-        }
-        ?>
-        <li class="nav-item has-treeview <?= $isPemindahanOpen ? 'menu-open' : '' ?>">
-          <a href="#" class="nav-link <?= $isPemindahanOpen ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-truck-loading me-2"></i> <!-- atau fas fa-people-arrows -->
-            <p>
-              Survey Sarana
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview" style="<?= $isPemindahanOpen ? 'display: block;' : '' ?>">
-            <li class="nav-item">
-              <a href="/admin/sarana/bergerak/pindah" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/bergerak/pindah') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-truck-moving me-2"></i>
-                <p>Bergerak</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/sarana/mebelair/pindah" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/mebelair/pindah') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-chair me-2"></i>
-                <p>Mebelair</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/sarana/atk/pindah" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/atk/pindah') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-pencil-ruler me-2"></i>
-                <p>Alat Tulis Kantor</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/sarana/elektronik/pindah" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/elektronik/pindah') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-plug me-2"></i>
-                <p>Elektronik</p>
-              </a>
-            </li>
-          </ul>
-        </li>
+
         <li class="nav-header">MASTER BARANG</li>
-        <?php
-        $kondisiBasePaths = [
-          '/admin/sarana/bergerak/kondisi',
-          '/admin/sarana/mebelair/kondisi',
-          '/admin/sarana/atk/kondisi',
-          '/admin/sarana/elektronik/kondisi'
-        ];
-        $isKondisiOpen = false;
-        foreach ($kondisiBasePaths as $basePath) {
-          if (strpos($currentUrl, $basePath) === 0) {
-            $isKondisiOpen = true;
-            break;
-          }
-        }
-        ?>
-        <li class="nav-item has-treeview <?= $isKondisiOpen ? 'menu-open' : '' ?>">
-          <a href="#" class="nav-link <?= $isKondisiOpen ? 'active' : '' ?>">
-            <i class="nav-icon fas fa-clipboard-check me-2"></i> <!-- atau fas fa-shield-alt -->
-            <p>
-              Kondisi Barang
-              <i class="fas fa-angle-left right"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview" style="<?= $isKondisiOpen ? 'display: block;' : '' ?>">
-            <li class="nav-item">
-              <a href="/admin/sarana/bergerak/kondisi" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/bergerak/kondisi') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-truck-moving me-2"></i>
-                <p>Bergerak</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/sarana/mebelair/kondisi" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/mebelair/kondisi') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-chair me-2"></i>
-                <p>Mebelair</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/sarana/atk/kondisi" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/atk/kondisi') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-pencil-ruler me-2"></i>
-                <p>Alat Tulis Kantor</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/sarana/elektronik/kondisi" class="nav-link <?= (strpos($currentUrl, '/admin/sarana/elektronik/kondisi') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-plug me-2"></i>
-                <p>Elektronik</p>
-              </a>
-            </li>
-          </ul>
-        </li>
+
         <?php
         $pengaturanBarangBasePaths = [
           '/admin/barang/jenis-barang'
@@ -540,6 +484,4 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
       </ul>
     </nav>
   </div>
-</aside>
-
 </aside>

@@ -7,15 +7,19 @@ require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
+require_once __DIR__ . '/../Models/PengembalianATK.php';
 
-class SaranaATKKembaliController {
-  private function renderView(string $view, $data = []) {
+class SaranaATKKembaliController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Kembali/SaranaATK/{$view}.php"; // Changed view path
   }
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $sarana = SaranaATK::getById($conn, $id); // Changed model
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -41,6 +45,7 @@ class SaranaATKKembaliController {
       $jumlah = $sarana['jumlah'];
       $satuan = $sarana['satuan'];
       $lokasi = $_POST['lokasi'];
+      $sumber = $_POST['sumber'] ?? $sarana['sumber'] ?? null; // Tambahkan ini
       $keterangan = $_POST['keterangan'] ?? $sarana['keterangan'];
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? $sarana['biaya_pembelian'];
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? $sarana['tanggal_pembelian'];
@@ -67,6 +72,7 @@ class SaranaATKKembaliController {
           $jumlah, // from $sarana
           $satuan, // from $sarana
           $lokasi,
+          $sumber, // Tambahkan parameter sumber
           $biaya_pembelian,
           $tanggal_pembelian,
           $keterangan,
@@ -81,7 +87,19 @@ class SaranaATKKembaliController {
         $message = $success ? 'Data sarana ATK berhasil diperbarui.' : 'Gagal memperbarui data sarana ATK.'; // Changed message
         $_SESSION['update'] = $message;
 
+        // Tambahkan riwayat ke tabel pengembalian_atk jika update berhasil
         if ($success) {
+          PengembalianATK::storeData(
+            $conn,
+            $sarana['no_registrasi'],
+            $nama_detail_barang,
+            $nama_peminjam,
+            $identitas_peminjam,
+            $no_hp_peminjam,
+            $tanggal_peminjaman,
+            $tanggal_pengembalian,
+            $lokasi
+          );
           header('Location: /admin/sarana/atk/kembali');
           exit();
         }
@@ -103,7 +121,8 @@ class SaranaATKKembaliController {
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaATK::getAllStatus($conn); // Changed model
 
@@ -113,7 +132,8 @@ class SaranaATKKembaliController {
     ]);
   }
 
-  public function indexPeminjaman() {
+  public function indexPeminjaman()
+  {
     global $conn;
     $saranaData = SaranaATK::getAllStatusExDipinjam($conn); // Changed model
     $this->renderView('indexPeminjaman', [

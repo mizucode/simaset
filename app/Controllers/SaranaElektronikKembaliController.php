@@ -8,14 +8,17 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 
-class SaranaElektronikKembaliController {
-  private function renderView(string $view, $data = []) {
+class SaranaElektronikKembaliController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Kembali/SaranaElektronik/{$view}.php";
   }
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $sarana = SaranaElektronik::getById($conn, $id);
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -45,6 +48,7 @@ class SaranaElektronikKembaliController {
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? $sarana['biaya_pembelian'];
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? $sarana['tanggal_pembelian'];
       $keterangan_sarana = $_POST['keterangan'] ?? $sarana['keterangan'];
+      $sumber = $sarana['sumber'] ?? null; // Ambil sumber dari data sarana yang ada
 
       // Pinjam specific fields (collected but NOT passed to SaranaElektronik::updateData as it doesn't accept them)
       $status = $_POST['status'] ?? $sarana['status'] ?? null;
@@ -67,6 +71,7 @@ class SaranaElektronikKembaliController {
           $merk,
           $spesifikasi,
           $tipe,
+          $sumber, // Tambahkan argumen sumber yang hilang
           $jumlah,
           $satuan,
           $lokasi,
@@ -84,7 +89,20 @@ class SaranaElektronikKembaliController {
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
         $_SESSION['update'] = $message;
 
+        // Duplikasi ke riwayat pengembalian_elk jika update berhasil
         if ($success) {
+          require_once __DIR__ . '/../Models/PengembalianELK.php';
+          PengembalianELK::storeData(
+            $conn,
+            $sarana['no_registrasi'],
+            $nama_detail_barang,
+            $nama_peminjam,
+            $identitas_peminjam,
+            $no_hp_peminjam,
+            $tanggal_peminjaman,
+            $tanggal_pengembalian, // asumsikan ini sebagai tanggal rencana pengembalian
+            $lokasi
+          );
           header('Location: /admin/sarana/elektronik/kembali');
           exit();
         }
@@ -106,7 +124,8 @@ class SaranaElektronikKembaliController {
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaElektronik::getAllStatus($conn);
 
@@ -116,7 +135,8 @@ class SaranaElektronikKembaliController {
     ]);
   }
 
-  public function indexPeminjaman() {
+  public function indexPeminjaman()
+  {
     global $conn;
     $saranaData = SaranaElektronik::getAllStatusExDipinjam($conn);
     $this->renderView('indexPeminjaman', [

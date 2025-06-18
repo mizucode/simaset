@@ -89,7 +89,7 @@
                       <tr class="text-center align-middle">
                         <th width="5%">No</th>
                         <th width="15%">Kode Gedung</th>
-                        <th width="25%">Nama Gedung</th>
+                        <th width="15%">Nama Gedung</th>
                         <th width="15%">Jenis Aset</th>
                         <th width="15%">Jenis Bangunan</th>
                         <th width="15%">Kondisi</th>

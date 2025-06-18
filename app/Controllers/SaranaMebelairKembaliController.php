@@ -2,15 +2,19 @@
 
 require_once __DIR__ . '/../Models/SaranaMebelair.php'; // Changed model
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
+require_once __DIR__ . '/../Models/PengembalianMB.php'; // Tambah model riwayat
 
-class SaranaMebelairKembaliController {
-  private function renderView(string $view, $data = []) {
+class SaranaMebelairKembaliController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Kembali/SaranaMebelair/{$view}.php"; // Changed view path
   }
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $sarana = SaranaMebelair::getById($conn, $id); // Changed model
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -74,6 +78,21 @@ class SaranaMebelairKembaliController {
           $tanggal_pengembalian
         );
 
+        // Simpan ke riwayat pengembalian_mb jika update berhasil
+        if ($success) {
+          PengembalianMB::storeData(
+            $conn,
+            $sarana['no_registrasi'],
+            $nama_detail_barang,
+            $nama_peminjam,
+            $identitas_peminjam,
+            $no_hp_peminjam,
+            $tanggal_peminjaman,
+            $tanggal_pengembalian,
+            $lokasi
+          );
+        }
+
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.';
         $_SESSION['update'] = $message;
 
@@ -99,7 +118,8 @@ class SaranaMebelairKembaliController {
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaMebelair::getAllStatus($conn); // Changed model
 
@@ -109,7 +129,8 @@ class SaranaMebelairKembaliController {
     ]);
   }
 
-  public function indexPeminjaman() {
+  public function indexPeminjaman()
+  {
     global $conn;
     $saranaData = SaranaMebelair::getAllStatusExDipinjam($conn); // Changed model
     $this->renderView('indexPeminjaman', [

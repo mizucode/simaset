@@ -74,6 +74,7 @@ class Router
     '/admin/sarana/mebelair/pinjam' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/mebelair/kembali' => ['controller' => 'SaranaMebelairKembaliController', 'method' => 'index', 'auth' => true],
     '/admin/sarana/mebelair/pinjam/tambah' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'indexPeminjaman', 'auth' => true],
+    '/admin/sarana/mebelair/pinjam/riwayat' => ['controller' => 'SaranaMebelairPinjamController', 'method' => 'riwayat', 'auth' => true],
     '/admin/sarana/mebelair/kondisi' => ['controller' => 'SaranaMebelairKondisiController', 'method' => 'index', 'auth' => true],
 
 

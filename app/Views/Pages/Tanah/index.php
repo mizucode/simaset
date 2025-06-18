@@ -59,7 +59,7 @@
                     <thead class="bg-gray-100">
                       <tr class="text-center align-middle">
                         <th width="5%">No</th>
-                        <th width="15%">Kode Aset</th>
+                        <th width="20%">Kode Aset</th>
                         <th width="25%">Nama Aset</th>
                         <th width="15%">Jenis Aset</th>
                         <th width="25%">Nomor Sertifikat</th>
@@ -75,7 +75,7 @@
                             <td><?= htmlspecialchars($td['kode_aset'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($td['nama_aset'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($td['jenis_aset'] ?? '-'); ?></td>
-                            <td class="text-center"><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($td['nomor_sertifikat'] ?? '-'); ?></td>
                             <td class="text-center">
                               <div class="d-flex justify-content-center gap-2">
                                 <a href="/admin/prasarana/tanah?detail=<?= $td['id']; ?>" class="btn btn-info btn-sm">

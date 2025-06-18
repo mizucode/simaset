@@ -7,6 +7,7 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
+require_once __DIR__ . '/../Models/PeminjamanMB.php'; // Include the new model for MB loans
 
 class SaranaMebelairPinjamController { // Renamed class
   private function renderView(string $view, $data = []) {
@@ -80,6 +81,26 @@ class SaranaMebelairPinjamController { // Renamed class
           $tanggal_pengembalian
         );
 
+        // Jika update berhasil, simpan ke tabel peminjaman_mb sebagai riwayat
+        if ($success && $nama_peminjam && $identitas_peminjam && $no_hp_peminjam && $tanggal_peminjaman && $tanggal_pengembalian) {
+          $historySuccess = PeminjamanMB::storeData(
+            $conn,
+            $sarana['no_registrasi'],
+            $nama_detail_barang,
+            $nama_peminjam,
+            $identitas_peminjam,
+            $no_hp_peminjam,
+            $tanggal_peminjaman,
+            $tanggal_pengembalian,
+            $lokasi
+          );
+
+          if (!$historySuccess) {
+            // Log error jika gagal menyimpan riwayat, tapi tidak menghentikan proses
+            error_log("Failed to save peminjaman_mb history for sarana: " . $sarana['no_registrasi']);
+          }
+        }
+
         $message = $success ? 'Data sarana mebelair berhasil diperbarui.' : 'Gagal memperbarui data sarana mebelair.'; // Changed message
         $_SESSION['update'] = $message;
 
@@ -108,10 +129,11 @@ class SaranaMebelairPinjamController { // Renamed class
   public function index() {
     global $conn;
     $saranaData = SaranaMebelair::getAllStatus($conn); // Changed model
-
+    $peminjaman = PeminjamanMB::getAllData($conn); // Tambahkan data riwayat peminjaman
 
     $this->renderView('index', [
       'saranaData' => $saranaData,
+      'peminjaman' => $peminjaman, // Kirim data riwayat ke view
     ]);
   }
 
@@ -120,6 +142,18 @@ class SaranaMebelairPinjamController { // Renamed class
     $saranaData = SaranaMebelair::getAllStatusExDipinjam($conn); // Changed model
     $this->renderView('indexPeminjaman', [
       'saranaData' => $saranaData,
+    ]);
+  }
+
+  /**
+   * Menampilkan riwayat peminjaman sarana mebelair
+   */
+  public function riwayat() {
+    global $conn;
+    $peminjamanData = PeminjamanMB::getAllData($conn);
+    
+    $this->renderView('riwayat', [
+      'peminjamanData' => $peminjamanData,
     ]);
   }
 }
