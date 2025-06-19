@@ -36,7 +36,7 @@
                   FORMULIR EDIT DATA SURVEY
                 </h1>
               </div>
-              <form action="/admin/survey/sarana/sarana-bergerak?edit=<?= htmlspecialchars($survey['id']) ?>" method="POST" enctype="multipart/form-data">
+              <form action="/admin/survey/sarana/survey-barang?edit=<?= htmlspecialchars($survey['id']) ?>" method="POST" enctype="multipart/form-data">
 
                 <div class="card-body">
                   <div class="row">
@@ -132,7 +132,7 @@
                   </div>
 
                   <div class="card-footer text-right">
-                    <a href="/admin/survey/sarana/sarana-bergerak" class="btn btn-secondary">
+                    <a href="/admin/survey/sarana/survey-barang" class="btn btn-secondary">
                       <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">

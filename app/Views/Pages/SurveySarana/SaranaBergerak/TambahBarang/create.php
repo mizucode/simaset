@@ -36,7 +36,7 @@
                   FORMULIR TAMBAH DATA BARANG SURVEY
                 </h1>
               </div>
-              <form action="/admin/survey/sarana/sarana-bergerak?tambah-barang=<?= htmlspecialchars($surveyData['id']) ?>" method="POST" enctype="multipart/form-data">
+              <form action="/admin/survey/sarana/survey-barang?tambah-barang=<?= htmlspecialchars($surveyData['id']) ?>" method="POST" enctype="multipart/form-data">
 
                 <input type="text" hidden name="survey_sarana_bergerak_id" value="<?= htmlspecialchars($surveyData['id']) ?>" id="">
                 <input type="hidden" name="kategori_asal_barang" id="kategori_asal_barang" value="">
@@ -131,10 +131,13 @@
                         </div>
                       </div>
 
-
-
-
-
+                      <div class="py-4 px-4 mb-4 border rounded-md">
+                        <div class="form-group">
+                          <label for="tanggal_survey_terakhir" class="fw-bold">Tanggal Survey Terakhir <span class="text-danger">*</span></label>
+                          <input type="date" class="form-control" id="tanggal_survey_terakhir" name="tanggal_survey_terakhir" value="<?= isset($surveyData['tanggal_pengecekan']) ? htmlspecialchars($surveyData['tanggal_pengecekan']) : '' ?>" required>
+                          <span class="form-text">Tanggal survey terakhir, otomatis terisi dari tanggal pengecekan survey.</span>
+                        </div>
+                      </div>
 
                     </div>
 
@@ -142,7 +145,7 @@
                   </div>
 
                   <div class="card-footer text-right">
-                    <a href="/admin/prasarana/tanah" class="btn btn-secondary">
+                    <a href="/admin/survey/sarana/survey-barang" class="btn btn-secondary">
                       <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">

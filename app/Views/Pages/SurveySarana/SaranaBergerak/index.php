@@ -22,7 +22,7 @@
             <div class="card shadow-md">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
                 <h3 class="h4 mb-0">Data Survey Sarana Bergerak</h3>
-                <a href="/admin/survey/sarana/sarana-bergerak/tambah" class="btn btn-warning btn-sm ml-auto">
+                <a href="/admin/survey/sarana/survey-barang/tambah" class="btn btn-warning btn-sm ml-auto">
                   <div class="text-dark">
                     <i class="fas fa-plus mr-1"></i> Tambah Data
                   </div>
@@ -56,7 +56,7 @@
                             <td><?= htmlspecialchars($data['lokasi_survey'] ?? '-'); ?></td>
                             <td class="text-center">
                               <div class="d-flex justify-content-center gap-2">
-                                <a href="/admin/survey/sarana/sarana-bergerak?detail=<?= $data['id']; ?>" class="btn btn-info btn-sm">
+                                <a href="/admin/survey/sarana/survey-barang?detail=<?= $data['id']; ?>" class="btn btn-info btn-sm">
                                   <i class="fas fa-eye mr-1"></i> Detail
                                 </a>
                               </div>

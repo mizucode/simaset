@@ -6,13 +6,16 @@ require_once __DIR__ . '/../Models/SaranaATK.php';
 require_once __DIR__ . '/../Models/SaranaElektronik.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';  // Diperlukan untuk mendapatkan ID kondisi
 
-class SurveySaranaBergerakController {
-  private function renderView(string $view, $data = []) {
+class SurveySaranaBergerakController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/SurveySarana/SaranaBergerak/{$view}.php";
   }
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $SurveyData = SurveySaranaBergerak::getAllData($conn);
 
@@ -20,7 +23,8 @@ class SurveySaranaBergerakController {
       'surveyData' => $SurveyData,
     ]);
   }
-  public function create() {
+  public function create()
+  {
     global $conn;
     $lapangData = Lapang::getAllData($conn);
     $ruangData = Ruang::getAllData($conn);
@@ -47,7 +51,7 @@ class SurveySaranaBergerakController {
         $_SESSION['update'] = $message;
 
         if ($success) {
-          header('Location: /admin/survey/sarana/sarana-bergerak'); // Path redirect disesuaikan
+          header('Location: /admin/survey/sarana/survey-barang');
           exit();
         }
       } catch (PDOException $e) {
@@ -63,7 +67,8 @@ class SurveySaranaBergerakController {
 
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $survey = SurveySaranaBergerak::getById($conn, $id);
     $lapangData = Lapang::getAllData($conn);
@@ -71,7 +76,7 @@ class SurveySaranaBergerakController {
 
     if (!$survey) {
       $_SESSION['error'] = 'Data survey sarana bergerak tidak ditemukan.';
-      header('Location: /admin/survey/sarana/sarana-bergerak');
+      header('Location: /admin/survey/sarana/survey-barang');
       exit();
     }
 
@@ -97,7 +102,7 @@ class SurveySaranaBergerakController {
         $_SESSION['update'] = $message;
 
         // Redirect back to the edit page to show the success message
-        header('Location: /admin/survey/sarana/sarana-bergerak');
+        header('Location: /admin/survey/sarana/survey-barang');
         exit();
       } catch (PDOException $e) {
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
@@ -114,7 +119,8 @@ class SurveySaranaBergerakController {
 
 
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -123,11 +129,12 @@ class SurveySaranaBergerakController {
       } else {
         $_SESSION['error'] = 'Gagal menghapus data survey sarana bergerak.';
       }
-      header('Location: /admin/survey/sarana/sarana-bergerak');;
+      header('Location: /admin/survey/sarana/survey-barang');;
       exit();
     }
   }
-  public function deleteBarang($itemId) { // $itemId adalah ID dari data_survey_bb
+  public function deleteBarang($itemId)
+  { // $itemId adalah ID dari data_survey_bb
     global $conn;
 
     // Ambil item untuk mendapatkan survey_id agar bisa redirect kembali ke halaman detail yang benar
@@ -135,7 +142,7 @@ class SurveySaranaBergerakController {
 
     if (!$item) {
       $_SESSION['error'] = 'Data barang survey tidak ditemukan.';
-      $redirectUrl = $_SERVER['HTTP_REFERER'] ?? '/admin/survey/sarana/sarana-bergerak';
+      $redirectUrl = $_SERVER['HTTP_REFERER'] ?? '/admin/survey/sarana/survey-barang';
       header('Location: ' . $redirectUrl);
       exit();
     }
@@ -147,13 +154,14 @@ class SurveySaranaBergerakController {
     } else {
       $_SESSION['error'] = 'Gagal menghapus data barang dari survey.';
     }
-    header('Location: /admin/survey/sarana/sarana-bergerak?detail=' . $surveyId);
+    header('Location: /admin/survey/sarana/survey-barang?detail=' . $surveyId);
     exit();
   }
 
 
   // Data Barang
-  public function tambahBarang($id) { // $id adalah survey_id
+  public function tambahBarang($id)
+  { // $id adalah survey_id
     global $conn;
     $SurveyData = SurveySaranaBergerak::getById($conn, $id);
 
@@ -196,7 +204,7 @@ class SurveySaranaBergerakController {
 
       if ($survey_sarana_bergerak_id_post != $id) {
         $_SESSION['error'] = 'ID Survey tidak valid pada request.';
-        header('Location: /admin/survey/sarana/sarana-bergerak?detail=' . $id);
+        header('Location: /admin/survey/sarana/survey-barang?detail=' . $id);
         exit();
       }
 
@@ -214,7 +222,8 @@ class SurveySaranaBergerakController {
                 $conn,
                 $no_reg_survey,
                 $kondisi_barang_id_baru,
-                $lokasi_survey
+                $lokasi_survey,
+                $_POST['tanggal_survey_terakhir'] ?? null // update tanggal_survey_terakhir
               );
               break;
             case 'mebelair':
@@ -222,7 +231,8 @@ class SurveySaranaBergerakController {
                 $conn,
                 $no_reg_survey,
                 $kondisi_barang_id_baru,
-                $lokasi_survey
+                $lokasi_survey,
+                $_POST['tanggal_survey_terakhir'] ?? null // update tanggal_data_survey
               );
               break;
             case 'atk':
@@ -230,7 +240,8 @@ class SurveySaranaBergerakController {
                 $conn,
                 $no_reg_survey,
                 $kondisi_barang_id_baru,
-                $lokasi_survey
+                $lokasi_survey,
+                $_POST['tanggal_survey_terakhir'] ?? null // update tanggal_data_survey
               );
               break;
             case 'elektronik':
@@ -238,7 +249,8 @@ class SurveySaranaBergerakController {
                 $conn,
                 $no_reg_survey,
                 $kondisi_barang_id_baru,
-                $lokasi_survey
+                $lokasi_survey,
+                $_POST['tanggal_survey_terakhir'] ?? null // update tanggal_data_survey
               );
               break;
             default:
@@ -261,13 +273,15 @@ class SurveySaranaBergerakController {
 
       // 2. Simpan riwayat ke data_survey_bb
       try {
+        $tanggal_survey_terakhir = $_POST['tanggal_survey_terakhir'] ?? null;
         $storeHistorySuccess = SurveySaranaBergerak::storeDataInventaris(
           $conn,
           $id, // Gunakan $id dari parameter fungsi (survey_id)
           $nama_barang_survey,
           $no_reg_survey,
           $kondisi_text_survey, // Simpan nama kondisi sebagai teks
-          $lokasi_survey
+          $lokasi_survey,
+          $tanggal_survey_terakhir // Kirim ke model
         );
 
         if ($storeHistorySuccess) {
@@ -278,7 +292,7 @@ class SurveySaranaBergerakController {
             $message .= ' Namun, pembaruan data master barang gagal.';
           }
           $_SESSION['update'] = $message;
-          header('Location: /admin/survey/sarana/sarana-bergerak?detail=' . $id);
+          header('Location: /admin/survey/sarana/survey-barang?detail=' . $id);
           exit();
         }
       } catch (PDOException $e) {
@@ -299,14 +313,15 @@ class SurveySaranaBergerakController {
 
 
 
-  public function detail($id) {
+  public function detail($id)
+  {
     global $conn;
 
     $surveyData = SurveySaranaBergerak::getById($conn, $id);
 
     if (!$surveyData) {
       $_SESSION['error'] = 'Data survey sarana bergerak tidak ditemukan.';
-      header('Location: /admin/survey/sarana/sarana-bergerak');
+      header('Location: /admin/survey/sarana/survey-barang');
       exit();
     }
 

@@ -142,8 +142,8 @@ class Router
     '/admin/kondisi/daftar-kondisi' => ['controller' => 'AdminController', 'method' => 'daftarKondisi', 'auth' => true],
 
     // Survey
-    '/admin/survey/sarana/sarana-bergerak' => ['controller' => 'SurveySaranaBergerakController', 'method' => 'index', 'auth' => true],
-    '/admin/survey/sarana/sarana-bergerak/tambah' => ['controller' => 'SurveySaranaBergerakController', 'method' => 'create', 'auth' => true],
+    '/admin/survey/sarana/survey-barang' => ['controller' => 'SurveySaranaBergerakController', 'method' => 'index', 'auth' => true],
+    '/admin/survey/sarana/survey-barang/tambah' => ['controller' => 'SurveySaranaBergerakController', 'method' => 'create', 'auth' => true],
     '/admin/survey/sarana/sarana-mebelair' => ['controller' => 'SurveySaranaMebelairController', 'method' => 'index', 'auth' => true],
     '/admin/survey/sarana/sarana-mebelair/tambah' => ['controller' => 'SurveySaranaMebelairController', 'method' => 'create', 'auth' => true],
     '/admin/survey/sarana/sarana-atk' => ['controller' => 'SurveySaranaATKController', 'method' => 'index', 'auth' => true],
@@ -239,7 +239,7 @@ class Router
       '/admin/sarana/mebelair/pinjam',
       '/admin/sarana/atk/pinjam',
       '/admin/sarana/elektronik/pinjam',
-      '/admin/survey/sarana/sarana-bergerak',
+      '/admin/survey/sarana/survey-barang',
       '/admin/survey/sarana/sarana-mebelair',
       '/admin/survey/sarana/sarana-atk',
       '/admin/survey/sarana/sarana-elektronik',

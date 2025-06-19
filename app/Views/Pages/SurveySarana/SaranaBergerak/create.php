@@ -36,7 +36,7 @@
                   FORMULIR TAMBAH DATA SURVEY
                 </h1>
               </div>
-              <form action="/admin/survey/sarana/sarana-bergerak/tambah" method="POST" enctype="multipart/form-data">
+              <form action="/admin/survey/sarana/survey-barang/tambah" method="POST" enctype="multipart/form-data">
 
                 <div class="card-body">
                   <div class="row">

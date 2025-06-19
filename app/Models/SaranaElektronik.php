@@ -290,16 +290,18 @@ class SaranaElektronik
    * @param string $lokasi_baru Lokasi barang yang baru.
    * @return bool True jika berhasil, false jika gagal.
    */
-  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru)
+  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru, $tanggal_survey_terakhir = null)
   {
     $query = "UPDATE sarana_elektronik SET 
                   kondisi_barang_id = :kondisi_barang_id, 
-                  lokasi = :lokasi 
+                  lokasi = :lokasi,
+                  tanggal_survey_terakhir = :tanggal_survey_terakhir
                 WHERE no_registrasi = :no_registrasi";
     try {
       $stmt = $conn->prepare($query);
       $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id_baru, PDO::PARAM_INT);
       $stmt->bindParam(':lokasi', $lokasi_baru, PDO::PARAM_STR);
+      $stmt->bindParam(':tanggal_survey_terakhir', $tanggal_survey_terakhir, PDO::PARAM_STR);
       $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
       return $stmt->execute();
     } catch (PDOException $e) {

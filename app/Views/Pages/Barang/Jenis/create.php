@@ -31,56 +31,56 @@
 
             <div class="card">
               <div class="card-header bg-navy mb-3 text-white">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   Formulir Data Jenis Barang
-                  </h3>
+                </h3>
               </div>
 
               <form action="/admin/barang/jenis-barang/tambah" method="POST">
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12">
-                      <div class="border-bottom pb-2 mb-3">
-                        <h5 class="text-bold fs-4 text-navy">
-                          IDENTITAS JENIS BARANG
-                        </h5>
-                        <span class="form-text">Silahkan isi data identitas jenis barang dengan lengkap.</span>
-                      </div>
-
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <div class="form-group">
-                          <label for="kode_barang" class="fw-bold">Kode Barang <span class="text-danger">*</span></label>
-                          <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
-                            <div class="input-group-prepend">
-                              <span class="input-group-text bg-light"><i class="fas fa-barcode text-primary"></i></span>
-                            </div>
-                            <input type="text" class="form-control" id="kode_barang" name="kode_barang"
-                              placeholder="Contoh: LMR, LPT, MJA" required>
-                          </div>
-                          <span class=" form-text">Masukkan kode unik untuk jenis barang. Maksimal 3 karakter.</span>
+                      <!-- Identitas Jenis Barang Section -->
+                      <div class="col-12 border-bottom">
+                        <div class="border-bottom pb-2 mb-3">
+                          <h5 class="text-bold fs-4 text-navy">
+                            IDENTITAS JENIS BARANG
+                          </h5>
+                          <span class="form-text">Silahkan isi data identitas jenis barang dengan lengkap.</span>
                         </div>
-                      </div>
 
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <div class="form-group">
-                          <label for="nama_barang" class="fw-bold">Nama Jenis Barang <span class="text-danger">*</span></label>
-                          <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
-                            <div class="input-group-prepend">
-                              <span class="input-group-text bg-light"><i class="fas fa-box text-primary"></i></span>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="kode_barang" class="fw-bold">Kode Barang <span class="text-danger">*</span></label>
+                            <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-light"><i class="fas fa-barcode text-primary"></i></span>
+                              </div>
+                              <input type="text" class="form-control" id="kode_barang" name="kode_barang"
+                                placeholder="Contoh: LMR, LPT, MJA" required maxlength="3">
                             </div>
-                            <input type="text" class="form-control" id="nama_barang" name="nama_barang"
-                              placeholder="Contoh: Lemari, Laptop, Meja" required>
+                            <span class=" form-text">Masukkan kode unik untuk jenis barang. Maksimal 3 karakter.</span>
                           </div>
-                          <span class=" form-text">Masukkan nama deskriptif untuk jenis barang. Maksimal 100 karakter.</span>
                         </div>
-                      </div>
 
-                      <div class="py-4 px-4 mb-4 border rounded-md">
-                        <div class="form-group">
-                          <label for="kategori_id" class="fw-bold">Kategori Barang <span class="text-danger">*</span></label>
-                          <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="nama_barang" class="fw-bold">Nama Jenis Barang <span class="text-danger">*</span></label>
+                            <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-light"><i class="fas fa-box text-primary"></i></span>
+                              </div>
+                              <input type="text" class="form-control" id="nama_barang" name="nama_barang"
+                                placeholder="Contoh: Lemari, Laptop, Meja" required maxlength="100">
+                            </div>
+                            <span class=" form-text">Masukkan nama deskriptif untuk jenis barang. Maksimal 100 karakter.</span>
+                          </div>
+                        </div>
 
-                            <select class="form-control select2-custom" id="kategori_id" name="kategori_id" required style="width: 100%;">
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="kategori_id" class="fw-bold">Kategori Barang <span class="text-danger">*</span></label>
+                            <select class="form-control select2-custom" id="kategori_id" name="kategori_id" required>
                               <option value=""></option>
                               <?php foreach ($kategoriList as $kategori): ?>
                                 <option value="<?= htmlspecialchars($kategori['id']) ?>" <?= (isset($_POST['kategori_id']) && $_POST['kategori_id'] == $kategori['id']) ? 'selected' : '' ?>>
@@ -88,22 +88,21 @@
                                 </option>
                               <?php endforeach; ?>
                             </select>
+                            <span class="form-text">Pilih kategori yang sesuai untuk jenis barang ini.</span>
                           </div>
-                          <span class="form-text">Pilih kategori yang sesuai untuk jenis barang ini.</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="card-footer text-right">
-                  <a href="/admin/barang/jenis-barang" class="btn btn-secondary">
-                    <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
-                  </a>
-                  <button type="submit" class="btn btn-primary" id="submitBtn">
-                    <i class="fas fa-save mr-2"></i>
-                    Simpan Data Jenis Barang
-                  </button>
-                </div>
+                  <div class="card-footer text-right">
+                    <a href="/admin/barang/jenis-barang" class="btn btn-secondary">
+                      <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                      <i class="fas fa-save mr-2"></i>
+                      Simpan Data Jenis Barang
+                    </button>
+                  </div>
               </form>
             </div>
           </div>

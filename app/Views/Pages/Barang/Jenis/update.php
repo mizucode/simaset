@@ -12,8 +12,8 @@
         <div class="row justify-content-center">
           <div class="col-12">
             <!-- Session Messages -->
-            <?php if (isset($_SESSION['error'])) : ?>
-              <div class="alert alert-danger alert-dismissible fade show mb-4">
+            <?php if (!empty($_SESSION['error'])) : ?>
+              <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -21,10 +21,8 @@
                 unset($_SESSION['error']); ?>
               </div>
             <?php endif; ?>
-
-            <?php if (isset($_SESSION['update'])) : // Diubah dari 'success' untuk konsistensi 
-            ?>
-              <div class="alert alert-success alert-dismissible fade show mb-4">
+            <?php if (!empty($_SESSION['update'])) : ?>
+              <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -35,68 +33,70 @@
 
             <div class="card">
               <div class="card-header bg-navy mb-3 text-white">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   <?= isset($jenisBarangData) ? 'Edit Jenis Barang' : 'Formulir Data Jenis Barang' ?>
-                </h1>
+                </h3>
               </div>
 
               <form action="/admin/barang/jenis-barang<?= isset($jenisBarangData) ? '?edit=' . $jenisBarangData['id'] : '' ?>" method="POST" id="formBarang">
-
                 <input type="hidden" name="id" value="<?= isset($jenisBarangData['id']) ? htmlspecialchars($jenisBarangData['id']) : '' ?>">
 
                 <div class="card-body">
                   <div class="row">
-                    <div class="col-md-6">
-                      <!-- Kode Barang -->
-                      <div class="form-group mb-4">
-                        <label for="kode_barang" class="font-weight-bold">Kode Barang <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text bg-light"><i class="fas fa-barcode text-primary"></i></span>
-                          </div>
-                          <input type="text" class="form-control" id="kode_barang" name="kode_barang"
-                            placeholder="Contoh: BRG-001" required
-                            value="<?= htmlspecialchars($jenisBarangData['kode_barang'] ?? ''); ?>"
-                            maxlength="20">
+                    <div class="col-12">
+                      <!-- Identitas Jenis Barang Section -->
+                      <div class="col-12 border-bottom">
+                        <div class="border-bottom pb-2 mb-3">
+                          <h5 class="text-bold fs-4 text-navy">
+                            IDENTITAS JENIS BARANG
+                          </h5>
+                          <span class="form-text">Silahkan ubah data identitas jenis barang dengan lengkap.</span>
                         </div>
-                        <small class="text-muted">Maksimal 20 karakter</small>
-                      </div>
-                    </div>
 
-                    <div class="col-md-6">
-                      <!-- Nama Barang -->
-                      <div class="form-group mb-4">
-                        <label for="nama_barang" class="font-weight-bold">Nama Barang <span class="text-danger">*</span></label>
-                        <div class="input-group">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text bg-light"><i class="fas fa-box text-primary"></i></span>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="kode_barang" class="fw-bold">Kode Barang <span class="text-danger">*</span></label>
+                            <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-light"><i class="fas fa-barcode text-primary"></i></span>
+                              </div>
+                              <input type="text" class="form-control" id="kode_barang" name="kode_barang"
+                                placeholder="Contoh: LMR, LPT, MJA" required maxlength="3"
+                                value="<?= htmlspecialchars($jenisBarangData['kode_barang'] ?? ''); ?>">
+                            </div>
+                            <span class=" form-text">Masukkan kode unik untuk jenis barang. Maksimal 3 karakter.</span>
                           </div>
-                          <input type="text" class="form-control" id="nama_barang" name="nama_barang"
-                            placeholder="Contoh: Meja Kantor" required
-                            value="<?= htmlspecialchars($jenisBarangData['nama_barang'] ?? ''); ?>"
-                            maxlength="100">
                         </div>
-                        <small class="text-muted">Maksimal 100 karakter</small>
-                      </div>
-                    </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col-md-6">
-                      <!-- Kategori -->
-                      <div class="form-group mb-4">
-                        <label for="kategori_id" class="font-weight-bold">Kategori Barang <span class="text-danger">*</span></label>
-                        <div class="input-group">
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="nama_barang" class="fw-bold">Nama Jenis Barang <span class="text-danger">*</span></label>
+                            <div class="input-group"> <!-- Menggunakan input-group untuk ikon -->
+                              <div class="input-group-prepend">
+                                <span class="input-group-text bg-light"><i class="fas fa-box text-primary"></i></span>
+                              </div>
+                              <input type="text" class="form-control" id="nama_barang" name="nama_barang"
+                                placeholder="Contoh: Lemari, Laptop, Meja" required maxlength="100"
+                                value="<?= htmlspecialchars($jenisBarangData['nama_barang'] ?? ''); ?>">
+                            </div>
+                            <span class=" form-text">Masukkan nama deskriptif untuk jenis barang. Maksimal 100 karakter.</span>
+                          </div>
+                        </div>
 
-                          <select class="form-control select2" id="kategori_id" name="kategori_id" required style="width: 100%;">
-                            <option value="">Pilih Kategori</option>
-                            <?php foreach ($kategoriList as $kategori): ?>
-                              <option value="<?= htmlspecialchars($kategori['id']) ?>"
-                                <?= ($jenisBarangData['kategori_id'] ?? '') == $kategori['id'] ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($kategori['nama_kategori']) ?>
-                              </option>
-                            <?php endforeach; ?>
-                          </select>
+                        <div class="py-4 px-4 mb-4 border rounded-md">
+                          <div class="form-group">
+                            <label for="kategori_id" class="fw-bold">Kategori Barang <span class="text-danger">*</span></label>
+                            <select class="form-control select2-custom" id="kategori_id" name="kategori_id" required>
+                              <option value=""></option>
+                              <?php foreach ($kategoriList as $kategori): ?>
+                                <option value="<?= htmlspecialchars($kategori['id']) ?>"
+                                  <?= ($jenisBarangData['kategori_id'] ?? '') == $kategori['id'] ? 'selected' : ''; ?>>
+                                  <?= htmlspecialchars($kategori['nama_kategori']) ?>
+                                </option>
+                              <?php endforeach; ?>
+                            </select>
+                            <span class="form-text">Pilih kategori yang sesuai untuk jenis barang ini.</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -105,10 +105,10 @@
 
                 <div class="card-footer text-right">
                   <a href="/admin/barang/jenis-barang" class="btn btn-secondary mr-2">
-                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                    <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                   </a>
                   <button type="submit" class="btn btn-primary" id="submitBtn">
-                    <i class="fas fa-save mr-2"></i><?= isset($jenisBarangData) ? 'Simpan Perubahan' : 'Tambah Barang' ?>
+                    <i class="fas fa-save mr-2"></i><?= isset($jenisBarangData) ? 'Simpan Perubahan' : 'Simpan Data Jenis Barang' ?>
                   </button>
                 </div>
               </form>
@@ -126,23 +126,26 @@
   <script>
     $(document).ready(function() {
       // Initialize Select2
-      $('.select2').select2({
+      $('#kategori_id').select2({
         theme: 'bootstrap4',
-        placeholder: 'Pilih Kategori',
-        allowClear: true
+        placeholder: "Pilih Kategori Barang",
+        allowClear: true, // Memungkinkan placeholder terlihat jika tidak ada yang dipilih
+        minimumResultsForSearch: Infinity, // Sembunyikan kotak pencarian jika tidak banyak opsi
+        width: '100%'
       });
+
 
       // Form validation
       $('#formBarang').validate({
         rules: {
           kode_barang: {
             required: true,
-            minlength: 3,
-            maxlength: 20
+            minlength: 1, // Adjusted to match create.php example (LMR, LPT)
+            maxlength: 3 // Adjusted to match create.php example
           },
           nama_barang: {
             required: true,
-            minlength: 3,
+            minlength: 2,
             maxlength: 100
           },
           kategori_id: {
@@ -152,13 +155,13 @@
         messages: {
           kode_barang: {
             required: "Kode barang wajib diisi",
-            minlength: "Minimal 3 karakter",
-            maxlength: "Maksimal 20 karakter"
+            minlength: "Minimal 1 karakter",
+            maxlength: "Maksimal 3 karakter"
           },
           nama_barang: {
             required: "Nama barang wajib diisi",
-            minlength: "Minimal 3 karakter",
-            maxlength: "Maksimal 100 karakter"
+            minlength: "Minimal 2 karakter",
+            maxlength: "Maksimal 100 karakter",
           },
           kategori_id: {
             required: "Kategori wajib dipilih"

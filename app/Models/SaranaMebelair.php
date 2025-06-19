@@ -1,13 +1,15 @@
 <?php
 
-class SaranaMebelair {
+class SaranaMebelair
+{
   /**
    * Mendapatkan semua data barang mebelair dengan join ke tabel terkait
    * 
    * @param PDO $conn Koneksi database
    * @return array|string Array data atau pesan error
    */
-  public static function getAllData($conn) {
+  public static function getAllData($conn)
+  {
     $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_mebelair sb
                   JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
@@ -23,7 +25,8 @@ class SaranaMebelair {
     }
   }
 
-  public static function getAllStatus($conn) {
+  public static function getAllStatus($conn)
+  {
     $query = "SELECT sm.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
               FROM sarana_mebelair sm
               JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
@@ -39,7 +42,8 @@ class SaranaMebelair {
       return "Query gagal: " . $e->getMessage();
     }
   }
-  public static function getAllStatusTersedia($conn) {
+  public static function getAllStatusTersedia($conn)
+  {
     $query = "SELECT sm.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
               FROM sarana_mebelair sm
               JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
@@ -56,7 +60,8 @@ class SaranaMebelair {
     }
   }
 
-  public static function getAllStatusExDipinjam($conn) {
+  public static function getAllStatusExDipinjam($conn)
+  {
     $query = "SELECT sm.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
               FROM sarana_mebelair sm
               JOIN kategori_barang kb ON sm.kategori_barang_id = kb.id
@@ -239,7 +244,8 @@ class SaranaMebelair {
    * @param int $id ID barang mebelair
    * @return bool|string True jika berhasil, pesan error jika gagal
    */
-  public static function deleteData($conn, $id) {
+  public static function deleteData($conn, $id)
+  {
     $query = "DELETE FROM sarana_mebelair WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
@@ -253,7 +259,8 @@ class SaranaMebelair {
    * @param int $id ID barang mebelair
    * @return array|false Array data atau false jika tidak ditemukan
    */
-  public static function getById($conn, $id) {
+  public static function getById($conn, $id)
+  {
     $query = "SELECT sm.*, 
                  kb.nama_kategori, 
                  b.nama_barang, 
@@ -284,15 +291,18 @@ class SaranaMebelair {
    * @param string $lokasi_baru Lokasi barang yang baru.
    * @return bool True jika berhasil, false jika gagal.
    */
-  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru) {
+  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru, $tanggal_survey_terakhir = null)
+  {
     $query = "UPDATE sarana_mebelair SET 
                   kondisi_barang_id = :kondisi_barang_id, 
-                  lokasi = :lokasi 
+                  lokasi = :lokasi,
+                  tanggal_survey_terakhir = :tanggal_survey_terakhir
                 WHERE no_registrasi = :no_registrasi";
     try {
       $stmt = $conn->prepare($query);
       $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id_baru, PDO::PARAM_INT);
       $stmt->bindParam(':lokasi', $lokasi_baru, PDO::PARAM_STR);
+      $stmt->bindParam(':tanggal_survey_terakhir', $tanggal_survey_terakhir, PDO::PARAM_STR);
       $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
       return $stmt->execute();
     } catch (PDOException $e) {
@@ -308,7 +318,8 @@ class SaranaMebelair {
    * @param string $no_registrasi Nomor Registrasi barang mebelair
    * @return array|false Array data atau false jika tidak ditemukan
    */
-  public static function getByNoRegistrasi($conn, $no_registrasi) {
+  public static function getByNoRegistrasi($conn, $no_registrasi)
+  {
     $query = "SELECT sm.*, 
                  kb.nama_kategori, 
                  b.nama_barang, 

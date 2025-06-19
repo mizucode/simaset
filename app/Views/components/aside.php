@@ -373,7 +373,7 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
         <li class="nav-header">SURVEY</li>
         <?php
         $surveySaranaBasePaths = [
-          '/admin/survey/sarana/sarana-bergerak',
+          '/admin/survey/sarana/survey-barang',
           '/admin/survey/sarana/sarana-mebelair',
           '/admin/survey/sarana/sarana-atk',
           '/admin/survey/sarana/sarana-elektronik'
@@ -396,29 +396,12 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           </a>
           <ul class="nav nav-treeview" style="<?= $isSurveySaranaOpen ? 'display: block;' : '' ?>">
             <li class="nav-item">
-              <a href="/admin/survey/sarana/sarana-bergerak" class="nav-link <?= (strpos($currentUrl, '/admin/survey/sarana/sarana-bergerak') === 0) ? 'active' : '' ?>">
+              <a href="/admin/survey/sarana/survey-barang" class="nav-link <?= (strpos($currentUrl, '/admin/survey/sarana/survey-barang') === 0) ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-truck-moving me-2"></i>
-                <p>Bergerak</p>
+                <p>Sarana</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="/admin/survey/sarana/sarana-mebelair" class="nav-link <?= (strpos($currentUrl, '/admin/survey/sarana/sarana-mebelair') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-chair me-2"></i>
-                <p>Mebelair</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/survey/sarana/sarana-atk" class="nav-link <?= (strpos($currentUrl, '/admin/survey/sarana/sarana-atk') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-pencil-ruler me-2"></i>
-                <p>Alat Tulis Kantor</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/admin/survey/sarana/sarana-elektronik" class="nav-link <?= (strpos($currentUrl, '/admin/survey/sarana/sarana-elektronik') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-plug me-2"></i>
-                <p>Elektronik</p>
-              </a>
-            </li>
+
           </ul>
         </li>
         <!-- LAPORAN -->

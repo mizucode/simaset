@@ -2,8 +2,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-class SaranaBergerak {
-  public static function getAllData($conn) {
+class SaranaBergerak
+{
+  public static function getAllData($conn)
+  {
     $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
                   FROM sarana_bergerak sb
                   JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
@@ -17,7 +19,8 @@ class SaranaBergerak {
       return "Query gagal: " . $e->getMessage();
     }
   }
-  public static function getAllStatus($conn) {
+  public static function getAllStatus($conn)
+  {
     $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
               FROM sarana_bergerak sb
               JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
@@ -33,7 +36,8 @@ class SaranaBergerak {
       return "Query gagal: " . $e->getMessage();
     }
   }
-  public static function getAllStatusTersedia($conn) {
+  public static function getAllStatusTersedia($conn)
+  {
     $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
               FROM sarana_bergerak sb
               JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
@@ -50,7 +54,8 @@ class SaranaBergerak {
     }
   }
 
-  public static function getAllStatusExDipinjam($conn) {
+  public static function getAllStatusExDipinjam($conn)
+  {
     $query = "SELECT sb.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
               FROM sarana_bergerak sb
               JOIN kategori_barang kb ON sb.kategori_barang_id = kb.id
@@ -68,7 +73,8 @@ class SaranaBergerak {
   }
 
 
-  public static function getById($conn, $id) {
+  public static function getById($conn, $id)
+  {
     $query = "SELECT sb.*, 
                      kb.nama_kategori AS kategori, 
                      b.nama_barang AS barang, 
@@ -87,7 +93,8 @@ class SaranaBergerak {
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
-  public static function getByNoRegistrasi($conn, $no_registrasi) {
+  public static function getByNoRegistrasi($conn, $no_registrasi)
+  {
     $query = "SELECT sb.*, 
                      kb.nama_kategori AS kategori, 
                      b.nama_barang AS barang, 
@@ -224,7 +231,8 @@ class SaranaBergerak {
   }
 
 
-  public static function deleteData($conn, $id) {
+  public static function deleteData($conn, $id)
+  {
     $query = "DELETE FROM sarana_bergerak WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
@@ -232,7 +240,8 @@ class SaranaBergerak {
   }
 
   // Method untuk mendapatkan data berdasarkan kategori barang
-  public static function getByKategoriId($conn, $kategori_id) {
+  public static function getByKategoriId($conn, $kategori_id)
+  {
     $query = "SELECT * FROM sarana_bergerak WHERE kategori_barang_id = :kategori_id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':kategori_id', $kategori_id);
@@ -241,7 +250,8 @@ class SaranaBergerak {
   }
 
   // Method untuk mendapatkan data berdasarkan kondisi barang
-  public static function getByKondisiId($conn, $kondisi_id) {
+  public static function getByKondisiId($conn, $kondisi_id)
+  {
     $query = "SELECT * FROM sarana_bergerak WHERE kondisi_barang_id = :kondisi_id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':kondisi_id', $kondisi_id);
@@ -249,7 +259,8 @@ class SaranaBergerak {
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public static function isRegistrationNumberUnique($conn, $registrationNumber) {
+  public static function isRegistrationNumberUnique($conn, $registrationNumber)
+  {
     $sql = "SELECT COUNT(*) FROM sarana_bergerak WHERE no_registrasi = :no_registrasi";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':no_registrasi', $registrationNumber);
@@ -266,15 +277,18 @@ class SaranaBergerak {
    * @param string $lokasi_baru Lokasi barang yang baru.
    * @return bool True jika berhasil, false jika gagal.
    */
-  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru) {
+  public static function updateKondisiLokasiByNoReg($conn, $no_registrasi, $kondisi_barang_id_baru, $lokasi_baru, $tanggal_survey_terakhir = null)
+  {
     $query = "UPDATE sarana_bergerak SET 
                   kondisi_barang_id = :kondisi_barang_id, 
-                  lokasi = :lokasi 
+                  lokasi = :lokasi,
+                  tanggal_survey_terakhir = :tanggal_survey_terakhir
                 WHERE no_registrasi = :no_registrasi";
     try {
       $stmt = $conn->prepare($query);
       $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id_baru, PDO::PARAM_INT);
       $stmt->bindParam(':lokasi', $lokasi_baru, PDO::PARAM_STR);
+      $stmt->bindParam(':tanggal_survey_terakhir', $tanggal_survey_terakhir, PDO::PARAM_STR);
       $stmt->bindParam(':no_registrasi', $no_registrasi, PDO::PARAM_STR);
       return $stmt->execute();
     } catch (PDOException $e) {

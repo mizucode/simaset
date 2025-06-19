@@ -1,7 +1,9 @@
 <?php
 
-class SurveySaranaBergerak {
-  public static function getAllData($conn) {
+class SurveySaranaBergerak
+{
+  public static function getAllData($conn)
+  {
     $query = "SELECT * FROM survey_sarana_bergerak";
 
     try {
@@ -12,7 +14,8 @@ class SurveySaranaBergerak {
       return [];
     }
   }
-  public static function getAllDataInventaris($conn, $survey_id) {
+  public static function getAllDataInventaris($conn, $survey_id)
+  {
     // Asumsi kolom foreign key di data_survey_bb adalah survey_sarana_bergerak_id
     $query = "SELECT * FROM data_survey_bb WHERE survey_sarana_bergerak_id = :survey_id";
 
@@ -27,7 +30,8 @@ class SurveySaranaBergerak {
     }
   }
 
-  public static function getById($conn, $id) {
+  public static function getById($conn, $id)
+  {
     $query = "SELECT * FROM survey_sarana_bergerak WHERE id = :id LIMIT 1";
 
     try {
@@ -105,7 +109,8 @@ class SurveySaranaBergerak {
   }
 
 
-  public static function deleteData($conn, $id) {
+  public static function deleteData($conn, $id)
+  {
     $query = "DELETE FROM survey_sarana_bergerak WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
@@ -118,7 +123,8 @@ class SurveySaranaBergerak {
     $nama_barang,
     $no_registrasi,
     $kondisi,
-    $lokasi
+    $lokasi,
+    $tanggal_survey_terakhir // Tambahan parameter baru
   ) {
     $fields = [
       'survey_sarana_bergerak_id' => $survey_sarana_bergerak_id,
@@ -126,6 +132,7 @@ class SurveySaranaBergerak {
       'no_registrasi'             => $no_registrasi,
       'kondisi'                   => $kondisi,
       'lokasi'                    => $lokasi,
+      'tanggal_survey_terakhir'   => $tanggal_survey_terakhir, // Simpan field baru
     ];
 
     $columns = implode(', ', array_keys($fields));
@@ -142,14 +149,16 @@ class SurveySaranaBergerak {
     }
   }
 
-  public static function deleteDataInventaris($conn, $id) {
+  public static function deleteDataInventaris($conn, $id)
+  {
     $query = "DELETE FROM data_survey_bb WHERE id = :id";
     $stmt = $conn->prepare($query);
     $stmt->bindParam(':id', $id);
     return $stmt->execute();
   }
 
-  public static function getInventarisItemById($conn, $id) {
+  public static function getInventarisItemById($conn, $id)
+  {
     $query = "SELECT * FROM data_survey_bb WHERE id = :id LIMIT 1";
     try {
       $stmt = $conn->prepare($query);

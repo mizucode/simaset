@@ -21,15 +21,15 @@
                   </h3>
 
                   <div class="text-right">
-                    <a href="/admin/survey/sarana/sarana-bergerak?delete=<?= htmlspecialchars($surveyData['id'] ?? '-') ?>"
+                    <a href="/admin/survey/sarana/survey-barang?delete=<?= htmlspecialchars($surveyData['id'] ?? '-') ?>"
                       class="btn btn-danger btn-sm mr-1"
                       onclick="return confirm('Apakah Anda yakin ingin menghapus data survey ini?');">
                       <i class="fas fa-trash mr-1"></i> Hapus
                     </a>
-                    <a href="/admin/survey/sarana/sarana-bergerak?edit=<?= htmlspecialchars($surveyData['id'] ?? '-') ?>" class="btn btn-warning btn-sm mr-1">
+                    <a href="/admin/survey/sarana/survey-barang?edit=<?= htmlspecialchars($surveyData['id'] ?? '-') ?>" class="btn btn-warning btn-sm mr-1">
                       <i class="fas fa-edit mr-1"></i> Edit
                     </a>
-                    <a href="/admin/survey/sarana/sarana-bergerak" class="btn btn-secondary btn-sm ">
+                    <a href="/admin/survey/sarana/survey-barang" class="btn btn-secondary btn-sm ">
                       <i class="fas fa-arrow-left mr-1"></i> Kembali
                     </a>
                   </div>
@@ -91,7 +91,7 @@
 
                 <!-- Tombol Tambah Barang ke Survey -->
                 <div class="mb-3">
-                  <a href="/admin/survey/sarana/sarana-bergerak?tambah-barang=<?= htmlspecialchars($surveyData['id'] ?? '') ?>" class="btn btn-primary btn-sm">
+                  <a href="/admin/survey/sarana/survey-barang?tambah-barang=<?= htmlspecialchars($surveyData['id'] ?? '') ?>" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus mr-1"></i> Tambah Barang ke Survey Ini
                   </a>
                 </div>
@@ -141,7 +141,7 @@
                             </td>
                             <td><?= htmlspecialchars($item['lokasi'] ?? '-') ?></td>
                             <td class="text-center">
-                              <a href="/admin/survey/sarana/sarana-bergerak?delete-barang=<?= htmlspecialchars($item['id']) ?>"
+                              <a href="/admin/survey/sarana/survey-barang?delete-barang=<?= htmlspecialchars($item['id']) ?>"
                                 class="btn btn-xs btn-danger"
                                 onclick="return confirm('Apakah Anda yakin ingin menghapus item barang ini dari survey?');"
                                 title="Hapus Item dari Survey">
