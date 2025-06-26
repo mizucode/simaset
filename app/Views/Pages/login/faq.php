@@ -2,20 +2,17 @@
 <html lang="id" style="scroll-behavior: smooth;">
 
 <head>
-  <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta name="description" content="Sistem Informasi Manajemen Aset Universitas Muhammadiyah Kuningan">
   <link rel="icon" href="img/favicon.png" type="image/png" />
-  <title>SIMASET | UM Kuningan</title>
+  <title>FAQ | SIMASET | UM Kuningan</title>
 
-  <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -45,6 +42,13 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    .sticky-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background-color: white;
+    }
+
     .hover-underline-animation {
       position: relative;
     }
@@ -64,27 +68,37 @@
       width: 100%;
     }
 
-    .floating-alert {
-      z-index: 1000;
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+    }
+
+    .faq-item.active .faq-answer {
+      max-height: 200px;
+      /* Sesuaikan dengan tinggi konten Anda */
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
     }
   </style>
 </head>
 
 <body class="text-gray-700 font-poppins bg-gray-50">
-  <!-- Header -->
   <header class="sticky top-0 z-50 bg-white shadow-header">
     <div class="container mx-auto px-4 lg:px-8 xl:px-16">
       <div class="flex justify-between items-center h-16 lg:h-20">
-        <!-- Logo -->
         <a href="index.html" class="flex items-center space-x-2">
           <img src="img/logo.png" alt="UM Kuningan" class="h-8 md:h-10">
         </a>
 
-        <!-- Desktop Menu -->
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-6">
-          <a href="#beranda" class="px-3 py-2 text-sm font-medium text-primary border-b-2 border-primary">Beranda</a>
+          <a href="/" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Beranda</a>
           <a href="/informasi" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Informasi</a>
-          <a href="/faq" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">FAQ</a>
+          <a href="/faq" class="px-3 py-2 text-sm font-medium text-primary border-b-2 border-primary">FAQ</a>
           <a href="/kontak" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Kontak</a>
 
           <div class="relative ml-4">
@@ -93,118 +107,101 @@
             </button>
             <div id="search_desktop_dropdown" class="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg z-20 hidden">
               <div class="p-3">
-                <input type="text" placeholder="Cari..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                <input type="text" placeholder="Cari aset..." class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
               </div>
             </div>
           </div>
         </nav>
 
-        <!-- Mobile menu button -->
         <button class="md:hidden p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none transition-colors" id="mobile-menu-button">
           <i class="fas fa-bars text-xl" id="menu-icon"></i>
         </button>
       </div>
     </div>
 
-    <!-- Mobile Menu -->
     <div class="md:hidden max-h-0 overflow-hidden transition-all duration-300 ease-in-out" id="mobile-menu">
       <div class="px-4 pt-2 pb-4 space-y-2 bg-gray-50">
-        <a href="index.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-50 text-primary">Beranda</a>
+        <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Beranda</a>
         <a href="/informasi" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Informasi</a>
-        <a href="/faq" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">FAQ</a>
+        <a href="/faq" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-50 text-primary">FAQ</a>
         <a href="/kontak" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Kontak</a>
 
         <div class="relative mt-2">
-          <input type="text" placeholder="Cari..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+          <input type="text" placeholder="Cari aset..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
   <main>
-    <!-- Hero Section -->
-    <section class="py-16 md:py-20 lg:py-32 bg-primary">
-      <div class="container mx-auto px-4 lg:px-32 lg:py-2">
-        <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
-          <!-- Left Content -->
-          <div class="w-full lg:w-7/12 space-y-4 text-center lg:text-left">
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white">Selamat Datang Di SIMASET</h1>
-            <h2 class="text-lg font-semibold text-gray-200">
-              Anda tetap dapat masuk dengan nama pengguna & kata sandi yang sama
-            </h2>
-            <p class="text-gray-300 leading-relaxed">
-              Platform SIMASET hadir sebagai solusi digital dalam pengelolaan aset Universitas Muhammadiyah Kuningan secara efektif, efisien, dan transparan.
-            </p>
-          </div>
+    <section class="bg-gradient-to-r from-primary to-primary-dark text-white py-12">
+      <div class="container mx-auto px-4 lg:px-8 xl:px-16 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions (FAQ)</h1>
+        <p class="text-lg md:text-xl max-w-3xl mx-auto opacity-90">Temukan jawaban untuk pertanyaan yang sering diajukan mengenai sistem manajemen aset kami.</p>
+      </div>
+    </section>
 
-          <!-- Right Content - Login Form -->
-          <div class="w-full lg:w-4/12">
-            <div class="bg-white p-6 sm:p-8 lg:py-16 rounded-sm shadow-xl">
-              <h3 class="text-2xl font-bold text-primary text-center mb-2">Masuk Ke Akun</h3>
-              <p class="text-gray-600 text-center mb-6">Sistem Aset dan Inventori</p>
-
-              <?php if (isset($_SESSION['error'])): ?>
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded">
-                  <?= $_SESSION['error'];
-                  unset($_SESSION['error']); ?>
-                </div>
-              <?php endif; ?>
-
-              <?php
-              if (empty($_SESSION['csrf_token'])) {
-                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-              }
-              $csrf_token = $_SESSION['csrf_token'];
-              ?>
-
-              <form class="space-y-4" action="/login" method="POST">
-                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
-                <div>
-                  <input
-                    name="username"
-                    placeholder="Nama Pengguna"
-                    required
-                    type="text"
-                    value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username']) : '' ?>"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-                </div>
-                <div>
-                  <input
-                    name="password"
-                    placeholder="Kata Sandi"
-                    required
-                    type="password"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-                </div>
-                <div class="flex items-center space-x-4">
-                  <img src="/captcha.php" alt="captcha" style="height:40px; border-radius:4px; border:1px solid #ccc;">
-                  <input name="captcha" placeholder="Kode Captcha" required type="text" maxlength="6" class="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
-                </div>
-
-                <button
-                  type="submit"
-                  class="w-full bg-primary hover:bg-primary-darker text-white font-medium py-3 px-6 rounded-md transition duration-300">
-                  Masuk
-                </button>
-
-                <div class="text-center">
-                  <a href="#" class="text-primary hover:text-primary-darker text-sm font-medium hover:underline">
-                    Panduan Penggunaan Aplikasi SIM
-                  </a>
-                </div>
-              </form>
+    <section class="py-12 md:py-20 bg-gray-50">
+      <div class="container mx-auto px-4 lg:px-8 xl:px-16">
+        <div class="max-w-4xl mx-auto">
+          <div class="space-y-4">
+            <div class="faq-item bg-white rounded-lg shadow-card overflow-hidden">
+              <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
+                <span class="text-lg font-semibold text-gray-800">Apa itu SIMASET UM Kuningan?</span>
+                <i class="fas fa-chevron-down faq-icon text-primary transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer px-6 text-gray-600">
+                <p>SIMASET adalah singkatan dari Sistem Informasi Manajemen Aset. Ini adalah platform digital yang dirancang untuk mengelola, memantau, dan menyediakan informasi mengenai seluruh aset sarana dan prasarana yang dimiliki oleh Universitas Muhammadiyah Kuningan.</p>
+              </div>
             </div>
+
+            <div class="faq-item bg-white rounded-lg shadow-card overflow-hidden">
+              <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
+                <span class="text-lg font-semibold text-gray-800">Siapa saja yang dapat menggunakan SIMASET?</span>
+                <i class="fas fa-chevron-down faq-icon text-primary transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer px-6 text-gray-600">
+                <p>SIMASET dapat diakses oleh seluruh civitas akademika Universitas Muhammadiyah Kuningan, termasuk mahasiswa, dosen, dan staf. Hak akses dan fitur yang tersedia mungkin berbeda tergantung pada peran pengguna.</p>
+              </div>
+            </div>
+
+            <div class="faq-item bg-white rounded-lg shadow-card overflow-hidden">
+              <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
+                <span class="text-lg font-semibold text-gray-800">Bagaimana cara meminjam aset melalui SIMASET?</span>
+                <i class="fas fa-chevron-down faq-icon text-primary transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer px-6 text-gray-600">
+                <p>Untuk meminjam aset, Anda perlu login ke sistem SIMASET menggunakan akun Anda. Setelah itu, cari aset yang ingin dipinjam pada halaman informasi, periksa ketersediaannya, dan ikuti prosedur peminjaman yang tertera. Anda mungkin perlu mengisi formulir peminjaman online dan menunggu persetujuan dari pihak terkait.</p>
+              </div>
+            </div>
+
+            <div class="faq-item bg-white rounded-lg shadow-card overflow-hidden">
+              <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
+                <span class="text-lg font-semibold text-gray-800">Apa yang harus saya lakukan jika aset yang saya pinjam rusak atau hilang?</span>
+                <i class="fas fa-chevron-down faq-icon text-primary transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer px-6 text-gray-600">
+                <p>Jika aset yang Anda pinjam mengalami kerusakan atau hilang, segera laporkan kepada bagian pengelola aset atau melalui fitur pelaporan di SIMASET. Anda akan dipandu mengenai prosedur selanjutnya, yang mungkin meliputi perbaikan atau penggantian sesuai dengan kebijakan universitas yang berlaku.</p>
+              </div>
+            </div>
+
+            <div class="faq-item bg-white rounded-lg shadow-card overflow-hidden">
+              <button class="faq-question w-full text-left p-6 flex justify-between items-center focus:outline-none">
+                <span class="text-lg font-semibold text-gray-800">Bagaimana cara melihat status ketersediaan sebuah aset?</span>
+                <i class="fas fa-chevron-down faq-icon text-primary transition-transform duration-300"></i>
+              </button>
+              <div class="faq-answer px-6 text-gray-600">
+                <p>Anda dapat melihat status ketersediaan aset (Tersedia, Dipinjam, Dalam Perbaikan, dll.) pada halaman 'Informasi Aset'. Gunakan fitur pencarian atau filter untuk menemukan aset yang Anda cari dengan lebih cepat. Status akan diperbarui secara real-time oleh administrator.</p>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Information Section -->
-
   </main>
 
-  <!-- Footer -->
   <footer class="bg-[#002347] text-white pt-12 pb-6">
     <div class="container mx-auto px-4 lg:px-8 xl:px-16">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
@@ -281,24 +278,9 @@
     </div>
   </footer>
 
-  <!-- Back to Top Button -->
   <button id="back-to-top" class="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary-dark">
     <i class="fas fa-arrow-up"></i>
   </button>
-
-  <!-- Notification -->
-  <div id="notification" class="fixed bottom-5 right-5 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg max-w-xs hidden floating-alert">
-    <div class="flex items-start gap-3">
-      <i class="fas fa-info-circle mt-1 text-green-500"></i>
-      <div>
-        <p class="font-bold">Info Penting!</p>
-        <p class="text-sm">Pengisian sampai dengan 12 Februari 2025.</p>
-      </div>
-      <button onclick="closeNotification()" class="ml-4 text-green-500 hover:text-green-700">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-  </div>
 
   <script>
     // Mobile Menu Toggle
@@ -349,14 +331,22 @@
       });
     });
 
-    // Notification
-    function closeNotification() {
-      document.getElementById('notification').classList.add('hidden');
-    }
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
 
-    setTimeout(() => {
-      document.getElementById('notification').classList.remove('hidden');
-    }, 1500);
+    faqItems.forEach(item => {
+      const question = item.querySelector('.faq-question');
+      question.addEventListener('click', () => {
+        // Tutup semua item lain
+        faqItems.forEach(otherItem => {
+          if (otherItem !== item) {
+            otherItem.classList.remove('active');
+          }
+        });
+        // Buka atau tutup item yang diklik
+        item.classList.toggle('active');
+      });
+    });
   </script>
 </body>
 

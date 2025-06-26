@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../app/Controllers/UserController.php';
 
 require 'config/config.php';
 
@@ -17,6 +17,8 @@ class Router
 
     // Pages
     '/informasi' => ['controller' => 'PagesController', 'method' => 'informasi', 'auth' => false],
+    '/faq' => ['controller' => 'PagesController', 'method' => 'faq', 'auth' => false],
+    '/kontak' => ['controller' => 'PagesController', 'method' => 'kontak', 'auth' => false],
 
     // aktifkan untuk menambah user
     // '/superadmin/add' => ['controller' => 'AuthController', 'method' => 'adduser', 'auth' => false],
@@ -102,7 +104,8 @@ class Router
 
     // Barang routes
 
-    '/admin/laporan/total-data-sarana' => ['controller' => 'BarangController', 'method' => 'indexDaftarBarang', 'auth' => true],
+    '/admin/laporan/total-data-sarana' => ['controller' => 'LaporanController', 'method' => 'totalDataSarana', 'auth' => true],
+    '/admin/laporan/kondisi-barang' => ['controller' => 'LaporanController', 'method' => 'kondisiBarang', 'auth' => true],
     '/admin/barang/jenis-barang' => ['controller' => 'JenisBarangController', 'method' => 'index', 'auth' => true],
     '/admin/barang/jenis-barang/tambah' => ['controller' => 'JenisBarangController', 'method' => 'create', 'auth' => true],
     '/admin/barang/kategori-barang' => ['controller' => 'BarangController', 'method' => 'barang', 'auth' => true],
@@ -133,8 +136,10 @@ class Router
     // Laporan routes
 
     '/admin/laporan/total-data-prasarana' => ['controller' => 'LaporanController', 'method' => 'totalDataPrasarana', 'auth' => true],
-    '/admin/laporan/barang-dipinjam' => ['controller' => 'LaporanController', 'method' => 'totalDataPeminjaman', 'auth' => true],
+    '/admin/laporan/riwayat-peminjaman' => ['controller' => 'LaporanController', 'method' => 'totalDataPeminjaman', 'auth' => true],
+    '/admin/laporan/riwayat-pengembalian' => ['controller' => 'LaporanController', 'method' => 'totalDataPengembalian', 'auth' => true],
     '/admin/laporan/barang-rusak' => ['controller' => 'LaporanController', 'method' => 'totalDataBarangRusak', 'auth' => true],
+    '/admin/laporan/kondisi-ruangan' => ['controller' => 'LaporanController', 'method' => 'kondisiRuangan', 'auth' => true],
 
 
 
@@ -151,6 +156,14 @@ class Router
     '/admin/survey/sarana/sarana-elektronik' => ['controller' => 'SurveySaranaElektronikController', 'method' => 'index', 'auth' => true],
     '/admin/survey/sarana/sarana-elektronik/tambah' => ['controller' => 'SurveySaranaElektronikController', 'method' => 'create', 'auth' => true],
 
+    // Route untuk manajemen user (khusus superadmin)
+    '/admin/user' => ['controller' => 'UserController', 'method' => 'index', 'auth' => true],
+    '/admin/user/create' => ['controller' => 'UserController', 'method' => 'create', 'auth' => true],
+    '/admin/user/store' => ['controller' => 'UserController', 'method' => 'store', 'auth' => true],
+    '/admin/user/edit/([0-9]+)' => ['controller' => 'UserController', 'method' => 'edit', 'auth' => true],
+    '/admin/user/update/([0-9]+)' => ['controller' => 'UserController', 'method' => 'update', 'auth' => true],
+    '/admin/user/delete/([0-9]+)' => ['controller' => 'UserController', 'method' => 'delete', 'auth' => true],
+    '/admin/user/audit-login' => ['controller' => 'UserController', 'method' => 'auditLogin', 'auth' => true],
   ];
 
 
@@ -295,8 +308,16 @@ class Router
   }
   private function isAuthenticated()
   {
-    // Implement your authentication check logic here
-    return isset($_SESSION['user']);
+    // Proteksi anti session hijacking
+    if (!isset($_SESSION['user'])) return false;
+    if (!isset($_SESSION['user_agent']) || !isset($_SESSION['user_ip'])) return false;
+    $current_agent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    $current_ip = $_SERVER['REMOTE_ADDR'];
+    if ($_SESSION['user_agent'] !== $current_agent || $_SESSION['user_ip'] !== $current_ip) {
+      session_destroy();
+      return false;
+    }
+    return true;
   }
 
   private function notFound()

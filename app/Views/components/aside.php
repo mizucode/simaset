@@ -411,7 +411,9 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
           '/admin/laporan/total-data-prasarana',
           '/admin/laporan/total-data-sarana',
           '/admin/laporan/barang-dipinjam',
-          '/admin/laporan/barang-rusak'
+          '/admin/laporan/kondisi-barang',
+          '/admin/laporan/kondisi-ruangan',
+          '/admin/laporan/riwayat-pengembalian'
         ];
         $isLaporanOpen = false;
         foreach ($laporanBasePaths as $basePath) {
@@ -443,20 +445,60 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/laporan/barang-dipinjam" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/barang-dipinjam') === 0) ? 'active' : '' ?>">
+              <a href="/admin/laporan/kondisi-barang" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/kondisi-barang') === 0) ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-handshake me-2"></i>
-                <p>Total Data Peminjaman Barang</p>
+                <p>Kondisi Barang</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/laporan/barang-rusak" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/barang-rusak') === 0) ? 'active' : '' ?>">
-                <i class="nav-icon fas fa-handshake me-2"></i>
-                <p>Data Barang Rusak</p>
+              <a href="/admin/laporan/kondisi-ruangan" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/kondisi-ruangan') === 0) ? 'active' : '' ?>">
+                <i class="nav-icon fas fa-building me-2"></i>
+                <p>Kondisi Ruangan</p>
               </a>
             </li>
+            <li class="nav-item">
+              <a href="/admin/laporan/riwayat-peminjaman" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/riwayat-peminjaman ') === 0) ? 'active' : '' ?>">
+                <i class="nav-icon fas fa-handshake me-2"></i>
+                <p>Riwayat Peminjaman</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="/admin/laporan/riwayat-pengembalian" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/riwayat-pengembalian ') === 0) ? 'active' : '' ?>">
+                <i class="nav-icon fas fa-handshake me-2"></i>
+                <p>Riwayat Pengembalian</p>
+              </a>
+            </li>
+
           </ul>
         </li>
-
+        <?php if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmin'): ?>
+          <li class="nav-header">PENGATURAN</li>
+          <li class="nav-item has-treeview <?= (strpos($currentUrl, '/admin/user') === 0) ? 'menu-open' : '' ?>">
+            <a href="#" class="nav-link <?= (strpos($currentUrl, '/admin/user') === 0) ? 'active' : '' ?>">
+              <i class="nav-icon fas fa-users-cog me-2"></i>
+              <p>
+                Pengaturan User
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview" style="<?= (strpos($currentUrl, '/admin/user') === 0) ? 'display: block;' : '' ?>">
+              <li class="nav-item">
+                <a href="/admin/user" class="nav-link <?= ($currentUrl == '/admin/user') ? 'active' : '' ?>">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Manajemen User</p>
+                </a>
+              </li>
+              <?php if (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'superadmin'): ?>
+                <li class="nav-item">
+                  <a href="/admin/user/audit-login" class="nav-link <?= ($currentUrl == '/admin/user/audit-login') ? 'active' : '' ?>">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Audit Login</p>
+                  </a>
+                </li>
+              <?php endif; ?>
+            </ul>
+          </li>
+        <?php endif; ?>
         <!-- Logout -->
         <li class="nav-item mb-5">
           <a href="/logout" class="nav-link">

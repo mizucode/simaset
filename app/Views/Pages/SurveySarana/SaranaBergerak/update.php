@@ -7,8 +7,8 @@
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper mb-5 pt-3 px-4 ">
-      <div class="container-fluid ">
+    <div class="content-wrapper bg-white mb-5 pt-3 px-3">
+      <div class="container-fluid">
         <div class="row justify-content-center ">
           <div class="col-12 ">
             <?php if (!empty($error)) : ?>
@@ -30,20 +30,20 @@
               <?php unset($_SESSION['update']); ?>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
-                  FORMULIR EDIT DATA SURVEY
-                </h1>
+                <h3 class="card-title text-bold">
+                  EDIT DATA SURVEY
+                </h3>
               </div>
-              <form action="/admin/survey/sarana/survey-barang?edit=<?= htmlspecialchars($survey['id']) ?>" method="POST" enctype="multipart/form-data">
+              <form action="/admin/survey/sarana/survey-barang?edit=<?= htmlspecialchars($survey['id']) ?>" method="POST">
 
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12 border-bottom">
                       <div class="border-bottom pb-2 mb-3">
                         <h5 class="text-bold fs-4 text-navy">
-                          SURVEY SARANA BERGERAK
+                          SURVEY SARANA BARANG
                         </h5>
                         <span class="form-text">Silahkan isi data penanggung jawab dan lokasi survey.</span>
                       </div>
@@ -99,7 +99,7 @@
                       <div class="py-4 px-4 mb-4 border rounded-md">
                         <!-- Lokasi Penempatan Barang -->
                         <div class="form-group">
-                          <label for="lokasi)survey" class="fw-bold">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
+                          <label for="lokasi_survey" class="fw-bold">Lokasi Penempatan Barang <span class="text-danger">*</span></label>
                           <select class="form-control select2-custom" id="lokasi_survey" name="lokasi_survey" required>
                             <option value="" disabled <?= !isset($survey['lokasi_survey']) ? 'selected' : '' ?>>Pilih atau ketik lokasi barang</option>
                             <optgroup label="Lapang">
@@ -153,7 +153,7 @@
   <?php include './app/Views/Components/script.php'; ?>
   <script>
     $(document).ready(function() {
-      $('#lokasi').select2({
+      $('#lokasi_survey').select2({
         theme: 'bootstrap4',
         placeholder: "Pilih atau ketik lokasi survey", // Placeholder spesifik untuk lokasi
         allowClear: false,

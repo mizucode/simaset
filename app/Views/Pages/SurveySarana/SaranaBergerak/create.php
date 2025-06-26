@@ -2,13 +2,13 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 
-<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed px-3">
   <div class="wrapper">
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper mb-5 pt-3 px-4 ">
-      <div class="container-fluid ">
+    <div class="content-wrapper bg-white mb-5 pt-3">
+      <div class="container-fluid">
         <div class="row justify-content-center ">
           <div class="col-12 ">
             <?php if (!empty($error)) : ?>
@@ -30,13 +30,14 @@
               <?php unset($_SESSION['update']); ?>
             <?php endif; ?>
 
-            <div class="card bg-">
+            <div class="card">
               <div class="card-header bg-navy mb-3">
-                <h1 class="text-xl font-weight-bold">
+                <h3 class="card-title text-bold">
                   FORMULIR TAMBAH DATA SURVEY
-                </h1>
+                </h3>
               </div>
               <form action="/admin/survey/sarana/survey-barang/tambah" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="id">
 
                 <div class="card-body">
                   <div class="row">
@@ -132,12 +133,12 @@
                   </div>
 
                   <div class="card-footer text-right">
-                    <a href="/admin/prasarana/tanah" class="btn btn-secondary">
+                    <a href="/admin/survey/sarana/survey-barang" class="btn btn-secondary">
                       <span><i class="fas fa-arrow-alt-circle-left mr-2"></i></span>Kembali
                     </a>
                     <button type="submit" class="btn btn-primary" id="submitBtn">
                       <i class="fas fa-save mr-2"></i>
-                      Simpan Data Tanah
+                      Simpan Data Survey
                     </button>
                   </div>
               </form>
@@ -154,7 +155,7 @@
   <script>
     $(document).ready(function() {
       $('#lokasi').select2({
-        theme: 'bootstrap4',
+        theme: 'bootstrap4', // Pastikan tema bootstrap4 diterapkan jika Anda menggunakannya
         placeholder: "Pilih atau ketik lokasi survey", // Placeholder spesifik untuk lokasi
         allowClear: false,
         minimumResultsForSearch: 1,

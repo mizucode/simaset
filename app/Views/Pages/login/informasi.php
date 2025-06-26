@@ -96,8 +96,8 @@
         <nav class="hidden md:flex items-center space-x-1 lg:space-x-6">
           <a href="/" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Beranda</a>
           <a href="/informasi" class="px-3 py-2 text-sm font-medium text-primary border-b-2 border-primary">Informasi</a>
-          <a href="#" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">FAQ</a>
-          <a href="#" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Kontak</a>
+          <a href="/faq" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">FAQ</a>
+          <a href="/kontak" class="px-3 py-2 text-sm font-medium text-gray-600 hover:text-primary hover-underline-animation transition-colors">Kontak</a>
 
           <div class="relative ml-4">
             <button id="search_desktop_button" class="p-2 text-gray-500 hover:text-primary transition-colors">
@@ -122,9 +122,9 @@
     <div class="md:hidden max-h-0 overflow-hidden transition-all duration-300 ease-in-out" id="mobile-menu">
       <div class="px-4 pt-2 pb-4 space-y-2 bg-gray-50">
         <a href="/" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Beranda</a>
-        <a href="informasi_aset.html" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-50 text-primary">Informasi</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">FAQ</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Kontak</a>
+        <a href="/informasi" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-50 text-primary">Informasi</a>
+        <a href="/faq" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">FAQ</a>
+        <a href="/kontak" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-100 hover:text-primary transition-colors">Kontak</a>
 
         <div class="relative mt-2">
           <input type="text" placeholder="Cari aset..." class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">

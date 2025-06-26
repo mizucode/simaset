@@ -67,9 +67,9 @@
                         <th width="15%">Nama Peminjam</th>
                         <th width="15%">Nik/Nidn</th>
                         <th width="15%">No Hp</th>
-                        <th width="10%">Tgl Pinjam</th>
+                        <th width="10%">Tanggal Pengembalian</th>
                         <th width="10%">Tgl Kembali (Rencana)</th>
-                        <th width="15%">Lokasi Peminjaman</th>
+                        <th width="15%">Lokasi Pengembalian</th>
                       </tr>
                     </thead>
                     <tbody>

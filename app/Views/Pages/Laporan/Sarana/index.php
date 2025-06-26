@@ -21,7 +21,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Laporan Prasarana</h1>
+                <h1>Laporan Sarana</h1>
               </div>
               <div class="col-sm-6">
                 <div class="float-sm-right d-flex align-items-center">
@@ -41,7 +41,7 @@
             <!-- Card: Grafik Prasarana -->
             <div class="card shadow-md mb-4" id="grafikPrasaranaCard">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                <h3 class="h4 mb-0">Grafik Perbandingan Total Data Prasarana</h3>
+                <h3 class="h4 mb-0">Grafik Perbandingan Total Data Sarana</h3>
                 <button type="button" class="btn btn-tool ml-auto text-white" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
                 </button>
@@ -58,7 +58,7 @@
             <!-- Card: Tabel Total Data Prasarana -->
             <div class="card shadow-md" id="tabelPrasaranaCard">
               <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                <h3 class="h4 mb-0">Tabel Total Data Prasarana</h3>
+                <h3 class="h4 mb-0">Tabel Total Data Sarana</h3>
                 <button type="button" class="btn btn-tool ml-auto text-white" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
                 </button>
@@ -69,29 +69,29 @@
                     <thead class="bg-light">
                       <tr>
                         <th style="width: 5%" class="text-center">No</th>
-                        <th>Jenis Prasarana</th>
+                        <th>Jenis Sarana</th>
                         <th class="text-center">Total Data</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
                         <td class="text-center">1</td>
-                        <td>Aset Tanah</td>
+                        <td>Sarana Bergerak</td>
                         <td class="text-center"><?= isset($chartData) ? json_decode($chartData, true)['datasets'][0]['data'][0] : 0 ?></td>
                       </tr>
                       <tr>
                         <td class="text-center">2</td>
-                        <td>Aset Bangunan</td>
+                        <td>Sarana Mebelair</td>
                         <td class="text-center"><?= isset($chartData) ? json_decode($chartData, true)['datasets'][0]['data'][1] : 0 ?></td>
                       </tr>
                       <tr>
                         <td class="text-center">3</td>
-                        <td>Aset Ruangan</td>
+                        <td>Sarana ATK</td>
                         <td class="text-center"><?= isset($chartData) ? json_decode($chartData, true)['datasets'][0]['data'][2] : 0 ?></td>
                       </tr>
                       <tr>
                         <td class="text-center">4</td>
-                        <td>Aset Lapang</td>
+                        <td>Sarana Elektronik</td>
                         <td class="text-center"><?= isset($chartData) ? json_decode($chartData, true)['datasets'][0]['data'][3] : 0 ?></td>
                       </tr>
                     </tbody>
@@ -229,7 +229,7 @@
         const contentWidth = pageWidth - (2 * margin);
 
         pdf.setFontSize(18);
-        pdf.text('Laporan Prasarana', pageWidth / 2, pdfPosition, {
+        pdf.text('Laporan Sarana', pageWidth / 2, pdfPosition, {
           align: 'center'
         });
         pdfPosition += 15;
@@ -282,13 +282,13 @@
 
         // Tunggu chart selesai render sebelum export
         setTimeout(function() {
-          addElementToPdf('grafikPrasaranaCard', 'Grafik Perbandingan Total Data Prasarana', pdfPosition)
+          addElementToPdf('grafikPrasaranaCard', 'Grafik Perbandingan Total Data Sarana', pdfPosition)
             .then(newPosition => {
               pdfPosition = newPosition;
-              return addElementToPdf('tabelPrasaranaCard', 'Tabel Total Data Prasarana', pdfPosition);
+              return addElementToPdf('tabelPrasaranaCard', 'Tabel Total Data Sarana', pdfPosition);
             })
             .then(() => {
-              pdf.save('laporan_prasarana.pdf');
+              pdf.save('laporan_sarana.pdf');
             })
             .catch(error => {
               alert('Gagal membuat PDF: ' + error.message);

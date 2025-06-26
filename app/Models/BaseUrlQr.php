@@ -4,7 +4,7 @@ class BaseUrlQr
 {
   public static function BaseUrlQr()
   {
-    $BaseUrlQr = "http://simaset.test";
+    $BaseUrlQr = "https://simaset.umkuningan.ac.id";
     return $BaseUrlQr;
   }
 

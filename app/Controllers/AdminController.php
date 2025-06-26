@@ -2,13 +2,16 @@
 require_once __DIR__ . '/../Models/User.php';
 
 
-class AdminController {
-  private function renderView(string $view, $data = []) {
+class AdminController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Dashboard/{$view}.php";
   }
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $PrasaranaTanah = Tanah::getAllData($conn);
     $PrasaranaBangunan = Gedung::getAllData($conn);
@@ -16,7 +19,7 @@ class AdminController {
     $PrasaranaLapang = Lapang::getAllData($conn);
 
     // Sarana
-   $SaranaBergerak = SaranaBergerak::getAllData($conn);
+    $SaranaBergerak = SaranaBergerak::getAllData($conn);
     $SaranaMebelair = SaranaMebelair::getAllData($conn);
     $SaranaATK = SaranaATK::getAllData($conn);
     $SaranaElektronik = SaranaElektronik::getAllData($conn);
@@ -61,6 +64,43 @@ class AdminController {
       $saranaElektronikDipinjam
     );
 
+    // --- Tambahan: Hitung total peminjaman hari ini dari seluruh sumber data peminjaman ---
+    require_once __DIR__ . '/../Models/PeminjamanBB.php';
+    require_once __DIR__ . '/../Models/PeminjamanATK.php';
+    require_once __DIR__ . '/../Models/PeminjamanMB.php';
+    require_once __DIR__ . '/../Models/PeminjamanELK.php';
+    $peminjamanBB = PeminjamanBB::getAllData($conn) ?: [];
+    $peminjamanATK = PeminjamanATK::getAllData($conn) ?: [];
+    $peminjamanMB = PeminjamanMB::getAllData($conn) ?: [];
+    $peminjamanELK = PeminjamanELK::getAllData($conn) ?: [];
+    $mergedPeminjaman = array_merge($peminjamanBB, $peminjamanATK, $peminjamanMB, $peminjamanELK);
+    $today = date('Y-m-d');
+    $peminjamanHariIni = array_filter($mergedPeminjaman, function ($item) use ($today) {
+      if (!isset($item['tanggal_peminjaman'])) return false;
+      $tanggal = date('Y-m-d', strtotime($item['tanggal_peminjaman']));
+      return $tanggal === $today;
+    });
+    $totalPinjamHariIni = count($peminjamanHariIni);
+    // --- END Tambahan ---
+
+    // --- Tambahan: Hitung total pengembalian hari ini dari seluruh sumber data pengembalian ---
+    require_once __DIR__ . '/../Models/PengembalianBB.php';
+    require_once __DIR__ . '/../Models/PengembalianATK.php';
+    require_once __DIR__ . '/../Models/PengembalianMB.php';
+    require_once __DIR__ . '/../Models/PengembalianELK.php';
+    $pengembalianBB = PengembalianBB::getAllData($conn) ?: [];
+    $pengembalianATK = PengembalianATK::getAllData($conn) ?: [];
+    $pengembalianMB = PengembalianMB::getAllData($conn) ?: [];
+    $pengembalianELK = PengembalianELK::getAllData($conn) ?: [];
+    $mergedPengembalian = array_merge($pengembalianBB, $pengembalianATK, $pengembalianMB, $pengembalianELK);
+    $pengembalianHariIni = array_filter($mergedPengembalian, function ($item) use ($today) {
+      if (!isset($item['tanggal_peminjaman'])) return false;
+      $tanggal = date('Y-m-d', strtotime($item['tanggal_peminjaman']));
+      return $tanggal === $today;
+    });
+    $totalKembaliHariIni = count($pengembalianHariIni);
+    // --- END Tambahan ---
+
     $arrayMerge = array_merge(
       $SaranaBergerak,
       $SaranaMebelair,
@@ -90,17 +130,111 @@ class AdminController {
 
     $totalSaranaDenganStatusDipinjam = count($filteredSaranaDenganStatusDipinjam);
     $totalSaranaRusak = count($saranaRusak);
+    $linkLaporan = [
+      'prasarana' => '/admin/laporan/total-data-prasarana',
+      'sarana' => '/admin/laporan/total-data-sarana',
+      'dipinjam' => '/admin/laporan/barang-dipinjam',
+      'rusak' => '/admin/laporan/kondisi-barang',
+    ];
+
+    // --- Tambahan: Fitur Tidak Ada Aktivitas Terbaru & Aktivitas Terbaru ---
+    $recentActivities = [];
+    $noRecentActivity = false;
+
+    // Gabungkan data peminjaman dan pengembalian hari ini dari seluruh sumber
+    $aktivitasHariIni = [];
+    foreach ($peminjamanBB as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Peminjaman';
+        $item['sumber'] = 'Sarana Bergerak';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($peminjamanATK as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Peminjaman';
+        $item['sumber'] = 'Sarana ATK';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($peminjamanMB as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Peminjaman';
+        $item['sumber'] = 'Sarana Mebelair';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($peminjamanELK as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Peminjaman';
+        $item['sumber'] = 'Sarana Elektronik';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($pengembalianBB as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Pengembalian';
+        $item['sumber'] = 'Sarana Bergerak';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($pengembalianATK as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Pengembalian';
+        $item['sumber'] = 'Sarana ATK';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($pengembalianMB as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Pengembalian';
+        $item['sumber'] = 'Sarana Mebelair';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    foreach ($pengembalianELK as $item) {
+      if (isset($item['tanggal_peminjaman']) && date('Y-m-d', strtotime($item['tanggal_peminjaman'])) === $today) {
+        $item['jenis'] = 'Pengembalian';
+        $item['sumber'] = 'Sarana Elektronik';
+        $item['created_at'] = $item['tanggal_peminjaman'];
+        $aktivitasHariIni[] = $item;
+      }
+    }
+    // Urutkan berdasarkan waktu terbaru
+    usort($aktivitasHariIni, function ($a, $b) {
+      return strtotime($b['created_at']) - strtotime($a['created_at']);
+    });
+    // Ambil maksimal 5 aktivitas terakhir
+    $recentActivities = array_slice($aktivitasHariIni, 0, 5);
+    if ($totalPinjamHariIni == 0 && $totalKembaliHariIni == 0) {
+      $noRecentActivity = true;
+    }
+    // --- END Tambahan ---
+
     $this->renderView('index', [
       'totalPrasaranaData' => $totalPrasaranaData,
       'totalSaranaData' => $totalSaranaData,
       'totalSaranaDipinjam' => $totalSaranaDenganStatusDipinjam, // Mengirim data yang sudah difilter ke view
       'totalSaranaRusak' => $totalSaranaRusak,
       'kondisiAsetChartData' => $kondisiAsetChartData,
+      'linkLaporan' => $linkLaporan,
+      'totalPinjamHariIni' => $totalPinjamHariIni,
+      'totalKembaliHariIni' => $totalKembaliHariIni,
+      'recentActivities' => $recentActivities,
+      'noRecentActivity' => $noRecentActivity,
     ]);
   }
 
 
-  public function devView() {
+  public function devView()
+  {
     global $conn;
     $saranaData = SaranaBergerak::getAllData($conn);
     $this->renderView('test', [
