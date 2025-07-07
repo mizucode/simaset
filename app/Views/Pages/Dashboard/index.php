@@ -9,246 +9,188 @@
 
     <div class="content-wrapper bg-light">
       <div class="content-header px-4">
-        <div class="container-fluid">
-          <div class="row align-items-center mb-4">
-            <div class="col-sm-6">
-              <h1 class="m-0 text-dark d-flex align-items-center">
-                <i class="fas fa-tachometer-alt mr-3 text-primary"></i>
-                Dashboard
-              </h1>
-            </div>
-            <div class="col-sm-6 text-right">
-              <div class="badge badge-primary px-3 py-2 rounded-pill">
+        <div class="container-fluid mx-auto px-2 sm:px-4">
+          <!-- Header Row -->
+          <div class="lg:flex hidden flex-col sm:flex-row items-center justify-between mb-4 gap-2">
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 flex items-center">
+              <i class="fas fa-tachometer-alt mr-2 text-blue-600"></i>
+              Dashboard
+            </h1>
+            <div class="flex-shrink-0">
+              <span class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-full text-sm font-medium">
                 <i class="far fa-calendar-alt mr-2"></i>
                 <?php echo date('l, d F Y'); ?>
-              </div>
+              </span>
             </div>
           </div>
 
           <!-- Welcome Card -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <div class="card bg-gradient-primary border-0 rounded-lg shadow-sm">
-                <div class="card-body p-4">
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="text-white">
-                      <h4 class="mb-1">
-                        <i class="fas fa-user-circle mr-2"></i>
-                        Selamat Datang, <?php echo isset($_SESSION['user']['username']) ? htmlspecialchars($_SESSION['user']['username']) : 'Admin'; ?>!
-                      </h4>
-                      <p class="mb-0 opacity-75">Semoga hari Anda menyenangkan. Berikut ringkasan aktivitas terbaru.</p>
-                    </div>
-                    <div class="text-white opacity-75">
-                      <small>
-                        <i class="fas fa-clock mr-1"></i>
-                        Last login: <?php echo date('d/m/Y H:i'); ?>
-                      </small>
-                    </div>
-                  </div>
-                </div>
+          <div class="mb-4">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl shadow p-5 flex flex-col sm:flex-row justify-between items-center">
+              <div class="text-white mb-3 sm:mb-0">
+                <h4 class="text-lg sm:text-xl font-semibold flex items-center mb-1">
+                  <i class="fas fa-user-circle mr-2"></i>
+                  Selamat Datang, <?php echo isset($_SESSION['user']['username']) ? htmlspecialchars($_SESSION['user']['username']) : 'Admin'; ?>!
+                </h4>
+                <p class="opacity-80 text-sm">Semoga hari Anda menyenangkan. Berikut ringkasan aktivitas terbaru.</p>
+              </div>
+              <div class="text-white opacity-80 text-sm flex items-center">
+                <i class="fas fa-clock mr-1"></i>
+                Last login: <?php echo date('d/m/Y H:i'); ?>
               </div>
             </div>
           </div>
 
           <!-- Quick Stats -->
-          <div class="row mb-4">
-            <div class="col-lg-3 col-md-6 mb-4">
-              <a href="<?= $linkLaporan['prasarana'] ?>" class="text-decoration-none">
-                <div class="card border-0 rounded-lg shadow-hover h-100 transition-300">
-                  <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                      <div class="icon-box bg-primary-light rounded-circle p-3 mr-3">
-                        <i class="fas fa-city text-primary"></i>
-                      </div>
-                      <div>
-                        <h6 class="mb-1 text-muted">Prasarana</h6>
-                        <h3 class="mb-0 font-weight-bold"><?= $totalPrasaranaData['total'] ?? '0' ?></h3>
-                      </div>
-                    </div>
-                  </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-4">
+            <a href="<?= $linkLaporan['prasarana'] ?>" class="block">
+              <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex items-center gap-3 h-full">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100">
+                  <i class="fas fa-city text-blue-600 text-xl"></i>
                 </div>
-              </a>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mb-4">
-              <a href="<?= $linkLaporan['sarana'] ?>" class="text-decoration-none">
-                <div class="card border-0 rounded-lg shadow-hover h-100 transition-300">
-                  <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                      <div class="icon-box bg-success-light rounded-circle p-3 mr-3">
-                        <i class="fas fa-tools text-success"></i>
-                      </div>
-                      <div>
-                        <h6 class="mb-1 text-muted">Sarana</h6>
-                        <h3 class="mb-0 font-weight-bold"><?= $totalSaranaData['total'] ?? '0' ?></h3>
-                      </div>
-                    </div>
-                  </div>
+                <div>
+                  <div class="text-xs text-gray-500">Prasarana</div>
+                  <div class="text-lg font-bold text-gray-800"><?= $totalPrasaranaData['total'] ?? '0' ?></div>
                 </div>
-              </a>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mb-4">
-              <a href="<?= $linkLaporan['dipinjam'] ?>" class="text-decoration-none">
-                <div class="card border-0 rounded-lg shadow-hover h-100 transition-300">
-                  <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                      <div class="icon-box bg-warning-light rounded-circle p-3 mr-3">
-                        <i class="fas fa-people-arrows text-warning"></i>
-                      </div>
-                      <div>
-                        <h6 class="mb-1 text-muted">Dipinjam</h6>
-                        <h3 class="mb-0 font-weight-bold"><?= $totalSaranaDipinjam ?? '0' ?></h3>
-                      </div>
-                    </div>
-                  </div>
+              </div>
+            </a>
+            <a href="<?= $linkLaporan['sarana'] ?>" class="block">
+              <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex items-center gap-3 h-full">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-green-100">
+                  <i class="fas fa-tools text-green-600 text-xl"></i>
                 </div>
-              </a>
-            </div>
-
-            <div class="col-lg-3 col-md-6 mb-4">
-              <a href="<?= $linkLaporan['rusak'] ?>" class="text-decoration-none">
-                <div class="card border-0 rounded-lg shadow-hover h-100 transition-300">
-                  <div class="card-body p-4">
-                    <div class="d-flex align-items-center">
-                      <div class="icon-box bg-danger-light rounded-circle p-3 mr-3">
-                        <i class="fas fa-exclamation-triangle text-danger"></i>
-                      </div>
-                      <div>
-                        <h6 class="mb-1 text-muted">Perlu Perhatian</h6>
-                        <h3 class="mb-0 font-weight-bold"><?= $totalSaranaRusak ?? '0' ?></h3>
-                      </div>
-                    </div>
-                  </div>
+                <div>
+                  <div class="text-xs text-gray-500">Sarana</div>
+                  <div class="text-lg font-bold text-gray-800"><?= $totalSaranaData['total'] ?? '0' ?></div>
                 </div>
-              </a>
-            </div>
+              </div>
+            </a>
+            <a href="<?= $linkLaporan['dipinjam'] ?>" class="block">
+              <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex items-center gap-3 h-full">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-yellow-100">
+                  <i class="fas fa-people-arrows text-yellow-500 text-xl"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-gray-500">Dipinjam</div>
+                  <div class="text-lg font-bold text-gray-800"><?= $totalSaranaDipinjam ?? '0' ?></div>
+                </div>
+              </div>
+            </a>
+            <a href="<?= $linkLaporan['rusak'] ?>" class="block">
+              <div class="bg-white rounded-xl shadow hover:shadow-lg transition p-4 flex items-center gap-3 h-full">
+                <div class="flex items-center justify-center w-12 h-12 rounded-full bg-red-100">
+                  <i class="fas fa-exclamation-triangle text-red-600 text-xl"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-gray-500">Perlu Perhatian</div>
+                  <div class="text-lg font-bold text-gray-800"><?= $totalSaranaRusak ?? '0' ?></div>
+                </div>
+              </div>
+            </a>
           </div>
 
           <!-- Today's Activity -->
-          <div class="row mb-4">
-            <div class="col-md-6 mb-4 mb-md-0">
-              <div class="card border-0 rounded-lg shadow-sm h-100">
-                <div class="card-body p-4">
-                  <div class="d-flex align-items-center mb-4">
-                    <div class="icon-box bg-info-light rounded-circle p-3 mr-3">
-                      <i class="fas fa-arrow-circle-right text-info"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1 text-muted">Peminjaman Hari Ini</h6>
-                      <h3 class="mb-0 font-weight-bold"><?= $totalPinjamHariIni ?? '0' ?></h3>
-                    </div>
-                  </div>
-                  <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: <?= min(($totalPinjamHariIni ?? 0) * 10, 100) ?>%"></div>
-                  </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div class="bg-white rounded-xl shadow p-4 flex flex-col h-full">
+              <div class="flex items-center mb-3">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100 mr-3">
+                  <i class="fas fa-arrow-circle-right text-blue-500 text-lg"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-gray-500">Peminjaman Hari Ini</div>
+                  <div class="text-xl font-bold text-gray-800"><?= $totalPinjamHariIni ?? '0' ?></div>
                 </div>
               </div>
+              <div class="w-full bg-blue-100 rounded-full h-2">
+                <div class="bg-blue-500 h-2 rounded-full" style="width: <?= min(($totalPinjamHariIni ?? 0) * 10, 100) ?>%"></div>
+              </div>
             </div>
-
-            <div class="col-md-6">
-              <div class="card border-0 rounded-lg shadow-sm h-100">
-                <div class="card-body p-4">
-                  <div class="d-flex align-items-center mb-4">
-                    <div class="icon-box bg-success-light rounded-circle p-3 mr-3">
-                      <i class="fas fa-arrow-circle-left text-success"></i>
-                    </div>
-                    <div>
-                      <h6 class="mb-1 text-muted">Pengembalian Hari Ini</h6>
-                      <h3 class="mb-0 font-weight-bold"><?= $totalKembaliHariIni ?? '0' ?></h3>
-                    </div>
-                  </div>
-                  <div class="progress" style="height: 8px;">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: <?= min(($totalKembaliHariIni ?? 0) * 10, 100) ?>%"></div>
-                  </div>
+            <div class="bg-white rounded-xl shadow p-4 flex flex-col h-full">
+              <div class="flex items-center mb-3">
+                <div class="flex items-center justify-center w-10 h-10 rounded-full bg-green-100 mr-3">
+                  <i class="fas fa-arrow-circle-left text-green-500 text-lg"></i>
                 </div>
+                <div>
+                  <div class="text-xs text-gray-500">Pengembalian Hari Ini</div>
+                  <div class="text-xl font-bold text-gray-800"><?= $totalKembaliHariIni ?? '0' ?></div>
+                </div>
+              </div>
+              <div class="w-full bg-green-100 rounded-full h-2">
+                <div class="bg-green-500 h-2 rounded-full" style="width: <?= min(($totalKembaliHariIni ?? 0) * 10, 100) ?>%"></div>
               </div>
             </div>
           </div>
 
           <!-- Recent Activities -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <div class="card border-0 rounded-lg shadow-sm">
-                <div class="card-header bg-white border-0 py-3">
-                  <div class="d-flex align-items-center">
-                    <div class="icon-box bg-info-light rounded-circle p-2 mr-3">
-                      <i class="fas fa-history text-info"></i>
-                    </div>
-                    <h5 class="mb-0">Aktivitas Terbaru</h5>
-                  </div>
+          <div class="mb-4">
+            <div class="bg-white rounded-xl shadow">
+              <div class="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
+                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100">
+                  <i class="fas fa-history text-blue-500"></i>
                 </div>
-                <div class="card-body p-0">
-                  <div class="list-group list-group-flush">
-                    <?php if (!empty($recentActivities)) : ?>
-                      <?php foreach ($recentActivities as $activity) : ?>
-                        <div class="list-group-item border-0 py-3">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                              <div class="d-flex align-items-center">
-                                <div class="avatar-sm bg-light rounded-circle p-2 mr-3">
-                                  <i class="fas fa-tasks text-primary"></i>
-                                </div>
-                                <div>
-                                  <h6 class="mb-1">
-                                    <strong><?= htmlspecialchars($activity['nama_peminjam'] ?? '-') ?></strong>
-                                    meminjam
-                                    <strong><?= htmlspecialchars($activity['nama_barang'] ?? '-') ?></strong>
-                                  </h6>
-                                  <small class="text-muted">
-                                    <i class="far fa-clock mr-1"></i>
-                                    <?= date('d/m/Y H:i', strtotime($activity['created_at'] ?? $activity['tanggal_peminjaman'] ?? '')) ?>
-                                  </small>
-                                </div>
-                              </div>
-                            </div>
-                            <span class="badge badge-pill badge-<?= ($activity['status'] ?? '') == 'Dipinjam' ? 'warning' : 'success' ?> px-3">
-                              <?= htmlspecialchars($activity['status'] ?? '-') ?>
-                            </span>
+                <h5 class="font-semibold text-gray-800 text-base">Aktivitas Terbaru</h5>
+              </div>
+              <div class="divide-y divide-gray-100">
+                <?php if (!empty($recentActivities)) : ?>
+                  <?php foreach ($recentActivities as $activity) : ?>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-3">
+                      <div class="flex items-center mb-2 sm:mb-0">
+                        <div class="flex items-center justify-center w-9 h-9 rounded-full bg-gray-100 mr-3">
+                          <i class="fas fa-tasks text-blue-600"></i>
+                        </div>
+                        <div>
+                          <div class="text-sm font-medium text-gray-700">
+                            <span class="font-semibold"><?= htmlspecialchars($activity['nama_peminjam'] ?? '-') ?></span>
+                            meminjam
+                            <span class="font-semibold"><?= htmlspecialchars($activity['nama_barang'] ?? '-') ?></span>
+                          </div>
+                          <div class="text-xs text-gray-400 flex items-center mt-1">
+                            <i class="far fa-clock mr-1"></i>
+                            <?= date('d/m/Y H:i', strtotime($activity['created_at'] ?? $activity['tanggal_peminjaman'] ?? '')) ?>
                           </div>
                         </div>
-                      <?php endforeach; ?>
-                    <?php elseif (!empty($noRecentActivity) && $noRecentActivity): ?>
-                      <div class="list-group-item border-0 py-4 text-center text-muted">
-                        <i class="fas fa-info-circle fa-2x mb-2"></i><br>
-                        Tidak ada aktivitas terbaru.
                       </div>
-                    <?php endif; ?>
+                      <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold
+                        <?php if (($activity['status'] ?? '') == 'Dipinjam') echo 'bg-yellow-100 text-yellow-700';
+                        else echo 'bg-green-100 text-green-700'; ?>">
+                        <?= htmlspecialchars($activity['status'] ?? '-') ?>
+                      </span>
+                    </div>
+                  <?php endforeach; ?>
+                <?php elseif (!empty($noRecentActivity) && $noRecentActivity): ?>
+                  <div class="px-4 py-6 text-center text-gray-400">
+                    <i class="fas fa-info-circle fa-2x mb-2"></i><br>
+                    Tidak ada aktivitas terbaru.
                   </div>
-                </div>
+                <?php endif; ?>
               </div>
             </div>
           </div>
 
           <!-- Charts Row -->
-          <div class="row mb-4">
-            <div class="col-lg-8 mb-4 mb-lg-0">
-              <div class="card border-0 rounded-lg shadow-sm">
-                <div class="card-header bg-white border-0 py-3">
-                  <div class="d-flex align-items-center">
-                    <div class="icon-box bg-primary-light rounded-circle p-2 mr-3">
-                      <i class="fas fa-chart-pie text-primary"></i>
-                    </div>
-                    <h5 class="mb-0">Distribusi Aset</h5>
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+            <div class="lg:col-span-2">
+              <div class="bg-white rounded-xl shadow p-4 h-full flex flex-col">
+                <div class="flex items-center gap-2 mb-3">
+                  <div class="flex items-center justify-center w-8 h-8 rounded-full bg-blue-100">
+                    <i class="fas fa-chart-pie text-blue-600"></i>
                   </div>
+                  <h5 class="font-semibold text-gray-800 text-base">Distribusi Aset</h5>
                 </div>
-                <div class="card-body">
+                <div class="flex-1 min-h-[200px]">
                   <canvas id="distribusiAsetChart" height="300"></canvas>
                 </div>
               </div>
             </div>
-
-            <div class="col-lg-4">
-              <div class="card border-0 rounded-lg shadow-sm">
-                <div class="card-header bg-white border-0 py-3">
-                  <div class="d-flex align-items-center">
-                    <div class="icon-box bg-success-light rounded-circle p-2 mr-3">
-                      <i class="fas fa-chart-bar text-success"></i>
-                    </div>
-                    <h5 class="mb-0">Kondisi Aset</h5>
+            <div>
+              <div class="bg-white rounded-xl shadow p-4 h-full flex flex-col">
+                <div class="flex items-center gap-2 mb-3">
+                  <div class="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
+                    <i class="fas fa-chart-bar text-green-600"></i>
                   </div>
+                  <h5 class="font-semibold text-gray-800 text-base">Kondisi Aset</h5>
                 </div>
-                <div class="card-body">
+                <div class="flex-1 min-h-[200px]">
                   <canvas id="kondisiBarangPieChart" height="300"></canvas>
                 </div>
               </div>
@@ -256,87 +198,67 @@
           </div>
 
           <!-- Quick Actions -->
-          <div class="row mb-4">
-            <div class="col-12">
-              <div class="card border-0 rounded-lg shadow-sm">
-                <div class="card-header bg-white border-0 py-3">
-                  <div class="d-flex align-items-center">
-                    <div class="icon-box bg-warning-light rounded-circle p-2 mr-3">
-                      <i class="fas fa-plus text-warning"></i>
-                    </div>
-                    <h5 class="mb-0">Tambah Data Barang</h5>
-                  </div>
+          <div class="mb-4">
+            <div class="bg-white rounded-xl shadow">
+              <div class="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
+                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-yellow-100">
+                  <i class="fas fa-plus text-yellow-500"></i>
                 </div>
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-lg-3 col-md-6 mb-4">
-                      <a href="/admin/sarana/bergerak/tambah" class="card border-0 rounded-lg shadow-hover text-decoration-none transition-300">
-                        <div class="card-body text-center p-4">
-                          <div class="icon-box bg-primary-light rounded-circle p-3 mx-auto mb-3">
-                            <i class="fas fa-truck-moving text-primary"></i>
-                          </div>
-                          <h6 class="mb-0">Barang Bergerak</h6>
-                        </div>
-                      </a>
+                <h5 class="font-semibold text-gray-800 text-base">Tambah Data Barang</h5>
+              </div>
+              <div class="p-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <a href="/admin/sarana/bergerak/tambah" class="block group">
+                    <div class="bg-blue-50 rounded-xl shadow hover:shadow-lg transition p-4 text-center flex flex-col items-center">
+                      <div class="flex items-center justify-center w-12 h-12 rounded-full bg-blue-100 mb-2">
+                        <i class="fas fa-truck-moving text-blue-600 text-xl"></i>
+                      </div>
+                      <div class="text-sm font-medium text-gray-700 group-hover:text-blue-700">Barang Bergerak</div>
                     </div>
-
-                    <div class="col-lg-3 col-md-6 mb-4">
-                      <a href="/admin/sarana/mebelair/tambah" class="card border-0 rounded-lg shadow-hover text-decoration-none transition-300">
-                        <div class="card-body text-center p-4">
-                          <div class="icon-box bg-purple-light rounded-circle p-3 mx-auto mb-3">
-                            <i class="fas fa-chair text-purple"></i>
-                          </div>
-                          <h6 class="mb-0">Barang Mebelair</h6>
-                        </div>
-                      </a>
+                  </a>
+                  <a href="/admin/sarana/mebelair/tambah" class="block group">
+                    <div class="bg-purple-50 rounded-xl shadow hover:shadow-lg transition p-4 text-center flex flex-col items-center">
+                      <div class="flex items-center justify-center w-12 h-12 rounded-full bg-purple-100 mb-2">
+                        <i class="fas fa-chair text-purple-600 text-xl"></i>
+                      </div>
+                      <div class="text-sm font-medium text-gray-700 group-hover:text-purple-700">Barang Mebelair</div>
                     </div>
-
-                    <div class="col-lg-3 col-md-6 mb-4">
-                      <a href="/admin/sarana/atk/tambah" class="card border-0 rounded-lg shadow-hover text-decoration-none transition-300">
-                        <div class="card-body text-center p-4">
-                          <div class="icon-box bg-teal-light rounded-circle p-3 mx-auto mb-3">
-                            <i class="fas fa-pencil-ruler text-teal"></i>
-                          </div>
-                          <h6 class="mb-0">Barang ATK</h6>
-                        </div>
-                      </a>
+                  </a>
+                  <a href="/admin/sarana/atk/tambah" class="block group">
+                    <div class="bg-teal-50 rounded-xl shadow hover:shadow-lg transition p-4 text-center flex flex-col items-center">
+                      <div class="flex items-center justify-center w-12 h-12 rounded-full bg-teal-100 mb-2">
+                        <i class="fas fa-pencil-ruler text-teal-600 text-xl"></i>
+                      </div>
+                      <div class="text-sm font-medium text-gray-700 group-hover:text-teal-700">Barang ATK</div>
                     </div>
-
-                    <div class="col-lg-3 col-md-6 mb-4">
-                      <a href="/admin/sarana/elektronik/tambah" class="card border-0 rounded-lg shadow-hover text-decoration-none transition-300">
-                        <div class="card-body text-center p-4">
-                          <div class="icon-box bg-maroon-light rounded-circle p-3 mx-auto mb-3">
-                            <i class="fas fa-plug text-maroon"></i>
-                          </div>
-                          <h6 class="mb-0">Barang Elektronik</h6>
-                        </div>
-                      </a>
+                  </a>
+                  <a href="/admin/sarana/elektronik/tambah" class="block group">
+                    <div class="bg-pink-50 rounded-xl shadow hover:shadow-lg transition p-4 text-center flex flex-col items-center">
+                      <div class="flex items-center justify-center w-12 h-12 rounded-full bg-pink-100 mb-2">
+                        <i class="fas fa-plug text-pink-600 text-xl"></i>
+                      </div>
+                      <div class="text-sm font-medium text-gray-700 group-hover:text-pink-700">Barang Elektronik</div>
                     </div>
-                  </div>
+                  </a>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Calendar -->
-          <div class="row">
-            <div class="col-12">
-              <div class="card border-0 rounded-lg shadow-sm">
-                <div class="card-header bg-white border-0 py-3">
-                  <div class="d-flex align-items-center">
-                    <div class="icon-box bg-danger-light rounded-circle p-2 mr-3">
-                      <i class="far fa-calendar-alt text-danger"></i>
-                    </div>
-                    <h5 class="mb-0">Kalender</h5>
-                  </div>
+          <div>
+            <div class="bg-white rounded-xl shadow">
+              <div class="flex items-center gap-2 px-4 py-3 border-b border-gray-100">
+                <div class="flex items-center justify-center w-8 h-8 rounded-full bg-red-100">
+                  <i class="far fa-calendar-alt text-red-500"></i>
                 </div>
-                <div class="card-body">
-                  <div id="calendar"></div>
-                </div>
+                <h5 class="font-semibold text-gray-800 text-base">Kalender</h5>
+              </div>
+              <div class="p-4">
+                <div id="calendar"></div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

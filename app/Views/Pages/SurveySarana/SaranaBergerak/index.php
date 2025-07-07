@@ -2,7 +2,6 @@
 <html lang="en">
 <?php include './app/Views/Components/head.php'; ?>
 <style>
-  /* Navy Color Scheme */
   .bg-navy {
     background-color: #001f3f !important;
   }
@@ -29,7 +28,6 @@
 
   .input-group-text.bg-navy {
     background-color: #131313;
-    /* Darker for input group text on navy */
     color: white;
     border-color: #001f3f;
   }
@@ -37,6 +35,29 @@
   .form-control.border-navy:focus {
     border-color: #001f3f;
     box-shadow: 0 0 0 0.2rem rgba(0, 31, 63, 0.25);
+  }
+
+  table.dataTable thead th,
+  table.dataTable thead td {
+    white-space: nowrap;
+  }
+
+  /* Tambahan CSS responsif untuk mobile */
+  @media (max-width: 767.98px) {
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    #surveyTable th,
+    #surveyTable td {
+      white-space: nowrap;
+      font-size: 13px;
+      padding: 6px 8px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate {
+      font-size: 13px;
+    }
   }
 </style>
 
@@ -58,13 +79,13 @@
             <?php endif; ?>
 
             <div class="card shadow-md">
-              <div class="card-header bg-navy text-white d-flex justify-content-between align-items-center">
-                <h3 class="h4 mb-0">Data Survey Sarana Bergerak</h3>
-                <div class="ml-auto">
-                  <button type="button" class="btn btn-light btn-sm mr-2" data-toggle="modal" data-target="#filterModal">
+              <div class="card-header bg-navy text-white flex justify-between">
+                <h3 class="h4 mb-0">Data Survey Sarana</h3>
+                <div class="ml-auto flex flex-col gap-2 justify-end md:flex-row">
+                  <button type="button" class="btn btn-light btn-sm" data-toggle="modal" data-target="#filterModal">
                     <i class="fas fa-filter mr-1"></i> Filter Data
                   </button>
-                  <a href="/admin/survey/sarana/survey-barang/tambah" class="btn btn-warning btn-sm text-dark">
+                  <a href="/admin/survey/sarana/survey-barang/tambah" class="btn btn-warning flex align-center btn-sm text-dark">
                     <i class="fas fa-plus mr-1"></i> Tambah Data
                   </a>
                 </div>
@@ -84,23 +105,23 @@
               ?>
               <div class="card-body p-3">
                 <div class="table-responsive">
-                  <table id="surveyTable" class="table table-bordered table-hover" style="width: 100%; min-width: 1200px;">
-                    <thead class="bg-light">
-                      <tr class="text-center text-nowrap">
+                  <table id="surveyTable" class="table table-bordered w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
                         <th width="5%">No</th>
                         <th width="20%">Penanggung Jawab</th>
-                        <th width="15%">Semester</th>
+                        <th width="10%">Semester</th>
                         <th width="15%">Tahun Akademik</th>
                         <th width="15%">Tanggal Pengecekan</th>
                         <th width="20%">Lokasi Survey</th>
-                        <th width="10%">Aksi</th>
+                        <th width="15%">Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php if (!empty($surveyData)) : ?>
                         <?php $counter = 1; ?>
                         <?php foreach ($surveyData as $data) : ?>
-                          <tr class="text-nowrap">
+                          <tr class="align-middle">
                             <td class="text-center"><?= $counter++; ?></td>
                             <td><?= htmlspecialchars($data['penanggung_jawab'] ?? '-'); ?></td>
                             <td class="text-center"><?= htmlspecialchars($data['semester'] ?? '-'); ?></td>
@@ -136,7 +157,6 @@
 
   <?php include './app/Views/Components/script.php'; ?>
 
-  <!-- Modal Filter -->
   <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
@@ -145,12 +165,11 @@
             <i class="fas fa-filter mr-2"></i>Filter Data Survey
           </h5>
           <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
+            <span aria-hidden="true">×</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="container-fluid">
-            <!-- Filter Semester & Tahun Akademik -->
             <div class="card mb-4 border-navy">
               <div class="card-header bg-light-navy">
                 <h6 class="mb-0 font-weight-bold text-navy"><i class="fas fa-calendar-alt mr-2"></i>Periode Survey</h6>
@@ -177,8 +196,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Filter Penanggung Jawab & Lokasi -->
             <div class="card mb-4 border-navy">
               <div class="card-header bg-light-navy">
                 <h6 class="mb-0 font-weight-bold text-navy"><i class="fas fa-info-circle mr-2"></i>Detail Survey</h6>
@@ -201,8 +218,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- Filter Tanggal Pengecekan -->
             <div class="card border-navy">
               <div class="card-header bg-light-navy">
                 <h6 class="mb-0 font-weight-bold text-navy"><i class="far fa-calendar-check mr-2"></i>Tanggal Pengecekan</h6>
@@ -236,24 +251,31 @@
       </div>
     </div>
   </div>
-  <!-- End Modal Filter -->
 
   <script>
-    $(document).ready(function() {
+    $(function() {
       var table = $("#surveyTable").DataTable({
-        "responsive": false, // Changed to false to enable scrollX
-        "scrollX": true, // Enabled horizontal scroll
+        "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
         "paging": true,
         "info": true,
         "searching": true,
-        "ordering": false, // Global ordering disabled
+        "ordering": false,
         "columnDefs": [{
-          "targets": [6],
-          "searchable": false,
-          "orderable": false
-        }],
+            "targets": 0, // No
+            "orderable": false,
+            "searchable": false
+          },
+          {
+            "targets": [6], // Aksi
+            "searchable": false,
+            "orderable": false
+          }
+        ],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+          "<'row'<'col-sm-12'tr>>" +
+          "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -273,32 +295,41 @@
           "aria": {
             "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
             "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
-          }
+          },
+          "searchPlaceholder": "kata kunci pencarian",
+          "thousands": "."
         }
       });
 
-      // Initialize Select2 for filter dropdowns
-      $('#filterSemester').select2({
-        placeholder: "Pilih Semester",
-        allowClear: true, // Allows clearing the selection
-        theme: 'bootstrap4',
-        dropdownParent: $('#filterModal') // Important for Select2 in modals
+      // Auto-increment 'No' column
+      table.on('draw.dt', function() {
+        var PageInfo = table.page.info();
+        table.column(0, {
+          page: 'current'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
       });
 
+      // Filter logic tetap menggunakan yang lama
+      $('#filterSemester').select2({
+        placeholder: "Pilih Semester",
+        allowClear: true,
+        theme: 'bootstrap4',
+        dropdownParent: $('#filterModal')
+      });
       $('#filterTahun').select2({
         placeholder: "Pilih Tahun Akademik",
         allowClear: true,
         theme: 'bootstrap4',
         dropdownParent: $('#filterModal')
       });
-
       $('#filterLokasi').select2({
         placeholder: "Pilih Lokasi Survey",
         allowClear: true,
         theme: 'bootstrap4',
         dropdownParent: $('#filterModal')
       });
-      // Custom filter
       $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
         var semester = $('#filterSemester').val();
         var tahun = $('#filterTahun').val().toLowerCase();
@@ -306,30 +337,19 @@
         var lokasi = $('#filterLokasi').val().toLowerCase();
         var min = $('#filterTanggalMin').val();
         var max = $('#filterTanggalMax').val();
-
         var dataSemester = data[2] ? data[2].toLowerCase() : '';
         var dataTahun = data[3] ? data[3].toLowerCase() : '';
         var dataPenanggung = data[1] ? data[1].toLowerCase() : '';
         var dataLokasi = data[5] ? data[5].toLowerCase() : '';
         var dataTanggal = data[4] ? data[4] : '';
-
-        // Semester
         if (semester && dataSemester !== semester.toLowerCase()) return false;
-        // Tahun Akademik
-        if (tahun && dataTahun !== tahun.toLowerCase()) return false; // Exact match for select
-        // Penanggung Jawab
+        if (tahun && dataTahun !== tahun.toLowerCase()) return false;
         if (penanggung && dataPenanggung.indexOf(penanggung) === -1) return false;
-        // Lokasi
-        if (lokasi && dataLokasi !== lokasi.toLowerCase()) return false; // Exact match for select
-        // Tanggal Pengecekan
+        if (lokasi && dataLokasi !== lokasi.toLowerCase()) return false;
         if (min || max) {
-          if (!dataTanggal || dataTanggal === '-') return false; // No date in cell
-          // Convert table date (DD MMM YYYY) to a comparable format (YYYY-MM-DD or Date object)
-          // Moment.js is good here if available and used consistently.
-          // Assuming moment.js is loaded as per the original target file's script.
-          var cellDate = moment(dataTanggal, 'DD MMM YYYY', true); // Strict parsing
-          if (!cellDate.isValid()) return false; // Invalid date in cell
-
+          if (!dataTanggal || dataTanggal === '-') return false;
+          var cellDate = moment(dataTanggal, 'DD MMM YYYY', true);
+          if (!cellDate.isValid()) return false;
           var filterMinDate = min ? moment(min, 'YYYY-MM-DD') : null;
           var filterMaxDate = max ? moment(max, 'YYYY-MM-DD') : null;
           if (filterMinDate && cellDate.isBefore(filterMinDate)) return false;
@@ -337,16 +357,15 @@
         }
         return true;
       });
-
       $('#applyFiltersBtn').on('click', function() {
         table.draw();
         $('#filterModal').modal('hide');
       });
       $('#resetFiltersBtn').on('click', function() {
-        $('#filterSemester').val('').trigger('change'); // For Select2
-        $('#filterTahun').val('').trigger('change'); // For Select2
+        $('#filterSemester').val('').trigger('change');
+        $('#filterTahun').val('').trigger('change');
         $('#filterPenanggungJawab').val('');
-        $('#filterLokasi').val('').trigger('change'); // For Select2
+        $('#filterLokasi').val('').trigger('change');
         $('#filterTanggalMin').val('');
         $('#filterTanggalMax').val('');
         table.draw();

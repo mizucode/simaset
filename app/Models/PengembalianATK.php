@@ -3,47 +3,50 @@
 class PengembalianATK
 {
   /**
-   * Stores a new loan record for a Sarana Bergerak item.
-   * The item is identified by its registration number and name.
+   * Menyimpan riwayat transaksi (peminjaman atau pengembalian) untuk Sarana ATK.
    *
-   * @param PDO $conn The database connection.
-   * @param string $nomor_registrasi The registration number of the borrowed item.
-   * @param string $nama_barang The name of the borrowed item.
-   * @param string $nama_peminjam The name of the borrower.
-   * @param string $nomor_identitas The identity number of the borrower.
-   * @param string $nomor_hp_peminjam The phone number of the borrower.
-   * @param string $tanggal_peminjaman The date the item was borrowed (e.g., 'YYYY-MM-DD').
-   * @param string $tanggal_rencana_pengembalian The planned return date (e.g., 'YYYY-MM-DD').
-   * @param string $lokasi_penempatan_barang The placement location of the item.
-   * @return bool True on success, false on failure.
+   * @param PDO $conn Koneksi database.
+   * @param string $nomor_registrasi Nomor registrasi barang.
+   * @param string $nama_barang Nama barang.
+   * @param string $nama_peminjam Nama peminjam/pengembali.
+   * @param string $nomor_identitas Nomor identitas peminjam/pengembali.
+   * @param string $nomor_hp_peminjam Nomor HP peminjam/pengembali.
+   * @param string $tanggal_peminjaman Tanggal barang dipinjam.
+   * @param string $tanggal_rencana_pengembalian Tanggal rencana pengembalian.
+   * @param string $lokasi_penempatan_barang Lokasi barang saat transaksi.
+   * @param string $status Status transaksi, contoh: 'Dipinjam' atau 'Dikembalikan'.
+   * @return bool True jika berhasil, false jika gagal.
    */
-  public static function storeData(
+  public static function catatRiwayat(
     PDO $conn,
     string $nomor_registrasi,
     string $nama_barang,
-    string $nama_peminjam,
-    string $nomor_identitas,
-    string $nomor_hp_peminjam,
-    string $tanggal_peminjaman,
-    string $tanggal_rencana_pengembalian,
-    string $lokasi_penempatan_barang
+    ?string $nama_peminjam,
+    ?string $nomor_identitas,
+    ?string $nomor_hp_peminjam,
+    ?string $tanggal_peminjaman,
+    ?string $tanggal_rencana_pengembalian,
+    string $lokasi_penempatan_barang,
+    string $status // 'Dipinjam' atau 'Dikembalikan'
   ): bool {
     try {
+      // Menambahkan kolom tanggal_aktual_pengembalian jika statusnya 'Dikembalikan'
+      $tanggal_aktual_pengembalian = ($status === 'Dikembalikan') ? date('Y-m-d H:i:s') : null;
+
       $stmt = $conn->prepare("
-                INSERT INTO pengembalian_atk (
-                    nomor_registrasi,
-                    nama_barang,
-                    nama_peminjam,
-                    nomor_identitas,
-                    nomor_hp_peminjam,
-                    tanggal_peminjaman,
-                    tanggal_rencana_pengembalian,
-                    lokasi_penempatan_barang,
-                    status -- Default status 'Dipinjam' upon creation
-                ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, 'Dipinjam'
-                )
-            ");
+          INSERT INTO pengembalian_atk (
+              nomor_registrasi,
+              nama_barang,
+              nama_peminjam,
+              nomor_identitas,
+              nomor_hp_peminjam,
+              tanggal_peminjaman,
+              tanggal_rencana_pengembalian,
+              tanggal_aktual_pengembalian,
+              lokasi_penempatan_barang,
+              status
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ");
 
       return $stmt->execute([
         $nomor_registrasi,
@@ -53,32 +56,27 @@ class PengembalianATK
         $nomor_hp_peminjam,
         $tanggal_peminjaman,
         $tanggal_rencana_pengembalian,
-        $lokasi_penempatan_barang
+        $tanggal_aktual_pengembalian,
+        $lokasi_penempatan_barang,
+        $status
       ]);
     } catch (PDOException $e) {
-      // Log the error for debugging purposes
-      error_log("Error saving peminjaman_mb history: " . $e->getMessage());
-      // Depending on requirements, you might want to re-throw or handle differently
-      return false; // Indicate failure to save history
+      error_log("Error saat mencatat riwayat ATK: " . $e->getMessage());
+      return false;
     }
   }
 
   /**
-   * Retrieves all loan records from the peminjaman_bb table.
-   *
-   * @param PDO $conn The database connection.
-   * @return array An array of all loan records, or an empty array on failure or if no records exist.
+   * Mengambil semua data riwayat dari tabel pengembalian_atk.
    */
   public static function getAllData(PDO $conn): array
   {
     try {
-      $stmt = $conn->query("SELECT * FROM pengembalian_atk");
+      $stmt = $conn->query("SELECT * FROM pengembalian_atk ORDER BY created_at DESC");
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-      // Log the error for debugging purposes
-      error_log("Error retrieving peminjaman_mb data: " . $e->getMessage());
-      return []; // Indicate failure or no data
+      error_log("Error mengambil data riwayat ATK: " . $e->getMessage());
+      return [];
     }
   }
-  // Add other methods like getById, updateStatus, etc. if needed later
 }

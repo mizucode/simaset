@@ -124,7 +124,7 @@
   <!-- Main Content -->
   <main>
     <!-- Hero Section -->
-    <section class="py-16 md:py-20 lg:py-32 bg-primary">
+    <section class="py-16 md:py-20 lg:py-32 lg:h-screen bg-primary">
       <div class="container mx-auto px-4 lg:px-32 lg:py-2">
         <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           <!-- Left Content -->
@@ -179,7 +179,7 @@
                 </div>
                 <div class="flex items-center space-x-4">
                   <img src="/captcha.php" alt="captcha" style="height:40px; border-radius:4px; border:1px solid #ccc;">
-                  <input name="captcha" placeholder="Kode Captcha" required type="text" maxlength="6" class="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
+                  <input name="captcha" placeholder="Kode Captcha" required type="text" maxlength="6" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary">
                 </div>
 
                 <button
@@ -188,11 +188,6 @@
                   Masuk
                 </button>
 
-                <div class="text-center">
-                  <a href="#" class="text-primary hover:text-primary-darker text-sm font-medium hover:underline">
-                    Panduan Penggunaan Aplikasi SIM
-                  </a>
-                </div>
               </form>
             </div>
           </div>
@@ -287,7 +282,7 @@
   </button>
 
   <!-- Notification -->
-  <div id="notification" class="fixed bottom-5 right-5 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg max-w-xs hidden floating-alert">
+  <!-- <div id="notification" class="fixed bottom-5 right-5 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded shadow-lg max-w-xs hidden floating-alert">
     <div class="flex items-start gap-3">
       <i class="fas fa-info-circle mt-1 text-green-500"></i>
       <div>
@@ -298,7 +293,7 @@
         <i class="fas fa-times"></i>
       </button>
     </div>
-  </div>
+  </div> -->
 
   <script>
     // Mobile Menu Toggle

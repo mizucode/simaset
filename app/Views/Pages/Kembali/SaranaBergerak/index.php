@@ -70,11 +70,11 @@
                   sort($lokasiOptions);
                 }
                 ?>
-                <div class="table-responsive" style="overflow-x: auto;">
-                  <table id="saranaTable" class="table table-bordered table-hover" style="width: 100%; min-width: 1200px;">
-                    <thead class="bg-light">
-                      <tr class="text-center text-nowrap">
-                        <th>No</th>
+                <div class="table-responsive">
+                  <table id="saranaTable" class="table table-bordered w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th width="5%">No</th>
                         <th>No Registrasi</th>
                         <th>Nama Barang</th>
                         <th>Jenis</th>
@@ -91,7 +91,7 @@
                       <?php if (!empty($saranaData)) : ?>
                         <?php $counter = 1; ?>
                         <?php foreach ($saranaData as $sarana) : ?>
-                          <tr class="text-nowrap">
+                          <tr class="align-middle text-nowrap">
                             <td class="text-center"><?= $counter++; ?></td>
                             <td class="text-center"><?= htmlspecialchars($sarana['no_registrasi'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['nama_detail_barang'] ?? '-'); ?></td>
@@ -119,7 +119,7 @@
                               echo ($tanggal_pengembalian !== '-' && !empty($tanggal_pengembalian) && $tanggal_pengembalian !== '0000-00-00') ? htmlspecialchars(date('d-m-Y', strtotime($tanggal_pengembalian))) : '-';
                               ?>
                             </td>
-                            <td class=""><?= htmlspecialchars($sarana['lokasi'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($sarana['lokasi'] ?? '-'); ?></td>
                             <td class="text-center">
                               <?php $idSarana = $sarana['id_sarana_bergerak'] ?? $sarana['id'] ?? null; ?>
                               <?php if ($idSarana) : ?>
@@ -280,21 +280,17 @@
   </div>
   <?php require_once './app/Views/Components/script.php'; ?>
   <script>
-    // Helper function to parse date dd-mm-yyyy to Date object
     function parseDate(dateStr) {
       if (!dateStr || dateStr === '-') return null;
       var parts = dateStr.split('-');
       if (parts.length === 3) {
-        // Assuming dd-mm-yyyy
         return new Date(parts[2], parts[1] - 1, parts[0]);
       }
       return null;
     }
-    $(document).ready(function() {
-      // Initialize DataTable
+    $(function() {
       var table = $("#saranaTable").DataTable({
-        "responsive": false,
-        "scrollX": true,
+        "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
         "paging": true,
@@ -302,9 +298,13 @@
         "searching": true,
         "ordering": false,
         "columnDefs": [{
-          "targets": [0, 10], // Kolom "No" dan "Aksi" tidak bisa di-sort
-          "orderable": false
+          "targets": 0,
+          "orderable": false,
+          "searchable": false
         }],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+          "<'row'<'col-sm-12'tr>>" +
+          "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -324,10 +324,19 @@
           "aria": {
             "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
             "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
-          }
+          },
+          "searchPlaceholder": "kata kunci pencarian",
+          "thousands": "."
         }
       });
-      // Initialize Select2 for filter dropdowns
+      table.on('draw.dt', function() {
+        var PageInfo = table.page.info();
+        table.column(0, {
+          page: 'current'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
+      });
       $('#filterJenis').select2({
         placeholder: "Pilih Jenis Barang",
         allowClear: true,
@@ -340,25 +349,22 @@
         theme: 'bootstrap4',
         dropdownParent: $('#filterModal')
       });
-      // Custom filtering function for date range
       $.fn.dataTable.ext.search.push(
         function(settings, data, dataIndex) {
           var jenisValue = $('#filterJenis').val();
           var lokasiValue = $('#filterLokasi').val();
-          // Filter jenis dan lokasi
           if (jenisValue && data[3] !== jenisValue) {
             return false;
           }
           if (lokasiValue && data[9] !== lokasiValue) {
             return false;
           }
-          // Filter tanggal
           var min = $('#filterTanggalMin').val();
           var max = $('#filterTanggalMax').val();
-          var cellDatePinjam = data[7]; // Kolom Tanggal Peminjaman
+          var cellDatePinjam = data[7];
           var minKembali = $('#filterTanggalKembaliMin').val();
           var maxKembali = $('#filterTanggalKembaliMax').val();
-          var cellDateKembali = data[8]; // Kolom Tanggal Pengembalian
+          var cellDateKembali = data[8];
           var datePinjam = parseDate(cellDatePinjam);
           var dateKembali = parseDate(cellDateKembali);
           var filterMinDate = min ? new Date(min) : null;
@@ -369,7 +375,6 @@
           if (filterMaxDate) filterMaxDate.setHours(23, 59, 59, 999);
           if (filterMinDateKembali) filterMinDateKembali.setHours(0, 0, 0, 0);
           if (filterMaxDateKembali) filterMaxDateKembali.setHours(23, 59, 59, 999);
-          // Filter tanggal peminjaman
           if (min || max) {
             if (!datePinjam) return false;
             if (min && datePinjam < filterMinDate) {
@@ -379,7 +384,6 @@
               return false;
             }
           }
-          // Filter tanggal pengembalian
           if (minKembali || maxKembali) {
             if (!dateKembali) return false;
             if (minKembali && dateKembali < filterMinDateKembali) {
@@ -392,12 +396,10 @@
           return true;
         }
       );
-      // Apply filters when the "Terapkan Filter" button is clicked
       $('#applyFiltersBtn').on('click', function() {
         table.draw();
         $('#filterModal').modal('hide');
       });
-      // Reset filters when the "Reset Filter" button is clicked
       $('#resetFiltersBtn').on('click', function() {
         $('#filterJenis').val('').trigger('change');
         $('#filterLokasi').val('').trigger('change');
@@ -407,7 +409,6 @@
         $('#filterTanggalKembaliMax').val('');
         table.draw();
       });
-      // Close modal when clicking outside
       $('.modal').on('click', function(e) {
         if ($(e.target).is('.modal')) {
           $(this).modal('hide');

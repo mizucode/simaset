@@ -410,7 +410,7 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
         $laporanBasePaths = [
           '/admin/laporan/total-data-prasarana',
           '/admin/laporan/total-data-sarana',
-          '/admin/laporan/barang-dipinjam',
+          '/admin/laporan/riwayat-peminjaman',
           '/admin/laporan/kondisi-barang',
           '/admin/laporan/kondisi-ruangan',
           '/admin/laporan/riwayat-pengembalian'
@@ -457,13 +457,13 @@ $currentUrl = strtok($_SERVER["REQUEST_URI"], '?'); // Mengambil path URL saat i
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/laporan/riwayat-peminjaman" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/riwayat-peminjaman ') === 0) ? 'active' : '' ?>">
+              <a href="/admin/laporan/riwayat-peminjaman" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/riwayat-peminjaman') === 0) ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-handshake me-2"></i>
                 <p>Riwayat Peminjaman</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="/admin/laporan/riwayat-pengembalian" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/riwayat-pengembalian ') === 0) ? 'active' : '' ?>">
+              <a href="/admin/laporan/riwayat-pengembalian" class="nav-link <?= (strpos($currentUrl, '/admin/laporan/riwayat-pengembalian') === 0) ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-handshake me-2"></i>
                 <p>Riwayat Pengembalian</p>
               </a>

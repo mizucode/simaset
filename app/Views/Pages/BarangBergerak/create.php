@@ -10,7 +10,7 @@ include './app/Views/Components/head.php';
     <?php include './app/Views/Components/navbar.php'; ?>
     <?php include './app/Views/Components/aside.php'; ?>
 
-    <div class="content-wrapper mb-5 pt-3  ">
+    <div class="content-wrapper  bg-white mb-5 pt-3  ">
       <div class="container-fluid">
 
 

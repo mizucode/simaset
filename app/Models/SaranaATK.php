@@ -77,6 +77,23 @@ class SaranaATK
       return "Query gagal: " . $e->getMessage();
     }
   }
+  public static function getAllStatusDipinjam($conn)
+  {
+    $query = "SELECT sa.*, kb.nama_kategori AS kategori, b.nama_barang AS barang, kond.nama_kondisi AS kondisi
+              FROM sarana_atk sa
+              JOIN kategori_barang kb ON sa.kategori_barang_id = kb.id
+              JOIN barang b ON sa.barang_id = b.id
+              JOIN kondisi_barang kond ON sa.kondisi_barang_id = kond.id
+              WHERE sa.status = 'Dipinjam'";
+
+    $stmt = $conn->prepare($query);
+    try {
+      $stmt->execute();
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (Exception $e) {
+      return "Query gagal: " . $e->getMessage();
+    }
+  }
   /**
    * Menyimpan data baru barang ATK
    * 
@@ -153,79 +170,81 @@ class SaranaATK
    * @return bool|string True jika berhasil, pesan error jika gagal
    */
   public static function updateData(
-    $conn,
-    $id,
-    $kategori_barang_id,
-    $barang_id,
-    $kondisi_barang_id,
-    $no_registrasi,
-    $nama_detail_barang,
-    $merk,
-    $spesifikasi,
-    $jumlah,
-    $satuan,
-    $lokasi,
-    $sumber, // Tambahkan parameter sumber
-    $biaya_pembelian,
-    $tanggal_pembelian,
-    $keterangan,
-    $status, // Tambahkan parameter status
-    $nama_peminjam,
-    $identitas_peminjam,
-    $no_hp_peminjam,
-    $tanggal_peminjaman,
-    $tanggal_pengembalian
-  ) {
-    $query = "UPDATE sarana_atk SET
-            kategori_barang_id = :kategori_barang_id,
-            barang_id = :barang_id,
-            kondisi_barang_id = :kondisi_barang_id,
-            no_registrasi = :no_registrasi,
-            nama_detail_barang = :nama_detail_barang,
-            merk = :merk,
-            spesifikasi = :spesifikasi,
-            jumlah = :jumlah,
-            satuan = :satuan,
-            lokasi = :lokasi,
-            sumber = :sumber, 
-            keterangan = :keterangan,
-            biaya_pembelian = :biaya_pembelian,
-            status = :status,
-            tanggal_pembelian = :tanggal_pembelian,
-            nama_peminjam = :nama_peminjam,
-            identitas_peminjam = :identitas_peminjam,
-            no_hp_peminjam = :no_hp_peminjam,
-            tanggal_peminjaman = :tanggal_peminjaman,
-            tanggal_pengembalian = :tanggal_pengembalian,
-            updated_at = CURRENT_TIMESTAMP
-        WHERE id = :id";
-
+    PDO $conn,
+    int $id,
+    int $kategori_barang_id,
+    int $barang_id,
+    int $kondisi_barang_id,
+    string $no_registrasi,
+    string $nama_detail_barang,
+    string $merk,
+    string $spesifikasi,
+    int $jumlah,
+    string $satuan,
+    string $lokasi,
+    ?string $sumber, // <--- PERUBAHAN DI SINI
+    ?float $biaya_pembelian,
+    ?string $tanggal_pembelian,
+    ?string $keterangan, // Direkomendasikan untuk diubah juga
+    // Parameter untuk status dan peminjaman
+    ?string $status,
+    ?string $nama_peminjam,
+    ?string $identitas_peminjam,
+    ?string $no_hp_peminjam,
+    ?string $tanggal_peminjaman,
+    ?string $tanggal_pengembalian
+  ): bool {
     try {
-      $stmt = $conn->prepare($query);
-      $stmt->bindParam(':kategori_barang_id', $kategori_barang_id);
-      $stmt->bindParam(':barang_id', $barang_id);
-      $stmt->bindParam(':kondisi_barang_id', $kondisi_barang_id);
-      $stmt->bindParam(':no_registrasi', $no_registrasi);
-      $stmt->bindParam(':nama_detail_barang', $nama_detail_barang);
-      $stmt->bindParam(':merk', $merk);
-      $stmt->bindParam(':spesifikasi', $spesifikasi);
-      $stmt->bindParam(':jumlah', $jumlah);
-      $stmt->bindParam(':satuan', $satuan);
-      $stmt->bindParam(':keterangan', $keterangan);
-      $stmt->bindParam(':sumber', $sumber);
-      $stmt->bindParam(':lokasi', $lokasi);
-      $stmt->bindParam(':biaya_pembelian', $biaya_pembelian);
-      $stmt->bindParam(':status', $status);
-      $stmt->bindParam(':tanggal_pembelian', $tanggal_pembelian);
-      $stmt->bindParam(':nama_peminjam', $nama_peminjam);
-      $stmt->bindParam(':identitas_peminjam', $identitas_peminjam);
-      $stmt->bindParam(':no_hp_peminjam', $no_hp_peminjam);
-      $stmt->bindParam(':tanggal_peminjaman', $tanggal_peminjaman);
-      $stmt->bindParam(':tanggal_pengembalian', $tanggal_pengembalian);
-      $stmt->bindParam(':id', $id);
-      return $stmt->execute();
+      $stmt = $conn->prepare("
+            UPDATE sarana_atk SET 
+                kategori_barang_id = ?, 
+                barang_id = ?, 
+                kondisi_barang_id = ?, 
+                no_registrasi = ?, 
+                nama_detail_barang = ?, 
+                merk = ?, 
+                spesifikasi = ?, 
+                jumlah = ?, 
+                satuan = ?, 
+                lokasi = ?, 
+                sumber = ?, 
+                biaya_pembelian = ?, 
+                tanggal_pembelian = ?, 
+                keterangan = ?,
+                status = ?, 
+                nama_peminjam = ?, 
+                identitas_peminjam = ?, 
+                no_hp_peminjam = ?, 
+                tanggal_peminjaman = ?, 
+                tanggal_pengembalian = ?
+            WHERE id = ?
+        ");
+
+      return $stmt->execute([
+        $kategori_barang_id,
+        $barang_id,
+        $kondisi_barang_id,
+        $no_registrasi,
+        $nama_detail_barang,
+        $merk,
+        $spesifikasi,
+        $jumlah,
+        $satuan,
+        $lokasi,
+        $sumber,
+        $biaya_pembelian,
+        $tanggal_pembelian,
+        $keterangan,
+        $status,
+        $nama_peminjam,
+        $identitas_peminjam,
+        $no_hp_peminjam,
+        $tanggal_peminjaman,
+        $tanggal_pengembalian,
+        $id
+      ]);
     } catch (PDOException $e) {
-      error_log("Error in SaranaATK::updateData - " . $e->getMessage());
+      error_log("Error updating Sarana ATK: " . $e->getMessage());
       return false;
     }
   }

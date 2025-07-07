@@ -20,6 +20,4 @@
   <link rel="stylesheet" href="/../../AdminLTE-3.2.0/plugins/jsgrid/jsgrid-theme.min.css">
   <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
 
-
-
 </head>

@@ -2,12 +2,40 @@
 
 class SurveySaranaBergerak
 {
-  public static function getAllData($conn)
+  public static function getAllData($conn, $filters = [])
   {
-    $query = "SELECT * FROM survey_sarana_bergerak";
-
+    $query = "SELECT * FROM survey_sarana_bergerak WHERE 1=1";
+    $params = [];
+    if (!empty($filters['penanggung_jawab'])) {
+      $query .= " AND penanggung_jawab LIKE :penanggung_jawab";
+      $params[':penanggung_jawab'] = '%' . $filters['penanggung_jawab'] . '%';
+    }
+    if (!empty($filters['semester'])) {
+      $query .= " AND semester = :semester";
+      $params[':semester'] = $filters['semester'];
+    }
+    if (!empty($filters['tahun_akademik'])) {
+      $query .= " AND tahun_akademik = :tahun_akademik";
+      $params[':tahun_akademik'] = $filters['tahun_akademik'];
+    }
+    if (!empty($filters['tanggal_min'])) {
+      $query .= " AND tanggal_pengecekan >= :tanggal_min";
+      $params[':tanggal_min'] = $filters['tanggal_min'];
+    }
+    if (!empty($filters['tanggal_max'])) {
+      $query .= " AND tanggal_pengecekan <= :tanggal_max";
+      $params[':tanggal_max'] = $filters['tanggal_max'];
+    }
+    if (!empty($filters['lokasi_survey'])) {
+      $query .= " AND lokasi_survey = :lokasi_survey";
+      $params[':lokasi_survey'] = $filters['lokasi_survey'];
+    }
     try {
-      $stmt = $conn->query($query);
+      $stmt = $conn->prepare($query);
+      foreach ($params as $key => $val) {
+        $stmt->bindValue($key, $val);
+      }
+      $stmt->execute();
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
       error_log("Error in SurveySemester::getAllData - " . $e->getMessage());

@@ -1,10 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../Models/SaranaATK.php'; // Changed model
-require_once __DIR__ . '/../Models/BaseUrlQr.php';
-require_once __DIR__ . '/../Models/KategoriBarang.php';
-require_once __DIR__ . '/../Models/Barang.php';
-require_once __DIR__ . '/../Models/KondisiBarang.php';
+require_once __DIR__ . '/../Models/SaranaATK.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/PengembalianATK.php';
@@ -14,130 +10,117 @@ class SaranaATKKembaliController
   private function renderView(string $view, $data = [])
   {
     extract($data);
-    require_once __DIR__ . "/../Views/Pages/Kembali/SaranaATK/{$view}.php"; // Changed view path
+    require_once __DIR__ . "/../Views/Pages/Kembali/SaranaATK/{$view}.php";
   }
-
 
   public function update($id)
   {
     global $conn;
-    $sarana = SaranaATK::getById($conn, $id); // Changed model
-    $kategoriList = KategoriBarang::getAllData($conn);
-    $barangList = Barang::getAllData($conn);
-    $kondisiList = KondisiBarang::getAllData($conn);
+    $sarana = SaranaATK::getById($conn, $id);
     $lapangData = Lapang::getAllData($conn);
     $ruangData = Ruang::getAllData($conn);
 
     if (!$sarana) {
-      $_SESSION['error'] = 'Data sarana ATK tidak ditemukan.'; // Changed message
-      header('Location: /admin/sarana/atk/kembali'); // Changed redirect
+      $_SESSION['error'] = 'Data sarana ATK tidak ditemukan.';
+      header('Location: /admin/sarana/atk/kembali');
       exit();
     }
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $lokasi_baru = $_POST['lokasi'];
+      $status_baru = $_POST['status'];
 
-      $kategori_barang_id = $_POST['kategori_barang_id'] ?? $sarana['kategori_barang_id'];
-      $barang_id = $_POST['barang_id'] ?? $sarana['barang_id'];
-      $kondisi_barang_id = $_POST['kondisi_barang_id'] ?? $sarana['kondisi_barang_id'];
-      $nama_detail_barang = $_POST['nama_detail_barang'] ?? $sarana['nama_detail_barang'];
-      $merk = $_POST['merk'] ?? $sarana['merk'];
-      $spesifikasi = $_POST['spesifikasi'] ?? $sarana['spesifikasi'];
-      $jumlah = $sarana['jumlah'];
-      $satuan = $sarana['satuan'];
-      $lokasi = $_POST['lokasi'];
-      $sumber = $_POST['sumber'] ?? $sarana['sumber'] ?? null; // Tambahkan ini
-      $keterangan = $_POST['keterangan'] ?? $sarana['keterangan'];
-      $biaya_pembelian = $_POST['biaya_pembelian'] ?? $sarana['biaya_pembelian'];
-      $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? $sarana['tanggal_pembelian'];
-
-      $status = $_POST['status'] ?? $sarana['status'] ?? null;
-      $nama_peminjam = $_POST['nama_peminjam'] ?? $sarana['nama_peminjam'] ?? null;
-      $identitas_peminjam = $_POST['identitas_peminjam'] ?? $sarana['identitas_peminjam'] ?? null;
-      $no_hp_peminjam = $_POST['no_hp_peminjam'] ?? $sarana['no_hp_peminjam'] ?? null;
-      $tanggal_peminjaman = $sarana['tanggal_peminjaman'] ?? null; // Ambil dari data existing
-      $tanggal_pengembalian = $_POST['tanggal_pengembalian'] ?? null; // Ambil dari form
+      // --- MULAI PERBAIKAN ---
+      // Menentukan data yang akan dicatat di riwayat.
+      // Prioritas: 1. Data dari Form (POST), 2. Data lama dari DB (sarana), 3. Teks Default.
+      $nama_peminjam_riwayat = !empty($_POST['nama_peminjam']) ? $_POST['nama_peminjam'] : ($sarana['nama_peminjam'] ?? 'Tidak Tercatat');
+      $identitas_riwayat = !empty($_POST['identitas_peminjam']) ? $_POST['identitas_peminjam'] : ($sarana['identitas_peminjam'] ?? 'Tidak Tercatat');
+      $no_hp_riwayat = !empty($_POST['no_hp_peminjam']) ? $_POST['no_hp_peminjam'] : ($sarana['no_hp_peminjam'] ?? 'Tidak Tercatat');
+      // --- AKHIR PERBAIKAN ---
 
       try {
-        // SaranaATK::updateData now handles peminjam details. Status is not handled by this model method.
-        $success = SaranaATK::updateData( // Changed model
+        $conn->beginTransaction();
+
+        $updateSuccess = SaranaATK::updateData(
           $conn,
           $id,
-          $kategori_barang_id,
-          $barang_id,
-          $kondisi_barang_id,
-          $sarana['no_registrasi'], // no_registrasi is not changed
-          $nama_detail_barang,
-          $merk,
-          $spesifikasi,
-          $jumlah, // from $sarana
-          $satuan, // from $sarana
-          $lokasi,
-          $sumber, // Tambahkan parameter sumber
-          $biaya_pembelian,
-          $tanggal_pembelian,
-          $keterangan,
-          $status, // Ditambahkan argumen status
-          $nama_peminjam,
-          $identitas_peminjam,
-          $no_hp_peminjam,
-          $tanggal_peminjaman,
-          $tanggal_pengembalian
+          $sarana['kategori_barang_id'],
+          $sarana['barang_id'],
+          $sarana['kondisi_barang_id'],
+          $sarana['no_registrasi'],
+          $sarana['nama_detail_barang'],
+          $sarana['merk'],
+          $sarana['spesifikasi'],
+          $sarana['jumlah'],
+          $sarana['satuan'],
+          $lokasi_baru,
+          $sarana['sumber'],
+          $sarana['biaya_pembelian'],
+          $sarana['tanggal_pembelian'],
+          $sarana['keterangan'],
+          $status_baru,
+          null,
+          null,
+          null,
+          null,
+          null
         );
 
-        $message = $success ? 'Data sarana ATK berhasil diperbarui.' : 'Gagal memperbarui data sarana ATK.'; // Changed message
-        $_SESSION['update'] = $message;
-
-        // Tambahkan riwayat ke tabel pengembalian_atk jika update berhasil
-        if ($success) {
-          PengembalianATK::storeData(
+        if ($updateSuccess) {
+          // Gunakan variabel yang sudah kita siapkan
+          $riwayatDicatat = PengembalianATK::catatRiwayat(
             $conn,
             $sarana['no_registrasi'],
-            $nama_detail_barang,
-            $nama_peminjam,
-            $identitas_peminjam,
-            $no_hp_peminjam,
-            $tanggal_peminjaman,
-            $tanggal_pengembalian,
-            $lokasi
+            $sarana['nama_detail_barang'],
+            $nama_peminjam_riwayat, // Menggunakan variabel baru
+            $identitas_riwayat,     // Menggunakan variabel baru
+            $no_hp_riwayat,         // Menggunakan variabel baru
+            $sarana['tanggal_peminjaman'],
+            $sarana['tanggal_pengembalian'],
+            $lokasi_baru,
+            'Dikembalikan'
           );
-          header('Location: /admin/sarana/atk/kembali');
-          exit();
+
+          if ($riwayatDicatat) {
+            $conn->commit();
+            $_SESSION['update'] = 'Barang berhasil dikembalikan dan riwayat pengembalian telah dicatat.';
+          } else {
+            $conn->rollBack();
+            $_SESSION['error'] = 'Gagal mencatat riwayat pengembalian. Proses dibatalkan.';
+          }
+        } else {
+          $conn->rollBack();
+          $_SESSION['error'] = 'Gagal memperbarui status sarana ATK. Proses dibatalkan.';
         }
       } catch (PDOException $e) {
+        if ($conn->inTransaction()) {
+          $conn->rollBack();
+        }
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
       }
+
+      header('Location: /admin/sarana/atk');
+      exit();
     }
 
     $this->renderView('update', [
       'sarana' => $sarana,
-      'kategoriList' => $kategoriList,
-      'barangList' => $barangList,
-      'kondisiList' => $kondisiList,
-      "lapangData" => $lapangData,
-      "ruangData" => $ruangData,
+      'lapangData' => $lapangData,
+      'ruangData' => $ruangData,
     ]);
   }
-
-
-
 
   public function index()
   {
     global $conn;
-    $saranaData = SaranaATK::getAllStatus($conn); // Changed model
-
-
-    $this->renderView('index', [
-      'saranaData' => $saranaData,
-    ]);
+    $saranaData = SaranaATK::getAllStatus($conn);
+    $this->renderView('index', ['saranaData' => $saranaData]);
   }
 
   public function indexPeminjaman()
   {
     global $conn;
-    $saranaData = SaranaATK::getAllStatusExDipinjam($conn); // Changed model
-    $this->renderView('indexPeminjaman', [
-      'saranaData' => $saranaData,
-    ]);
+    $saranaData = SaranaATK::getAllStatusExDipinjam($conn);
+    $this->renderView('indexPeminjaman', ['saranaData' => $saranaData]);
   }
 }

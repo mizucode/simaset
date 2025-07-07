@@ -111,12 +111,16 @@
 
                         <div class="py-4 px-4 mb-4 border rounded-md">
                           <div class="form-group">
-                            <label for="no_hp_peminjam" class="fw-bold">Nomor HP Peminjam <span class="text-danger">*</span></label>
+                            <!-- 1. Label 'for' diarahkan ke input yang terlihat (suffix) -->
+                            <label for="no_hp_peminjam_suffix" class="fw-bold">Nomor HP Peminjam <span class="text-danger">*</span></label>
                             <div class="input-group">
                               <div class="input-group-prepend">
                                 <span class="input-group-text">+628</span>
                               </div>
                               <input type="text" class="form-control" id="no_hp_peminjam_suffix" name="no_hp_peminjam_suffix" placeholder="Contoh: 123456789" pattern="[1-9][0-9]{8,11}" title="Masukkan 9-12 digit nomor HP setelah +628, contoh: 123456789" required>
+
+                              <!-- 2. TAMBAHKAN INPUT TERSEMBUNYI INI -->
+                              <input type="hidden" id="no_hp_peminjam" name="no_hp_peminjam">
                             </div>
                             <span class="form-text">Masukkan sisa nomor HP Anda setelah +628 (misal: <code class="text-primary">123456789</code> untuk nomor +628123456789). Pastikan nomor aktif WA.</span>
                           </div>

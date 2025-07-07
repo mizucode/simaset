@@ -68,11 +68,11 @@
                   sort($lokasiOptions);
                 }
                 ?>
-                <div class="table-responsive" style="overflow-x: auto;">
-                  <table id="saranaTable" class="table table-bordered table-hover" style="width: 100%; min-width: 1000px;">
-                    <thead class="bg-light">
-                      <tr class="text-center text-nowrap">
-                        <th>No</th>
+                <div class="table-responsive">
+                  <table id="saranaTable" class="table table-bordered w-100">
+                    <thead class="bg-gray-100">
+                      <tr class="text-center align-middle">
+                        <th width="5%">No</th>
                         <th>No Registrasi</th>
                         <th>Nama Barang</th>
                         <th>Nama Peminjam</th>
@@ -88,7 +88,7 @@
                       <?php if (!empty($saranaData)) : ?>
                         <?php $counter = 1; ?>
                         <?php foreach ($saranaData as $sarana) : ?>
-                          <tr class="text-nowrap">
+                          <tr class="align-middle text-nowrap">
                             <td class="text-center"><?= $counter++; ?></td>
                             <td class="text-center"><?= htmlspecialchars($sarana['no_registrasi'] ?? '-'); ?></td>
                             <td><?= htmlspecialchars($sarana['nama_detail_barang'] ?? '-'); ?></td>
@@ -115,7 +115,7 @@
                               echo ($tanggal_pengembalian !== '-' && !empty($tanggal_pengembalian) && $tanggal_pengembalian !== '0000-00-00') ? htmlspecialchars(date('d-m-Y', strtotime($tanggal_pengembalian))) : '-';
                               ?>
                             </td>
-                            <td class=""><?= htmlspecialchars($sarana['lokasi'] ?? '-'); ?></td>
+                            <td><?= htmlspecialchars($sarana['lokasi'] ?? '-'); ?></td>
                             <td class="text-center">
                               <span class="badge bg-success"><?= htmlspecialchars($sarana['status'] ?? '-'); ?></span>
                             </td>
@@ -259,16 +259,23 @@
       }
       return null;
     }
-    $(document).ready(function() {
+    $(function() {
       var table = $("#saranaTable").DataTable({
-        "responsive": false,
-        "scrollX": true,
+        "responsive": true,
         "lengthChange": true,
         "autoWidth": false,
         "paging": true,
         "info": true,
         "searching": true,
         "ordering": false,
+        "columnDefs": [{
+          "targets": 0,
+          "orderable": false,
+          "searchable": false
+        }],
+        "dom": "<'row'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>" +
+          "<'row'<'col-sm-12'tr>>" +
+          "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         language: {
           "emptyTable": "Tidak ada data yang tersedia pada tabel ini",
           "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ entri",
@@ -288,10 +295,21 @@
           "aria": {
             "sortAscending": ": aktifkan untuk mengurutkan kolom ke atas",
             "sortDescending": ": aktifkan untuk mengurutkan kolom menurun"
-          }
+          },
+          "searchPlaceholder": "kata kunci pencarian",
+          "thousands": "."
         }
       });
-      // Initialize Select2 for filter dropdowns
+      // Auto-increment 'No' column
+      table.on('draw.dt', function() {
+        var PageInfo = table.page.info();
+        table.column(0, {
+          page: 'current'
+        }).nodes().each(function(cell, i) {
+          cell.innerHTML = i + 1 + PageInfo.start;
+        });
+      });
+      // Filter logic tetap menggunakan yang lama
       $('#filterLokasi').select2({
         placeholder: "Pilih Lokasi",
         allowClear: true,

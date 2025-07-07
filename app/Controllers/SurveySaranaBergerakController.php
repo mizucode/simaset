@@ -17,10 +17,20 @@ class SurveySaranaBergerakController
   public function index()
   {
     global $conn;
-    $SurveyData = SurveySaranaBergerak::getAllData($conn);
+    // Ambil filter dari GET
+    $filters = [
+      'penanggung_jawab' => $_GET['penanggung_jawab'] ?? '',
+      'semester' => $_GET['semester'] ?? '',
+      'tahun_akademik' => $_GET['tahun_akademik'] ?? '',
+      'tanggal_min' => $_GET['tanggal_min'] ?? '',
+      'tanggal_max' => $_GET['tanggal_max'] ?? '',
+      'lokasi_survey' => $_GET['lokasi_survey'] ?? '',
+    ];
+    $SurveyData = SurveySaranaBergerak::getAllData($conn, $filters);
 
     $this->renderView('index', [
       'surveyData' => $SurveyData,
+      'filters' => $filters,
     ]);
   }
   public function create()
