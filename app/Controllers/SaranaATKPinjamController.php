@@ -109,7 +109,7 @@ class SaranaATKPinjamController
   public function index()
   {
     global $conn;
-    $saranaData = SaranaATK::getAllStatusExDipinjam($conn);
+    $saranaData = SaranaATK::getAllStatusDipinjam($conn);
     $this->renderView('index', ['saranaData' => $saranaData]);
   }
 

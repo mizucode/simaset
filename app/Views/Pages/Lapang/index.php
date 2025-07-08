@@ -76,7 +76,7 @@
                     <thead class="bg-gray-100">
                       <tr class="text-center align-middle">
                         <th width="5%">No</th>
-                        <th width="15%">Kode Lapang</th>
+                        <th width="15%">Kode Aset</th>
                         <th width="30%">Nama Lapang</th>
                         <th width="20%">Kategori</th>
                         <th width="15%">Status</th>

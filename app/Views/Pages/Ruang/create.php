@@ -70,6 +70,7 @@
                           <select class="form-control" id="jenis_ruangan" name="jenis_ruangan" required>
                             <option value="" disabled selected>Pilih Jenis Ruangan</option>
                             <option value="Ruang Kelas">Ruang Kelas</option>
+                            <option value="Ruang Kantor">Ruang Kantor</option>
                             <option value="Laboratorium">Laboratorium</option>
                             <option value="Ruang Seminar">Ruang Seminar</option>
                             <option value="Ruang Sidang">Ruang Sidang</option>

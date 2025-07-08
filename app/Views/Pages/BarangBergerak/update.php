@@ -77,7 +77,7 @@
                           <!-- Nama Detail Barang -->
                           <div class="form-group">
                             <label for="nama_detail_barang" class="fw-bold">Nama Detail Barang <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="nama_detail_barang" name="nama_detail_barang" value="<?= htmlspecialchars($sarana['nama_detail_barang']) ?>" placeholder="Contoh: Mobil Toyota Avanza" required>
+                            <input type="text" class="form-control" id="nama_detail_barang" name="nama_detail_barang" value="<?= htmlspecialchars($sarana['nama_detail_barang'] ?? '') ?>" placeholder="Contoh: Mobil Toyota Avanza" required>
                             <span class="form-text">Masukkan nama lengkap atau deskriptif untuk sarana bergerak.</span>
                           </div>
                         </div>
@@ -96,7 +96,7 @@
                           <!-- Merk -->
                           <div class="form-group">
                             <label for="merk" class="fw-bold">Merk</label>
-                            <input type="text" class="form-control" id="merk" name="merk" value="<?= htmlspecialchars($sarana['merk']) ?>" placeholder="Contoh: Toyota" required>
+                            <input type="text" class="form-control" id="merk" name="merk" value="<?= htmlspecialchars($sarana['merk'] ?? '') ?>" placeholder="Contoh: Toyota" required>
                             <span class="form-text">Masukkan merk produk jika ada.</span>
                           </div>
                         </div>
@@ -105,7 +105,7 @@
                           <!-- No Polisi -->
                           <div class="form-group">
                             <label for="no_polisi" class="fw-bold">Nomor Polisi</label>
-                            <input type="text" class="form-control" id="no_polisi" name="no_polisi" value="<?= htmlspecialchars($sarana['no_polisi']) ?>" placeholder="Contoh: B 1234 ABC" required>
+                            <input type="text" class="form-control" id="no_polisi" name="no_polisi" value="<?= htmlspecialchars($sarana['no_polisi'] ?? '') ?>" placeholder="Contoh: B 1234 ABC" required>
                             <span class="form-text">Masukkan nomor polisi jika sarana adalah kendaraan.</span>
                           </div>
                         </div>
@@ -114,7 +114,7 @@
                           <!-- Spesifikasi -->
                           <div class="form-group">
                             <label for="spesifikasi" class="fw-bold">Spesifikasi</label>
-                            <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3" placeholder="Masukkan spesifikasi lengkap" required><?= htmlspecialchars($sarana['spesifikasi']) ?></textarea>
+                            <textarea class="form-control" id="spesifikasi" name="spesifikasi" rows="3" placeholder="Masukkan spesifikasi lengkap" required><?= htmlspecialchars($sarana['spesifikasi'] ?? '') ?></textarea>
                             <span class="form-text">Jelaskan spesifikasi teknis sarana.</span>
                           </div>
                         </div>
@@ -188,7 +188,7 @@
                         <div class="py-4 px-4 mb-4 border rounded-md">
                           <div class="form-group">
                             <label for="biaya_pembelian" class="fw-bold">Biaya Pembelian</label>
-                            <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian" value="<?= htmlspecialchars($sarana['biaya_pembelian']) ?>" placeholder="Contoh: 100000000 tanpa titik" required>
+                            <input type="text" class="form-control" id="biaya_pembelian" name="biaya_pembelian" value="<?= htmlspecialchars($sarana['biaya_pembelian'] ?? '') ?>" placeholder="Contoh: 100000000 tanpa titik" required>
                             <span class="form-text">Masukkan harga perolehan sarana dalam rupiah (hanya angka).</span>
                           </div>
                         </div>
@@ -196,7 +196,7 @@
                         <div class="py-4 px-4 mb-4 border rounded-md">
                           <div class="form-group">
                             <label for="tanggal_pembelian" class="fw-bold">Tanggal Pembelian <span class="text-danger">*</span></label>
-                            <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian" value="<?= htmlspecialchars($sarana['tanggal_pembelian']) ?>" required>
+                            <input type="date" class="form-control" id="tanggal_pembelian" name="tanggal_pembelian" value="<?= htmlspecialchars($sarana['tanggal_pembelian'] ?? '') ?>" required>
                             <span class="form-text">Masukkan tanggal perolehan atau pembelian sarana.</span>
                           </div>
                         </div>
@@ -314,7 +314,7 @@
                           <!-- Keterangan -->
                           <div class="form-group">
                             <label for="keterangan" class="fw-bold">Keterangan</label>
-                            <textarea class="form-control" id="keterangan" name="keterangan" rows="2" placeholder="Tambahkan keterangan jika diperlukan"><?= htmlspecialchars($sarana['keterangan']) ?></textarea>
+                            <textarea class="form-control" id="keterangan" name="keterangan" rows="2" placeholder="Tambahkan keterangan jika diperlukan"><?= htmlspecialchars($sarana['keterangan'] ?? '') ?></textarea>
                             <span class="form-text">Tambahkan catatan khusus tentang sarana ini jika ada.</span>
                           </div>
                         </div>

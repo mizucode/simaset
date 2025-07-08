@@ -98,7 +98,7 @@
                         <div class="info-box bg-light mb-3">
                           <span class="info-box-icon bg-success"><i class="fas fa-barcode"></i></span>
                           <div class="info-box-content">
-                            <span class="info-box-number">Kode Ruangan</span>
+                            <span class="info-box-number">Kode Aset</span>
                             <span class="info-box-text"><?= htmlspecialchars($detailData['kode_ruang'] ?? '-') ?></span>
                           </div>
                         </div>

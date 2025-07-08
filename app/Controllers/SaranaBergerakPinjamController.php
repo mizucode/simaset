@@ -2,7 +2,8 @@
 
 require_once __DIR__ . '/../Models/DokumenSaranaBergerak.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
-require_once __DIR__ . '/../Models/PeminjamanBB.php'; // Include the new model
+require_once __DIR__ . '/../Models/RiwayatPeminjaman.php';
+require_once __DIR__ . '/../Models/SaranaBergerak.php'; // Include the new model
 
 class SaranaBergerakPinjamController
 {
@@ -77,12 +78,9 @@ class SaranaBergerakPinjamController
         $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
         $_SESSION['update'] = $message;
 
-        // If the update was successful AND the status is being set to 'Dipinjam',
-        // save the transaction history.
         if ($success && $status === 'Dipinjam') {
-          // Check if required loan fields are present before saving history
           if (!empty($nama_peminjam) && !empty($identitas_peminjam) && !empty($no_hp_peminjam) && !empty($tanggal_peminjaman) && !empty($tanggal_pengembalian)) {
-            $historySuccess = PeminjamanBB::storeData(
+            $historySuccess = RiwayatPeminjaman::storeData(
               $conn,
               $sarana['no_registrasi'], // Pass nomor_registrasi
               $nama_detail_barang,      // Pass nama_barang

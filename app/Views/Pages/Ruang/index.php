@@ -83,7 +83,7 @@
                     <thead class="bg-gray-100">
                       <tr class="text-center align-middle">
                         <th width="5%">No</th>
-                        <th width="12%">Kode Ruang</th>
+                        <th width="12%">Kode Aset</th>
                         <th width="20%">Nama Ruang</th>
                         <th width="15%">Gedung</th>
                         <th width="15%">Jenis Ruangan</th>

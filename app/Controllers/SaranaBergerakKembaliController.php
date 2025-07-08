@@ -2,6 +2,8 @@
 
 require_once __DIR__ . '/../Models/DokumenSaranaBergerak.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
+require_once __DIR__ . '/../Models/RiwayatPengembalian.php';
+
 
 class SaranaBergerakKembaliController
 {
@@ -76,10 +78,8 @@ class SaranaBergerakKembaliController
         $message = $success ? 'Data sarana bergerak berhasil diperbarui.' : 'Gagal memperbarui data sarana bergerak.';
         $_SESSION['update'] = $message;
 
-        // Duplikasi ke riwayat pengembalian_bb jika update berhasil
         if ($success) {
-          require_once __DIR__ . '/../Models/PengembalianBB.php';
-          PengembalianBB::storeData(
+          RiwayatPengembalian::storeData(
             $conn,
             $sarana['no_registrasi'],
             $nama_detail_barang,
@@ -87,8 +87,9 @@ class SaranaBergerakKembaliController
             $identitas_peminjam,
             $no_hp_peminjam,
             $tanggal_peminjaman,
-            $tanggal_pengembalian, // asumsikan ini sebagai tanggal rencana pengembalian
-            $lokasi
+            $tanggal_pengembalian,
+            $lokasi,
+            $status
           );
           header('Location: /admin/sarana/bergerak/kembali');
           exit();
@@ -122,7 +123,7 @@ class SaranaBergerakKembaliController
     ]);
   }
 
-  public function indexPeminjaman()
+  public function indexPengembalian()
   {
     global $conn;
     $saranaData = SaranaBergerak::getAllStatusExDipinjam($conn);

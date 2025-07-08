@@ -17,6 +17,8 @@ require_once __DIR__ . '/../Models/SaranaBergerak.php';
 require_once __DIR__ . '/../Models/SaranaMebelair.php';
 require_once __DIR__ . '/../Models/SaranaATK.php';
 require_once __DIR__ . '/../Models/SaranaElektronik.php';
+require_once __DIR__ . '/../Models/RiwayatPeminjaman.php';
+
 
 class LaporanController
 {
@@ -94,37 +96,10 @@ class LaporanController
   public function totalDataPeminjaman()
   {
     global $conn;
-    $peminjamanBB = PeminjamanBB::getAllData($conn) ?: [];
-    $peminjamanATK = PeminjamanATK::getAllData($conn) ?: [];
-    $peminjamanMB = PeminjamanMB::getAllData($conn) ?: [];
-    $peminjamanELK = PeminjamanELK::getAllData($conn) ?: [];
-
-    $mergedData = array_merge(
-      $this->formatPeminjamanData($peminjamanBB, 'BB'),
-      $this->formatPeminjamanData($peminjamanATK, 'ATK'),
-      $this->formatPeminjamanData($peminjamanMB, 'MB'),
-      $this->formatPeminjamanData($peminjamanELK, 'ELK')
-    );
-
-    $filteredData = array_filter($mergedData, function ($item) {
-      return is_array($item) &&
-        isset($item['nomor_registrasi']) &&
-        isset($item['nama_barang']) &&
-        isset($item['nama_peminjam']);
-    });
-
-    $filteredData = array_map(function ($item) {
-      if (!empty($item['tanggal_peminjaman'])) {
-        $item['tanggal_peminjaman'] = date('Y-m-d', strtotime($item['tanggal_peminjaman']));
-      }
-      if (!empty($item['tanggal_rencana_pengembalian'])) {
-        $item['tanggal_rencana_pengembalian'] = date('Y-m-d', strtotime($item['tanggal_rencana_pengembalian']));
-      }
-      return $item;
-    }, $filteredData);
+    $saranaData = RiwayatPeminjaman::getAllData($conn);
 
     $this->renderView('BarangDipinjam/index', [
-      'saranaData' => array_values($filteredData)
+      'saranaData' => $saranaData
     ]);
   }
 

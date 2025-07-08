@@ -40,8 +40,8 @@
                     <div class="info-box bg-light">
                       <span class="info-box-icon bg-info"><i class="fas fa-barcode"></i></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Kode Aset</span>
-                        <span class="info-box-number"><?= htmlspecialchars($detailData['kode_aset'] ?? '-') ?></span>
+                        <span class="info-box-number">Kode Aset</span>
+                        <span class="info-box-text"><?= htmlspecialchars($detailData['kode_aset'] ?? '-') ?></span>
                       </div>
                     </div>
                   </div>
@@ -49,8 +49,8 @@
                     <div class="info-box bg-light">
                       <span class="info-box-icon bg-danger"><i class="fas fa-id-card"></i></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Nomor Sertifikat</span>
-                        <span class="info-box-number"><?= htmlspecialchars($detailData['nomor_sertifikat']) ?></span>
+                        <span class="info-box-number">Nomor Sertifikat</span>
+                        <span class="info-box-text"><?= htmlspecialchars($detailData['nomor_sertifikat']) ?></span>
                       </div>
                     </div>
                   </div>
@@ -60,8 +60,8 @@
                     <div class="info-box bg-light">
                       <span class="info-box-icon bg-success"><i class="fas fa-map-marked-alt"></i></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Nama Aset</span>
-                        <span class="info-box-number"><?= htmlspecialchars($detailData['nama_aset']) ?></span>
+                        <span class="info-box-number">Nama Aset</span>
+                        <span class="info-box-text"><?= htmlspecialchars($detailData['nama_aset']) ?></span>
                       </div>
                     </div>
                   </div>
@@ -69,8 +69,8 @@
                     <div class="info-box bg-light">
                       <span class="info-box-icon bg-secondary"><i class="fas fa-calendar-alt"></i></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Tanggal Pajak</span>
-                        <span class="info-box-number"><?= htmlspecialchars($detailData['tgl_pajak']) ?></span>
+                        <span class="info-box-number">Tanggal Pajak</span>
+                        <span class="info-box-text"><?= htmlspecialchars($detailData['tgl_pajak']) ?></span>
                       </div>
                     </div>
                   </div>
@@ -80,8 +80,8 @@
                     <div class="info-box bg-light">
                       <span class="info-box-icon bg-warning"><i class="fas fa-ruler-combined"></i></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Luas Tanah</span>
-                        <span class="info-box-number"><?= htmlspecialchars($detailData['luas']) ?> m²</span>
+                        <span class="info-box-number">Luas Tanah</span>
+                        <span class="info-box-text"><?= htmlspecialchars($detailData['luas']) ?> m²</span>
                       </div>
                     </div>
                   </div>
@@ -89,8 +89,8 @@
                     <div class="info-box bg-light">
                       <span class="info-box-icon bg-purple"><i class="fas fa-sitemap"></i></span>
                       <div class="info-box-content">
-                        <span class="info-box-text">Jenis Aset</span>
-                        <span class="info-box-number"><?= htmlspecialchars($detailData['jenis_aset'] ?? '-') ?></span>
+                        <span class="info-box-number">Jenis Aset</span>
+                        <span class="info-box-text"><?= htmlspecialchars($detailData['jenis_aset'] ?? '-') ?></span>
                       </div>
                     </div>
                   </div>
