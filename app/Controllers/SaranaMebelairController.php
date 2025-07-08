@@ -10,13 +10,16 @@ require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 
 
-class SaranaMebelairController {
-  private function renderView(string $view, $data = []) {
+class SaranaMebelairController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/BarangMebeler/{$view}.php";
   }
 
-  public function create() {
+  public function create()
+  {
     global $conn;
     $kategoriList = KategoriBarang::getAllData($conn);
     $barangList = Barang::getAllData($conn);
@@ -43,7 +46,7 @@ class SaranaMebelairController {
       $keterangan = !empty($_POST['keterangan']) ? $_POST['keterangan'] : null;
       $tanggal_pembelian = $_POST['tanggal_pembelian'] ?? null;
       $biaya_pembelian = $_POST['biaya_pembelian'] ?? null;
-      $status = 'Tersedia';
+      $status = 'Terpakai';
       $nama_peminjam = null;
       $identitas_peminjam = null;
       $no_hp_peminjam = null;
@@ -105,7 +108,8 @@ class SaranaMebelairController {
     ]);
   }
 
-  public function update($identifier) {
+  public function update($identifier)
+  {
     global $conn;
     $sarana = null;
     $actual_id = null;
@@ -208,7 +212,8 @@ class SaranaMebelairController {
     ]);
   }
 
-  private function generateUniqueRegistrationNumber($conn, $barangId, $tanggal_pembelian, $barangList) {
+  private function generateUniqueRegistrationNumber($conn, $barangId, $tanggal_pembelian, $barangList)
+  {
     $year = $tanggal_pembelian ? date('Y', strtotime($tanggal_pembelian)) : date('Y');
     $barangCode = 'MBL';
 
@@ -230,7 +235,8 @@ class SaranaMebelairController {
     return $registrationNumber;
   }
 
-  public function delete() {
+  public function delete()
+  {
     if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
       global $conn;
       $id = $_GET['delete'];
@@ -247,7 +253,8 @@ class SaranaMebelairController {
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaMebelair::getAllData($conn);
     $this->delete();
@@ -267,7 +274,8 @@ class SaranaMebelairController {
 
 
 
-  public function dokumen($id) {
+  public function dokumen($id)
+  {
     global $conn;
     $mebelairData = SaranaMebelair::getById($conn, $id);
     if (!$mebelairData) {
@@ -332,7 +340,8 @@ class SaranaMebelairController {
     $this->renderView('Dokumen/create', ['mebelairData' => $mebelairData]);
   }
 
-  public function downloadDokumen($id) {
+  public function downloadDokumen($id)
+  {
     global $conn;
     $dokumen = DokumenSaranaMebelair::getDokumenById($conn, $id);
 
@@ -368,7 +377,8 @@ class SaranaMebelairController {
     exit;
   }
 
-  public function deleteDokumen() {
+  public function deleteDokumen()
+  {
     if (isset($_GET['delete-dokumen']) && is_numeric($_GET['delete-dokumen'])) {
       global $conn;
       $id = $_GET['delete-dokumen'];
@@ -390,7 +400,8 @@ class SaranaMebelairController {
     }
   }
 
-  public function dokumenGambar($id) {
+  public function dokumenGambar($id)
+  {
     global $conn;
     $mebelairData = SaranaMebelair::getById($conn, $id);
     if (!$mebelairData) {
@@ -464,7 +475,8 @@ class SaranaMebelairController {
     $this->renderView('Dokumen/createFoto', ['mebelairData' => $mebelairData]);
   }
 
-  public function previewFileDokumen($id) {
+  public function previewFileDokumen($id)
+  {
     global $conn;
     $dokumen = DokumenSaranaMebelair::getDokumenById($conn, $id);
 
@@ -501,7 +513,8 @@ class SaranaMebelairController {
     exit;
   }
 
-  public function previewDokumen($id) {
+  public function previewDokumen($id)
+  {
     global $conn;
     $dokumen = DokumenSaranaMebelair::getDokumenGambarById($conn, $id);
 
@@ -532,7 +545,8 @@ class SaranaMebelairController {
     exit;
   }
 
-  public function deleteDokumentasi() {
+  public function deleteDokumentasi()
+  {
     if (isset($_GET['delete-gambar']) && is_numeric($_GET['delete-gambar'])) {
       global $conn;
       $id = $_GET['delete-gambar'];
@@ -554,7 +568,8 @@ class SaranaMebelairController {
     }
   }
 
-  public function detail($identifier) {
+  public function detail($identifier)
+  {
     global $conn;
     $detailData = null;
     $id_for_related_data = null;
@@ -608,7 +623,8 @@ class SaranaMebelairController {
   }
 
 
-  public function downloadAllQr() {
+  public function downloadAllQr()
+  {
     global $conn;
     $saranaData = SaranaMebelair::getAllData($conn);
     $BaseUrlQr = BaseUrlQr::BaseUrlQr();

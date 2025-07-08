@@ -89,10 +89,10 @@ class SaranaBergerakPinjamController
               $no_hp_peminjam,
               $tanggal_peminjaman,
               $tanggal_pengembalian, // Use as planned return date
-              $lokasi                   // Pass lokasi_penempatan_barang
+              $lokasi,
+              $status                   // Pass lokasi_penempatan_barang
             );
           } else {
-            // Optionally log a warning if status is Dipinjam but loan details are missing
             error_log("Warning: Sarana ID {$id} status set to Dipinjam, but loan details are incomplete. History not saved.");
           }
         }

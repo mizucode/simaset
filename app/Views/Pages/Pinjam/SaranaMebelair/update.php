@@ -50,6 +50,7 @@
                 <input type="hidden" name="tanggal_pembelian" value="<?= htmlspecialchars($sarana['tanggal_pembelian']) ?>">
                 <input type="hidden" name="keterangan" value="<?= htmlspecialchars($sarana['keterangan']) ?>">
 
+
                 <div class="card-body">
                   <div class="row">
                     <div class="col-12"> <!-- Wrapper for all sections -->
@@ -112,9 +113,14 @@
                         <div class="py-4 px-4 mb-4 border rounded-md">
                           <div class="form-group">
                             <label for="no_hp_peminjam" class="fw-bold">Nomor HP Peminjam <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="no_hp_peminjam" name="no_hp_peminjam"
-                              placeholder="Contoh: 081234567890" required>
-                            <span class="form-text">Masukan nomor hp peminjam dan harus aktif wa.</span>
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text">+628</span>
+                              </div>
+                              <input type="text" class="form-control" id="no_hp_peminjam_suffix" name="no_hp_peminjam_suffix" placeholder="Contoh: 123456789" pattern="[1-9][0-9]{8,11}" title="Masukkan 9-12 digit nomor HP setelah +628, contoh: 123456789" required>
+                            </div>
+                            <span class="form-text">Masukkan sisa nomor HP Anda setelah +628 (misal: <code class="text-primary">123456789</code> untuk nomor +628123456789). Pastikan nomor aktif WA.</span>
+                            <input type="hidden" id="no_hp_peminjam" name="no_hp_peminjam">
                           </div>
                         </div>
                       </div>
@@ -132,7 +138,7 @@
                           <div class="form-group">
                             <label for="tanggal_peminjaman" class="fw-bold">Tanggal Peminjaman <span class="text-danger">*</span></label>
                             <input type="date" class="form-control" id="tanggal_peminjaman" name="tanggal_peminjaman"
-                              value="<?= htmlspecialchars($sarana['tanggal_peminjaman'] ?? date('Y-m-d')) ?>" required>
+                              value="" required>
                             <span class="form-text">Masukkan tanggal barang ini dipinjam.</span>
                           </div>
                         </div>
@@ -141,7 +147,7 @@
                           <div class="form-group">
                             <label for="tanggal_pengembalian" class="fw-bold">Tanggal Rencana Pengembalian <span class="text-danger">*</span></label>
                             <input type="date" class="form-control" id="tanggal_pengembalian" name="tanggal_pengembalian"
-                              value="<?= htmlspecialchars($sarana['tanggal_pengembalian'] ?? '') ?>" required>
+                              value="" required>
                             <span class="form-text">Masukkan tanggal rencana barang ini akan dikembalikan.</span>
                           </div>
                         </div>
@@ -215,6 +221,13 @@
         allowClear: true,
         minimumResultsForSearch: 1,
         theme: 'bootstrap4',
+      });
+
+      $('form').on('submit', function() {
+        var suffix = $('#no_hp_peminjam_suffix').val();
+        if (suffix) {
+          $('#no_hp_peminjam').val('+628' + suffix);
+        }
       });
     });
   </script>

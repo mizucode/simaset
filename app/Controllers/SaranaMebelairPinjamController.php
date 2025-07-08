@@ -7,16 +7,21 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
-require_once __DIR__ . '/../Models/PeminjamanMB.php'; // Include the new model for MB loans
+require_once __DIR__ . '/../Models/PeminjamanMB.php';
+require_once __DIR__ . '/../Models/RiwayatPeminjaman.php';
 
-class SaranaMebelairPinjamController { // Renamed class
-  private function renderView(string $view, $data = []) {
+
+class SaranaMebelairPinjamController
+{
+  private function renderView(string $view, $data = [])
+  {
     extract($data);
     require_once __DIR__ . "/../Views/Pages/Pinjam/SaranaMebelair/{$view}.php"; // Changed view path
   }
 
 
-  public function update($id) {
+  public function update($id)
+  {
     global $conn;
     $sarana = SaranaMebelair::getById($conn, $id); // Changed model
     $kategoriList = KategoriBarang::getAllData($conn);
@@ -66,10 +71,10 @@ class SaranaMebelairPinjamController { // Renamed class
           $merk,
           $spesifikasi,
           $sumber,
-          $jumlah, // Ditambahkan
-          $satuan, // Ditambahkan
+          $jumlah,
+          $satuan,
           $lokasi,
-          $bahan,  // Ditambahkan
+          $bahan,
           $keterangan,
           $biaya_pembelian,
           $tanggal_pembelian,
@@ -81,23 +86,22 @@ class SaranaMebelairPinjamController { // Renamed class
           $tanggal_pengembalian
         );
 
-        // Jika update berhasil, simpan ke tabel peminjaman_mb sebagai riwayat
-        if ($success && $nama_peminjam && $identitas_peminjam && $no_hp_peminjam && $tanggal_peminjaman && $tanggal_pengembalian) {
-          $historySuccess = PeminjamanMB::storeData(
-            $conn,
-            $sarana['no_registrasi'],
-            $nama_detail_barang,
-            $nama_peminjam,
-            $identitas_peminjam,
-            $no_hp_peminjam,
-            $tanggal_peminjaman,
-            $tanggal_pengembalian,
-            $lokasi
-          );
-
-          if (!$historySuccess) {
-            // Log error jika gagal menyimpan riwayat, tapi tidak menghentikan proses
-            error_log("Failed to save peminjaman_mb history for sarana: " . $sarana['no_registrasi']);
+        if ($success && $status === 'Dipinjam') {
+          if (!empty($nama_peminjam) && !empty($identitas_peminjam) && !empty($no_hp_peminjam) && !empty($tanggal_peminjaman) && !empty($tanggal_pengembalian)) {
+            $historySuccess = RiwayatPeminjaman::storeData(
+              $conn,
+              $sarana['no_registrasi'],
+              $nama_detail_barang,
+              $nama_peminjam,
+              $identitas_peminjam,
+              $no_hp_peminjam,
+              $tanggal_peminjaman,
+              $tanggal_pengembalian,
+              $lokasi,
+              $status
+            );
+          } else {
+            error_log("Warning: Sarana ID {$id} status set to Dipinjam, but loan details are incomplete. History not saved.");
           }
         }
 
@@ -126,7 +130,8 @@ class SaranaMebelairPinjamController { // Renamed class
 
 
 
-  public function index() {
+  public function index()
+  {
     global $conn;
     $saranaData = SaranaMebelair::getAllStatus($conn); // Changed model
     $peminjaman = PeminjamanMB::getAllData($conn); // Tambahkan data riwayat peminjaman
@@ -137,7 +142,8 @@ class SaranaMebelairPinjamController { // Renamed class
     ]);
   }
 
-  public function indexPeminjaman() {
+  public function indexPeminjaman()
+  {
     global $conn;
     $saranaData = SaranaMebelair::getAllStatusExDipinjam($conn); // Changed model
     $this->renderView('indexPeminjaman', [
@@ -148,10 +154,11 @@ class SaranaMebelairPinjamController { // Renamed class
   /**
    * Menampilkan riwayat peminjaman sarana mebelair
    */
-  public function riwayat() {
+  public function riwayat()
+  {
     global $conn;
     $peminjamanData = PeminjamanMB::getAllData($conn);
-    
+
     $this->renderView('riwayat', [
       'peminjamanData' => $peminjamanData,
     ]);

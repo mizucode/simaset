@@ -2,7 +2,8 @@
 
 require_once __DIR__ . '/../Models/SaranaMebelair.php'; // Changed model
 require_once __DIR__ . '/../Models/BaseUrlQr.php';
-require_once __DIR__ . '/../Models/PengembalianMB.php'; // Tambah model riwayat
+require_once __DIR__ . '/../Models/PengembalianMB.php';
+require_once __DIR__ . '/../Models/RiwayatPengembalian.php'; // Tambah model riwayat
 
 class SaranaMebelairKembaliController
 {
@@ -63,10 +64,10 @@ class SaranaMebelairKembaliController
           $merk,
           $spesifikasi,
           $sumber,
-          $jumlah, // Ditambahkan
-          $satuan, // Ditambahkan
+          $jumlah,
+          $satuan,
           $lokasi,
-          $bahan,  // Ditambahkan
+          $bahan,
           $keterangan,
           $biaya_pembelian,
           $tanggal_pembelian,
@@ -78,9 +79,8 @@ class SaranaMebelairKembaliController
           $tanggal_pengembalian
         );
 
-        // Simpan ke riwayat pengembalian_mb jika update berhasil
         if ($success) {
-          PengembalianMB::storeData(
+          RiwayatPengembalian::storeData(
             $conn,
             $sarana['no_registrasi'],
             $nama_detail_barang,
@@ -89,7 +89,8 @@ class SaranaMebelairKembaliController
             $no_hp_peminjam,
             $tanggal_peminjaman,
             $tanggal_pengembalian,
-            $lokasi
+            $lokasi,
+            $status
           );
         }
 
