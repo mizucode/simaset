@@ -2,21 +2,6 @@
 
 class RiwayatPengembalian
 {
-  /**
-   * Stores a new loan record for a Sarana Bergerak item.
-   * The item is identified by its registration number and name.
-   *
-   * @param PDO $conn The database connection.
-   * @param string $nomor_registrasi The registration number of the borrowed item.
-   * @param string $nama_barang The name of the borrowed item.
-   * @param string $nama_peminjam The name of the borrower.
-   * @param string $nomor_identitas The identity number of the borrower.
-   * @param string $nomor_hp_peminjam The phone number of the borrower.
-   * @param string $tanggal_peminjaman The date the item was borrowed (e.g., 'YYYY-MM-DD').
-   * @param string $tanggal_rencana_pengembalian The planned return date (e.g., 'YYYY-MM-DD').
-   * @param string $lokasi_penempatan_barang The placement location of the item.
-   * @return bool True on success, false on failure.
-   */
   public static function storeData(
     PDO $conn,
     string $nomor_registrasi,
@@ -59,19 +44,16 @@ class RiwayatPengembalian
     }
   }
 
-  /**
-   * Retrieves all loan records from the peminjaman_bb table.
-   *
-   * @param PDO $conn The database connection.
-   * @return array An array of all loan records, or an empty array on failure or if no records exist.
-   */
-  public static function getAllData(PDO $conn): array
+
+  public static function getAllData($conn)
   {
+    $query = "SELECT * FROM riwayat_pengembalian ORDER BY id DESC;";
+
     try {
-      $stmt = $conn->query("SELECT * FROM riwayat_pengembalian");
+      $stmt = $conn->query($query);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-      error_log("Error retrieving peminjaman_bb data: " . $e->getMessage());
+      error_log("Error in RiwayatPeminjaman::getAllData - " . $e->getMessage());
       return [];
     }
   }

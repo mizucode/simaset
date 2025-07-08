@@ -7,6 +7,9 @@ require_once __DIR__ . '/../Models/Barang.php';
 require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
+require_once __DIR__ . '/../Models/riwayatPengembalian.php';
+
+
 
 class SaranaElektronikKembaliController
 {
@@ -89,10 +92,8 @@ class SaranaElektronikKembaliController
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
         $_SESSION['update'] = $message;
 
-        // Duplikasi ke riwayat pengembalian_elk jika update berhasil
         if ($success) {
-          require_once __DIR__ . '/../Models/PengembalianELK.php';
-          PengembalianELK::storeData(
+          RiwayatPengembalian::storeData(
             $conn,
             $sarana['no_registrasi'],
             $nama_detail_barang,
@@ -100,9 +101,13 @@ class SaranaElektronikKembaliController
             $identitas_peminjam,
             $no_hp_peminjam,
             $tanggal_peminjaman,
-            $tanggal_pengembalian, // asumsikan ini sebagai tanggal rencana pengembalian
-            $lokasi
+            $tanggal_pengembalian,
+            $lokasi,
+            $status
           );
+        }
+
+        if ($success) {
           header('Location: /admin/sarana/elektronik/kembali');
           exit();
         }

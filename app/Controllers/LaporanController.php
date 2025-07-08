@@ -18,6 +18,8 @@ require_once __DIR__ . '/../Models/SaranaMebelair.php';
 require_once __DIR__ . '/../Models/SaranaATK.php';
 require_once __DIR__ . '/../Models/SaranaElektronik.php';
 require_once __DIR__ . '/../Models/RiwayatPeminjaman.php';
+require_once __DIR__ . '/../Models/RiwayatPengembalian.php';
+
 
 
 class LaporanController
@@ -57,42 +59,6 @@ class LaporanController
     ]);
   }
 
-  public function totalDataPengembalian()
-  {
-    global $conn;
-    $peminjamanBB = PengembalianBB::getAllData($conn) ?: [];
-    $peminjamanATK = PengembalianATK::getAllData($conn) ?: [];
-    $peminjamanMB = PengembalianMB::getAllData($conn) ?: [];
-    $peminjamanELK = PengembalianELK::getAllData($conn) ?: [];
-
-    $mergedData = array_merge(
-      $this->formatPeminjamanData($peminjamanBB, 'BB'),
-      $this->formatPeminjamanData($peminjamanATK, 'ATK'),
-      $this->formatPeminjamanData($peminjamanMB, 'MB'),
-      $this->formatPeminjamanData($peminjamanELK, 'ELK')
-    );
-
-    $filteredData = array_filter($mergedData, function ($item) {
-      return is_array($item) &&
-        isset($item['nomor_registrasi']) &&
-        isset($item['nama_barang']) &&
-        isset($item['nama_peminjam']);
-    });
-
-    $filteredData = array_map(function ($item) {
-      if (!empty($item['tanggal_peminjaman'])) {
-        $item['tanggal_peminjaman'] = date('Y-m-d', strtotime($item['tanggal_peminjaman']));
-      }
-      if (!empty($item['tanggal_rencana_pengembalian'])) {
-        $item['tanggal_rencana_pengembalian'] = date('Y-m-d', strtotime($item['tanggal_rencana_pengembalian']));
-      }
-      return $item;
-    }, $filteredData);
-
-    $this->renderView('BarangDikembalikan/index', [
-      'saranaData' => array_values($filteredData)
-    ]);
-  }
   public function totalDataPeminjaman()
   {
     global $conn;
@@ -102,32 +68,16 @@ class LaporanController
       'saranaData' => $saranaData
     ]);
   }
-
-  private function formatPeminjamanData(array $data, string $type): array
+  public function totalDataPengembalian()
   {
-    return array_map(function ($item) use ($type) {
-      $lokasi = isset($item['lokasi_penempatan_barang']) && trim($item['lokasi_penempatan_barang']) !== '' && $item['lokasi_penempatan_barang'] !== '-' ? trim($item['lokasi_penempatan_barang']) : '';
-      $formatted = [
-        'nomor_registrasi' => $item['nomor_registrasi'] ?? '-',
-        'nama_barang' => $item['nama_barang'] ?? '-',
-        'nama_peminjam' => $item['nama_peminjam'] ?? '-',
-        'nomor_identitas' => $item['nomor_identitas'] ?? '-',
-        'nomor_hp_peminjam' => $item['nomor_hp_peminjam'] ?? '-',
-        'tanggal_peminjaman' => $item['tanggal_peminjaman'] ?? null,
-        'tanggal_rencana_pengembalian' => $item['tanggal_rencana_pengembalian'] ?? null,
-        'lokasi_penempatan_barang' => $lokasi,
-        'jenis_peminjaman' => $type
-      ];
+    global $conn;
+    $saranaData = RiwayatPengembalian::getAllData($conn);
 
-      if ($formatted['tanggal_peminjaman']) {
-        $formatted['tanggal_peminjaman'] = date('Y-m-d', strtotime($formatted['tanggal_peminjaman']));
-      }
-      if ($formatted['tanggal_rencana_pengembalian']) {
-        $formatted['tanggal_rencana_pengembalian'] = date('Y-m-d', strtotime($formatted['tanggal_rencana_pengembalian']));
-      }
-      return $formatted;
-    }, $data);
+    $this->renderView('BarangDikembalikan/index', [
+      'saranaData' => $saranaData
+    ]);
   }
+
 
   public function totalDataBarangRusak($lokasi = null)
   {

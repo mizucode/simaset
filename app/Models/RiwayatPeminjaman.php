@@ -59,19 +59,16 @@ class RiwayatPeminjaman
     }
   }
 
-  /**
-   * Retrieves all loan records from the peminjaman_bb table.
-   *
-   * @param PDO $conn The database connection.
-   * @return array An array of all loan records, or an empty array on failure or if no records exist.
-   */
-  public static function getAllData(PDO $conn): array
+
+  public static function getAllData($conn)
   {
+    $query = "SELECT * FROM riwayat_peminjaman ORDER BY id DESC;";
+
     try {
-      $stmt = $conn->query("SELECT * FROM riwayat_peminjaman");
+      $stmt = $conn->query($query);
       return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-      error_log("Error retrieving peminjaman_bb data: " . $e->getMessage());
+      error_log("Error in RiwayatPeminjaman::getAllData - " . $e->getMessage());
       return [];
     }
   }

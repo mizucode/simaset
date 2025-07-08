@@ -185,8 +185,7 @@ class SaranaATK
     ?string $sumber, // <--- PERUBAHAN DI SINI
     ?float $biaya_pembelian,
     ?string $tanggal_pembelian,
-    ?string $keterangan, // Direkomendasikan untuk diubah juga
-    // Parameter untuk status dan peminjaman
+    ?string $keterangan,
     ?string $status,
     ?string $nama_peminjam,
     ?string $identitas_peminjam,

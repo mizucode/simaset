@@ -8,6 +8,9 @@ require_once __DIR__ . '/../Models/KondisiBarang.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/PeminjamanELK.php';
+require_once __DIR__ . '/../Models/RiwayatPeminjaman.php';
+
+
 
 class SaranaElektronikPinjamController
 {
@@ -87,19 +90,23 @@ class SaranaElektronikPinjamController
           $tanggal_pengembalian
         );
         // Simpan riwayat ke peminjaman_elk jika update berhasil
-        if ($success) {
-          // Simpan riwayat ke peminjaman_elk (menggunakan model baru)
-          PeminjamanELK::storeData(
-            $conn,
-            $sarana['no_registrasi'],
-            $sarana['nama_detail_barang'],
-            $nama_peminjam,
-            $identitas_peminjam,
-            $no_hp_peminjam,
-            $tanggal_peminjaman,
-            $tanggal_pengembalian,
-            $lokasi
-          );
+        if ($success && $status === 'Dipinjam') {
+          if (!empty($nama_peminjam) && !empty($identitas_peminjam) && !empty($no_hp_peminjam) && !empty($tanggal_peminjaman) && !empty($tanggal_pengembalian)) {
+            $historySuccess = RiwayatPeminjaman::storeData(
+              $conn,
+              $sarana['no_registrasi'], // Pass nomor_registrasi
+              $nama_detail_barang,      // Pass nama_barang
+              $nama_peminjam,
+              $identitas_peminjam,
+              $no_hp_peminjam,
+              $tanggal_peminjaman,
+              $tanggal_pengembalian, // Use as planned return date
+              $lokasi,
+              $status                   // Pass lokasi_penempatan_barang
+            );
+          } else {
+            error_log("Warning: Sarana ID {$id} status set to Dipinjam, but loan details are incomplete. History not saved.");
+          }
         }
         $message = $success ? 'Data sarana elektronik berhasil diperbarui.' : 'Gagal memperbarui data sarana elektronik.';
         $_SESSION['update'] = $message;

@@ -4,6 +4,8 @@ require_once __DIR__ . '/../Models/SaranaATK.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
 require_once __DIR__ . '/../Models/PeminjamanATK.php';
+require_once __DIR__ . '/../Models/RiwayatPeminjaman.php';
+
 
 class SaranaATKPinjamController
 {
@@ -31,7 +33,7 @@ class SaranaATKPinjamController
       $nama_peminjam = $_POST['nama_peminjam'];
       $identitas_peminjam = $_POST['identitas_peminjam'];
       $no_hp_peminjam = $_POST['no_hp_peminjam'];
-      $status_baru = 'Dipinjam';
+      $status = 'Dipinjam';
 
       $tanggal_peminjaman = !empty($_POST['tanggal_peminjaman']) ? $_POST['tanggal_peminjaman'] : null;
       $tanggal_pengembalian = !empty($_POST['tanggal_pengembalian']) ? $_POST['tanggal_pengembalian'] : null;
@@ -56,7 +58,7 @@ class SaranaATKPinjamController
           $sarana['biaya_pembelian'],
           $sarana['tanggal_pembelian'],
           $sarana['keterangan'],
-          $status_baru,
+          $status,
           $nama_peminjam,
           $identitas_peminjam,
           $no_hp_peminjam,
@@ -65,7 +67,7 @@ class SaranaATKPinjamController
         );
 
         if ($updateSuccess) {
-          $riwayatDicatat = PeminjamanATK::storeData(
+          $riwayatDicatat = RiwayatPeminjaman::storeData(
             $conn,
             $sarana['no_registrasi'],
             $sarana['nama_detail_barang'],
@@ -74,7 +76,7 @@ class SaranaATKPinjamController
             $no_hp_peminjam,
             $tanggal_peminjaman,
             $tanggal_pengembalian,
-            $lokasi
+            $lokasi,
           );
 
           if ($riwayatDicatat) {
@@ -95,7 +97,7 @@ class SaranaATKPinjamController
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
       }
 
-      header('Location: /admin/sarana/atk');
+      header('Location: /admin/sarana/atk/pinjam');
       exit();
     }
 

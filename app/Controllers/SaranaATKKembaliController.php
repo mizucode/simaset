@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../Models/SaranaATK.php';
 require_once __DIR__ . '/../Models/Lapang.php';
 require_once __DIR__ . '/../Models/Ruang.php';
-require_once __DIR__ . '/../Models/PengembalianATK.php';
+require_once __DIR__ . '/../Models/RiwayatPengembalian.php'; // Ganti ke model yang benar
 
 class SaranaATKKembaliController
 {
@@ -30,13 +30,10 @@ class SaranaATKKembaliController
       $lokasi_baru = $_POST['lokasi'];
       $status_baru = $_POST['status'];
 
-      // --- MULAI PERBAIKAN ---
-      // Menentukan data yang akan dicatat di riwayat.
-      // Prioritas: 1. Data dari Form (POST), 2. Data lama dari DB (sarana), 3. Teks Default.
+      // Data ini sudah disiapkan dengan benar
       $nama_peminjam_riwayat = !empty($_POST['nama_peminjam']) ? $_POST['nama_peminjam'] : ($sarana['nama_peminjam'] ?? 'Tidak Tercatat');
       $identitas_riwayat = !empty($_POST['identitas_peminjam']) ? $_POST['identitas_peminjam'] : ($sarana['identitas_peminjam'] ?? 'Tidak Tercatat');
       $no_hp_riwayat = !empty($_POST['no_hp_peminjam']) ? $_POST['no_hp_peminjam'] : ($sarana['no_hp_peminjam'] ?? 'Tidak Tercatat');
-      // --- AKHIR PERBAIKAN ---
 
       try {
         $conn->beginTransaction();
@@ -67,19 +64,21 @@ class SaranaATKKembaliController
         );
 
         if ($updateSuccess) {
-          // Gunakan variabel yang sudah kita siapkan
-          $riwayatDicatat = PengembalianATK::catatRiwayat(
+          // --- PERUBAHAN UTAMA DI SINI ---
+          // Menggunakan RiwayatPengembalian::storeData() sesuai model yang Anda berikan.
+          // Parameter disesuaikan dengan yang dibutuhkan oleh method storeData.
+          $riwayatDicatat = RiwayatPengembalian::storeData(
             $conn,
             $sarana['no_registrasi'],
             $sarana['nama_detail_barang'],
-            $nama_peminjam_riwayat, // Menggunakan variabel baru
-            $identitas_riwayat,     // Menggunakan variabel baru
-            $no_hp_riwayat,         // Menggunakan variabel baru
+            $nama_peminjam_riwayat,
+            $identitas_riwayat,
+            $no_hp_riwayat,
             $sarana['tanggal_peminjaman'],
-            $sarana['tanggal_pengembalian'],
-            $lokasi_baru,
-            'Dikembalikan'
+            $sarana['tanggal_pengembalian'], // Diasumsikan ini adalah tanggal rencana pengembalian
+            $lokasi_baru
           );
+          // --- AKHIR PERUBAHAN ---
 
           if ($riwayatDicatat) {
             $conn->commit();
@@ -99,7 +98,7 @@ class SaranaATKKembaliController
         $_SESSION['error'] = 'Error database: ' . $e->getMessage();
       }
 
-      header('Location: /admin/sarana/atk');
+      header('Location: /admin/sarana/atk/kembali');
       exit();
     }
 
